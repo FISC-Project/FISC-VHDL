@@ -33,9 +33,10 @@ if plat == "Debian":
 		os.system(pwd + "/Debian/" + sys.argv[1] + ".sh " + carry_args)
 	else:
 		os.system(pwd + "/Debian/build.sh")
+
 if plat == "Windows":
 	# Run Windows' scripts
 	if len(sys.argv) > 1:
-		os.system(pwd + "/Windows/" + sys.argv[1] + ".bat " + carry_args)
+		os.system("\"" + pwd + "/Windows/" + sys.argv[1] + ".bat\" " + carry_args)
 	else:
-		os.system(pwd + "/Windows/build.bat")
+		os.system("\"" + pwd + "/Windows/build.bat\"")
