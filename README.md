@@ -9,11 +9,11 @@ FISC - Flexible Instruction Set Computer - Is the new Instruction Set Architectu
 The pipelined Microarchitecture can be described by the following diagram:
 ![High Level Microarchitecture](http://i.imgur.com/1XNjMSC.png)
 5 main components are present:
-> 1- Stage 1: **Fetch**
-> 2- Stage 2: **Decode**
-> 3- Stage 3: **Execute**
-> 4- Stage 4: **Memory Access**
-> 5- Stage 5: **Write Back**
+> 1- Stage 1: **Fetch**  
+> 2- Stage 2: **Decode**  
+> 3- Stage 3: **Execute**  
+> 4- Stage 4: **Memory Access**  
+> 5- Stage 5: **Write Back**  
 
 
 Stage 1: Fetch
