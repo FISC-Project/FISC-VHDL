@@ -20,17 +20,68 @@ Stage 1: Fetch
 --------------
 <a href="http://i.imgur.com/rQ2PIP2.png"><img src="http://i.imgur.com/rQ2PIP2.png" align="left" height="470" width="495" ></a>
 
+
+
+
+
+
+
+
+
+
+
+
+
 Stage 2: Decode
 --------------
 <a href="http://i.imgur.com/j9GLU1Y.png"><img src="http://i.imgur.com/j9GLU1Y.png" align="left" height="428" width="495" ></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Stage 3: Execute
 --------------
 <a href="http://i.imgur.com/A0u5QPA.png"><img src="http://i.imgur.com/A0u5QPA.png" align="left" height="428" width="495" ></a>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 Stage 4: Memory Access
 --------------
 <a href="http://i.imgur.com/s5U3T6v.png"><img src="http://i.imgur.com/s5U3T6v.png" align="left" height="400" width="600" ></a>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Stage 5: Write Back
 --------------
