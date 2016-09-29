@@ -1,5 +1,5 @@
 $date
-  Wed Sep 28 03:13:12 2016
+  Thu Sep 29 01:43:49 2016
 $end
 $version
   GHDL v0
@@ -7,73 +7,13 @@ $end
 $timescale
   1 fs
 $end
-$var reg 1 ! i0 $end
-$var reg 1 " i1 $end
-$var reg 1 # ci $end
-$var reg 1 $ s $end
-$var reg 1 % co $end
-$scope module adder_0 $end
-$var reg 1 & i0 $end
-$var reg 1 ' i1 $end
-$var reg 1 ( ci $end
-$var reg 1 ) s $end
-$var reg 1 * co $end
-$upscope $end
+$var reg 1 ! clk $end
+$var reg 1 " ds_g $end
+$var reg 25 # cnt[24:0] $end
+$var reg 1 $ blink $end
 $enddefinitions $end
 #0
-0!
-0"
-0#
-0$
-0%
-0&
-0'
-0(
-0)
-0*
-#1000000
-1#
-1$
-1(
-1)
-#2000000
-1"
-0#
-1'
-0(
-#3000000
-1#
-0$
-1%
-1(
-0)
-1*
-#4000000
-1!
-0"
-0#
-1$
-0%
-1&
-0'
-0(
-1)
-0*
-#5000000
-1#
-0$
-1%
-1(
-0)
-1*
-#6000000
-1"
-0#
-1'
-0(
-#7000000
-1#
-1$
-1(
-1)
-#8000000
+U!
+U"
+bUUUUUUUUUUUUUUUUUUUUUUUUU #
+U$

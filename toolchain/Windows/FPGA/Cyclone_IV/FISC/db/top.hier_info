@@ -1,0 +1,30 @@
+|top
+CLK => blink.CLK
+CLK => cnt[0].CLK
+CLK => cnt[1].CLK
+CLK => cnt[2].CLK
+CLK => cnt[3].CLK
+CLK => cnt[4].CLK
+CLK => cnt[5].CLK
+CLK => cnt[6].CLK
+CLK => cnt[7].CLK
+CLK => cnt[8].CLK
+CLK => cnt[9].CLK
+CLK => cnt[10].CLK
+CLK => cnt[11].CLK
+CLK => cnt[12].CLK
+CLK => cnt[13].CLK
+CLK => cnt[14].CLK
+CLK => cnt[15].CLK
+CLK => cnt[16].CLK
+CLK => cnt[17].CLK
+CLK => cnt[18].CLK
+CLK => cnt[19].CLK
+CLK => cnt[20].CLK
+CLK => cnt[21].CLK
+CLK => cnt[22].CLK
+CLK => cnt[23].CLK
+CLK => cnt[24].CLK
+DS_G <= blink.DB_MAX_OUTPUT_PORT_TYPE
+
+

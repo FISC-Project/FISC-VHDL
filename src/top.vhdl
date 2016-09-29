@@ -1,56 +1,29 @@
---  A testbench has no ports.
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
 entity top is
+	port(CLK : in std_logic; DS_G : out std_logic);
 end top;
 
-architecture behav of top is
-   --  Declaration of the component that will be instantiated.
-   component adder
-     port (i0, i1 : in bit; ci : in bit; s : out bit; co : out bit);
-   end component;
+architecture rtl of top is
+	constant CLK_FREQ : integer := 50000000;
+	constant BLINK_FREQ : integer := 1;
+	constant CNT_MAX : integer := CLK_FREQ / BLINK_FREQ / 2 - 1;
 
-   --  Specifies which entity is bound with the component.
-   for adder_0: adder use entity work.adder;
-   signal i0, i1, ci, s, co : bit;
+	signal cnt : unsigned(24 downto 0);
+	signal blink : std_logic;
 begin
-   --  Component instantiation.
-   adder_0: adder port map (i0 => i0, i1 => i1, ci => ci,
-                            s => s, co => co);
-   --  This process does the real job.
-   process
-      type pattern_type is record
-         --  The inputs of the adder.
-         i0, i1, ci : bit;
-         --  The expected outputs of the adder.
-         s, co : bit;
-      end record;
-      --  The patterns to apply.
-      type pattern_array is array (natural range <>) of pattern_type;
-      constant patterns : pattern_array :=
-        (('0', '0', '0', '0', '0'),
-         ('0', '0', '1', '1', '0'),
-         ('0', '1', '0', '1', '0'),
-         ('0', '1', '1', '0', '1'),
-         ('1', '0', '0', '1', '0'),
-         ('1', '0', '1', '0', '1'),
-         ('1', '1', '0', '0', '1'),
-         ('1', '1', '1', '1', '1'));
-   begin
-      --  Check each pattern.
-      for i in patterns'range loop
-         --  Set the inputs.
-         i0 <= patterns(i).i0;
-         i1 <= patterns(i).i1;
-         ci <= patterns(i).ci;
-         --  Wait for the results.
-         wait for 1 ns;
-         --  Check the outputs.
-         assert s = patterns(i).s
-            report "bad sum value" severity error;
-         assert co = patterns(i).co
-            report "bad carry out value" severity error;
-      end loop;
-      assert false report "end of test" severity note;
-      --  Wait forever; this will finish the simulation.
-      wait;
-   end process;
-end behav;
+	process(CLK)
+	begin
+		if rising_edge(CLK) then
+			if cnt = CNT_MAX then
+				cnt <= (others => '0');
+				blink <= not blink;
+			else
+				cnt <= cnt + 1;
+			end if;
+		end if;
+	end process;
+	DS_G <= blink;
+end rtl;
