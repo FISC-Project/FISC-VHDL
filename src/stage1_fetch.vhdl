@@ -11,9 +11,9 @@ ENTITY Stage1_Fetch IS
 		--uncond_branch_flag : in std_logic;
 		--zero_flag : in std_logic
 	);
-END STAGE1_FETCH;
+END Stage1_Fetch;
 
-ARCHITECTURE RTL OF STAGE1_FETCH IS
+ARCHITECTURE RTL OF Stage1_Fetch IS
 BEGIN
 
 
