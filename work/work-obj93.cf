@@ -1,7 +1,18 @@
 v 4
-file "C:\Users\Miguel\Dropbox\University Modules\Computer Systems Engineering - Year 3\Singleton MEng Year 3 Project\3-Development\FISC\" "src/latch.vhdl" "a2ae6ff5846b7c5775c15228172632c049f089e3" "20160929004348.753":
-  entity d_latch at 1( 0) + 0 on 4;
-  architecture behv of d_latch at 12( 261) + 0 on 4;
-file "C:\Users\Miguel\Dropbox\University Modules\Computer Systems Engineering - Year 3\Singleton MEng Year 3 Project\3-Development\FISC\" "src/top.vhdl" "107c4a8bfb3524d7cc8577abbc97d47abce49893" "20160929004348.886":
-  entity top at 1( 0) + 0 on 11;
-  architecture rtl of top at 9( 143) + 0 on 12;
+file "C:\Users\Miguel\Dropbox\University Modules\Computer Systems Engineering - Year 3\Singleton MEng Year 3 Project\3-Development\FISC\" "src/defines.vhdl" "e9e662ad8d2f1642ccc0f0a69b9f1def6119a21d" "20161003175710.938":
+  package fisc at 1( 0) + 0 on 11;
+file "C:\Users\Miguel\Dropbox\University Modules\Computer Systems Engineering - Year 3\Singleton MEng Year 3 Project\3-Development\FISC\" "src/microcode.vhdl" "300c29eb5a07620068442a3273ac95aafc2fd92f" "20161003175710.938":
+  entity microcode at 1( 0) + 0 on 18;
+  architecture rtl of microcode at 14( 481) + 0 on 19;
+file "C:\Users\Miguel\Dropbox\University Modules\Computer Systems Engineering - Year 3\Singleton MEng Year 3 Project\3-Development\FISC\" "src/stage1_fetch.vhdl" "6d24a2c333403517b233a03117e6490d1bd0fa9f" "20161003175710.938":
+  entity stage1_fetch at 1( 0) + 0 on 16;
+  architecture rtl of stage1_fetch at 16( 352) + 0 on 17;
+file "C:\Users\Miguel\Dropbox\University Modules\Computer Systems Engineering - Year 3\Singleton MEng Year 3 Project\3-Development\FISC\" "src/stage2_decode.vhdl" "5e599e3f8fbf063921fbe8983905c40927d3d8af" "20161003175710.938":
+  entity stage2_decode at 1( 0) + 0 on 14;
+  architecture rtl of stage2_decode at 11( 155) + 0 on 15;
+file "C:\Users\Miguel\Dropbox\University Modules\Computer Systems Engineering - Year 3\Singleton MEng Year 3 Project\3-Development\FISC\" "src/top.vhdl" "5d1596274fb6df1ff768f7cd744aa9c13ccebb7e" "20161003175710.938":
+  entity top at 1( 0) + 0 on 12;
+  architecture rtl of top at 7( 93) + 0 on 13;
+file "C:\Users\Miguel\Dropbox\University Modules\Computer Systems Engineering - Year 3\Singleton MEng Year 3 Project\3-Development\FISC\" "src/top_synth.vhdl" "479073b5b472cdc94f5ed8db7f3353d4ea4b5aa2" "20161003175710.811":
+  entity top_synth at 1( 0) + 0 on 4;
+  architecture rtl of top_synth at 10( 122) + 0 on 4;

@@ -8,8 +8,9 @@ endif
 WAVE = gtkwave
 WAVESPATH = waves
 WORKPATH = work
+LIBPATH = lib
 
-GHDLFLAGS = --workdir="$(PWD)$(WORKPATH)" --std=02 --ieee=synopsys
+GHDLFLAGS = --workdir="$(PWD)$(WORKPATH)" -P"$(PWD)$(LIBPATH)" --std=02 --ieee=synopsys
 SIMFLAGS = 
 WAVEFLAGS =
 
@@ -24,8 +25,8 @@ BINS = #__GENMAKE_END__
 # Compile:
 ELDESIGN:
 	@printf "1- Importing source files and Elaborating Design: \n"
-	$(GHDL) -i --workdir="$(PWD)$(WORKPATH)" $(GHDLFLAGS) src/*.vhdl
-	$(GHDL) -m --workdir="$(PWD)$(WORKPATH)" top
+	$(GHDL) -i $(GHDLFLAGS) src/*.vhdl
+	$(GHDL) -m $(GHDLFLAGS) top
 
 all: ELDESIGN $(BINS)
 	@printf "\n2- Elaborating Top Module: "
@@ -35,7 +36,7 @@ all: ELDESIGN $(BINS)
 # Simulate:
 %:
 	@printf "\n>> Simulating Top Module and producing GTKWave VCD file <<\n"
-	$(GHDL) -r --workdir=$(WORKPATH) top --vcd=top.vcd
+	$(GHDL) -r $(GHDLFLAGS) top --stop-time=10ps --vcd=top.vcd
 	@printf ">> END OF SIMULATION <<\n"
 	@mv top.vcd $(WAVESPATH)
 	
