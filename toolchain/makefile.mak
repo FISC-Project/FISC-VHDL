@@ -10,7 +10,7 @@ WAVESPATH = waves
 WORKPATH = work
 LIBPATH = lib
 
-GHDLFLAGS = --workdir="$(PWD)$(WORKPATH)" -P"$(PWD)$(LIBPATH)" --std=02 --ieee=synopsys
+GHDLFLAGS = --workdir="$(PWD)$(WORKPATH)" -P"$(PWD)$(LIBPATH)" --std=02 --ieee=synopsys -fexplicit
 SIMFLAGS = 
 WAVEFLAGS =
 
@@ -34,7 +34,7 @@ endif
 # Compile:
 ELDESIGN:
 	@printf "1- Importing source files and Elaborating Design: \n"
-	$(GHDL) -i $(GHDLFLAGS) rtl/*.vhdl
+	$(GHDL) -i $(GHDLFLAGS) rtl/*.vhd*
 	$(GHDL) -m $(GHDLFLAGS) top
 
 all: ELDESIGN $(BINS)

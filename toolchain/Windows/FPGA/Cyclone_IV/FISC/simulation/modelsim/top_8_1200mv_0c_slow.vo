@@ -17,7 +17,7 @@
 // PROGRAM "Quartus Prime"
 // VERSION "Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition"
 
-// DATE "10/05/2016 00:26:56"
+// DATE "10/05/2016 22:52:41"
 
 // 
 // Device: Altera EP4CE6E22C8 Package TQFP144
@@ -30,11 +30,14 @@
 `timescale 1 ps/ 1 ps
 
 module top_synth (
-	CLK);
+	CLK,
+	KEY3);
 input 	CLK;
+input 	KEY3;
 
 // Design Ports Information
 // CLK	=>  Location: PIN_24,	 I/O Standard: 2.5 V,	 Current Strength: Default
+// KEY3	=>  Location: PIN_88,	 I/O Standard: 2.5 V,	 Current Strength: Default
 
 
 wire gnd;
@@ -53,6 +56,7 @@ initial $sdf_annotate("top_8_1200mv_0c_v_slow.sdo");
 // synopsys translate_on
 
 wire \CLK~input_o ;
+wire \KEY3~input_o ;
 
 
 // Location: IOIBUF_X0_Y11_N15
@@ -63,6 +67,16 @@ cycloneive_io_ibuf \CLK~input (
 // synopsys translate_off
 defparam \CLK~input .bus_hold = "false";
 defparam \CLK~input .simulate_z_as = "z";
+// synopsys translate_on
+
+// Location: IOIBUF_X34_Y12_N22
+cycloneive_io_ibuf \KEY3~input (
+	.i(KEY3),
+	.ibar(gnd),
+	.o(\KEY3~input_o ));
+// synopsys translate_off
+defparam \KEY3~input .bus_hold = "false";
+defparam \KEY3~input .simulate_z_as = "z";
 // synopsys translate_on
 
 endmodule

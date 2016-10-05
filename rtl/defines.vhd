@@ -2,7 +2,16 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.math_real.all;
 
-PACKAGE FISC IS
+PACKAGE FISC_DEFINES IS
+	-- FISC CHIP COMPONENT --
+	COMPONENT FISC
+		PORT(
+			clk : IN std_logic;
+			restart_cpu : in std_logic
+		);
+	END COMPONENT;
+	-------------------------
+
 	---------- FISC ISA DEFINES -----------
 	constant FISC_INSTRUCTION_SZ    : integer := 32; -- Each instruction is 32 bits wide
 	constant FISC_INTEGER_SZ        : integer := 64; -- Each integer value is 64 bits wide
@@ -92,8 +101,8 @@ PACKAGE FISC IS
 	
 	COMPONENT Microcode
 		PORT(
-			clk : in std_logic; -- Clock signal
-			sos : in std_logic; -- Start of segment flag (triggers on rising edge)
+			clk : in  std_logic; -- Clock signal
+			sos : in  std_logic; -- Start of segment flag (triggers on rising edge)
 			microcode_opcode : in std_logic_vector(R_FMT_OPCODE_SZ-1 downto 0); -- Microcode's Opcode input to the FSM
 			microcode_ctrl   : out std_logic_vector(MICROCODE_CTRL_WIDTH-1 downto 0) -- Result of indexing Microcode's memory with the opcode input
 		);
@@ -116,8 +125,11 @@ PACKAGE FISC IS
 	---------- MICROARCHITECTURE: STAGE 2 - DECODE DEFINES ----------
 	COMPONENT Stage2_Decode IS
 		PORT(
-			clk: in std_logic := '0'
+			clk : in std_logic := '0';
+			sos : in std_logic := '0';
+			microcode_ctrl : out std_logic_vector(MICROCODE_CTRL_WIDTH-1 downto 0) := (others => '0');
+			if_instruction : in std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0')
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------
-END FISC;
+END FISC_DEFINES;

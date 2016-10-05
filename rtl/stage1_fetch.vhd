@@ -1,6 +1,6 @@
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
-USE work.FISC.all;
+USE work.FISC_DEFINES.all;
 
 ENTITY Stage1_Fetch IS
 	PORT(

@@ -1,4 +1,4 @@
-Fitter Status : Successful - Wed Oct 05 00:26:44 2016
+Fitter Status : Successful - Wed Oct 05 22:52:29 2016
 Quartus Prime Version : 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 Revision Name : top
 Top-level Entity Name : top_synth
@@ -9,7 +9,7 @@ Total logic elements : 0 / 6,272 ( 0 % )
     Total combinational functions : 0 / 6,272 ( 0 % )
     Dedicated logic registers : 0 / 6,272 ( 0 % )
 Total registers : 0
-Total pins : 1 / 92 ( 1 % )
+Total pins : 2 / 92 ( 2 % )
 Total virtual pins : 0
 Total memory bits : 0 / 276,480 ( 0 % )
 Embedded Multiplier 9-bit elements : 0 / 30 ( 0 % )
