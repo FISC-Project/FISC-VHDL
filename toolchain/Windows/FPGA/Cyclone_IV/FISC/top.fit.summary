@@ -1,7 +1,7 @@
-Fitter Status : Successful - Mon Oct 03 17:52:02 2016
+Fitter Status : Successful - Wed Oct 05 00:26:44 2016
 Quartus Prime Version : 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 Revision Name : top
-Top-level Entity Name : top
+Top-level Entity Name : top_synth
 Family : Cyclone IV E
 Device : EP4CE6E22C8
 Timing Models : Final

@@ -17,7 +17,7 @@
 // PROGRAM "Quartus Prime"
 // VERSION "Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition"
 
-// DATE "10/03/2016 17:52:22"
+// DATE "10/05/2016 00:26:56"
 
 // 
 // Device: Altera EP4CE6E22C8 Package TQFP144
@@ -29,7 +29,7 @@
 
 `timescale 1 ps/ 1 ps
 
-module top (
+module top_synth (
 	CLK);
 input 	CLK;
 

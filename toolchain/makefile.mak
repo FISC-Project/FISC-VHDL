@@ -1,5 +1,5 @@
-SRC = src
 BIN = bin
+OBJ = obj
 ifeq ($(OS),Windows_NT)
 	GHDL = toolchain/Windows/Tools/ghdl-0.33/bin/ghdl
 else
@@ -17,21 +17,34 @@ WAVEFLAGS =
 CWD = $(CURDIR)
 makefile_dir:=$(shell dirname \"$("realpath $(lastword $(MAKEFILE_LIST)))\")
 
+# NOTE: We can only interface C files with GHDL through Linux:
+ifneq ($(OS),Windows_NT)
 ##### Compilation rules and objects: #####
 #__GENMAKE__
-BINS = #__GENMAKE_END__
+BINS = $(OBJ)/foo.o 
+
+$(OBJ)/foo.o: ./src/foo.c
+	@printf "2.1- Compiling C file 'src/foo.c': "
+	gcc -c $< -o $@
+
+#__GENMAKE_END__
+endif
 
 ##### Main rules:
 # Compile:
 ELDESIGN:
 	@printf "1- Importing source files and Elaborating Design: \n"
-	$(GHDL) -i $(GHDLFLAGS) src/*.vhdl
+	$(GHDL) -i $(GHDLFLAGS) rtl/*.vhdl
 	$(GHDL) -m $(GHDLFLAGS) top
 
 all: ELDESIGN $(BINS)
 	@printf "\n2- Elaborating Top Module: "
+ifneq ($(OS),Windows_NT)
+	$(GHDL) -e -Wl,$(BINS) $(GHDLFLAGS) top
+else
 	$(GHDL) -e $(GHDLFLAGS) top
 	@printf "\n>> Finished! <<\n"
+endif
 
 # Simulate:
 %:

@@ -1,7 +1,7 @@
-Analysis & Synthesis Status : Successful - Mon Oct 03 17:51:38 2016
+Analysis & Synthesis Status : Successful - Wed Oct 05 00:26:33 2016
 Quartus Prime Version : 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 Revision Name : top
-Top-level Entity Name : top
+Top-level Entity Name : top_synth
 Family : Cyclone IV E
 Total logic elements : 0
     Total combinational functions : 0

@@ -1,4 +1,60 @@
-|top
-CLK => ~NO_FANOUT~
+|top_synth
+CLK => Stage2_Decode:Stage2_Decode1.clk
+
+
+|top_synth|Stage2_Decode:Stage2_Decode1
+clk => Microcode:Microcode1.clk
+
+
+|top_synth|Stage2_Decode:Stage2_Decode1|Microcode:Microcode1
+clk => ~NO_FANOUT~
+sos => ~NO_FANOUT~
+microcode_opcode[0] => ~NO_FANOUT~
+microcode_opcode[1] => ~NO_FANOUT~
+microcode_opcode[2] => ~NO_FANOUT~
+microcode_opcode[3] => ~NO_FANOUT~
+microcode_opcode[4] => ~NO_FANOUT~
+microcode_opcode[5] => ~NO_FANOUT~
+microcode_opcode[6] => ~NO_FANOUT~
+microcode_opcode[7] => ~NO_FANOUT~
+microcode_opcode[8] => ~NO_FANOUT~
+microcode_opcode[9] => ~NO_FANOUT~
+microcode_opcode[10] => ~NO_FANOUT~
+microcode_ctrl[0] <= comb.DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[1] <= microcode_ctrl[1].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[2] <= microcode_ctrl[2].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[3] <= microcode_ctrl[3].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[4] <= microcode_ctrl[4].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[5] <= microcode_ctrl[5].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[6] <= microcode_ctrl[6].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[7] <= microcode_ctrl[7].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[8] <= microcode_ctrl[8].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[9] <= microcode_ctrl[9].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[10] <= microcode_ctrl[10].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[11] <= microcode_ctrl[11].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[12] <= microcode_ctrl[12].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[13] <= microcode_ctrl[13].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[14] <= microcode_ctrl[14].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[15] <= microcode_ctrl[15].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[16] <= microcode_ctrl[16].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[17] <= microcode_ctrl[17].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[18] <= microcode_ctrl[18].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[19] <= microcode_ctrl[19].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[20] <= microcode_ctrl[20].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[21] <= microcode_ctrl[21].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[22] <= microcode_ctrl[22].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[23] <= microcode_ctrl[23].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[24] <= microcode_ctrl[24].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[25] <= microcode_ctrl[25].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[26] <= microcode_ctrl[26].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[27] <= microcode_ctrl[27].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[28] <= microcode_ctrl[28].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[29] <= microcode_ctrl[29].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[30] <= microcode_ctrl[30].DB_MAX_OUTPUT_PORT_TYPE
+microcode_ctrl[31] <= microcode_ctrl[31].DB_MAX_OUTPUT_PORT_TYPE
+
+
+|top_synth|Stage1_Fetch:Stage1_Fetch1
+fsm_next => ~NO_FANOUT~
 
 

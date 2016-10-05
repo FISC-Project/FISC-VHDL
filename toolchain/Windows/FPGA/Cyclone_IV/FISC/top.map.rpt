@@ -1,5 +1,5 @@
 Analysis & Synthesis report for top
-Mon Oct 03 17:51:38 2016
+Wed Oct 05 00:26:33 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -14,9 +14,11 @@ Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
   8. General Register Statistics
-  9. Post-Synthesis Netlist Statistics for Top Partition
- 10. Elapsed Time Per Partition
- 11. Analysis & Synthesis Messages
+  9. Port Connectivity Checks: "Stage1_Fetch:Stage1_Fetch1"
+ 10. Port Connectivity Checks: "Stage2_Decode:Stage2_Decode1|Microcode:Microcode1"
+ 11. Post-Synthesis Netlist Statistics for Top Partition
+ 12. Elapsed Time Per Partition
+ 13. Analysis & Synthesis Messages
 
 
 
@@ -43,10 +45,10 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Oct 03 17:51:38 2016       ;
+; Analysis & Synthesis Status        ; Successful - Wed Oct 05 00:26:33 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
-; Top-level Entity Name              ; top                                         ;
+; Top-level Entity Name              ; top_synth                                   ;
 ; Family                             ; Cyclone IV E                                ;
 ; Total logic elements               ; 0                                           ;
 ;     Total combinational functions  ; 0                                           ;
@@ -66,7 +68,7 @@ agreement for further details.
 ; Option                                                                     ; Setting            ; Default Value      ;
 +----------------------------------------------------------------------------+--------------------+--------------------+
 ; Device                                                                     ; EP4CE6E22C8        ;                    ;
-; Top-level entity name                                                      ; top                ; top                ;
+; Top-level entity name                                                      ; top_synth          ; top                ;
 ; Family name                                                                ; Cyclone IV E       ; Cyclone V          ;
 ; Use smart compilation                                                      ; Off                ; Off                ;
 ; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                 ; On                 ;
@@ -158,13 +160,17 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------+--------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                                                 ;
-+-----------------------------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path  ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                                                                                         ; Library ;
-+-----------------------------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-; ../../../../../src/top_synth.vhdl ; yes             ; User VHDL File  ; C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl ;         ;
-+-----------------------------------+-----------------+-----------------+------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                                         ;
++---------------------------------------+-----------------+-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path      ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                                                                                             ; Library ;
++---------------------------------------+-----------------+-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; ../../../../../src/stage2_decode.vhdl ; yes             ; User VHDL File  ; C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage2_decode.vhdl ;         ;
+; ../../../../../src/stage1_fetch.vhdl  ; yes             ; User VHDL File  ; C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage1_fetch.vhdl  ;         ;
+; ../../../../../src/microcode.vhdl     ; yes             ; User VHDL File  ; C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/microcode.vhdl     ;         ;
+; ../../../../../src/defines.vhdl       ; yes             ; User VHDL File  ; C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/defines.vhdl       ;         ;
+; ../../../../../src/top_synth.vhdl     ; yes             ; User VHDL File  ; C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl     ;         ;
++---------------------------------------+-----------------+-----------------+----------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
 +-----------------------------------------------------+
@@ -203,7 +209,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
 ; Compilation Hierarchy Node ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Entity Name ; Library Name ;
 +----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
-; |top                       ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 1    ; 0            ; |top                ; top         ; work         ;
+; |top_synth                 ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 1    ; 0            ; |top_synth          ; top_synth   ; work         ;
 +----------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
@@ -223,6 +229,26 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------------------------+-------+
 
 
++--------------------------------------------------------+
+; Port Connectivity Checks: "Stage1_Fetch:Stage1_Fetch1" ;
++----------+-------+----------+--------------------------+
+; Port     ; Type  ; Severity ; Details                  ;
++----------+-------+----------+--------------------------+
+; fsm_next ; Input ; Info     ; Stuck at GND             ;
++----------+-------+----------+--------------------------+
+
+
++----------------------------------------------------------------------------------------------------------------------------+
+; Port Connectivity Checks: "Stage2_Decode:Stage2_Decode1|Microcode:Microcode1"                                              ;
++------------------+--------+----------+-------------------------------------------------------------------------------------+
+; Port             ; Type   ; Severity ; Details                                                                             ;
++------------------+--------+----------+-------------------------------------------------------------------------------------+
+; sos              ; Input  ; Info     ; Stuck at GND                                                                        ;
+; microcode_opcode ; Input  ; Info     ; Stuck at GND                                                                        ;
+; microcode_ctrl   ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
++------------------+--------+----------+-------------------------------------------------------------------------------------+
+
+
 +-----------------------------------------------------+
 ; Post-Synthesis Netlist Statistics for Top Partition ;
 +-------------------+---------------------------------+
@@ -240,7 +266,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:02     ;
+; Top            ; 00:00:00     ;
 +----------------+--------------+
 
 
@@ -250,25 +276,44 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Mon Oct 03 17:50:56 2016
+    Info: Processing started: Wed Oct 05 00:25:56 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FISC -c top
 Warning (20028): Parallel compilation is not licensed and has been disabled
+Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university modules/computer systems engineering - year 3/singleton meng year 3 project/3-development/fisc/src/stage2_decode.vhdl
+    Info (12022): Found design unit 1: Stage2_Decode-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage2_decode.vhdl Line: 11
+    Info (12023): Found entity 1: Stage2_Decode File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage2_decode.vhdl Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university modules/computer systems engineering - year 3/singleton meng year 3 project/3-development/fisc/src/stage1_fetch.vhdl
+    Info (12022): Found design unit 1: Stage1_Fetch-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage1_fetch.vhdl Line: 16
+    Info (12023): Found entity 1: Stage1_Fetch File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage1_fetch.vhdl Line: 5
+Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university modules/computer systems engineering - year 3/singleton meng year 3 project/3-development/fisc/src/microcode.vhdl
+    Info (12022): Found design unit 1: Microcode-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/microcode.vhdl Line: 14
+    Info (12023): Found entity 1: Microcode File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/microcode.vhdl Line: 5
+Info (12021): Found 1 design units, including 0 entities, in source file /users/miguel/dropbox/university modules/computer systems engineering - year 3/singleton meng year 3 project/3-development/fisc/src/defines.vhdl
+    Info (12022): Found design unit 1: FISC File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/defines.vhdl Line: 5
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university modules/computer systems engineering - year 3/singleton meng year 3 project/3-development/fisc/src/top_synth.vhdl
-    Info (12022): Found design unit 1: top-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl Line: 10
-    Info (12023): Found entity 1: top File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl Line: 4
-Info (12127): Elaborating entity "top" for the top level hierarchy
-Warning (12158): Entity "top" contains only dangling pins
+    Info (12022): Found design unit 1: top_synth-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl Line: 11
+    Info (12023): Found entity 1: top_synth File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl Line: 5
+Info (12127): Elaborating entity "top_synth" for the top level hierarchy
+Warning (10540): VHDL Signal Declaration warning at top_synth.vhdl(18): used explicit default value for signal "microcode_ctrl" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl Line: 18
+Info (12128): Elaborating entity "Stage2_Decode" for hierarchy "Stage2_Decode:Stage2_Decode1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl Line: 24
+Warning (10540): VHDL Signal Declaration warning at stage2_decode.vhdl(12): used explicit default value for signal "sos" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage2_decode.vhdl Line: 12
+Warning (10540): VHDL Signal Declaration warning at stage2_decode.vhdl(13): used explicit default value for signal "microcode_opcode" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage2_decode.vhdl Line: 13
+Warning (10036): Verilog HDL or VHDL warning at stage2_decode.vhdl(14): object "microcode_ctrl" assigned a value but never read File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage2_decode.vhdl Line: 14
+Info (12128): Elaborating entity "Microcode" for hierarchy "Stage2_Decode:Stage2_Decode1|Microcode:Microcode1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage2_decode.vhdl Line: 16
+Warning (10541): VHDL Signal Declaration warning at microcode.vhdl(10): used implicit default value for signal "microcode_ctrl" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/microcode.vhdl Line: 10
+Info (12128): Elaborating entity "Stage1_Fetch" for hierarchy "Stage1_Fetch:Stage1_Fetch1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl Line: 25
+Warning (12158): Entity "Stage1_Fetch" contains only dangling pins File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl Line: 25
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 1 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "CLK" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl Line: 6
+    Warning (15610): No output dependent on input pin "CLK" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl Line: 7
 Info (21057): Implemented 1 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 1 input pins
     Info (21059): Implemented 0 output pins
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 4 warnings
-    Info: Peak virtual memory: 861 megabytes
-    Info: Processing ended: Mon Oct 03 17:51:38 2016
-    Info: Elapsed time: 00:00:42
-    Info: Total CPU time (on all processors): 00:01:01
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 9 warnings
+    Info: Peak virtual memory: 860 megabytes
+    Info: Processing ended: Wed Oct 05 00:26:33 2016
+    Info: Elapsed time: 00:00:37
+    Info: Total CPU time (on all processors): 00:01:03
 
 

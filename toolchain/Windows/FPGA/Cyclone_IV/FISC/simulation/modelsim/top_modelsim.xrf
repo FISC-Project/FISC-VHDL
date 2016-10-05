@@ -1,9 +1,13 @@
 vendor_name = ModelSim
+source_file = 1, C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage2_decode.vhdl
+source_file = 1, C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/stage1_fetch.vhdl
+source_file = 1, C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/microcode.vhdl
+source_file = 1, C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/defines.vhdl
 source_file = 1, C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/src/top_synth.vhdl
 source_file = 1, c:/altera_lite/16.0/quartus/libraries/vhdl/ieee/prmtvs_b.vhd
 source_file = 1, c:/altera_lite/16.0/quartus/libraries/vhdl/ieee/prmtvs_p.vhd
 source_file = 1, c:/altera_lite/16.0/quartus/libraries/vhdl/ieee/timing_b.vhd
 source_file = 1, c:/altera_lite/16.0/quartus/libraries/vhdl/ieee/timing_p.vhd
 source_file = 1, C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/top.cbx.xml
-design_name = top
-instance = comp, \CLK~input , CLK~input, top, 1
+design_name = top_synth
+instance = comp, \CLK~input , CLK~input, top_synth, 1
