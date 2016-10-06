@@ -9,15 +9,64 @@ ENTITY Microcode IS
 		clk              : in  std_logic; -- Clock signal
 		sos              : in  std_logic; -- Start of segment flag (triggers on rising edge)
 		microcode_opcode : in  std_logic_vector(R_FMT_OPCODE_SZ-1 downto 0); -- Microcode's Opcode input to the FSM
-		microcode_ctrl   : out std_logic_vector(MICROCODE_CTRL_WIDTH-1 downto 0) -- Result of indexing Microcode's memory with the opcode input
+		microcode_ctrl   : out std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) -- Result of indexing Microcode's memory with the opcode input
 		-- NOTE: The 1st bit of 'microcode_ctrl' tells the external system when the Microcode Unit has finished dumping its control signals
 	);
 END Microcode;
 
 ARCHITECTURE RTL OF Microcode IS
 	----- >> Local private variables: << -----
+	-- Microcode Memory:
+	constant cmw : integer := MICROCODE_FUNC_WIDTH + MICROCODE_CTRL_WIDTH + 1; -- cmw stands for code_memory_width. This name is small on purpose
+	constant smw : integer := MICROCODE_SEGMENT_MAXCOUNT_ENC; -- smw stands for segment_memory_width. This name is small on purpose
+	type seg_t is array (0 to MICROCODE_SEGMENT_MAXCOUNT) of std_logic_vector(smw downto 0);
+	type code_t is array (0 to MICROCODE_CTRL_DEPTH) of std_logic_vector(cmw downto 0);
+	
+	function microinstr (
+		control  : std_logic_vector(MICROCODE_CTRL_WIDTH-2 downto 0);
+		is_eos   : std_logic
+	) return std_logic_vector is
+	begin
+		return "00000000000000000000000000000000" & "00" & control & is_eos; -- FORMAT: MCU_FUNC | SEG_TYPE | IS EOS | CONTROL BITS
+	end;
+	
+	function create_segment (
+		segment_ptr : integer
+	) return std_logic_vector is
+	begin
+		return std_logic_vector(to_unsigned(segment_ptr, MICROCODE_SEGMENT_MAXCOUNT_ENC+1));
+	end;
+	
+	-----------------------------------------------------------------------------------------------------------------------
+	-- IMPORTANT: Fill up microcode execute memory (which is segmented) here: (ARGS: control bits | is end of segment) --
+	signal code : code_t := (
+		0 => microinstr("0000000000000000000000000000000", '0'), -- NULL INSTRUCTION
+		1 => microinstr("0000000000000000000000000000010", '0'), -- Instruction ADD (example)
+		2 => microinstr("0000000000000000000000000000011", '1'), -- Instruction ADD cycle 2 (example)
+		3 => microinstr("0000000000000000000000000000100", '1'), -- Instruction SUB (example)
+		4 => microinstr("0000000000000000000000000000101", '1'), -- Instruction JMP (example)
+		-- END OF MICROCODE MEMORY --
+		others => (others => '0')
+	);
+	-----------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------
+	-- IMPORTANT: Fill up segment memory here: -- (NOTE: The index below IS the opcode that will be associated)
+	signal seg_start : seg_t := (
+		0 => create_segment(1), -- Opcode 0 runs microcode at address 10 (decimal)
+		1 => create_segment(3), -- Opcode 1 runs microcode at address 20 (decimal)
+		2 => create_segment(1), -- Opcode 1 runs microcode at address 20 (decimal)
+		3 => create_segment(3), -- Opcode 1 runs microcode at address 20 (decimal)
+		-- END OF SEGMENT MEMORY --
+		others => (others => '0')
+	);
+	---------------------------------------------
+	
+	signal int_seg_start : seg_t := (others => (others => '0')); -- Since FISC will be simple, there will be no internal segments
+	
+	signal microunit_running : std_logic := '1';
+	signal microunit_init : std_logic := '0';
 	-- Control Register:
-	signal ctrl_reg : std_logic_vector(MICROCODE_CTRL_WIDTH-1 downto 0) := (others => '0');
+	signal ctrl_reg : std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
 	-- End of Segment Flag, which is used strictly by the Microcode Unit:
 	signal eos : std_logic := '0';
 	-- Microcode Instruction Pointer:
@@ -26,17 +75,6 @@ ARCHITECTURE RTL OF Microcode IS
 	type call_stack_t is array (0 to MICROCODE_CALLSTACK_SIZE-1) of std_logic_vector(MICROCODE_CTRL_DEPTH_ENC downto 0);
 	signal call_stack : call_stack_t := (others => (others => '0'));
 	signal stack_ptr : std_logic_vector(MICROCODE_CTRL_WIDTH-1 downto 0) := (others => '0');
-	-- Microcode Memory:
-	type code_t is array (0 to MICROCODE_CTRL_DEPTH) of std_logic_vector(MICROCODE_FUNC_WIDTH + MICROCODE_CTRL_WIDTH + 1 downto 0);
-	type seg_t is array (0 to MICROCODE_SEGMENT_MAXCOUNT) of std_logic_vector(MICROCODE_SEGMENT_MAXCOUNT_ENC downto 0);
-	signal code : code_t := (others => (others => '0'));
-	signal seg_start : seg_t := (others => (others => '0'));
-	signal int_seg_start : seg_t := (others => (others => '0'));
-	signal segment_counter : std_logic_vector(31 downto 0) := (others => '0');
-	signal int_segment_counter : std_logic_vector(31 downto 0) := (others => '0');
-	signal microinstr_ctr : std_logic_vector(31 downto 0) := (others => '0');
-	signal microunit_running : std_logic := '1';
-	signal microunit_init : std_logic := '0';
 	-- Flags:
 	signal flag_jmp : std_logic := '0';
 	signal flag_jmp_addr : std_logic_vector(MICROCODE_CTRL_DEPTH_ENC downto 0) := (others => '1');
@@ -80,7 +118,7 @@ ARCHITECTURE RTL OF Microcode IS
 		signal flag_jmp      : out std_logic;
 		signal call_stack    : inout call_stack_t;
 		signal stack_ptr     : inout std_logic_vector(MICROCODE_CTRL_WIDTH-1 downto 0);
-		signal ctrl_reg      : out std_logic_vector(MICROCODE_CTRL_WIDTH-1 downto 0)
+		signal ctrl_reg      : out std_logic_vector(MICROCODE_CTRL_WIDTH downto 0)
 	)
 	is 
 		variable func_fmt : std_logic_vector(MICROCODE_FUNC_WIDTH-1 downto 0) := (others => '0');
@@ -99,7 +137,7 @@ ARCHITECTURE RTL OF Microcode IS
 			when others =>
 		end case;
 		-- Fetch control from Microcode Memory:
-		ctrl_reg <= code(to_integer(unsigned(address)))(MICROCODE_CTRL_WIDTH-1 downto 0);	
+		ctrl_reg <= code(to_integer(unsigned(address)))(MICROCODE_CTRL_WIDTH downto 0);
 	end;
 	
 	procedure check_microcode_running (
@@ -114,7 +152,7 @@ ARCHITECTURE RTL OF Microcode IS
 	----------------------------
 BEGIN
 	-- End of segment flag is triggered by the last bit of the control register:
-	eos <= ctrl_reg(MICROCODE_CTRL_WIDTH-1);
+	eos <= ctrl_reg(0);
 	
 	-- Assign output:
 	microcode_ctrl <= ctrl_reg;
@@ -140,8 +178,13 @@ BEGIN
 						pop_stack(flag_jmp_addr, flag_jmp, call_stack, stack_ptr);
 					else
 						if code_ip /= (code_ip'range => 'U') then
-							-- Otherwise continue sequential execution:
-							code_ip <= code_ip + "1";
+							if code(to_integer(unsigned(code_ip)))(0) /= '1' then
+								-- Otherwise continue sequential execution:
+								code_ip <= code_ip + "1";
+							--else
+							--	code_ip <= (others => '1');
+							--	ctrl_reg(0) <= '1';
+							end if;
 						end if;
 					end if;
 				end if;

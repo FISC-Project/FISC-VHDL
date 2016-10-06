@@ -104,7 +104,7 @@ PACKAGE FISC_DEFINES IS
 			clk : in  std_logic; -- Clock signal
 			sos : in  std_logic; -- Start of segment flag (triggers on rising edge)
 			microcode_opcode : in std_logic_vector(R_FMT_OPCODE_SZ-1 downto 0); -- Microcode's Opcode input to the FSM
-			microcode_ctrl   : out std_logic_vector(MICROCODE_CTRL_WIDTH-1 downto 0) -- Result of indexing Microcode's memory with the opcode input
+			microcode_ctrl   : out std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) -- Result of indexing Microcode's memory with the opcode input
 		);
 	END COMPONENT;
 	---------------------------------------
@@ -112,12 +112,14 @@ PACKAGE FISC_DEFINES IS
 	---------- MICROARCHITECTURE: STAGE 1 - FETCH DEFINES -----------
 	COMPONENT Stage1_Fetch IS
 		PORT(
+			clk      : in std_logic;
 			--new_pc : in std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			--reset  : in std_logic;
-			fsm_next: in std_logic := '0'
+			fsm_next: in std_logic := '0';
 			--branch_flag : in std_logic;
 			--uncond_branch_flag : in std_logic;
 			--zero_flag : in std_logic
+			if_instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1  downto 0)
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -127,7 +129,7 @@ PACKAGE FISC_DEFINES IS
 		PORT(
 			clk : in std_logic := '0';
 			sos : in std_logic := '0';
-			microcode_ctrl : out std_logic_vector(MICROCODE_CTRL_WIDTH-1 downto 0) := (others => '0');
+			microcode_ctrl : out std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
 			if_instruction : in std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0')
 		);
 	END COMPONENT;

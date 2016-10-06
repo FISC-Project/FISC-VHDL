@@ -49,7 +49,7 @@ endif
 # Simulate:
 %:
 	@printf "\n>> Simulating Top Module and producing GTKWave VCD file <<\n"
-	$(GHDL) -r $(GHDLFLAGS) top --stop-time=10ps --vcd=top.vcd
+	$(GHDL) -r $(GHDLFLAGS) top --stop-time=100fs --vcd=top.vcd
 	@printf ">> END OF SIMULATION <<\n"
 	@mv top.vcd $(WAVESPATH)
 	
