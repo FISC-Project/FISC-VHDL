@@ -1,5 +1,5 @@
 EDA Netlist Writer report for top
-Thu Oct 06 15:48:56 2016
+Thu Oct 06 18:31:13 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -37,7 +37,7 @@ agreement for further details.
 +-------------------------------------------------------------------+
 ; EDA Netlist Writer Summary                                        ;
 +---------------------------+---------------------------------------+
-; EDA Netlist Writer Status ; Successful - Thu Oct 06 15:48:56 2016 ;
+; EDA Netlist Writer Status ; Successful - Thu Oct 06 18:31:13 2016 ;
 ; Revision Name             ; top                                   ;
 ; Top-level Entity Name     ; top_synth                             ;
 ; Family                    ; Cyclone IV E                          ;
@@ -89,7 +89,7 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime EDA Netlist Writer
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Thu Oct 06 15:48:55 2016
+    Info: Processing started: Thu Oct 06 18:31:11 2016
 Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off FISC -c top
 Info (204019): Generated file top_8_1200mv_85c_slow.vo in folder "C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/simulation/modelsim/" for EDA simulation tool
 Info (204019): Generated file top_8_1200mv_0c_slow.vo in folder "C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/simulation/modelsim/" for EDA simulation tool
@@ -100,9 +100,9 @@ Info (204019): Generated file top_8_1200mv_0c_v_slow.sdo in folder "C:/Users/Mig
 Info (204019): Generated file top_min_1200mv_0c_v_fast.sdo in folder "C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/simulation/modelsim/" for EDA simulation tool
 Info (204019): Generated file top_v.sdo in folder "C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/simulation/modelsim/" for EDA simulation tool
 Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 697 megabytes
-    Info: Processing ended: Thu Oct 06 15:48:56 2016
-    Info: Elapsed time: 00:00:01
-    Info: Total CPU time (on all processors): 00:00:01
+    Info: Peak virtual memory: 696 megabytes
+    Info: Processing ended: Thu Oct 06 18:31:13 2016
+    Info: Elapsed time: 00:00:02
+    Info: Total CPU time (on all processors): 00:00:02
 
 

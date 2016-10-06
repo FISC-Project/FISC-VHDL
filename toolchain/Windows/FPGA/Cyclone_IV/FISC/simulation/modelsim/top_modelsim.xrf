@@ -1,4 +1,5 @@
 vendor_name = ModelSim
+source_file = 1, C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/registers.vhd
 source_file = 1, C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/instruction_memory.vhd
 source_file = 1, C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/top_synth.vhd
 source_file = 1, C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage2_decode.vhd

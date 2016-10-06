@@ -1,5 +1,5 @@
 Analysis & Synthesis report for top
-Thu Oct 06 15:48:35 2016
+Thu Oct 06 18:30:46 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -45,7 +45,7 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Thu Oct 06 15:48:35 2016       ;
+; Analysis & Synthesis Status        ; Successful - Thu Oct 06 18:30:46 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
 ; Top-level Entity Name              ; top_synth                                   ;
@@ -165,6 +165,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-------------------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 ; File Name with User-Entered Path          ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                                                                                                 ; Library ;
 +-------------------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; ../../../../../rtl/registers.vhd          ; yes             ; User VHDL File  ; C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/registers.vhd          ;         ;
 ; ../../../../../rtl/instruction_memory.vhd ; yes             ; User VHDL File  ; C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/instruction_memory.vhd ;         ;
 ; ../../../../../rtl/top_synth.vhd          ; yes             ; User VHDL File  ; C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/top_synth.vhd          ;         ;
 ; ../../../../../rtl/stage2_decode.vhd      ; yes             ; User VHDL File  ; C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage2_decode.vhd      ;         ;
@@ -237,6 +238,11 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Port                  ; Type   ; Severity ; Details                                                                             ;
 +-----------------------+--------+----------+-------------------------------------------------------------------------------------+
 ; microcode_ctrl[32..1] ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; writedata             ; Input  ; Info     ; Stuck at GND                                                                        ;
+; reg2loc               ; Input  ; Info     ; Stuck at GND                                                                        ;
+; regwrite              ; Input  ; Info     ; Stuck at GND                                                                        ;
+; outa                  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
+; outb                  ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
 +-----------------------+--------+----------+-------------------------------------------------------------------------------------+
 
 
@@ -280,9 +286,12 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Thu Oct 06 15:48:11 2016
+    Info: Processing started: Thu Oct 06 18:30:13 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FISC -c top
 Warning (20028): Parallel compilation is not licensed and has been disabled
+Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university modules/computer systems engineering - year 3/singleton meng year 3 project/3-development/fisc/rtl/registers.vhd
+    Info (12022): Found design unit 1: RegFile-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/registers.vhd Line: 21
+    Info (12023): Found entity 1: RegFile File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/registers.vhd Line: 8
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university modules/computer systems engineering - year 3/singleton meng year 3 project/3-development/fisc/rtl/instruction_memory.vhd
     Info (12022): Found design unit 1: Instruction_Memory-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/instruction_memory.vhd Line: 18
     Info (12023): Found entity 1: Instruction_Memory File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/instruction_memory.vhd Line: 11
@@ -290,8 +299,8 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: top_synth-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/top_synth.vhd Line: 12
     Info (12023): Found entity 1: top_synth File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/top_synth.vhd Line: 5
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university modules/computer systems engineering - year 3/singleton meng year 3 project/3-development/fisc/rtl/stage2_decode.vhd
-    Info (12022): Found design unit 1: Stage2_Decode-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 14
-    Info (12023): Found entity 1: Stage2_Decode File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 5
+    Info (12022): Found design unit 1: Stage2_Decode-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 22
+    Info (12023): Found entity 1: Stage2_Decode File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 8
 Info (12021): Found 4 design units, including 2 entities, in source file /users/miguel/dropbox/university modules/computer systems engineering - year 3/singleton meng year 3 project/3-development/fisc/rtl/stage1_fetch.vhd
     Info (12022): Found design unit 1: Program_Counter-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage1_fetch.vhd Line: 16
     Info (12022): Found design unit 2: Stage1_Fetch-RTL File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage1_fetch.vhd Line: 51
@@ -308,21 +317,27 @@ Info (12021): Found 1 design units, including 0 entities, in source file /users/
 Info (12127): Elaborating entity "top_synth" for the top level hierarchy
 Info (12128): Elaborating entity "FISC" for hierarchy "FISC:FISC1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/top_synth.vhd Line: 16
 Warning (10540): VHDL Signal Declaration warning at fisc.vhd(16): used explicit default value for signal "if_new_pc" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 16
-Warning (10540): VHDL Signal Declaration warning at fisc.vhd(17): used explicit default value for signal "if_reset" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 17
+Warning (10540): VHDL Signal Declaration warning at fisc.vhd(17): used explicit default value for signal "if_reset_pc" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 17
 Warning (10540): VHDL Signal Declaration warning at fisc.vhd(18): used explicit default value for signal "if_branch_flag" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 18
 Warning (10540): VHDL Signal Declaration warning at fisc.vhd(19): used explicit default value for signal "if_uncond_branch_flag" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 19
 Warning (10540): VHDL Signal Declaration warning at fisc.vhd(20): used explicit default value for signal "if_zero_flag" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 20
-Warning (10492): VHDL Process Statement warning at fisc.vhd(47): signal "microcode_ctrl" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 47
-Warning (10631): VHDL Process Statement warning at fisc.vhd(42): inferring latch(es) for signal or variable "sos", which holds its previous value in one or more paths through the process File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 42
-Info (10041): Inferred latch for "sos" at fisc.vhd(42) File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 42
-Info (12128): Elaborating entity "Stage1_Fetch" for hierarchy "FISC:FISC1|Stage1_Fetch:Stage1_Fetch1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 30
+Warning (10540): VHDL Signal Declaration warning at fisc.vhd(26): used explicit default value for signal "id_writedata" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 26
+Warning (10540): VHDL Signal Declaration warning at fisc.vhd(27): used explicit default value for signal "id_reg2loc" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 27
+Warning (10540): VHDL Signal Declaration warning at fisc.vhd(28): used explicit default value for signal "id_regwrite" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 28
+Warning (10036): Verilog HDL or VHDL warning at fisc.vhd(29): object "outA" assigned a value but never read File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 29
+Warning (10036): Verilog HDL or VHDL warning at fisc.vhd(30): object "outB" assigned a value but never read File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 30
+Warning (10492): VHDL Process Statement warning at fisc.vhd(52): signal "microcode_ctrl" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 52
+Warning (10631): VHDL Process Statement warning at fisc.vhd(47): inferring latch(es) for signal or variable "sos", which holds its previous value in one or more paths through the process File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 47
+Info (10041): Inferred latch for "sos" at fisc.vhd(47) File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 47
+Info (12128): Elaborating entity "Stage1_Fetch" for hierarchy "FISC:FISC1|Stage1_Fetch:Stage1_Fetch1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 35
 Info (12128): Elaborating entity "Program_Counter" for hierarchy "FISC:FISC1|Stage1_Fetch:Stage1_Fetch1|Program_Counter:Program_Counter1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage1_fetch.vhd Line: 73
 Info (12128): Elaborating entity "Instruction_Memory" for hierarchy "FISC:FISC1|Stage1_Fetch:Stage1_Fetch1|Instruction_Memory:Instruction_Memory1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage1_fetch.vhd Line: 74
 Warning (10540): VHDL Signal Declaration warning at instruction_memory.vhd(49): used explicit default value for signal "imem" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/instruction_memory.vhd Line: 49
-Info (12128): Elaborating entity "Stage2_Decode" for hierarchy "FISC:FISC1|Stage2_Decode:Stage2_Decode1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 32
-Info (12128): Elaborating entity "Microcode" for hierarchy "FISC:FISC1|Stage2_Decode:Stage2_Decode1|Microcode:Microcode1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 15
+Info (12128): Elaborating entity "Stage2_Decode" for hierarchy "FISC:FISC1|Stage2_Decode:Stage2_Decode1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 37
+Info (12128): Elaborating entity "Microcode" for hierarchy "FISC:FISC1|Stage2_Decode:Stage2_Decode1|Microcode:Microcode1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 38
 Warning (10540): VHDL Signal Declaration warning at microcode.vhd(42): used explicit default value for signal "code" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/microcode.vhd Line: 42
 Warning (10873): Using initial value X (don't care) for net "seg_start.raddr_a" at microcode.vhd(53) File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/microcode.vhd Line: 53
+Info (12128): Elaborating entity "RegFile" for hierarchy "FISC:FISC1|Stage2_Decode:Stage2_Decode1|RegFile:RegFile1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 41
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 2 input pin(s) that do not drive logic
@@ -331,10 +346,10 @@ Warning (21074): Design contains 2 input pin(s) that do not drive logic
 Info (21057): Implemented 2 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 0 output pins
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 14 warnings
-    Info: Peak virtual memory: 848 megabytes
-    Info: Processing ended: Thu Oct 06 15:48:35 2016
-    Info: Elapsed time: 00:00:24
-    Info: Total CPU time (on all processors): 00:00:52
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 19 warnings
+    Info: Peak virtual memory: 865 megabytes
+    Info: Processing ended: Thu Oct 06 18:30:46 2016
+    Info: Elapsed time: 00:00:33
+    Info: Total CPU time (on all processors): 00:01:03
 
 

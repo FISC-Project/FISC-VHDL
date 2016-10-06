@@ -14,7 +14,7 @@ ARCHITECTURE RTL OF FISC IS
 	---- Stage interconnect wires declaration: ----
 	-- Stage 1 - Fetch Interconnect wires --
 	signal if_new_pc             : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
-	signal if_reset              : std_logic := '0';
+	signal if_reset_pc              : std_logic := '0';
 	signal if_branch_flag        : std_logic := '0';
 	signal if_uncond_branch_flag : std_logic := '0';
 	signal if_zero_flag          : std_logic := '0';
@@ -23,13 +23,18 @@ ARCHITECTURE RTL OF FISC IS
 	-- Stage 2 - Decode Interconnect wires --
 	signal sos            : std_logic := '0';
 	signal microcode_ctrl : std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
+	signal id_writedata   : std_logic_vector(FISC_INTEGER_SZ-1 downto 0)    := (others => '0');
+	signal id_reg2loc     : std_logic := '0';
+	signal id_regwrite    : std_logic := '0';
+	signal outA           : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal outB           : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	-----------------------------------------------
 BEGIN
 	---- Microarchitecture Stages Declaration: ----
 	-- Stage 1: Fetch
-	Stage1_Fetch1  : Stage1_Fetch  PORT MAP(clk, if_new_pc, if_reset,  microcode_ctrl(0), if_branch_flag, if_uncond_branch_flag, if_zero_flag, if_instruction);
+	Stage1_Fetch1  : Stage1_Fetch  PORT MAP(clk, if_new_pc, if_reset_pc,  microcode_ctrl(0), if_branch_flag, if_uncond_branch_flag, if_zero_flag, if_instruction);
 	-- Stage 2: Decode
-	Stage2_Decode1 : Stage2_Decode PORT MAP(clk, sos, microcode_ctrl, if_instruction);
+	Stage2_Decode1 : Stage2_Decode PORT MAP(clk, sos, microcode_ctrl, if_instruction, id_writedata, id_reg2loc, id_regwrite, outA, outB);
 	-- Stage 3: Execute
 	-- TODO
 	-- Stage 4: Memory Access

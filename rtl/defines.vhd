@@ -15,7 +15,7 @@ PACKAGE FISC_DEFINES IS
 	---------- FISC ISA DEFINES -----------
 	constant FISC_INSTRUCTION_SZ    : integer := 32; -- Each instruction is 32 bits wide
 	constant FISC_INTEGER_SZ        : integer := 64; -- Each integer value is 64 bits wide
-	constant FISC_REGISTER_COUNT    : integer := 32;
+	constant FISC_REGISTER_COUNT    : integer := 32; -- The ISA uses 32 registers, each is 64 bits wide
 	
 	-- Instruction Formats: --
 	constant R_FMT_OPCODE_SZ        : integer := 11; -- The opcode is composed of 11 bits (maximum)
@@ -127,10 +127,15 @@ PACKAGE FISC_DEFINES IS
 	---------- MICROARCHITECTURE: STAGE 2 - DECODE DEFINES ----------
 	COMPONENT Stage2_Decode IS
 		PORT(
-			clk : in std_logic := '0';
-			sos : in std_logic := '0';
+			clk            : in  std_logic;
+			sos            : in  std_logic;
 			microcode_ctrl : out std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
-			if_instruction : in std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0')
+			if_instruction : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
+			writedata      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			reg2loc        : in  std_logic;
+			regwrite       : in  std_logic;
+			outA           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			outB           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------
