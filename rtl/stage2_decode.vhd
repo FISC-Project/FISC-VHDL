@@ -14,6 +14,5 @@ END Stage2_Decode;
 ARCHITECTURE RTL OF Stage2_Decode IS BEGIN
 	Microcode1: Microcode 
 		PORT MAP(clk, sos, if_instruction(R_FMT_OPCODE_SZ-1 downto 0), microcode_ctrl);
-		--PORT MAP(clk, sos, if_instruction(FISC_INSTRUCTION_SZ-1 downto (FISC_INSTRUCTION_SZ - R_FMT_OPCODE_SZ)), microcode_ctrl);
-
+		
 END ARCHITECTURE RTL;

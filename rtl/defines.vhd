@@ -18,7 +18,7 @@ PACKAGE FISC_DEFINES IS
 	constant FISC_REGISTER_COUNT    : integer := 32;
 	
 	-- Instruction Formats: --
-	constant R_FMT_OPCODE_SZ 		: integer := 11; -- The opcode is composed of 11 bits (maximum)
+	constant R_FMT_OPCODE_SZ        : integer := 11; -- The opcode is composed of 11 bits (maximum)
 	constant R_FMT_RM_SZ            : integer := 5;
 	constant R_FMT_SHAMT_SZ         : integer := 6;
 	constant R_FMT_RN_SZ            : integer := 5;
@@ -112,14 +112,14 @@ PACKAGE FISC_DEFINES IS
 	---------- MICROARCHITECTURE: STAGE 1 - FETCH DEFINES -----------
 	COMPONENT Stage1_Fetch IS
 		PORT(
-			clk      : in std_logic;
-			--new_pc : in std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			--reset  : in std_logic;
-			fsm_next: in std_logic := '0';
-			--branch_flag : in std_logic;
-			--uncond_branch_flag : in std_logic;
-			--zero_flag : in std_logic
-			if_instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1  downto 0)
+			clk                : in std_logic;
+			new_pc             : in std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			reset              : in std_logic;
+			fsm_next           : in std_logic := '0';
+			branch_flag        : in std_logic;
+			uncond_branch_flag : in std_logic;
+			zero_flag          : in std_logic;
+			if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1  downto 0)
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------

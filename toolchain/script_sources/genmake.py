@@ -8,7 +8,6 @@ fileformats             = ["vhdl", "vhd", "c", "cpp"]
 
 vhdl_filename_list      = []
 c_filename_list         = []
-vhdl_filenames_no_path  = []
 c_filenames_no_path     = []
 blacklist               = ["defines.vhdl", "defines.vhd"]
 
@@ -44,7 +43,7 @@ for i in range(len(c_filename_list)):
 		filename_nopath = filename[filename.rindex('/')+1:]
 	# Push filenames into list:
 	#c_filename_list.append(filename)
-	vhdl_filenames_no_path.append(filename_nopath)
+	c_filenames_no_path.append(filename_nopath)
 
 	# Write binary list for makefile:
 	make_src_new += "$(OBJ)/" + filename_nopath + ".o "
@@ -57,7 +56,7 @@ for i in range(len(c_filename_list)):
 command_template = "\tgcc -c $< -o $@"
 
 for i in range(len(c_filename_list)):
-	make_src_new += "$(OBJ)/" + vhdl_filenames_no_path[i] + ".o: ./"+c_filename_list[i] + "\n\t@printf \"2."+str(i+1)+"- Compiling C file '"+c_filename_list[i]+"': \"\n"+command_template+"\n\n"
+	make_src_new += "$(OBJ)/" + c_filenames_no_path[i] + ".o: ./"+c_filename_list[i] + "\n\t@printf \"2."+str(i+1)+"- Compiling C file '"+c_filename_list[i]+"': \"\n"+command_template+"\n\n"
 
 # Append temination token:
 make_src_new += "#__GENMAKE_END__"

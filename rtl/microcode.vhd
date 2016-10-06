@@ -40,11 +40,10 @@ ARCHITECTURE RTL OF Microcode IS
 	-----------------------------------------------------------------------------------------------------------------------
 	-- IMPORTANT: Fill up microcode execute memory (which is segmented) here: (ARGS: control bits | is end of segment) --
 	signal code : code_t := (
-		0 => microinstr("0000000000000000000000000000000", '0'), -- NULL INSTRUCTION
-		1 => microinstr("0000000000000000000000000000010", '0'), -- Instruction ADD (example)
-		2 => microinstr("0000000000000000000000000000011", '1'), -- Instruction ADD cycle 2 (example)
-		3 => microinstr("0000000000000000000000000000100", '1'), -- Instruction SUB (example)
-		4 => microinstr("0000000000000000000000000000101", '1'), -- Instruction JMP (example)
+		0 => microinstr("0000000000000000000000000000000", '1'), -- NULL INSTRUCTION
+		1 => microinstr("0000000000000000000000000000010", '1'), -- Instruction ADD (example)
+		2 => microinstr("0000000000000000000000000000100", '1'), -- Instruction SUB (example)
+		3 => microinstr("0000000000000000000000000000101", '1'), -- Instruction JMP (example)
 		-- END OF MICROCODE MEMORY --
 		others => (others => '0')
 	);
@@ -52,10 +51,10 @@ ARCHITECTURE RTL OF Microcode IS
 	---------------------------------------------
 	-- IMPORTANT: Fill up segment memory here: -- (NOTE: The index below IS the opcode that will be associated)
 	signal seg_start : seg_t := (
-		0 => create_segment(1), -- Opcode 0 runs microcode at address 10 (decimal)
-		1 => create_segment(3), -- Opcode 1 runs microcode at address 20 (decimal)
-		2 => create_segment(1), -- Opcode 1 runs microcode at address 20 (decimal)
-		3 => create_segment(3), -- Opcode 1 runs microcode at address 20 (decimal)
+		0 => create_segment(1), -- Opcode 0 runs microcode at address 1 (decimal)
+		1 => create_segment(2), -- Opcode 1 runs microcode at address 2 (decimal)
+		2 => create_segment(3), -- Opcode 2 runs microcode at address 3 (decimal)
+		3 => create_segment(2), -- Opcode 3 runs microcode at address 2 (decimal)
 		-- END OF SEGMENT MEMORY --
 		others => (others => '0')
 	);
