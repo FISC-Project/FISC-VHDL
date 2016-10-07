@@ -1,5 +1,5 @@
 Analysis & Synthesis report for top
-Fri Oct 07 02:52:05 2016
+Fri Oct 07 03:05:36 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -49,7 +49,7 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Fri Oct 07 02:52:05 2016       ;
+; Analysis & Synthesis Status        ; Successful - Fri Oct 07 03:05:36 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
 ; Top-level Entity Name              ; top_synth                                   ;
@@ -333,7 +333,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Fri Oct 07 02:51:34 2016
+    Info: Processing started: Fri Oct 07 03:05:06 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FISC -c top
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university modules/computer systems engineering - year 3/singleton meng year 3 project/3-development/fisc/rtl/stage5_writeback.vhd
@@ -406,7 +406,7 @@ Warning (10540): VHDL Signal Declaration warning at microcode.vhd(42): used expl
 Warning (10873): Using initial value X (don't care) for net "seg_start.raddr_a" at microcode.vhd(53) File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/microcode.vhd Line: 53
 Info (12128): Elaborating entity "RegFile" for hierarchy "FISC:FISC1|Stage2_Decode:Stage2_Decode1|RegFile:RegFile1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 44
 Info (12128): Elaborating entity "Stage3_Execute" for hierarchy "FISC:FISC1|Stage3_Execute:Stage3_Execute1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 59
-Info (12128): Elaborating entity "ALU" for hierarchy "FISC:FISC1|Stage3_Execute:Stage3_Execute1|ALU:ALU1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage3_execute.vhd Line: 38
+Info (12128): Elaborating entity "ALU" for hierarchy "FISC:FISC1|Stage3_Execute:Stage3_Execute1|ALU:ALU1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage3_execute.vhd Line: 39
 Info (12128): Elaborating entity "Stage4_Memory_Access" for hierarchy "FISC:FISC1|Stage4_Memory_Access:Stage4_Memory_Access1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 61
 Info (12128): Elaborating entity "Data_Memory" for hierarchy "FISC:FISC1|Stage4_Memory_Access:Stage4_Memory_Access1|Data_Memory:Data_Memory1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/stage4_memory_access.vhd Line: 107
 Info (12128): Elaborating entity "Stage5_Writeback" for hierarchy "FISC:FISC1|Stage5_Writeback:Stage5_Writeback1" File: C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/rtl/fisc.vhd Line: 63
@@ -419,9 +419,9 @@ Info (21057): Implemented 2 device resources after synthesis - the final resourc
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 0 output pins
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 25 warnings
-    Info: Peak virtual memory: 894 megabytes
-    Info: Processing ended: Fri Oct 07 02:52:05 2016
-    Info: Elapsed time: 00:00:31
-    Info: Total CPU time (on all processors): 00:01:02
+    Info: Peak virtual memory: 856 megabytes
+    Info: Processing ended: Fri Oct 07 03:05:36 2016
+    Info: Elapsed time: 00:00:30
+    Info: Total CPU time (on all processors): 00:00:59
 
 

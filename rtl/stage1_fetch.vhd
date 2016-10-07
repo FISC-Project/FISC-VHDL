@@ -37,15 +37,15 @@ USE work.FISC_DEFINES.all;
 
 ENTITY Stage1_Fetch IS
 	PORT(
-		clk                : in std_logic;
-		new_pc             : in std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		reset              : in std_logic;
-		fsm_next           : in std_logic := '0';
-		branch_flag        : in std_logic;
-		uncond_branch_flag : in std_logic;
-		zero_flag          : in std_logic;
-		if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1  downto 0);
-		pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1      downto 0)
+		clk                : in  std_logic;
+		new_pc             : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		reset              : in  std_logic;
+		fsm_next           : in  std_logic;
+		branch_flag        : in  std_logic;
+		uncond_branch_flag : in  std_logic;
+		zero_flag          : in  std_logic;
+		if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+		pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0)
 	);
 END Stage1_Fetch;
 
@@ -62,16 +62,16 @@ ARCHITECTURE RTL OF Stage1_Fetch IS
 	
 	COMPONENT Instruction_Memory
 		PORT(
-			address     : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			address     : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 			instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0)
 		);
 	END COMPONENT;
 
 	signal instruction_reg : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
-	signal pc_out_reg          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
-	signal new_pc_reg      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
+	signal pc_out_reg      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
+	signal new_pc_reg      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
 BEGIN
-	Program_Counter1: Program_Counter PORT MAP(clk, new_pc_reg, fsm_next, reset, pc_out_reg);
+	Program_Counter1:    Program_Counter    PORT MAP(clk, new_pc_reg, fsm_next, reset, pc_out_reg);
 	Instruction_Memory1: Instruction_Memory PORT MAP(pc_out_reg, instruction_reg);	
 
 	new_pc_reg <= new_pc WHEN ((branch_flag and zero_flag) or uncond_branch_flag) = '1' ELSE pc_out_reg + "100";
@@ -80,7 +80,7 @@ BEGIN
 	process(clk) begin
 		if clk'event and clk = '1' then
 			if fsm_next = '1' then
-				
+				-- TODO: Move the Fetch Stages' Pipeline Forward
 			end if;
 		end if;
 	end process;

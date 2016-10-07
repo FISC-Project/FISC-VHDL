@@ -10,7 +10,7 @@ USE work.FISC_DEFINES.all;
 
 ENTITY Instruction_Memory IS
 	PORT(
-		address     : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		address     : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 		instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0)
 	);
 END;
@@ -35,7 +35,7 @@ ARCHITECTURE RTL OF Instruction_Memory IS
 				ret(i+3) := tmp_word(31 downto 24);
 				ret(i+2) := tmp_word(23 downto 16);
 				ret(i+1) := tmp_word(15 downto 8);
-				ret(i)   := tmp_word(7 downto 0);
+				ret(i)   := tmp_word(7  downto 0);
 				skip := 4;
 			end if;
 			if skip > 0 then

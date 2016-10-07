@@ -19,7 +19,7 @@ ARCHITECTURE RTL OF FISC IS
 	signal if_uncond_branch_flag : std_logic := '0';
 	signal if_zero_flag          : std_logic := '0';
 	signal if_instruction        : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
-	signal if_pc_out             : std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
+	signal if_pc_out             : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
 	
 	-- Stage 2 - Decode Interconnect wires --
 	signal id_sos            : std_logic := '0';

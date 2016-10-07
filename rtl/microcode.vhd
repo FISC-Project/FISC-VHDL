@@ -8,8 +8,8 @@ ENTITY Microcode IS
 	PORT(
 		clk              : in  std_logic; -- Clock signal
 		sos              : in  std_logic; -- Start of segment flag (triggers on rising edge)
-		microcode_opcode : in  std_logic_vector(R_FMT_OPCODE_SZ-1 downto 0); -- Microcode's Opcode input to the FSM
-		microcode_ctrl   : out std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) -- Result of indexing Microcode's memory with the opcode input
+		microcode_opcode : in  std_logic_vector(R_FMT_OPCODE_SZ-1    downto 0); -- Microcode's Opcode input to the FSM
+		microcode_ctrl   : out std_logic_vector(MICROCODE_CTRL_WIDTH downto 0)  -- Result of indexing Microcode's memory with the opcode input
 		-- NOTE: The 1st bit of 'microcode_ctrl' tells the external system when the Microcode Unit has finished dumping its control signals
 	);
 END Microcode;

@@ -9,9 +9,9 @@ ENTITY Stage2_Decode IS
 	PORT(
 		clk            : in  std_logic;
 		sos            : in  std_logic;
-		microcode_ctrl : out std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
-		if_instruction : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
-		writedata      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		microcode_ctrl : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
+		if_instruction : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+		writedata      : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 		reg2loc        : in  std_logic;
 		regwrite       : in  std_logic;
 		outA           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
@@ -30,7 +30,7 @@ ARCHITECTURE RTL OF Stage2_Decode IS
 			writedata : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			outA      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			outB      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			regwr     : in std_logic
+			regwr     : in  std_logic
 		);
 	END COMPONENT;
 	

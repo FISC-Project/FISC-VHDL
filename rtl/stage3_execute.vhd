@@ -35,7 +35,11 @@ ARCHITECTURE RTL OF Stage3_Execute IS
 	
 	signal opB_reg : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 BEGIN
+	-- Instantiate ALU:
 	ALU1: ALU PORT MAP(clk, opA, opB_reg, "0000", zero, result);
+
+	-- Instantiate Forward Unit:
+	-- TODO
 
 	opB_reg    <= sign_ext WHEN alusrc = '1' ELSE opB;
 	add_uncond <= (sign_ext(FISC_INTEGER_SZ-2 downto 0) & '0') + pc;
