@@ -1,5 +1,5 @@
 Flow report for top
-Thu Oct 06 18:31:13 2016
+Fri Oct 07 02:52:26 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -41,7 +41,7 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Thu Oct 06 18:31:13 2016       ;
+; Flow Status                        ; Successful - Fri Oct 07 02:52:26 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
 ; Top-level Entity Name              ; top_synth                                   ;
@@ -65,7 +65,7 @@ agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 10/06/2016 18:30:14 ;
+; Start date & time ; 10/07/2016 02:51:34 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; top                 ;
 +-------------------+---------------------+
@@ -76,7 +76,7 @@ agreement for further details.
 +--------------------------------------+---------------------------------------+---------------+-------------+----------------+
 ; Assignment Name                      ; Value                                 ; Default Value ; Entity Name ; Section Id     ;
 +--------------------------------------+---------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID                ; 123658570900799.147577501431116       ; --            ; --          ; --             ;
+; COMPILER_SIGNATURE_ID                ; 123658570900799.147580509423864       ; --            ; --          ; --             ;
 ; EDA_DESIGN_INSTANCE_NAME             ; NA                                    ; --            ; --          ; top_vlg_tst    ;
 ; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; top_vlg_tst                           ; --            ; --          ; eda_simulation ;
 ; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                           ; --            ; --          ; eda_simulation ;
@@ -108,12 +108,12 @@ agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:33     ; 1.0                     ; 865 MB              ; 00:01:02                           ;
-; Fitter                    ; 00:00:09     ; 1.0                     ; 1088 MB             ; 00:00:08                           ;
+; Analysis & Synthesis      ; 00:00:31     ; 1.0                     ; 894 MB              ; 00:01:01                           ;
+; Fitter                    ; 00:00:08     ; 1.0                     ; 1091 MB             ; 00:00:08                           ;
 ; Assembler                 ; 00:00:02     ; 1.0                     ; 729 MB              ; 00:00:02                           ;
-; TimeQuest Timing Analyzer ; 00:00:05     ; 1.0                     ; 778 MB              ; 00:00:04                           ;
-; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 696 MB              ; 00:00:02                           ;
-; Total                     ; 00:00:51     ; --                      ; --                  ; 00:01:18                           ;
+; TimeQuest Timing Analyzer ; 00:00:03     ; 1.0                     ; 778 MB              ; 00:00:03                           ;
+; EDA Netlist Writer        ; 00:00:01     ; 1.0                     ; 696 MB              ; 00:00:01                           ;
+; Total                     ; 00:00:45     ; --                      ; --                  ; 00:01:15                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

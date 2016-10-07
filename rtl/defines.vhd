@@ -119,7 +119,8 @@ PACKAGE FISC_DEFINES IS
 			branch_flag        : in std_logic;
 			uncond_branch_flag : in std_logic;
 			zero_flag          : in std_logic;
-			if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1  downto 0)
+			if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1  downto 0);
+			pc_out   : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -135,7 +136,51 @@ PACKAGE FISC_DEFINES IS
 			reg2loc        : in  std_logic;
 			regwrite       : in  std_logic;
 			outA           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			outB           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
+			outB           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			sign_ext       : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
+		);
+	END COMPONENT;
+	-----------------------------------------------------------------
+	
+	--------- MICROARCHITECTURE: STAGE 3 - EXECUTE DEFINES ----------
+	COMPONENT Stage3_Execute
+	PORT(
+		clk        : in  std_logic;
+		opA        : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		opB        : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		result     : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		add_uncond : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		pc         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		sign_ext   : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		aluop      : in  std_logic_vector(1  downto 0);
+		opcode     : in  std_logic_vector(10 downto 0);
+		alusrc     : in  std_logic;
+		zero       : out std_logic
+	);
+	END COMPONENT;
+	-----------------------------------------------------------------
+	
+	------ MICROARCHITECTURE: STAGE 4 - MEMORY ACCESS DEFINES -------
+	COMPONENT Stage4_Memory_Access
+		PORT(
+			clk      : in  std_logic;
+			address  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			data_in  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			data_out : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			memwrite : in  std_logic;
+			memread  : in  std_logic
+		);
+	END COMPONENT;
+	-----------------------------------------------------------------
+	
+	-------- MICROARCHITECTURE: STAGE 5 - WRITEBACK DEFINES ---------
+	COMPONENT Stage5_Writeback
+		PORT(
+			clk                : in  std_logic;
+			val_stage3_execute : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			val_stage4_memacc  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			memtoreg           : in  std_logic;
+			writeback_data     : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------

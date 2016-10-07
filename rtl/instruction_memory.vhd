@@ -22,8 +22,8 @@ ARCHITECTURE RTL OF Instruction_Memory IS
 	
 	impure function load_imem(filename : STRING) return mem_t is
 		file file_handle      : text;
-		variable current_line : line    := null;
-		variable tmp_byte     : std_logic_vector(31 downto 0);
+		variable current_line : line;
+		variable tmp_word     : std_logic_vector(31 downto 0);
   		variable ret          : mem_t   := (others => (others => '0'));
   		variable skip         : integer := 0;
 	begin
@@ -31,11 +31,11 @@ ARCHITECTURE RTL OF Instruction_Memory IS
 		for i in mem_t'range loop
 			if not ENDFILE(file_handle) and skip = 0 then
 				readline(file_handle, current_line);
-				hread(current_line, tmp_byte);
-				ret(i+3) := tmp_byte(31 downto 24);
-				ret(i+2) := tmp_byte(23 downto 16);
-				ret(i+1) := tmp_byte(15 downto 8);
-				ret(i)   := tmp_byte(7 downto 0);
+				hread(current_line, tmp_word);
+				ret(i+3) := tmp_word(31 downto 24);
+				ret(i+2) := tmp_word(23 downto 16);
+				ret(i+1) := tmp_word(15 downto 8);
+				ret(i)   := tmp_word(7 downto 0);
 				skip := 4;
 			end if;
 			if skip > 0 then

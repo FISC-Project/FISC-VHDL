@@ -15,7 +15,8 @@ ENTITY Stage2_Decode IS
 		reg2loc        : in  std_logic;
 		regwrite       : in  std_logic;
 		outA           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		outB           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
+		outB           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		sign_ext       : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
 	);
 END Stage2_Decode;
 
@@ -46,5 +47,6 @@ BEGIN
 	-- Instantiate Hazard Unit:
 	-- TODO
 	
+	sign_ext     <= "00000000000000000000000000000000" & if_instruction;
 	tmp_readreg1 <= if_instruction(4 downto 0) WHEN reg2loc = '1' ELSE if_instruction(20 downto 16);
 END ARCHITECTURE RTL;
