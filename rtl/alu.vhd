@@ -23,13 +23,9 @@ BEGIN
 			case func is
 			when "0000" => result_reg <= opA and opB;
 			when "0001" => result_reg <= opA or opB;
-			when "0010" => result_reg <= opA - opB;
-			when "0111" => 
-				if opA < opB then
-					result_reg <= (FISC_INTEGER_SZ-2 downto 0 => '0') & "1";
-				else
-					result_reg <= (others => '0');
-				end if;	
+			when "0010" => result_reg <= opA + opB;
+			when "0110" => result_reg <= opA - opB;
+			when "0111" => result_reg <= opB;
 			when "1100" => result_reg <= not (opA or opB);
 			when others => result_reg <= result_reg;
 			end case;

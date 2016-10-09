@@ -38,7 +38,7 @@ ARCHITECTURE RTL OF Stage2_Decode IS
 BEGIN
 	-- Instantiate Microcode Unit:
 	Microcode1: Microcode 
-		PORT MAP(clk, sos, if_instruction(R_FMT_OPCODE_SZ-1 downto 0), microcode_ctrl);
+		PORT MAP(clk, sos, if_instruction(31 downto 21), microcode_ctrl);
 	
 	-- Instantiate Register File:
 	RegFile1: RegFile 

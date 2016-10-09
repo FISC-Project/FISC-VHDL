@@ -41,9 +41,8 @@ ARCHITECTURE RTL OF Microcode IS
 	-- IMPORTANT: Fill up microcode execute memory (which is segmented) here: (ARGS: control bits | is end of segment) --
 	signal code : code_t := (
 		0 => microinstr("0000000000000000000000000000000", '1'), -- NULL INSTRUCTION
-		1 => microinstr("0000000000000000000000000000010", '1'), -- Instruction ADD (example)
-		2 => microinstr("0000000000000000000000000000100", '1'), -- Instruction SUB (example)
-		3 => microinstr("0000000000000000000000000000101", '1'), -- Instruction JMP (example)
+		1 => microinstr("0000000000000000000000000000010", '1'), -- Instruction ADD
+		2 => microinstr("0000000000000000000000000000101", '1'), -- Instruction ADDI
 		-- END OF MICROCODE MEMORY --
 		others => (others => '0')
 	);
@@ -79,6 +78,77 @@ ARCHITECTURE RTL OF Microcode IS
 	signal flag_jmp_addr : std_logic_vector(MICROCODE_CTRL_DEPTH_ENC downto 0) := (others => '1');
 	signal zero : std_logic := '0';
 	------------------------------------------
+	
+	function OPCODE_TO_MICROCODE_OPCODE 
+		(isa_opcode : std_logic_vector(R_FMT_OPCODE_SZ-1 downto 0)) return std_logic_vector is
+	begin
+		-- Convert from ISA Opcode (which is a 'high' 11 bit number), to a microcode opcode,
+		-- which is a very small opcode, such as 0,1,2,3,4...
+		
+		-- Cover the 11 bit opcodes:
+		case isa_opcode is
+			when "10001011000" => return "00000000001"; -- ADD
+			when "10101011000" => return "00000000100"; -- ADDS
+			when "11001011000" => return "00000000101"; -- SUB
+			when "11101011000" => return "00000001000"; -- SUBS
+			when "10011011000" => return "00000001001"; -- MUL
+			when "10011011010" => return "00000001010"; -- SMULH
+			when "10011011110" => return "00000001011"; -- UMULH
+			when "10011010110" => return "00000001100"; -- SDIV
+			when "10011010111" => return "00000001101"; -- UDIV
+			when "10001010000" => return "00000001110"; -- AND
+			when "11101010000" => return "00000010001"; -- ANDS
+			when "10101010000" => return "00000010010"; -- ORR
+			when "11001010000" => return "00000010100"; -- EOR
+			when "11010011011" => return "00000010110"; -- LSL
+			when "11010011010" => return "00000010111"; -- LSR
+			when "11110010100" => return "00000011000"; -- MOVK
+			when "11010010100" => return "00000011001"; -- MOVZ
+			when "11010110000" => return "00000011101"; -- BR
+			when "11111000010" => return "00000100000"; -- LDUR
+			when "00111000010" => return "00000100001"; -- LDURB
+			when "01111000010" => return "00000100010"; -- LDURH
+			when "10111000100" => return "00000100011"; -- LDURSW
+			when "11001000010" => return "00000100100"; -- LDXR
+			when "11111000000" => return "00000100101"; -- STUR
+			when "00111000000" => return "00000100110"; -- STURB
+			when "01111000000" => return "00000100111"; -- STURH
+			when "10111000000" => return "00000101000"; -- STURW
+			when "11001000000" => return "00000101001"; -- STXR
+			when others => -- Do nothing here
+		end case;
+		
+		-- Cover the 10 bit opcodes:
+		case isa_opcode(10 downto 1) is
+			when "1001000100" => return "00000000010"; -- ADDI
+			when "1000101100" => return "00000000011"; -- ADDIS
+			when "1101000100" => return "00000000110"; -- SUBI
+			when "1111000100" => return "00000000111"; -- SUBIS
+			when "1001001000" => return "00000001111"; -- ANDI
+			when "1111001000" => return "00000010000"; -- ANDIS
+			when "1011001000" => return "00000010011"; -- ORRI
+			when "1101001000" => return "00000010101"; -- EORI
+			when others => -- Do nothing here
+		end case;
+		
+		-- Cover the 8 bit opcodes:
+		case isa_opcode(10 downto 3) is
+			when "01010100" => return "00000011011"; -- B.cond
+			when "10110101" => return "00000011110"; -- CBNZ
+			when "10110100" => return "00000011111"; -- CBZ
+			when others => -- Do nothing here
+		end case;
+		
+		-- Cover the 6 bit opcodes:
+		case isa_opcode(10 downto 5) is
+			when "000101" => return "00000011010"; -- B
+			when "100101" => return "00000011100"; -- BL
+			when others => -- Do nothing here
+		end case;
+		
+		-- Return NULL opcode:	
+		return (R_FMT_OPCODE_SZ-1 downto 0 => '0');
+	end;	
 	
 	-------- PROCEDURES --------
 	procedure schedule_jmp (
@@ -199,7 +269,7 @@ BEGIN
 				microunit_init <= '1';
 				-- Jump to segment before fetching control:
 				if microunit_running = '1' then
-					code_ip_tmp := seg_start(to_integer(unsigned(microcode_opcode)));
+					code_ip_tmp := seg_start(to_integer(unsigned(OPCODE_TO_MICROCODE_OPCODE(microcode_opcode))));
 					if code_ip_tmp /= (code_ip_tmp'range => 'U') then
 						code_ip <= code_ip_tmp;
 						-- Execute microinstruction:

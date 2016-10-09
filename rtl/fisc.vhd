@@ -4,7 +4,7 @@ USE work.FISC_DEFINES.all;
 
 ENTITY FISC IS
 	PORT(
-		clk : IN std_logic;
+		clk         : in std_logic;
 		restart_cpu : in std_logic
 	);
 END;
