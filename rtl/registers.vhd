@@ -7,6 +7,7 @@ USE work.FISC_DEFINES.all;
 
 ENTITY RegFile IS
 	PORT(
+		clk : in std_logic;
 		readreg1  : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
 		readreg2  : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
 		writereg  : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
@@ -24,8 +25,8 @@ BEGIN
 	outA <= regfile(to_integer(unsigned(readreg1)));
 	outB <= regfile(to_integer(unsigned(readreg2)));
 
-	process(regwr) begin
-		if regwr = '1' then
+	process(clk) begin
+		if clk'event and clk = '1' and regwr = '1' then
 			regfile(to_integer(unsigned(writereg))) <= writedata;
 		end if;
 	end process;

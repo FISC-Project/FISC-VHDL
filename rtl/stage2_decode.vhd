@@ -26,6 +26,7 @@ END Stage2_Decode;
 ARCHITECTURE RTL OF Stage2_Decode IS
 	COMPONENT RegFile
 		PORT(
+			clk : in std_logic;
 			readreg1  : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
 			readreg2  : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
 			writereg  : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
@@ -51,7 +52,7 @@ BEGIN
 	
 	-- Instantiate Register File:
 	RegFile1: RegFile 
-		PORT MAP(if_instruction(9 downto 5), tmp_readreg1, if_instruction(4 downto 0), writedata, outA_reg, outB_reg, regwrite);
+		PORT MAP(clk, if_instruction(9 downto 5), tmp_readreg1, if_instruction(4 downto 0), writedata, outA_reg, outB_reg, regwrite);
 	
 	-- Instantiate Hazard Unit:
 	-- TODO

@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE6E22) Path("C:/Users/Miguel/Dropbox/University Modules/Computer Systems Engineering - Year 3/Singleton MEng Year 3 Project/3-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/") File("top.sof") MfrSpec(OpMask(1));
+		Device PartName(EP4CE6E22) Path("C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/") File("top.sof") MfrSpec(OpMask(1));
 
 ChainEnd;
 
