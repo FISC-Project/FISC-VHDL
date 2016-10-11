@@ -37,27 +37,106 @@ ARCHITECTURE RTL OF Microcode IS
 		return std_logic_vector(to_unsigned(segment_ptr, MICROCODE_SEGMENT_MAXCOUNT_ENC+1));
 	end;
 	
-	-----------------------------------------------------------------------------------------------------------------------
+	--*****************************************************************************************************************--
 	-- IMPORTANT: Fill up microcode execute memory (which is segmented) here: (ARGS: control bits | is end of segment) --
+	-- Control Signal list (Producer/Consumer):
+	-- signext_src(3) (ID) |reg2loc (IF/ID (OPCODE)) | alusrc (ID/EX) | memtoreg (ID/WB) | regwrite (ID/WB) | memread (ID/MEM) | memwrite (ID/MEM) | ubranch (IF/ID (MCU)) | aluop(2) (ID/EX)
 	signal code : code_t := (
-		0 => microinstr("0000000000000000000000000000000", '1'), -- NULL INSTRUCTION
-		1 => microinstr("0000000000000000000000000000010", '1'), -- Instruction ADD
-		2 => microinstr("0000000000000000000000000000101", '1'), -- Instruction ADDI
-		-- END OF MICROCODE MEMORY --
+		0 =>  microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- NULL INSTRUCTION
+		1 =>  microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction ADD
+		2 =>  microinstr("XXXXXXXXXXXXXXXXXXX000010101010", '1'), -- Instruction ADDI
+		3 =>  microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction ADDIS
+		4 =>  microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction ADDS
+		5 =>  microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction SUB
+		6 =>  microinstr("XXXXXXXXXXXXXXXXXXX000010100010", '1'), -- Instruction SUBI
+		7 =>  microinstr("XXXXXXXXXXXXXXXXXXX000100100010", '1'), -- Instruction SUBIS
+		8 =>  microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction SUBS
+		9 =>  microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction MUL
+		10 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction SMULH
+		11 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction UMULH
+		12 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction SDIV
+		13 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction UDIV
+		14 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction AND
+		15 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction ANDI
+		16 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction ANDIS
+		17 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction ANDS
+		18 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction ORR
+		19 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction ORRI
+		20 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction EOR
+		21 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction EORI
+		22 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction LSL
+		23 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction LSR
+		24 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction MOVK
+		25 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction MOVZ
+		26 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction B
+		27 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction B.cond
+		28 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction BL
+		29 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction BR
+		30 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction CBNZ
+		31 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction CBZ
+		32 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction LDUR
+		33 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction LDURB
+		34 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction LDURH
+		35 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction LDURSW
+		36 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction LDXR
+		37 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction STUR
+		38 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction STURB
+		39 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction STURH
+		40 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction STURW
+		41 => microinstr("XXXXXXXXXXXXXXXXXXX000000000000", '1'), -- Instruction STXR
+		-- END OF MICROCODE MEMORY -
 		others => (others => '0')
 	);
-	-----------------------------------------------------------------------------------------------------------------------
-	---------------------------------------------
+	--*****************************************************************************************************************--
+	--*****************************************--
 	-- IMPORTANT: Fill up segment memory here: -- (NOTE: The index below IS the opcode that will be associated)
 	signal seg_start : seg_t := (
-		0 => create_segment(1), -- Opcode 0 runs microcode at address 1 (decimal)
-		1 => create_segment(2), -- Opcode 1 runs microcode at address 2 (decimal)
-		2 => create_segment(3), -- Opcode 2 runs microcode at address 3 (decimal)
-		3 => create_segment(2), -- Opcode 3 runs microcode at address 2 (decimal)
+		0  => create_segment(0),  -- Opcode 0  runs microcode at address 0  (decimal) (NULL)
+		1  => create_segment(1),  -- Opcode 1  runs microcode at address 1  (decimal) (ADD)
+		2  => create_segment(2),  -- Opcode 2  runs microcode at address 2  (decimal) (ADDI)
+		3  => create_segment(3),  -- Opcode 3  runs microcode at address 3  (decimal) (ADDIS)
+		4  => create_segment(4),  -- Opcode 4  runs microcode at address 4  (decimal) (ADDS)
+		5  => create_segment(5),  -- Opcode 5  runs microcode at address 5  (decimal) (SUB)
+		6  => create_segment(6),  -- Opcode 6  runs microcode at address 6  (decimal) (SUBI)
+		7  => create_segment(7),  -- Opcode 7  runs microcode at address 7  (decimal) (SUBIS)
+		8  => create_segment(8),  -- Opcode 8  runs microcode at address 8  (decimal) (SUBS)
+		9  => create_segment(9),  -- Opcode 9  runs microcode at address 9  (decimal) (MUL)
+		10 => create_segment(10), -- Opcode 10 runs microcode at address 10 (decimal) (SMULH)
+		11 => create_segment(11), -- Opcode 11 runs microcode at address 11 (decimal) (UMULH)
+		12 => create_segment(12), -- Opcode 12 runs microcode at address 12 (decimal) (SDIV)
+		13 => create_segment(13), -- Opcode 13 runs microcode at address 13 (decimal) (UDIV)
+		14 => create_segment(14), -- Opcode 14 runs microcode at address 14 (decimal) (AND)
+		15 => create_segment(15), -- Opcode 15 runs microcode at address 15 (decimal) (ANDI)
+		16 => create_segment(16), -- Opcode 16 runs microcode at address 16 (decimal) (ANDIS)
+		17 => create_segment(17), -- Opcode 17 runs microcode at address 17 (decimal) (ANDS)
+		18 => create_segment(18), -- Opcode 18 runs microcode at address 18 (decimal) (ORR)
+		19 => create_segment(19), -- Opcode 19 runs microcode at address 19 (decimal) (ORRI)
+		20 => create_segment(20), -- Opcode 20 runs microcode at address 20 (decimal) (EOR)
+		21 => create_segment(21), -- Opcode 21 runs microcode at address 21 (decimal) (EORI)
+		22 => create_segment(22), -- Opcode 22 runs microcode at address 22 (decimal) (LSL)
+		23 => create_segment(23), -- Opcode 23 runs microcode at address 23 (decimal) (LSR)
+		24 => create_segment(24), -- Opcode 24 runs microcode at address 24 (decimal) (MOVK)
+		25 => create_segment(25), -- Opcode 25 runs microcode at address 25 (decimal) (MOVZ)
+		26 => create_segment(26), -- Opcode 26 runs microcode at address 26 (decimal) (B)
+		27 => create_segment(27), -- Opcode 27 runs microcode at address 27 (decimal) (B.cond)
+		28 => create_segment(28), -- Opcode 28 runs microcode at address 28 (decimal) (BL)
+		29 => create_segment(29), -- Opcode 29 runs microcode at address 29 (decimal) (BR)
+		30 => create_segment(30), -- Opcode 30 runs microcode at address 30 (decimal) (CBNZ)
+		31 => create_segment(31), -- Opcode 31 runs microcode at address 31 (decimal) (CBZ)
+		32 => create_segment(32), -- Opcode 32 runs microcode at address 32 (decimal) (LDUR)
+		33 => create_segment(33), -- Opcode 33 runs microcode at address 33 (decimal) (LDURB)
+		34 => create_segment(34), -- Opcode 34 runs microcode at address 34 (decimal) (LDURH)
+		35 => create_segment(35), -- Opcode 35 runs microcode at address 35 (decimal) (LDURSW)
+		36 => create_segment(36), -- Opcode 36 runs microcode at address 36 (decimal) (LDXR)
+		37 => create_segment(37), -- Opcode 37 runs microcode at address 37 (decimal) (STUR)
+		38 => create_segment(38), -- Opcode 38 runs microcode at address 38 (decimal) (STURB)
+		39 => create_segment(39), -- Opcode 39 runs microcode at address 39 (decimal) (STURH)
+		40 => create_segment(40), -- Opcode 40 runs microcode at address 40 (decimal) (STURW)
+		41 => create_segment(41), -- Opcode 41 runs microcode at address 41 (decimal) (STXR)
 		-- END OF SEGMENT MEMORY --
 		others => (others => '0')
 	);
-	---------------------------------------------
+	--*****************************************--
 	
 	signal int_seg_start : seg_t := (others => (others => '0')); -- Since FISC will be simple, there will be no internal segments
 	
@@ -226,58 +305,17 @@ BEGIN
 	-- Assign output:
 	microcode_ctrl <= ctrl_reg;
 	
+	ctrl_reg <= code(to_integer(unsigned(seg_start(to_integer(unsigned(OPCODE_TO_MICROCODE_OPCODE(microcode_opcode)))))))(MICROCODE_CTRL_WIDTH downto 0);
+	
 	-------- SYSTEM PROCESSES --------
+	-- !!!!IMPORTANT TODO!!!!! : FIX THE DAMN MULTICYCLE INSTRUCTIONS, THIS TIME DON'T ASSIGN TO CTRL_REG ON EVERY POSITIVE CLOCK CYCLE
+	-- JUST INCREMENT/JUMP CODE_IP
 	process(clk)
 		variable code_ip_tmp : std_logic_vector(MICROCODE_CTRL_DEPTH_ENC downto 0) := (others => '0');
 	begin
 		if clk'event and clk = '1' then
-			-- Check for invalid/halt opcode:
-			check_microcode_running(microunit_running);
-			if microunit_running = '1' and code_ip /= (code_ip'range => '1') and sos = '0' and microunit_init = '1' then
-				-- Check flags first:
-				if flag_jmp = '1' then
-					if flag_jmp_addr /= (flag_jmp_addr'range => 'U') then
-						code_ip <= flag_jmp_addr;
-						flag_jmp <= '0';
-					end if;
-				else
-					-- Check if we reached End of Segment:
-					if eos = '1' then
-						-- We need to pop the stack:
-						pop_stack(flag_jmp_addr, flag_jmp, call_stack, stack_ptr);
-					else
-						if code_ip /= (code_ip'range => 'U') then
-							if code(to_integer(unsigned(code_ip)))(0) /= '1' then
-								-- Otherwise continue sequential execution:
-								code_ip <= code_ip + "1";
-							--else
-							--	code_ip <= (others => '1');
-							--	ctrl_reg(0) <= '1';
-							end if;
-						end if;
-					end if;
-				end if;
-				-- Execute microinstruction:
-				exec_microinstruction(code_ip, flag_jmp_addr, flag_jmp, call_stack, stack_ptr, ctrl_reg);
-			else
-				-- Microcode unit is frozen. Needs to be restarted
-			end if;
-			
-			if sos = '1' then
-				-- Check for invalid/halt opcode:
-				check_microcode_running(microunit_running);
-				microunit_init <= '1';
-				-- Jump to segment before fetching control:
-				if microunit_running = '1' then
-					code_ip_tmp := seg_start(to_integer(unsigned(OPCODE_TO_MICROCODE_OPCODE(microcode_opcode))));
-					if code_ip_tmp /= (code_ip_tmp'range => 'U') then
-						code_ip <= code_ip_tmp;
-						-- Execute microinstruction:
-						exec_microinstruction(code_ip, flag_jmp_addr, flag_jmp, call_stack, stack_ptr, ctrl_reg);
-					end if;
-				end if;
-			end if;
-		end if;
+
+		end if;		
 	end process;
 	----------------------------------
 END ARCHITECTURE RTL;

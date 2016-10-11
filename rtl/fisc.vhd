@@ -11,56 +11,65 @@ END;
 
 ARCHITECTURE RTL OF FISC IS
 	-----------------------------------------------
+	-- Microcode Control Bus (very important):
+	signal id_microcode_ctrl : std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
+	
 	---- Stage interconnect wires declaration: ----
 	-- Stage 1 - Fetch Interconnect wires --
 	signal if_new_pc             : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
-	signal if_reset_pc           : std_logic := '0';
-	signal if_branch_flag        : std_logic := '0';
-	signal if_uncond_branch_flag : std_logic := '0';
-	signal if_zero_flag          : std_logic := '0';
+	signal if_reset_pc           : std_logic := '0'; -- Control (*UNUSED*)
+	signal if_uncond_branch_flag : std_logic; -- Control (ID (MCU))
 	signal if_instruction        : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 	signal if_pc_out             : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
 	
 	-- Stage 2 - Decode Interconnect wires --
 	signal id_sos            : std_logic := '0';
-	signal id_microcode_ctrl : std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
-	signal id_writedata      : std_logic_vector(FISC_INTEGER_SZ-1    downto 0) := (others => '0');
-	signal id_reg2loc        : std_logic := '0';
-	signal id_regwrite       : std_logic := '0';
+	signal id_reg2loc        : std_logic; -- Control (ID (From Opcode))
+	signal id_regwrite       : std_logic; -- Control (WB)
 	signal id_outA           : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_outB           : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_sign_ext       : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal id_pc_src         : std_logic := '0'; -- It's a control but comes from the ID stage. It's produced by the flags: reg1_zero & branch
 	
 	-- Stage 3 - Execute Interconnect wires --
-	signal ex_aluop      : std_logic_vector(1  downto 0) := (others => '0');
+	signal ex_aluop      : std_logic_vector(1  downto 0); -- Control (EX)
 	signal ex_result     : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-	signal ex_add_uncond : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-	signal ex_alusrc     : std_logic := '0';
-	signal ex_zero       : std_logic := '0';
+	signal ex_alusrc     : std_logic; -- Control (EX)
+	signal ex_alu_zero   : std_logic := '0'; -- Unused (FOR NOW)
 	-----------------------------------------------
 	
 	-- Stage 4 - Memory Access Interconnect wires --
 	signal mem_data_out : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-	signal mem_memwrite : std_logic := '0';
-	signal mem_memread  : std_logic := '0';
+	signal mem_memwrite : std_logic; -- Control (MEM)
+	signal mem_memread  : std_logic; -- Control (MEM)
 	------------------------------------------------
 	
 	-- Stage 5 - Writeback Interconnect wires --
-	signal wb_memtoreg       : std_logic := '0';
+	signal wb_memtoreg       : std_logic; -- Control (WB)
 	signal wb_writeback_data : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	--------------------------------------------
 BEGIN
 	---- Microarchitecture Stages Declaration: ----
 	-- Stage 1: Fetch
-	Stage1_Fetch1   : Stage1_Fetch   PORT MAP(clk, if_new_pc, if_reset_pc,  id_microcode_ctrl(0), if_branch_flag, if_uncond_branch_flag, if_zero_flag, if_instruction, if_pc_out);
+	Stage1_Fetch1   : Stage1_Fetch   PORT MAP(clk, if_new_pc, if_reset_pc, id_microcode_ctrl(0), id_pc_src, if_uncond_branch_flag, if_instruction, if_pc_out);
 	-- Stage 2: Decode
-	Stage2_Decode1  : Stage2_Decode  PORT MAP(clk, id_sos, id_microcode_ctrl, if_instruction, id_writedata, id_reg2loc, id_regwrite, id_outA, id_outB, id_sign_ext);
+	Stage2_Decode1  : Stage2_Decode  PORT MAP(clk, id_sos, id_microcode_ctrl, if_instruction, wb_writeback_data, id_reg2loc, id_regwrite, id_outA, id_outB, if_pc_out, if_new_pc, id_sign_ext, id_pc_src);
 	-- Stage 3: Execute
-	Stage3_Execute1 : Stage3_Execute PORT MAP(clk, id_outA, id_outB, ex_result, ex_add_uncond, if_pc_out, id_sign_ext, ex_aluop, if_instruction(31 downto 21), ex_alusrc, ex_zero);
+	Stage3_Execute1 : Stage3_Execute PORT MAP(clk, id_outA, id_outB, ex_result, id_sign_ext, ex_aluop, if_instruction(31 downto 21), ex_alusrc, ex_alu_zero);
 	-- Stage 4: Memory Access
-	Stage4_Memory_Access1: Stage4_Memory_Access PORT MAP(clk, ex_result, id_outB, mem_data_out, mem_memwrite, mem_memread);
+	Stage4_Memory_Access1: Stage4_Memory_Access PORT MAP(ex_result, id_outB, mem_data_out, mem_memwrite, mem_memread);
 	-- Stage 3: Writeback
 	Stage5_Writeback1: Stage5_Writeback PORT MAP(clk, ex_result, mem_data_out, wb_memtoreg, wb_writeback_data);
+	
+	-- Control Assignments: --
+	if_uncond_branch_flag <= id_microcode_ctrl(3); -- Control (ID (MCU))
+	id_reg2loc            <= id_microcode_ctrl(9); -- Control (ID)
+	id_regwrite           <= id_microcode_ctrl(6); -- Control (WB)
+	ex_aluop              <= id_microcode_ctrl(2 downto 1); -- Control (EX)
+	ex_alusrc             <= id_microcode_ctrl(8); -- Control (EX)
+	mem_memwrite          <= id_microcode_ctrl(4); -- Control (MEM)
+	mem_memread           <= id_microcode_ctrl(5); -- Control (MEM)
+	wb_memtoreg           <= id_microcode_ctrl(7); -- Control (WB)
 	
 	--------------------------
 	------- Behaviour: -------

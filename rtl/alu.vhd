@@ -18,20 +18,14 @@ END;
 ARCHITECTURE RTL OF ALU IS
 	signal result_reg : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 BEGIN
-	process(clk) begin
-		if clk'event and clk = '1' then
-			case func is
-			when "0000" => result_reg <= opA and opB;
-			when "0001" => result_reg <= opA or opB;
-			when "0010" => result_reg <= opA + opB;
-			when "0110" => result_reg <= opA - opB;
-			when "0111" => result_reg <= opB;
-			when "1100" => result_reg <= not (opA or opB);
-			when others => result_reg <= result_reg;
-			end case;
-		end if;
-	end process;
-	
+	result_reg <= 
+		opA and opB WHEN func = "0000" ELSE -- AND
+		opA or opB  WHEN func = "0001" ELSE -- ORR
+		opA + opB   WHEN func = "0010" ELSE -- ADD
+		opA - opB   WHEN func = "0110" ELSE -- SUB
+		opB         WHEN func = "0111" ELSE -- pass operand B
+		not (opA or opB) WHEN func =  "1100"; -- NOR
+
 	result <= result_reg;
 	zero   <= '1' WHEN result_reg = (result_reg'range => '0') ELSE '0';
 END ARCHITECTURE RTL;

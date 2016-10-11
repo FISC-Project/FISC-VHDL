@@ -10,7 +10,6 @@ USE work.FISC_DEFINES.all;
 
 ENTITY Data_Memory IS
 	PORT(
-		clk      : in  std_logic;
 		address  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		data_in  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		data_out : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
@@ -59,8 +58,8 @@ BEGIN
 			memory(to_integer(unsigned(address+"011"))) & memory(to_integer(unsigned(address+"010"))) & memory(to_integer(unsigned(address+"001"))) & memory(to_integer(unsigned(address)))
 		WHEN memread = '1' ELSE (data_out'range => 'Z');
 	
-	process(clk) begin
-		if clk'event and clk = '1' then
+	process(memwrite) begin
+		if memwrite'event and memwrite = '1' then
 			memory(to_integer(unsigned(address+"111"))) <= data_in(63 downto 56);
 			memory(to_integer(unsigned(address+"110"))) <= data_in(55 downto 48);
 			memory(to_integer(unsigned(address+"101"))) <= data_in(47 downto 40);
@@ -83,7 +82,6 @@ USE work.FISC_DEFINES.all;
 
 ENTITY Stage4_Memory_Access IS
 	PORT(
-		clk      : in  std_logic;
 		address  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		data_in  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		data_out : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
@@ -95,7 +93,6 @@ END Stage4_Memory_Access;
 ARCHITECTURE RTL OF Stage4_Memory_Access IS
 	COMPONENT Data_Memory
 		PORT(
-			clk      : in  std_logic;
 			address  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			data_in  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			data_out : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
@@ -104,5 +101,5 @@ ARCHITECTURE RTL OF Stage4_Memory_Access IS
 		);
 	END COMPONENT;
 BEGIN
-	Data_Memory1: Data_Memory PORT MAP(clk, address, data_in, data_out, memwrite, memread);
+	Data_Memory1: Data_Memory PORT MAP(address, data_in, data_out, memwrite, memread);
 END ARCHITECTURE RTL;

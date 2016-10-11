@@ -41,9 +41,8 @@ ENTITY Stage1_Fetch IS
 		new_pc             : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		reset              : in  std_logic;
 		fsm_next           : in  std_logic;
-		branch_flag        : in  std_logic;
+		pc_src             : in  std_logic;
 		uncond_branch_flag : in  std_logic;
-		zero_flag          : in  std_logic;
 		if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 		pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0)
 	);
@@ -74,7 +73,7 @@ BEGIN
 	Program_Counter1:    Program_Counter    PORT MAP(clk, new_pc_reg, fsm_next, reset, pc_out_reg);
 	Instruction_Memory1: Instruction_Memory PORT MAP(pc_out_reg, instruction_reg);	
 
-	new_pc_reg <= new_pc WHEN ((branch_flag and zero_flag) or uncond_branch_flag) = '1' ELSE pc_out_reg + "100";
+	new_pc_reg <= new_pc WHEN (pc_src or uncond_branch_flag) = '1' ELSE pc_out_reg + "100";
 	pc_out     <= pc_out_reg; 
 	
 	process(clk) begin

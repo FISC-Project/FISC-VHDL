@@ -124,15 +124,14 @@ PACKAGE FISC_DEFINES IS
 	---------- MICROARCHITECTURE: STAGE 1 - FETCH DEFINES -----------
 	COMPONENT Stage1_Fetch IS
 		PORT(
-			clk                : in std_logic;
-			new_pc             : in std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			reset              : in std_logic;
-			fsm_next           : in std_logic := '0';
-			branch_flag        : in std_logic;
-			uncond_branch_flag : in std_logic;
-			zero_flag          : in std_logic;
-			if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1  downto 0);
-			pc_out   : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
+			clk                : in  std_logic;
+			new_pc             : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			reset              : in  std_logic;
+			fsm_next           : in  std_logic;
+			pc_src             : in  std_logic;
+			uncond_branch_flag : in  std_logic;
+			if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+			pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0)
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -140,16 +139,19 @@ PACKAGE FISC_DEFINES IS
 	---------- MICROARCHITECTURE: STAGE 2 - DECODE DEFINES ----------
 	COMPONENT Stage2_Decode IS
 		PORT(
-			clk            : in  std_logic;
-			sos            : in  std_logic;
-			microcode_ctrl : out std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
-			if_instruction : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
-			writedata      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			reg2loc        : in  std_logic;
-			regwrite       : in  std_logic;
-			outA           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			outB           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			sign_ext       : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
+			clk                : in  std_logic;
+			sos                : in  std_logic;
+			microcode_ctrl     : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
+			if_instruction     : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+			writedata          : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
+			reg2loc            : in  std_logic;
+			regwrite           : in  std_logic;
+			outA               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			outB               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			current_pc         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			new_pc             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+			sign_ext           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+			pc_src             : out std_logic
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -157,17 +159,15 @@ PACKAGE FISC_DEFINES IS
 	--------- MICROARCHITECTURE: STAGE 3 - EXECUTE DEFINES ----------
 	COMPONENT Stage3_Execute
 	PORT(
-		clk        : in  std_logic;
-		opA        : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		opB        : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		result     : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		add_uncond : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		pc         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		sign_ext   : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		aluop      : in  std_logic_vector(1  downto 0);
-		opcode     : in  std_logic_vector(10 downto 0);
-		alusrc     : in  std_logic;
-		zero       : out std_logic
+		clk       : in  std_logic;
+		opA       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		opB       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		result    : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		sign_ext  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		aluop     : in  std_logic_vector(1  downto 0);
+		opcode    : in  std_logic_vector(10 downto 0);
+		alusrc    : in  std_logic;
+		alu_zero  : out std_logic
 	);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -175,7 +175,6 @@ PACKAGE FISC_DEFINES IS
 	------ MICROARCHITECTURE: STAGE 4 - MEMORY ACCESS DEFINES -------
 	COMPONENT Stage4_Memory_Access
 		PORT(
-			clk      : in  std_logic;
 			address  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			data_in  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			data_out : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
