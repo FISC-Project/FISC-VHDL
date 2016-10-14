@@ -6,15 +6,16 @@ USE work.FISC_DEFINES.all;
 
 ENTITY ALU IS
 	PORT(
-		clk    : in  std_logic;
-		opA    : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		opB    : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		func   : in  std_logic_vector(3 downto 0);
-		result : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		neg    : out std_logic := '0'; 
-		zero   : out std_logic := '0';
-		overf  : out std_logic := '0';
-		carry  : out std_logic := '0'
+		clk         : in  std_logic;
+		opA         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		opB         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		func        : in  std_logic_vector(3 downto 0);
+		result      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		signed_flag : in  std_logic;
+		neg         : out std_logic := '0'; 
+		zero        : out std_logic := '0';
+		overf       : out std_logic := '0';
+		carry       : out std_logic := '0'
 	);
 END;
 
@@ -30,8 +31,8 @@ BEGIN
 	
 	result_reg <= result_reg_ext(FISC_INTEGER_SZ-1 downto 0);
 	
-	opA_ext <= opA(FISC_INTEGER_SZ-1) & opA;
-	opB_ext <= opB(FISC_INTEGER_SZ-1) & opB;
+	opA_ext <= opA(FISC_INTEGER_SZ-1) & opA WHEN signed_flag = '0' ELSE std_logic_vector(signed(opA(FISC_INTEGER_SZ-1) & opA));
+	opB_ext <= opB(FISC_INTEGER_SZ-1) & opB WHEN signed_flag = '0' ELSE std_logic_vector(signed(opB(FISC_INTEGER_SZ-1) & opB));
 	
 	result_reg_ext <= 
 		opA_ext and opB_ext WHEN func = "0000" ELSE -- AND
@@ -39,11 +40,12 @@ BEGIN
 		opA_ext xor opB_ext WHEN func = "0011" ELSE -- EOR
 		opA_ext + opB_ext   WHEN func = "0010" ELSE -- ADD
 		opA_ext - opB_ext   WHEN func = "0110" ELSE -- SUB
-		opB_ext WHEN func = "0111" ELSE -- pass operand B
+		(not opB_ext) + "1" WHEN func = "1000" ELSE -- NEG
+		not opB_ext         WHEN func = "1001" ELSE -- NOT
+		opB_ext             WHEN func = "0111";     -- pass operand B
 		--shift_calculate(opA, opB, '0') WHEN func = "0100" ELSE -- LSL
 		--shift_calculate(opA, opB, '1') WHEN func = "0101" ELSE -- LSR
-		not (opA_ext or opB_ext) WHEN func =  "1100"; -- NOR
-
+	
 	neg    <= '1' WHEN signed(result_reg) < 0 ELSE '0';
 	zero   <= '1' WHEN result_reg_ext(FISC_INTEGER_SZ-1 downto 0) = (FISC_INTEGER_SZ-1 downto 0 => '0') ELSE '0';
 	overf  <= '1' WHEN unsigned(result_reg) < 0 ELSE '0';

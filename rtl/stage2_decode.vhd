@@ -110,5 +110,5 @@ BEGIN
 		ELSE std_logic_vector(signed(sign_ext_reg(22 downto 0) & "00") + signed(current_pc)) WHEN uncond_branch_flag = '1' -- B and BL jump
 		ELSE std_logic_vector(signed(if_instruction(23 downto 5) & "00") + signed(current_pc)); -- CBNZ, CBZ and B.cond jump
 		
-	tmp_readreg1   <= if_instruction(4 downto 0) WHEN reg2loc = '1' ELSE if_instruction(20 downto 16);
+	tmp_readreg1   <= if_instruction(4 downto 0) WHEN reg2loc = '1' ELSE if_instruction(20 downto 16); -- Select either RD or RM fields for input readreg1
 END ARCHITECTURE RTL;

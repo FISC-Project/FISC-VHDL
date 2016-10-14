@@ -65,24 +65,24 @@ BEGIN
 		if clk'event and clk = '1' and memwrite = '1' then
 			case access_width is
 				when "11" => 
-					memory(to_integer(unsigned(address+"111"))) <= data_in(63 downto 56);
-					memory(to_integer(unsigned(address+"110"))) <= data_in(55 downto 48);
-					memory(to_integer(unsigned(address+"101"))) <= data_in(47 downto 40);
-					memory(to_integer(unsigned(address+"100"))) <= data_in(39 downto 32);
-					memory(to_integer(unsigned(address+"011"))) <= data_in(31 downto 24);
-					memory(to_integer(unsigned(address+"010"))) <= data_in(23 downto 16);
-					memory(to_integer(unsigned(address+"001"))) <= data_in(15 downto 8);
-					memory(to_integer(unsigned(address)))       <= data_in(7  downto 0);
+					memory(to_integer(unsigned(address)))       <= data_in(63 downto 56);
+					memory(to_integer(unsigned(address+"001"))) <= data_in(55 downto 48);
+					memory(to_integer(unsigned(address+"010"))) <= data_in(47 downto 40);
+					memory(to_integer(unsigned(address+"011"))) <= data_in(39 downto 32);
+					memory(to_integer(unsigned(address+"100"))) <= data_in(31 downto 24);
+					memory(to_integer(unsigned(address+"101"))) <= data_in(23 downto 16);
+					memory(to_integer(unsigned(address+"110"))) <= data_in(15 downto 8);
+					memory(to_integer(unsigned(address+"111"))) <= data_in(7  downto 0);
 				when "00" =>
 					memory(to_integer(unsigned(address)))       <= data_in(7  downto 0);
 				when "01" =>
-					memory(to_integer(unsigned(address+"001"))) <= data_in(15 downto 8);
-					memory(to_integer(unsigned(address)))       <= data_in(7  downto 0);
+					memory(to_integer(unsigned(address)))       <= data_in(15 downto 8);
+					memory(to_integer(unsigned(address+"001"))) <= data_in(7  downto 0);
 				when "10" =>
-					memory(to_integer(unsigned(address+"011"))) <= data_in(31 downto 24);
-					memory(to_integer(unsigned(address+"010"))) <= data_in(23 downto 16);
-					memory(to_integer(unsigned(address+"001"))) <= data_in(15 downto 8);
-					memory(to_integer(unsigned(address)))       <= data_in(7  downto 0);
+					memory(to_integer(unsigned(address)))       <= data_in(31 downto 24);
+					memory(to_integer(unsigned(address+"001"))) <= data_in(23 downto 16);
+					memory(to_integer(unsigned(address+"010"))) <= data_in(15 downto 8);
+					memory(to_integer(unsigned(address+"011"))) <= data_in(7  downto 0);
 				when others =>
 			end case;
 		end if;

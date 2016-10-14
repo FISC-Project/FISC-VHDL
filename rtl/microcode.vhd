@@ -74,16 +74,21 @@ ARCHITECTURE RTL OF Microcode IS
 		29 => microinstr("------------------0000100000100", '1'), -- Instruction BR
 		30 => microinstr("------------------0100100000000", '1'), -- Instruction CBNZ
 		31 => microinstr("------------------0100100000000", '1'), -- Instruction CBZ
-		32 => microinstr("------------------0010011110000", '1'), -- Instruction LDUR
-		33 => microinstr("------------------0010011110000", '1'), -- Instruction LDURB
-		34 => microinstr("------------------0010011110000", '1'), -- Instruction LDURH
-		35 => microinstr("------------------0010011110000", '1'), -- Instruction LDURSW
-		36 => microinstr("------------------0010011110000", '1'), -- Instruction LDXR -- TODO ATOMIC
-		37 => microinstr("------------------0010010001000", '1'), -- Instruction STUR
-		38 => microinstr("------------------0010010001000", '1'), -- Instruction STURB
-		39 => microinstr("------------------0010010001000", '1'), -- Instruction STURH
-		40 => microinstr("------------------0010010001000", '1'), -- Instruction STURW
-		41 => microinstr("------------------0010010001000", '1'), -- Instruction STXR -- TODO ATOMIC
+		32 => microinstr("------------------0010111110000", '1'), -- Instruction LDUR
+		33 => microinstr("------------------0010111110000", '1'), -- Instruction LDURB
+		34 => microinstr("------------------0010111110000", '1'), -- Instruction LDURH
+		35 => microinstr("------------------0010111110000", '1'), -- Instruction LDURSW
+		36 => microinstr("------------------0010111110000", '1'), -- Instruction LDXR -- TODO ATOMIC
+		37 => microinstr("------------------0010110001000", '1'), -- Instruction STUR
+		38 => microinstr("------------------0010110001000", '1'), -- Instruction STURB
+		39 => microinstr("------------------0010110001000", '1'), -- Instruction STURH
+		40 => microinstr("------------------0010110001000", '1'), -- Instruction STURW
+		41 => microinstr("------------------0010110001000", '1'), -- Instruction STXR -- TODO ATOMIC
+		-- Newly added instructions that do not belong to LEGv8:
+		42 => microinstr("------------------0000100100010", '1'), -- Instruction NEG
+		43 => microinstr("------------------0000100100010", '1'), -- Instruction NOT
+		44 => microinstr("------------------0000010100010", '1'), -- Instruction NEGI
+		45 => microinstr("------------------0000010100010", '1'), -- Instruction NOTI
 		-- END OF MICROCODE MEMORY -
 		others => (others => '0')
 	);
@@ -133,6 +138,11 @@ ARCHITECTURE RTL OF Microcode IS
 		39 => create_segment(39), -- Opcode 39 runs microcode at address 39 (decimal) (STURH)
 		40 => create_segment(40), -- Opcode 40 runs microcode at address 40 (decimal) (STURW)
 		41 => create_segment(41), -- Opcode 41 runs microcode at address 41 (decimal) (STXR)
+		-- Newly added instructions that do not belong to LEGv8:
+		42 => create_segment(42), -- Opcode 42 runs microcode at address 42 (decimal) (NEG)
+		43 => create_segment(43), -- Opcode 43 runs microcode at address 43 (decimal) (NOT)
+		44 => create_segment(44), -- Opcode 44 runs microcode at address 44 (decimal) (NEGI)
+		45 => create_segment(45), -- Opcode 45 runs microcode at address 45 (decimal) (NOTI)
 		-- END OF SEGMENT MEMORY --
 		others => (others => '0')
 	);
@@ -200,6 +210,9 @@ ARCHITECTURE RTL OF Microcode IS
 			when "01111000000" => return "00000100111"; -- STURH
 			when "10111000000" => return "00000101000"; -- STURW
 			when "11001000000" => return "00000101001"; -- STXR
+			-- Newly added instructions that do not belong to LEGv8:
+			when "11101101000" => return "00000101010"; -- NEG
+			when "11101101001" => return "00000101011"; -- NOT
 			when others => -- Do nothing here
 		end case;
 		
@@ -213,6 +226,9 @@ ARCHITECTURE RTL OF Microcode IS
 			when "1111001000" => return "00000010000"; -- ANDIS
 			when "1011001000" => return "00000010011"; -- ORRI
 			when "1101001000" => return "00000010101"; -- EORI
+			-- Newly added instructions that do not belong to LEGv8:
+			when "0111000100" => return "00000101100"; -- NEGI
+			when "0101000100" => return "00000101101"; -- NOTI
 			when others => -- Do nothing here
 		end case;
 		
@@ -221,6 +237,7 @@ ARCHITECTURE RTL OF Microcode IS
 			when "01010100" => return "00000011011"; -- B.cond
 			when "10110101" => return "00000011110"; -- CBNZ
 			when "10110100" => return "00000011111"; -- CBZ
+			-- Newly added instructions that do not belong to LEGv8:
 			when others => -- Do nothing here
 		end case;
 		
@@ -228,6 +245,7 @@ ARCHITECTURE RTL OF Microcode IS
 		case isa_opcode(10 downto 5) is
 			when "000101" => return "00000011010"; -- B
 			when "100101" => return "00000011100"; -- BL
+			-- Newly added instructions that do not belong to LEGv8:
 			when others => -- Do nothing here
 		end case;
 		

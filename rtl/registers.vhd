@@ -25,7 +25,7 @@ ARCHITECTURE RTL OF RegFile IS
 	type regfile_t is array (0 to FISC_REGISTER_COUNT-1) of std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal regfile : regfile_t := (others => (others => '0'));
 BEGIN
-	outA <= (outA'range => '0') WHEN readreg1 = "11111" ELSE regfile(to_integer(unsigned(readreg1)));
+	outA <= (outA'range => '0') WHEN (readreg1 = "11111" or opcode(10 downto 2) = "111100101" or opcode(10 downto 2) = "110100101") ELSE regfile(to_integer(unsigned(readreg1)));
 	outB <= (outB'range => '0') WHEN readreg2 = "11111" ELSE regfile(to_integer(unsigned(readreg2)));
 
 	process(clk) begin

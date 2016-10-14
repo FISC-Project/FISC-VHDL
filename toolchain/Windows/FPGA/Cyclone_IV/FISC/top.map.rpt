@@ -1,5 +1,5 @@
 Analysis & Synthesis report for top
-Fri Oct 14 04:22:32 2016
+Fri Oct 14 23:05:16 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -14,12 +14,11 @@ Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
   6. Analysis & Synthesis Resource Usage Summary
   7. Analysis & Synthesis Resource Utilization by Entity
   8. General Register Statistics
-  9. Port Connectivity Checks: "FISC:FISC1|Stage3_Execute:Stage3_Execute1|ALU:ALU1"
- 10. Port Connectivity Checks: "FISC:FISC1|Stage2_Decode:Stage2_Decode1"
- 11. Port Connectivity Checks: "FISC:FISC1|Stage1_Fetch:Stage1_Fetch1"
- 12. Post-Synthesis Netlist Statistics for Top Partition
- 13. Elapsed Time Per Partition
- 14. Analysis & Synthesis Messages
+  9. Port Connectivity Checks: "FISC:FISC1|Stage2_Decode:Stage2_Decode1"
+ 10. Port Connectivity Checks: "FISC:FISC1|Stage1_Fetch:Stage1_Fetch1"
+ 11. Post-Synthesis Netlist Statistics for Top Partition
+ 12. Elapsed Time Per Partition
+ 13. Analysis & Synthesis Messages
 
 
 
@@ -46,7 +45,7 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Fri Oct 14 04:22:32 2016       ;
+; Analysis & Synthesis Status        ; Successful - Fri Oct 14 23:05:16 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
 ; Top-level Entity Name              ; top_synth                                   ;
@@ -238,15 +237,6 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------------------------------------+-------+
 
 
-+--------------------------------------------------------------------------------+
-; Port Connectivity Checks: "FISC:FISC1|Stage3_Execute:Stage3_Execute1|ALU:ALU1" ;
-+---------+-------+----------+---------------------------------------------------+
-; Port    ; Type  ; Severity ; Details                                           ;
-+---------+-------+----------+---------------------------------------------------+
-; func[3] ; Input ; Info     ; Stuck at GND                                      ;
-+---------+-------+----------+---------------------------------------------------+
-
-
 +----------------------------------------------------------------------------------------------------------------------------------+
 ; Port Connectivity Checks: "FISC:FISC1|Stage2_Decode:Stage2_Decode1"                                                              ;
 +------------------------+--------+----------+-------------------------------------------------------------------------------------+
@@ -293,7 +283,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Fri Oct 14 04:21:47 2016
+    Info: Processing started: Fri Oct 14 23:04:25 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FISC -c top
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university_modules/computer_systems_engineering_-_year_3/singleton_meng_year_3_project/3-development/fisc/rtl/flags.vhd
@@ -311,7 +301,7 @@ Info (12021): Found 2 design units, including 1 entities, in source file /users/
     Info (12022): Found design unit 1: Stage3_Execute-RTL File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage3_execute.vhd Line: 25
     Info (12023): Found entity 1: Stage3_Execute File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage3_execute.vhd Line: 8
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university_modules/computer_systems_engineering_-_year_3/singleton_meng_year_3_project/3-development/fisc/rtl/alu.vhd
-    Info (12022): Found design unit 1: ALU-RTL File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 21
+    Info (12022): Found design unit 1: ALU-RTL File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 22
     Info (12023): Found entity 1: ALU File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 7
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university_modules/computer_systems_engineering_-_year_3/singleton_meng_year_3_project/3-development/fisc/rtl/registers.vhd
     Info (12022): Found design unit 1: RegFile-RTL File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/registers.vhd Line: 24
@@ -416,76 +406,76 @@ Info (10041): Inferred latch for "sign_ext_reg[62]" at stage2_decode.vhd(101) Fi
 Info (10041): Inferred latch for "sign_ext_reg[63]" at stage2_decode.vhd(101) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 101
 Info (10041): Inferred latch for "pc_src" at stage2_decode.vhd(76) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 76
 Info (12128): Elaborating entity "Microcode" for hierarchy "FISC:FISC1|Stage2_Decode:Stage2_Decode1|Microcode:Microcode1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 60
-Warning (10036): Verilog HDL or VHDL warning at microcode.vhd(148): object "eos" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/microcode.vhd Line: 148
+Warning (10036): Verilog HDL or VHDL warning at microcode.vhd(158): object "eos" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/microcode.vhd Line: 158
 Info (12128): Elaborating entity "RegFile" for hierarchy "FISC:FISC1|Stage2_Decode:Stage2_Decode1|RegFile:RegFile1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage2_decode.vhd Line: 64
 Warning (10492): VHDL Process Statement warning at registers.vhd(32): signal "regwr" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/registers.vhd Line: 32
 Info (12128): Elaborating entity "Stage3_Execute" for hierarchy "FISC:FISC1|Stage3_Execute:Stage3_Execute1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/fisc.vhd Line: 69
-Info (12128): Elaborating entity "ALU" for hierarchy "FISC:FISC1|Stage3_Execute:Stage3_Execute1|ALU:ALU1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage3_execute.vhd Line: 44
-Info (10041): Inferred latch for "result_reg_ext[0]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[1]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[2]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[3]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[4]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[5]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[6]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[7]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[8]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[9]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[10]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[11]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[12]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[13]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[14]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[15]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[16]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[17]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[18]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[19]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[20]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[21]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[22]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[23]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[24]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[25]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[26]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[27]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[28]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[29]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[30]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[31]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[32]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[33]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[34]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[35]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[36]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[37]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[38]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[39]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[40]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[41]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[42]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[43]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[44]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[45]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[46]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[47]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[48]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[49]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[50]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[51]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[52]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[53]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[54]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[55]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[56]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[57]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[58]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[59]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[60]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[61]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[62]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[63]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
-Info (10041): Inferred latch for "result_reg_ext[64]" at alu.vhd(36) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 36
+Info (12128): Elaborating entity "ALU" for hierarchy "FISC:FISC1|Stage3_Execute:Stage3_Execute1|ALU:ALU1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage3_execute.vhd Line: 45
+Info (10041): Inferred latch for "result_reg_ext[0]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[1]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[2]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[3]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[4]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[5]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[6]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[7]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[8]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[9]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[10]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[11]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[12]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[13]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[14]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[15]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[16]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[17]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[18]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[19]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[20]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[21]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[22]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[23]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[24]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[25]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[26]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[27]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[28]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[29]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[30]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[31]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[32]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[33]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[34]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[35]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[36]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[37]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[38]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[39]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[40]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[41]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[42]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[43]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[44]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[45]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[46]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[47]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[48]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[49]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[50]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[51]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[52]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[53]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[54]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[55]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[56]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[57]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[58]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[59]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[60]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[61]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[62]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[63]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
+Info (10041): Inferred latch for "result_reg_ext[64]" at alu.vhd(37) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 37
 Info (12128): Elaborating entity "Stage4_Memory_Access" for hierarchy "FISC:FISC1|Stage4_Memory_Access:Stage4_Memory_Access1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/fisc.vhd Line: 71
 Info (12128): Elaborating entity "Data_Memory" for hierarchy "FISC:FISC1|Stage4_Memory_Access:Stage4_Memory_Access1|Data_Memory:Data_Memory1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage4_memory_access.vhd Line: 125
 Warning (10492): VHDL Process Statement warning at stage4_memory_access.vhd(65): signal "memwrite" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage4_memory_access.vhd Line: 65
@@ -501,9 +491,9 @@ Info (21057): Implemented 2 device resources after synthesis - the final resourc
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 0 output pins
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 13 warnings
-    Info: Peak virtual memory: 942 megabytes
-    Info: Processing ended: Fri Oct 14 04:22:32 2016
-    Info: Elapsed time: 00:00:45
-    Info: Total CPU time (on all processors): 00:01:09
+    Info: Peak virtual memory: 940 megabytes
+    Info: Processing ended: Fri Oct 14 23:05:16 2016
+    Info: Elapsed time: 00:00:51
+    Info: Total CPU time (on all processors): 00:01:18
 
 

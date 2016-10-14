@@ -1,5 +1,5 @@
 Fitter report for top
-Fri Oct 14 04:22:45 2016
+Fri Oct 14 23:05:29 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -58,7 +58,7 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Fitter Summary                                                                   ;
 +------------------------------------+---------------------------------------------+
-; Fitter Status                      ; Successful - Fri Oct 14 04:22:45 2016       ;
+; Fitter Status                      ; Successful - Fri Oct 14 23:05:29 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
 ; Top-level Entity Name              ; top_synth                                   ;
@@ -901,12 +901,12 @@ Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
 Info (334003): Started post-fitting delay annotation
 Info (334004): Delay annotation completed successfully
-Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:01
+Info (11218): Fitter post-fit operations ending: elapsed time is 00:00:02
 Warning (171167): Found invalid Fitter assignments. See the Ignored Assignments panel in the Fitter Compilation Report for more information.
 Info (144001): Generated suppressed messages file C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/top.fit.smsg
 Info: Quartus Prime Fitter was successful. 0 errors, 99 warnings
-    Info: Peak virtual memory: 1086 megabytes
-    Info: Processing ended: Fri Oct 14 04:22:46 2016
+    Info: Peak virtual memory: 1088 megabytes
+    Info: Processing ended: Fri Oct 14 23:05:30 2016
     Info: Elapsed time: 00:00:12
     Info: Total CPU time (on all processors): 00:00:09
 
