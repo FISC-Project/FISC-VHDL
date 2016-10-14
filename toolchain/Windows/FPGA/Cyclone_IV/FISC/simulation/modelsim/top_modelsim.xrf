@@ -1,4 +1,5 @@
 vendor_name = ModelSim
+source_file = 1, C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/flags.vhd
 source_file = 1, C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage5_writeback.vhd
 source_file = 1, C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage4_memory_access.vhd
 source_file = 1, C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage3_execute.vhd

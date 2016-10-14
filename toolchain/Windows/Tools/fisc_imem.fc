@@ -1,36 +1,6 @@
-ADD X0, X0, X0;
-ADDI X10, X10, #8;
-ADDI X10, X10, #8;
-ADDI X0, X10, #0;
-ADDI X0, X0, #1;
-ADDI X1, X0, #0;
-LDA X2, X3, #100;
-MOV X3,X0;
-MOV X3,X0;
-B #10;
-CBNZ X7, #1048575
-MOVK X9, #255, LSL #16
-LDUR X20, [X3, #1];
-SUBI X0, X2, #10;
-adds X0, X2, X3;
-loop:
-LDUR X10, [X20, #0]
-	LDXR X10, [X20, #0];
-	STXR X23, X9, [X20];
-	CBNZ X9, L2;
-	ADD X23, XZR, X10;
-strcpy:
-	SUBI SP, SP, #8;
-	STUR X19, [SP, #0];
-	ADD X19, XZR, XZR;
-L1: 
-	ADD X10, X19, X1
-	LDURB X11, [X10, #0] // Semicolons can be optional
-	ADD X12, X19, X0;
-	STURB X12, [X12, L2]; CBZ X11, L2; // We could have 2 instructions in 1 line, the last one doesn't need ';'
-	BR SP
-	BR XZR;
-	MOVK X9, #255, LSL #16
-L2:
-
-// We could also have multiline comments
+ADDI X0, XZR, 10; // Move decimal 10 to register X0
+ADDI X0, X0, 1; // Increment X0 by 1
+SUBI X0, X0, 10;
+CMP X0, X0;
+MOV X1, X0;
+MOV X1, X0;

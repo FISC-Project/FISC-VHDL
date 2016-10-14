@@ -23,8 +23,7 @@ ARCHITECTURE RTL OF Instruction_Memory IS
 		variable current_line : line;
 		variable tmp_byte     : std_logic_vector(7 downto 0);
   		variable ret          : mem_t   := (others => (others => '0'));
-  		variable skip         : integer := 0;
-	begin
+  	begin
 		file_open (file_handle, filename, READ_MODE);
 		for i in mem_t'range loop
 			if not ENDFILE(file_handle) then

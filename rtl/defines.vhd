@@ -121,6 +121,23 @@ PACKAGE FISC_DEFINES IS
 	END COMPONENT;
 	---------------------------------------
 	
+	---------- FLAGS/CONDITION CODES DEFINES ----------
+	COMPONENT Flags
+		PORT(
+			clk            : in std_logic;
+			flag_wr        : in std_logic;
+			neg_flag_in    : in std_logic;
+			zero_flag_in   : in std_logic;
+			overf_flag_in  : in std_logic;
+			carry_flag_in  : in std_logic;
+			neg_flag_out   : out std_logic := '0';
+			zero_flag_out  : out std_logic := '0';
+			overf_flag_out : out std_logic := '0';
+			carry_flag_out : out std_logic := '0'
+		);
+	END COMPONENT;
+	---------------------------------------------------
+	
 	---------- MICROARCHITECTURE: STAGE 1 - FETCH DEFINES -----------
 	COMPONENT Stage1_Fetch IS
 		PORT(
@@ -151,7 +168,12 @@ PACKAGE FISC_DEFINES IS
 			current_pc         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			new_pc             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 			sign_ext           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
-			pc_src             : out std_logic
+			pc_src             : out std_logic;
+			uncond_branch_flag : in  std_logic;
+			flag_neg           : in  std_logic; -- Condition code
+			flag_zero          : in  std_logic; -- Condition code
+			flag_overf         : in  std_logic; -- Condition code
+			flag_carry         : in  std_logic  -- Condition code
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -167,7 +189,10 @@ PACKAGE FISC_DEFINES IS
 		aluop     : in  std_logic_vector(1  downto 0);
 		opcode    : in  std_logic_vector(10 downto 0);
 		alusrc    : in  std_logic;
-		alu_zero  : out std_logic
+		alu_neg   : out std_logic;
+		alu_zero  : out std_logic;
+		alu_overf : out std_logic;
+		alu_carry : out std_logic
 	);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -175,11 +200,13 @@ PACKAGE FISC_DEFINES IS
 	------ MICROARCHITECTURE: STAGE 4 - MEMORY ACCESS DEFINES -------
 	COMPONENT Stage4_Memory_Access
 		PORT(
-			address  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			data_in  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			data_out : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			memwrite : in  std_logic;
-			memread  : in  std_logic
+			clk          : in  std_logic;
+			address      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			data_in      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			data_out     : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			memwrite     : in  std_logic;
+			memread      : in  std_logic;
+			access_width : in  std_logic_vector(1 downto 0)
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------
