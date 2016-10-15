@@ -1,5 +1,5 @@
 Analysis & Synthesis report for top
-Sat Oct 15 17:14:05 2016
+Sat Oct 15 18:44:12 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -45,7 +45,7 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sat Oct 15 17:14:05 2016       ;
+; Analysis & Synthesis Status        ; Successful - Sat Oct 15 18:44:12 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
 ; Top-level Entity Name              ; top_synth                                   ;
@@ -283,7 +283,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Sat Oct 15 17:13:29 2016
+    Info: Processing started: Sat Oct 15 18:43:38 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FISC -c top
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university_modules/computer_systems_engineering_-_year_3/singleton_meng_year_3_project/3-development/fisc/rtl/flags.vhd
@@ -411,9 +411,6 @@ Info (12128): Elaborating entity "RegFile" for hierarchy "FISC:FISC1|Stage2_Deco
 Warning (10492): VHDL Process Statement warning at registers.vhd(32): signal "regwr" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/registers.vhd Line: 32
 Info (12128): Elaborating entity "Stage3_Execute" for hierarchy "FISC:FISC1|Stage3_Execute:Stage3_Execute1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/fisc.vhd Line: 69
 Info (12128): Elaborating entity "ALU" for hierarchy "FISC:FISC1|Stage3_Execute:Stage3_Execute1|ALU:ALU1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/stage3_execute.vhd Line: 45
-Warning (10540): VHDL Signal Declaration warning at alu.vhd(28): used explicit default value for signal "a" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 28
-Warning (10540): VHDL Signal Declaration warning at alu.vhd(29): used explicit default value for signal "b" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 29
-Warning (10036): Verilog HDL or VHDL warning at alu.vhd(30): object "c" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 30
 Info (10041): Inferred latch for "result_reg_ext[0]" at alu.vhd(43) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 43
 Info (10041): Inferred latch for "result_reg_ext[1]" at alu.vhd(43) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 43
 Info (10041): Inferred latch for "result_reg_ext[2]" at alu.vhd(43) File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/3-Development/FISC/rtl/alu.vhd Line: 43
@@ -493,10 +490,10 @@ Warning (21074): Design contains 2 input pin(s) that do not drive logic
 Info (21057): Implemented 2 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 0 output pins
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 16 warnings
-    Info: Peak virtual memory: 898 megabytes
-    Info: Processing ended: Sat Oct 15 17:14:05 2016
-    Info: Elapsed time: 00:00:36
-    Info: Total CPU time (on all processors): 00:01:04
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 13 warnings
+    Info: Peak virtual memory: 901 megabytes
+    Info: Processing ended: Sat Oct 15 18:44:12 2016
+    Info: Elapsed time: 00:00:34
+    Info: Total CPU time (on all processors): 00:01:07
 
 

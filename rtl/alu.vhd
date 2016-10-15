@@ -25,12 +25,11 @@ ARCHITECTURE RTL OF ALU IS
 	signal opA_ext : std_logic_vector(FISC_INTEGER_SZ downto 0)          := (others => '0');
 	signal opB_ext : std_logic_vector(FISC_INTEGER_SZ downto 0)          := (others => '0');
 	-- These signals are used for division calculation:
-	signal lsr_exp_operand : integer;
-	signal opB_exponent    : integer;
+	signal lsr_exp_operand  : integer;
+	signal opB_exponent     : integer;
 	signal sdivisor_operand : integer;
 	signal udivisor_operand : integer;
 BEGIN
-	opB_exponent <= 2**to_integer(unsigned(opB_ext));
 	lsr_exp_operand  <= to_integer(unsigned(opA_ext)) / opB_exponent WHEN opB_exponent > 0 ELSE 0; -- TODO RAISE EXCEPTION ON ELSE
 	sdivisor_operand <= to_integer(signed(opB_ext)) WHEN signed(opB_ext) > 0 ELSE 1;               -- TODO RAISE EXCEPTION ON ELSE
 	udivisor_operand <= to_integer(unsigned(opB_ext)) WHEN signed(opB_ext) > 0 ELSE 1;             -- TODO RAISE EXCEPTION ON ELSE
@@ -71,6 +70,7 @@ BEGIN
 	      end if;
 	   else
 	      result <= result_reg_ext(FISC_INTEGER_SZ-1 downto 0);
+	      opB_exponent <= 2**to_integer(unsigned(opB_ext));
 	   end if;
 	end process;
 END ARCHITECTURE RTL;
