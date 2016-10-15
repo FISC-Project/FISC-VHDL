@@ -55,9 +55,13 @@ BEGIN
 	              "0000" WHEN (aluop(1) = '1' AND (opcode = "10001010000" or opcode(10 downto 1) = "1001001000" or opcode(10 downto 1) = "1111001000" or opcode = "11101010000")) ELSE -- AND
 	              "0001" WHEN (aluop(1) = '1' AND (opcode = "10101010000" or opcode(10 downto 1) = "1011001000")) ELSE -- ORR
 	              "0011" WHEN (aluop(1) = '1' AND (opcode = "11001010000" or opcode(10 downto 1) = "1101001000")) ELSE -- EOR
-	              "0100" WHEN (aluop(1) = '1' AND (opcode = "11010011011")) ELSE -- LSL
-	              "0101" WHEN (aluop(1) = '1' AND (opcode = "11010011010")) ELSE -- LSR
 	              "1000" WHEN (aluop(1) = '1' AND (opcode = "11101101000" or opcode(10 downto 1) = "0111000100")) ELSE -- NEG
-	              "1001" WHEN (aluop(1) = '1' AND (opcode = "11101101001" or opcode(10 downto 1) = "0101000100"))      -- NOT
-	              ELSE (others => 'X');
+	              "1001" WHEN (aluop(1) = '1' AND (opcode = "11101101001" or opcode(10 downto 1) = "0101000100")) ELSE -- NOT
+	              "1010" WHEN (aluop(1) = '1' AND (opcode = "10011011000" or opcode = "10011011010")) ELSE -- MUL and SMULH
+	              "1011" WHEN (aluop(1) = '1' AND (opcode = "10011011110")) ELSE -- UMULH
+	              "1100" WHEN (aluop(1) = '1' AND (opcode = "10011010110")) ELSE -- SDIV
+	              "1101" WHEN (aluop(1) = '1' AND (opcode = "10011010111")) ELSE -- UDIV
+	              "1110" WHEN (aluop(1) = '1' AND (opcode = "11010011011")) ELSE -- LSL
+	              "1111" WHEN (aluop(1) = '1' AND (opcode = "11010011010")) ELSE -- LSR
+	              (others => 'X');
 END ARCHITECTURE RTL;

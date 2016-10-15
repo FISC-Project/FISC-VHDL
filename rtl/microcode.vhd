@@ -51,11 +51,11 @@ ARCHITECTURE RTL OF Microcode IS
 		6 =>  microinstr("------------------0000010100010", '1'), -- Instruction SUBI
 		7 =>  microinstr("------------------1000010100010", '1'), -- Instruction SUBIS
 		8 =>  microinstr("------------------1000000100010", '1'), -- Instruction SUBS
-		9 =>  microinstr("------------------0000000000000", '1'), -- Instruction MUL   -- TODO
-		10 => microinstr("------------------0000000000000", '1'), -- Instruction SMULH -- TODO
-		11 => microinstr("------------------0000000000000", '1'), -- Instruction UMULH -- TODO
-		12 => microinstr("------------------0000000000000", '1'), -- Instruction SDIV  -- TODO
-		13 => microinstr("------------------0000000000000", '1'), -- Instruction UDIV  -- TODO
+		9 =>  microinstr("------------------0001000100010", '1'), -- Instruction MUL
+		10 => microinstr("------------------0001000100010", '1'), -- Instruction SMULH -- UNIMPLEMENTED (REASON: NEEDS 128 BIT REGISTER FROM FPU)
+		11 => microinstr("------------------0001000100010", '1'), -- Instruction UMULH -- UNIMPLEMENTED (REASON: NEEDS 128 BIT REGISTER FROM FPU)
+		12 => microinstr("------------------0001000100010", '1'), -- Instruction SDIV
+		13 => microinstr("------------------0001000100010", '1'), -- Instruction UDIV
 		14 => microinstr("------------------0000000100010", '1'), -- Instruction AND
 		15 => microinstr("------------------0000010100010", '1'), -- Instruction ANDI
 		16 => microinstr("------------------1000010100010", '1'), -- Instruction ANDIS
@@ -64,8 +64,8 @@ ARCHITECTURE RTL OF Microcode IS
 		19 => microinstr("------------------0000010100010", '1'), -- Instruction ORRI
 		20 => microinstr("------------------0000000100010", '1'), -- Instruction EOR
 		21 => microinstr("------------------0000010100010", '1'), -- Instruction EORI
-		22 => microinstr("------------------0001010100010", '1'), -- Instruction LSL -- TODO
-		23 => microinstr("------------------0001010100010", '1'), -- Instruction LSR -- TODO
+		22 => microinstr("------------------0001010100010", '1'), -- Instruction LSL
+		23 => microinstr("------------------0001010100010", '1'), -- Instruction LSR
 		24 => microinstr("------------------0101010100010", '1'), -- Instruction MOVK
 		25 => microinstr("------------------0101010100010", '1'), -- Instruction MOVZ
 		26 => microinstr("------------------0011100000100", '1'), -- Instruction B
