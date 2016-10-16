@@ -13,7 +13,7 @@ ARCHITECTURE RTL OF top_synth IS
 
 BEGIN
 	-- Declare FISC Core: --
-	FISC1: FISC PORT MAP(clk, NOT KEY3);
+	FISC_CORE: FISC PORT MAP(clk, NOT KEY3);
 	
 	process(CLK)
 	begin

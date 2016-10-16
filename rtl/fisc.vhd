@@ -17,7 +17,7 @@ ARCHITECTURE RTL OF FISC IS
 	---- Stage interconnect wires declaration: ----
 	-- Stage 1 - Fetch Interconnect wires --
 	signal if_new_pc             : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
-	signal if_reset_pc           : std_logic := '0'; -- Control (*UNUSED*)
+	signal if_reset_pc           : std_logic; -- Control (*UNUSED*)
 	signal if_uncond_branch_flag : std_logic; -- Control (ID (MCU))
 	signal if_instruction        : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 	signal if_pc_out             : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
@@ -86,16 +86,20 @@ BEGIN
 	wb_memtoreg           <= id_microcode_ctrl(7);  -- Control (WB)
 	ex_set_flags          <= id_microcode_ctrl(13); -- Control (originates from ID and is used on stage EX)
 	
+	if_reset_pc <= '0';
+	
 	--------------------------
 	------- Behaviour: -------
 	--------------------------
-	process(clk, restart_cpu) begin
+	process(clk, restart_cpu, id_microcode_ctrl) begin
 		if restart_cpu = '1' then
 			id_sos <= '1';
 		else
 			if clk = '0' then
 				if id_microcode_ctrl(0) = '1' then
 					id_sos <= '1';
+				else
+					id_sos <= '0';
 				end if;
 			else
 				id_sos <= '0';

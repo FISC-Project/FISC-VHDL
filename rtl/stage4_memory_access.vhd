@@ -61,7 +61,7 @@ BEGIN
 		WHEN memread = '1' and access_width = "10" ELSE 
 			(data_out'range => 'Z');
 	
-	process(clk) begin
+	process(clk, memwrite) begin
 		if clk'event and clk = '1' and memwrite = '1' then
 			case access_width is
 				when "11" => 

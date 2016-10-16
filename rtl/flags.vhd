@@ -27,7 +27,7 @@ BEGIN
 	overf_flag_out <= overf_flag_in WHEN flag_wr = '1' ELSE overf_flag_reg;
 	carry_flag_out <= carry_flag_in WHEN flag_wr = '1' ELSE carry_flag_reg;
 
-	process(clk) begin
+	process(clk, flag_wr) begin
 		if clk'event and clk = '1' and flag_wr = '1' then
 			neg_flag_reg   <= neg_flag_in;
 			zero_flag_reg  <= zero_flag_in;

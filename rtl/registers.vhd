@@ -28,7 +28,7 @@ BEGIN
 	outA <= (outA'range => '0') WHEN (readreg1 = "11111" or opcode(10 downto 2) = "111100101" or opcode(10 downto 2) = "110100101") ELSE regfile(to_integer(unsigned(readreg1)));
 	outB <= (outB'range => '0') WHEN readreg2 = "11111" ELSE regfile(to_integer(unsigned(readreg2)));
 
-	process(clk) begin
+	process(clk, regwr) begin
 		if clk'event and clk = '1' and regwr = '1' then
 			if opcode(10 downto 2) = "111100101" then
 				-- Execute MOVK:

@@ -105,11 +105,11 @@ PACKAGE FISC_DEFINES IS
 	---------- MICROCODE DEFINES ----------
 	constant MICROCODE_CTRL_WIDTH           : integer := 32; -- The width of the control bus that will be connected to the pipeline
 	constant MICROCODE_FUNC_WIDTH           : integer := 32;
-	constant MICROCODE_CTRL_DEPTH           : integer := 256;
-	constant MICROCODE_SEGMENT_MAXCOUNT     : integer := 256;
+	constant MICROCODE_CTRL_DEPTH           : integer := 80;
+	constant MICROCODE_SEGMENT_MAXCOUNT     : integer := 80;
 	constant MICROCODE_CTRL_DEPTH_ENC       : integer := integer(ceil(log2(real(MICROCODE_CTRL_DEPTH)))) - 1;
 	constant MICROCODE_SEGMENT_MAXCOUNT_ENC : integer := integer(ceil(log2(real(MICROCODE_SEGMENT_MAXCOUNT)))) - 1;
-	constant MICROCODE_CALLSTACK_SIZE       : integer := 256;
+	constant MICROCODE_CALLSTACK_SIZE       : integer := 80;
 	
 	COMPONENT Microcode
 		PORT(

@@ -6,7 +6,7 @@ ENTITY top IS END top;
 
 ARCHITECTURE RTL OF top IS
 	signal clk : std_logic := '0'; -- Simulated Clock Signal
-	signal restart_cpu: std_logic := '0'; -- Simulated Restart CPU Flags
+	signal restart_cpu: std_logic := '0'; -- Simulated Restart CPU Flags	
 BEGIN
 	-- Declare FISC Core: --
 	FISC_CORE: FISC PORT MAP(clk, restart_cpu);
