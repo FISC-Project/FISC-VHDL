@@ -158,22 +158,25 @@ PACKAGE FISC_DEFINES IS
 		PORT(
 			clk                : in  std_logic;
 			sos                : in  std_logic;
-			microcode_ctrl     : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
+			microcode_ctrl     : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0);
 			if_instruction     : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 			writedata          : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
-			reg2loc            : in  std_logic;
 			regwrite           : in  std_logic;
 			outA               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			outB               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			writereg_addr      : in  std_logic_vector(4 downto 0);
 			current_pc         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			new_pc             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
-			sign_ext           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+			new_pc             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			sign_ext           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			pc_src             : out std_logic;
 			uncond_branch_flag : in  std_logic;
 			flag_neg           : in  std_logic; -- Condition code
 			flag_zero          : in  std_logic; -- Condition code
 			flag_overf         : in  std_logic; -- Condition code
-			flag_carry         : in  std_logic  -- Condition code
+			flag_carry         : in  std_logic; -- Condition code
+			-- Pipeline (data) outputs:
+			ifid_pc_out        : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			ifid_instruction   : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0)
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -184,15 +187,30 @@ PACKAGE FISC_DEFINES IS
 		clk       : in  std_logic;
 		opA       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		opB       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		result    : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		result    : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		sign_ext  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		aluop     : in  std_logic_vector(1  downto 0);
+		aluop     : in  std_logic_vector(1  downto 0); -- Consume control on this stage
 		opcode    : in  std_logic_vector(10 downto 0);
-		alusrc    : in  std_logic;
+		alusrc    : in  std_logic; -- Consume control on this stage
 		alu_neg   : out std_logic;
 		alu_zero  : out std_logic;
 		alu_overf : out std_logic;
-		alu_carry : out std_logic
+		alu_carry : out std_logic;
+		-- Pipeline (data) outputs:
+		ifid_instruction   : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+		ifidex_instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
+		ex_opB             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
+		-- Pipeline (control) outputs
+		id_memwrite    : in  std_logic;
+		id_memread     : in  std_logic;
+		id_regwrite    : in  std_logic;
+		id_memtoreg    : in  std_logic;
+		id_set_flags   : in  std_logic; -- Consume on this stage (by another stage)
+		idex_memwrite  : out std_logic;
+		idex_memread   : out std_logic;
+		idex_regwrite  : out std_logic;
+		idex_memtoreg  : out std_logic;
+		idex_set_flags : out std_logic -- Consume on this stage (by another stage)
 	);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -203,10 +221,18 @@ PACKAGE FISC_DEFINES IS
 			clk          : in  std_logic;
 			address      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			data_in      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			data_out     : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			memwrite     : in  std_logic;
-			memread      : in  std_logic;
-			access_width : in  std_logic_vector(1 downto 0)
+			data_out     : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Pipeline data output
+			memwrite     : in  std_logic; -- Consume control on this stage
+			memread      : in  std_logic; -- Consume control on this stage
+			access_width : in  std_logic_vector(1 downto 0);
+			-- Pipeline (data) outputs:
+			mem_address           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
+			ifidex_instruction    : in std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+			ifidexmem_instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
+			idex_regwrite         : in std_logic;
+			idex_memtoreg         : in std_logic;
+			idexmem_regwrite      : out std_logic := '0';
+			idexmem_memtoreg      : out std_logic := '0'
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------

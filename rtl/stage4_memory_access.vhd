@@ -102,10 +102,18 @@ ENTITY Stage4_Memory_Access IS
 		clk          : in  std_logic;
 		address      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		data_in      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		data_out     : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		memwrite     : in  std_logic;
-		memread      : in  std_logic;
-		access_width : in  std_logic_vector(1 downto 0)
+		data_out     : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Pipeline data output
+		memwrite     : in  std_logic; -- Consume control on this stage
+		memread      : in  std_logic; -- Consume control on this stage
+		access_width : in  std_logic_vector(1 downto 0);
+		-- Pipeline (data) outputs:
+		mem_address           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
+		ifidex_instruction    : in std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+		ifidexmem_instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
+		idex_regwrite         : in std_logic;
+		idex_memtoreg         : in std_logic;
+		idexmem_regwrite      : out std_logic := '0';
+		idexmem_memtoreg      : out std_logic := '0'
 	);
 END Stage4_Memory_Access;
 
@@ -121,6 +129,21 @@ ARCHITECTURE RTL OF Stage4_Memory_Access IS
 			access_width : in  std_logic_vector(1 downto 0)
 		);
 	END COMPONENT;
+	
+	-- Inner Pipeline Layer:
+	signal data_out_reg : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 BEGIN
-	Data_Memory1: Data_Memory PORT MAP(clk, address, data_in, data_out, memwrite, memread, access_width);
+	Data_Memory1: Data_Memory PORT MAP(clk, address, data_in, data_out_reg, memwrite, memread, access_width);
+	
+	process(clk) begin
+		if clk'event and clk = '0' then
+			-- Move the Memory Access Stage's Inner Pipeline Forward:
+			data_out <= data_out_reg;
+			mem_address <= address;
+			ifidexmem_instruction <= ifidex_instruction;
+			-- Move the controls:
+			idexmem_regwrite <= idex_regwrite;
+			idexmem_memtoreg <= idex_memtoreg;
+		end if;
+	end process;
 END ARCHITECTURE RTL;

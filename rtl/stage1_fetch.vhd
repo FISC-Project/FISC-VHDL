@@ -43,8 +43,8 @@ ENTITY Stage1_Fetch IS
 		fsm_next           : in  std_logic;
 		pc_src             : in  std_logic;
 		uncond_branch_flag : in  std_logic;
-		if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
-		pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0)
+		if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
+		pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0')
 	);
 END Stage1_Fetch;
 
@@ -66,23 +66,23 @@ ARCHITECTURE RTL OF Stage1_Fetch IS
 		);
 	END COMPONENT;
 
-	signal instruction_reg : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
-	signal pc_out_reg      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
 	signal new_pc_reg      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
+	-- Inner Pipeline Layer:
+	signal instruction_reg : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
+	signal pc_out_reg      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');	
 BEGIN
 	Program_Counter1:    Program_Counter    PORT MAP(clk, new_pc_reg, fsm_next, reset, pc_out_reg);
 	Instruction_Memory1: Instruction_Memory PORT MAP(pc_out_reg, instruction_reg);	
 
 	new_pc_reg <= new_pc WHEN (pc_src or uncond_branch_flag) = '1' ELSE pc_out_reg + "100";
-	pc_out     <= pc_out_reg; 
 	
 	process(clk) begin
-		if clk'event and clk = '1' then
+		if clk'event and clk = '0' then
 			if fsm_next = '1' then
-				-- TODO: Move the Fetch Stages' Pipeline Forward
+				-- Move the Fetch Stage's Inner Pipeline Forward:
+				if_instruction <= instruction_reg;
+				pc_out         <= pc_out_reg;
 			end if;
 		end if;
 	end process;
-	
-	if_instruction <= instruction_reg;
 END ARCHITECTURE RTL;

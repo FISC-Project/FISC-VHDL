@@ -9,22 +9,25 @@ ENTITY Stage2_Decode IS
 	PORT(
 		clk                : in  std_logic;
 		sos                : in  std_logic;
-		microcode_ctrl     : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0);
+		microcode_ctrl     : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
 		if_instruction     : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 		writedata          : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
-		reg2loc            : in  std_logic;
 		regwrite           : in  std_logic;
-		outA               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		outB               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		outA               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		outB               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		writereg_addr      : in  std_logic_vector(4 downto 0);
 		current_pc         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		new_pc             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		sign_ext           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		sign_ext           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		pc_src             : out std_logic;
 		uncond_branch_flag : in  std_logic;
 		flag_neg           : in  std_logic; -- Condition code
 		flag_zero          : in  std_logic; -- Condition code
 		flag_overf         : in  std_logic; -- Condition code
-		flag_carry         : in  std_logic  -- Condition code
+		flag_carry         : in  std_logic; -- Condition code
+		-- Pipeline (data) outputs:
+		ifid_pc_out        : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
+		ifid_instruction   : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0')
 	);
 END Stage2_Decode;
 
@@ -46,15 +49,18 @@ ARCHITECTURE RTL OF Stage2_Decode IS
 	END COMPONENT;
 	
 	signal microcode_ctrl_reg : std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
+	signal reg2loc            : std_logic := '0';
 	signal cbnz_branch_flag   : std_logic := '0';
 	signal cbz_branch_flag    : std_logic := '0';
 	signal cond_branch_flag   : std_logic := '0';
 	signal reg1_zero_flag     : std_logic := '0';
 	signal reg2_zero_flag     : std_logic := '0';
-	signal sign_ext_reg       : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 	signal tmp_readreg1       : std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
+	-- Inner Pipeline Layer:
+	-- Data:
 	signal outA_reg           : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal outB_reg           : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal sign_ext_reg       : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 BEGIN
 	-- Instantiate Microcode Unit:
 	Microcode1: Microcode 
@@ -62,12 +68,12 @@ BEGIN
 	
 	-- Instantiate Register File:
 	RegFile1: RegFile 
-		PORT MAP(clk, if_instruction(9 downto 5), tmp_readreg1, if_instruction(4 downto 0), writedata, outA_reg, outB_reg, regwrite, current_pc, if_instruction(31 downto 21), if_instruction(22 downto 21));
+		PORT MAP(clk, if_instruction(9 downto 5), tmp_readreg1, writereg_addr, writedata, outA_reg, outB_reg, regwrite, current_pc, if_instruction(31 downto 21), if_instruction(22 downto 21));
 	
 	-- Instantiate Hazard Unit:
 	-- TODO
 	
-	microcode_ctrl   <= microcode_ctrl_reg;
+	reg2loc          <= microcode_ctrl_reg(9);
 	cbnz_branch_flag <= '1' WHEN if_instruction(31 downto 24) = "10110101" ELSE '0';
 	cbz_branch_flag  <= '1' WHEN if_instruction(31 downto 24) = "10110100" ELSE '0';
 	cond_branch_flag <= '1' WHEN if_instruction(31 downto 24) = "01010100" ELSE '0';
@@ -92,12 +98,9 @@ BEGIN
 			flag_overf WHEN if_instruction(4 downto 0) = "01100"                                          ELSE -- BVS  condition
 			not flag_overf WHEN if_instruction(4 downto 0) = "01101";                                          -- BVC  condition
 
-	outA             <= outA_reg;
-	outB             <= outB_reg;
 	reg1_zero_flag   <= '1' WHEN outA_reg = (outA_reg'range => '0') ELSE '0';
 	reg2_zero_flag   <= '1' WHEN outB_reg = (outB_reg'range => '0') ELSE '0';
 	
-	sign_ext       <= sign_ext_reg;
 	sign_ext_reg   <= (51 downto 0 => '0') & if_instruction(21 downto 10) WHEN microcode_ctrl_reg(12 downto 10)    = "000"  -- Sign extend from ALU_immediate
 					ELSE (57 downto 0 => '0') & if_instruction(15 downto 10) WHEN microcode_ctrl_reg(12 downto 10) = "001"  -- Sign extend from shamt
 					ELSE (54 downto 0 => '0') & if_instruction(20 downto 12) WHEN microcode_ctrl_reg(12 downto 10) = "010"  -- Sign extend from DT_address
@@ -106,9 +109,22 @@ BEGIN
 					ELSE (47 downto 0 => '0') & if_instruction(20 downto 5) WHEN microcode_ctrl_reg(12 downto 10)  = "101"; -- Sign extend from MOV_immediate
 	
 	-- Absolute OR PC-relative jump:
-	new_pc         <= outB_reg WHEN if_instruction(31 downto 21) = "11010110000" -- BR jump
+	new_pc <= outB_reg WHEN if_instruction(31 downto 21) = "11010110000" -- BR jump
 		ELSE std_logic_vector(signed(sign_ext_reg(22 downto 0) & "00") + signed(current_pc)) WHEN uncond_branch_flag = '1' -- B and BL jump
 		ELSE std_logic_vector(signed(if_instruction(23 downto 5) & "00") + signed(current_pc)); -- CBNZ, CBZ and B.cond jump
 		
-	tmp_readreg1   <= if_instruction(4 downto 0) WHEN reg2loc = '1' ELSE if_instruction(20 downto 16); -- Select either RD or RM fields for input readreg1
+	tmp_readreg1   <= if_instruction(4 downto 0) WHEN reg2loc = '1' ELSE if_instruction(20 downto 16); -- Select either RD or RM fields for input readreg1 (only effective with Instr. Format R)
+
+	process(clk) begin
+		if clk'event and clk = '0' then
+			-- Move the Decode Stage's Inner Pipeline Forward:
+			ifid_pc_out      <= current_pc;
+			outA             <= outA_reg;
+			outB             <= outB_reg;
+			sign_ext         <= sign_ext_reg;
+			ifid_instruction <= if_instruction;
+			-- Move all the control wires as well:
+			microcode_ctrl   <= microcode_ctrl_reg;
+		end if;
+	end process;
 END ARCHITECTURE RTL;
