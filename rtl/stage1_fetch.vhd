@@ -74,7 +74,10 @@ BEGIN
 	Program_Counter1:    Program_Counter    PORT MAP(clk, new_pc_reg, fsm_next, reset, pc_out_reg);
 	Instruction_Memory1: Instruction_Memory PORT MAP(pc_out_reg, instruction_reg);	
 
-	new_pc_reg <= new_pc WHEN (pc_src or uncond_branch_flag) = '1' ELSE pc_out_reg + "100";
+	-- NOTE: There are two ways to branch unconditionally. Either use the microcode unit for ANY instruction, or use the B/BR instructions with no other side effects
+	new_pc_reg <=
+		new_pc WHEN (pc_src or uncond_branch_flag) = '1' or instruction_reg(31 downto 26) = "000101" or instruction_reg(31 downto 26) = "100101"
+		ELSE pc_out_reg + "100";
 	
 	process(clk) begin
 		if clk'event and clk = '0' then
