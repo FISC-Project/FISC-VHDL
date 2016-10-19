@@ -11,7 +11,6 @@ ENTITY ALU IS
 		opB         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		func        : in  std_logic_vector(3 downto 0);
 		result      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		signed_flag : in  std_logic;
 		neg         : out std_logic := '0'; 
 		zero        : out std_logic := '0';
 		overf       : out std_logic := '0';
@@ -33,8 +32,8 @@ BEGIN
 	
 	result_reg <= result_reg_ext(FISC_INTEGER_SZ-1 downto 0);
 	
-	opA_ext <= opA(FISC_INTEGER_SZ-1) & opA WHEN signed_flag = '0' ELSE std_logic_vector(signed(opA(FISC_INTEGER_SZ-1) & opA));
-	opB_ext <= opB(FISC_INTEGER_SZ-1) & opB WHEN signed_flag = '0' ELSE std_logic_vector(signed(opB(FISC_INTEGER_SZ-1) & opB));
+	opA_ext <= opA(FISC_INTEGER_SZ-1) & opA;
+	opB_ext <= opB(FISC_INTEGER_SZ-1) & opB;
 	
 	result_reg_ext <= 
 		opA_ext and opB_ext WHEN func = "0000" ELSE -- AND

@@ -113,7 +113,10 @@ ENTITY Stage4_Memory_Access IS
 		idex_regwrite         : in std_logic;
 		idex_memtoreg         : in std_logic;
 		idexmem_regwrite      : out std_logic := '0';
-		idexmem_memtoreg      : out std_logic := '0'
+		idexmem_memtoreg      : out std_logic := '0';
+		-- Pipeline flush/freeze:
+		mem_flush             : in std_logic;
+		mem_freeze            : in std_logic
 	);
 END Stage4_Memory_Access;
 
@@ -137,13 +140,21 @@ BEGIN
 	
 	process(clk) begin
 		if clk'event and clk = '0' then
-			-- Move the Memory Access Stage's Inner Pipeline Forward:
-			data_out <= data_out_reg;
-			mem_address <= address;
-			ifidexmem_instruction <= ifidex_instruction;
-			-- Move the controls:
-			idexmem_regwrite <= idex_regwrite;
-			idexmem_memtoreg <= idex_memtoreg;
+			if mem_freeze = '0' then
+				if mem_flush = '0' then			
+					-- Move the Memory Access Stage's Inner Pipeline Forward:
+					data_out <= data_out_reg;
+					mem_address <= address;
+					ifidexmem_instruction <= ifidex_instruction;
+					-- Move the controls:
+					idexmem_regwrite <= idex_regwrite;
+					idexmem_memtoreg <= idex_memtoreg;
+				else
+					-- Stall the pipeline (preserve the data):
+					idexmem_regwrite <= '0';
+					idexmem_memtoreg <= '0';
+				end if;
+			end if;
 		end if;
 	end process;
 END ARCHITECTURE RTL;

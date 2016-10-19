@@ -14,11 +14,5 @@ END Stage5_Writeback;
 
 ARCHITECTURE RTL OF Stage5_Writeback IS
 BEGIN
-	process(clk) begin
-		if clk'event and clk = '1' then
-			-- TODO: Move Writeback pipeline forward
-		end if;
-	end process;
-	
 	writeback_data <= val_stage4_memacc WHEN memtoreg = '1' ELSE val_stage3_execute;
 END ARCHITECTURE RTL;

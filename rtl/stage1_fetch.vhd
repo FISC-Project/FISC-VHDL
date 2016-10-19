@@ -44,7 +44,10 @@ ENTITY Stage1_Fetch IS
 		pc_src             : in  std_logic;
 		uncond_branch_flag : in  std_logic;
 		if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
-		pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0')
+		pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
+		-- Pipeline flush/freeze:
+		if_flush           : in  std_logic;
+		if_freeze          : in  std_logic
 	);
 END Stage1_Fetch;
 
@@ -67,12 +70,16 @@ ARCHITECTURE RTL OF Stage1_Fetch IS
 	END COMPONENT;
 
 	signal new_pc_reg      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
+	signal pc_wr_reg       : std_logic := '0';
 	-- Inner Pipeline Layer:
 	signal instruction_reg : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
-	signal pc_out_reg      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');	
+	signal pc_out_reg      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
 BEGIN
 	Program_Counter1:    Program_Counter    PORT MAP(clk, new_pc_reg, fsm_next, reset, pc_out_reg);
 	Instruction_Memory1: Instruction_Memory PORT MAP(pc_out_reg, instruction_reg);	
+	
+	-- If this stage is stalling/freezing, we may not write the new PC value
+	pc_wr_reg <= '1' WHEN fsm_next = '1' AND (if_freeze = '0' OR if_flush = '0');
 
 	-- NOTE: There are two ways to branch unconditionally. Either use the microcode unit for ANY instruction, or use the B/BR instructions with no other side effects
 	new_pc_reg <=
@@ -81,11 +88,13 @@ BEGIN
 	
 	process(clk) begin
 		if clk'event and clk = '0' then
-			if fsm_next = '1' then
-				-- Move the Fetch Stage's Inner Pipeline Forward:
-				if_instruction <= instruction_reg;
-				pc_out         <= pc_out_reg;
-			end if;
+		--	if fsm_next = '1' then
+				if if_flush = '0' and if_freeze = '0' then -- In the fetch stage, freezing is the same as flushing/stalling
+					-- Move the Fetch Stage's Inner Pipeline Forward:
+					if_instruction <= instruction_reg;
+					pc_out         <= pc_out_reg;
+				end if;
+		--	end if;
 		end if;
 	end process;
 END ARCHITECTURE RTL;

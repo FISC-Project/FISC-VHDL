@@ -148,7 +148,10 @@ PACKAGE FISC_DEFINES IS
 			pc_src             : in  std_logic;
 			uncond_branch_flag : in  std_logic;
 			if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
-			pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0)
+			pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
+			-- Pipeline flush/freeze:
+			if_flush           : in  std_logic;
+			if_freeze          : in  std_logic
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -158,25 +161,29 @@ PACKAGE FISC_DEFINES IS
 		PORT(
 			clk                : in  std_logic;
 			sos                : in  std_logic;
-			microcode_ctrl     : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0);
+			microcode_ctrl     : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
 			if_instruction     : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 			writedata          : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 			regwrite           : in  std_logic;
-			outA               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			outB               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			outA               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+			outB               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 			writereg_addr      : in  std_logic_vector(4 downto 0);
 			current_pc         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			new_pc             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			sign_ext           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			sign_ext           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 			pc_src             : out std_logic;
 			uncond_branch_flag : in  std_logic;
 			flag_neg           : in  std_logic; -- Condition code
 			flag_zero          : in  std_logic; -- Condition code
 			flag_overf         : in  std_logic; -- Condition code
 			flag_carry         : in  std_logic; -- Condition code
+			ifidexmem_instruction : in std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0); -- This signal is used only for MOVZ and MOVK
 			-- Pipeline (data) outputs:
-			ifid_pc_out        : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			ifid_instruction   : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0)
+			ifid_pc_out        : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
+			ifid_instruction   : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
+			-- Pipeline flush/freeze:
+			id_flush           : in std_logic;
+			id_freeze          : in std_logic
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -187,11 +194,11 @@ PACKAGE FISC_DEFINES IS
 		clk       : in  std_logic;
 		opA       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		opB       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		result    : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		sign_ext  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		aluop     : in  std_logic_vector(1  downto 0); -- Consume control on this stage
+		result    : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		aluop     : in  std_logic_vector(1  downto 0);
 		opcode    : in  std_logic_vector(10 downto 0);
-		alusrc    : in  std_logic; -- Consume control on this stage
+		alusrc    : in  std_logic;
 		alu_neg   : out std_logic;
 		alu_zero  : out std_logic;
 		alu_overf : out std_logic;
@@ -205,12 +212,15 @@ PACKAGE FISC_DEFINES IS
 		id_memread     : in  std_logic;
 		id_regwrite    : in  std_logic;
 		id_memtoreg    : in  std_logic;
-		id_set_flags   : in  std_logic; -- Consume on this stage (by another stage)
-		idex_memwrite  : out std_logic;
-		idex_memread   : out std_logic;
-		idex_regwrite  : out std_logic;
-		idex_memtoreg  : out std_logic;
-		idex_set_flags : out std_logic -- Consume on this stage (by another stage)
+		id_set_flags   : in  std_logic;
+		idex_memwrite  : out std_logic := '0';
+		idex_memread   : out std_logic := '0';
+		idex_regwrite  : out std_logic := '0';
+		idex_memtoreg  : out std_logic := '0';
+		idex_set_flags : out std_logic := '0';
+		-- Pipeline flush/freeze:
+		ex_flush       : in std_logic;
+		ex_freeze      : in std_logic
 	);
 	END COMPONENT;
 	-----------------------------------------------------------------
@@ -232,7 +242,10 @@ PACKAGE FISC_DEFINES IS
 			idex_regwrite         : in std_logic;
 			idex_memtoreg         : in std_logic;
 			idexmem_regwrite      : out std_logic := '0';
-			idexmem_memtoreg      : out std_logic := '0'
+			idexmem_memtoreg      : out std_logic := '0';
+			-- Pipeline flush/freeze:
+			mem_flush             : in std_logic;
+			mem_freeze            : in std_logic
 		);
 	END COMPONENT;
 	-----------------------------------------------------------------

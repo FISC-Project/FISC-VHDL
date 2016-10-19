@@ -25,9 +25,13 @@ ENTITY Stage2_Decode IS
 		flag_zero          : in  std_logic; -- Condition code
 		flag_overf         : in  std_logic; -- Condition code
 		flag_carry         : in  std_logic; -- Condition code
+		ifidexmem_instruction : in std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0); -- This signal is used only for MOVZ and MOVK
 		-- Pipeline (data) outputs:
 		ifid_pc_out        : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
-		ifid_instruction   : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0')
+		ifid_instruction   : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
+		-- Pipeline flush/freeze:
+		id_flush           : in std_logic;
+		id_freeze          : in std_logic
 	);
 END Stage2_Decode;
 
@@ -68,11 +72,8 @@ BEGIN
 	
 	-- Instantiate Register File:
 	RegFile1: RegFile 
-		PORT MAP(clk, if_instruction(9 downto 5), tmp_readreg1, writereg_addr, writedata, outA_reg, outB_reg, regwrite, current_pc, if_instruction(31 downto 21), if_instruction(22 downto 21));
-	
-	-- Instantiate Hazard Unit:
-	-- TODO
-	
+		PORT MAP(clk, if_instruction(9 downto 5), tmp_readreg1, writereg_addr, writedata, outA_reg, outB_reg, regwrite, current_pc, ifidexmem_instruction(31 downto 21), ifidexmem_instruction(22 downto 21));
+		
 	reg2loc          <= microcode_ctrl_reg(9);
 	cbnz_branch_flag <= '1' WHEN if_instruction(31 downto 24) = "10110101" ELSE '0';
 	cbz_branch_flag  <= '1' WHEN if_instruction(31 downto 24) = "10110100" ELSE '0';
@@ -117,14 +118,22 @@ BEGIN
 
 	process(clk) begin
 		if clk'event and clk = '0' then
-			-- Move the Decode Stage's Inner Pipeline Forward:
-			ifid_pc_out      <= current_pc;
-			outA             <= outA_reg;
-			outB             <= outB_reg;
-			sign_ext         <= sign_ext_reg;
-			ifid_instruction <= if_instruction;
-			-- Move all the control wires as well:
-			microcode_ctrl   <= microcode_ctrl_reg;
+			if id_freeze = '0' then
+				if id_flush = '0' then
+					-- Move the Decode Stage's Inner Pipeline Forward:
+					ifid_pc_out      <= current_pc;
+					outA             <= outA_reg;
+					outB             <= outB_reg;
+					sign_ext         <= sign_ext_reg;
+					ifid_instruction <= if_instruction;
+					-- Move all the control wires as well:
+					microcode_ctrl   <= microcode_ctrl_reg;
+				else
+					-- Stall the pipeline (preserve the data, except the instruction):
+					ifid_instruction <= (others => '0');
+					microcode_ctrl   <= (others => '0');
+				end if;
+			end if;
 		end if;
 	end process;
 END ARCHITECTURE RTL;

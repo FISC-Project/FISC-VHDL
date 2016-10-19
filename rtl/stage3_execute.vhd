@@ -10,11 +10,11 @@ ENTITY Stage3_Execute IS
 		clk       : in  std_logic;
 		opA       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		opB       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		result    : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		sign_ext  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		result    : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		aluop     : in  std_logic_vector(1  downto 0); -- Consume control on this stage
 		opcode    : in  std_logic_vector(10 downto 0);
-		alusrc    : in  std_logic; -- Consume control on this stage
+		alusrc    : in  std_logic;
 		alu_neg   : out std_logic;
 		alu_zero  : out std_logic;
 		alu_overf : out std_logic;
@@ -33,7 +33,10 @@ ENTITY Stage3_Execute IS
 		idex_memread   : out std_logic := '0';
 		idex_regwrite  : out std_logic := '0';
 		idex_memtoreg  : out std_logic := '0';
-		idex_set_flags : out std_logic := '0' -- Consume control on this stage (by another stage)
+		idex_set_flags : out std_logic := '0'; -- Consume control on this stage (by another stage)
+		-- Pipeline flush/freeze:
+		ex_flush       : in std_logic;
+		ex_freeze      : in std_logic
 	);
 END Stage3_Execute;
 
@@ -45,7 +48,6 @@ ARCHITECTURE RTL OF Stage3_Execute IS
 			opB         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			func        : in  std_logic_vector(3 downto 0);
 			result      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			signed_flag : in  std_logic;
 			neg         : out std_logic := '0'; 
 			zero        : out std_logic := '0';
 			overf       : out std_logic := '0';
@@ -53,18 +55,15 @@ ARCHITECTURE RTL OF Stage3_Execute IS
 		);
 	END COMPONENT;
 	
-	signal opB_reg    : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-	signal func_reg   : std_logic_vector(3 downto 0) := (others => '0');
+	signal alu_opB_reg : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal func_reg    : std_logic_vector(3 downto 0) := (others => '0');
 	-- Inner Pipeline Layer:
-	signal result_reg : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal result_reg  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 BEGIN
 	-- Instantiate ALU:
-	ALU1: ALU PORT MAP(clk, opA, opB_reg, func_reg, result_reg, alusrc, alu_neg, alu_zero, alu_overf, alu_carry);
-
-	-- Instantiate Forward Unit:
-	-- TODO
-
-	opB_reg    <= sign_ext WHEN alusrc = '1' ELSE opB;
+	ALU1: ALU PORT MAP(clk, opA, alu_opB_reg, func_reg, result_reg, alu_neg, alu_zero, alu_overf, alu_carry);
+	
+	alu_opB_reg <= sign_ext WHEN alusrc = '1' ELSE opB;
 	
 	func_reg   <= "0010" WHEN aluop = "00" ELSE "0111" WHEN aluop(0) = '1' ELSE 
 	              "0010" WHEN (aluop(1) = '1' AND (opcode = "10001011000" or opcode(10 downto 1) = "1001000100" or opcode(10 downto 1) = "1011000100" or opcode = "10101011000" or opcode(10 downto 2) = "111100101" or opcode(10 downto 2) = "110100101")) ELSE -- ADD, MOVK and MOVZ
@@ -83,17 +82,28 @@ BEGIN
 	              (others => 'X');
 	              
 	process(clk) begin
-		if clk'event and clk = '0' then
-			-- Move the Execute Stage's Inner Pipeline Forward:
-			result <= result_reg;
-			ex_opB <= opB; -- TODO: Add mux using forwarding selection here
-			ifidex_instruction <= ifid_instruction;
-			-- Move the controls:
-			idex_memwrite  <= id_memwrite;
-			idex_memread   <= id_memread;
-			idex_regwrite  <= id_regwrite;
-			idex_memtoreg  <= id_memtoreg;
-			idex_set_flags <= id_set_flags;
+		if clk'event and clk = '1' then
+			if ex_freeze = '0' then
+				if ex_flush = '0' then
+					-- Move the Execute Stage's Inner Pipeline Forward:
+					result <= result_reg;
+					ex_opB <= opB;
+					ifidex_instruction <= ifid_instruction;
+					-- Move the controls:
+					idex_memwrite  <= id_memwrite;
+					idex_memread   <= id_memread;
+					idex_regwrite  <= id_regwrite;
+					idex_memtoreg  <= id_memtoreg;
+					idex_set_flags <= id_set_flags;
+				else
+					-- Stall the pipeline (preserve the data):
+					idex_memwrite  <= '0';
+					idex_memread   <= '0';
+					idex_regwrite  <= '0';
+					idex_memtoreg  <= '0';
+					idex_set_flags <= '0';
+				end if;
+			end if;
 		end if;
 	end process;
 END ARCHITECTURE RTL;
