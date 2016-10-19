@@ -161,7 +161,8 @@ PACKAGE FISC_DEFINES IS
 		PORT(
 			clk                : in  std_logic;
 			sos                : in  std_logic;
-			microcode_ctrl     : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
+			microcode_ctrl     : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0)   := (others => '0');
+			microcode_ctrl_early : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
 			if_instruction     : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 			writedata          : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 			regwrite           : in  std_logic;
@@ -169,6 +170,7 @@ PACKAGE FISC_DEFINES IS
 			outB               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 			writereg_addr      : in  std_logic_vector(4 downto 0);
 			current_pc         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			ifidexmem_pc_out   : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			new_pc             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 			sign_ext           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 			pc_src             : out std_logic;
@@ -178,6 +180,9 @@ PACKAGE FISC_DEFINES IS
 			flag_overf         : in  std_logic; -- Condition code
 			flag_carry         : in  std_logic; -- Condition code
 			ifidexmem_instruction : in std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0); -- This signal is used only for MOVZ and MOVK
+			ex_result_forw     : in std_logic_vector(FISC_INTEGER_SZ-1 downto 0); -- Forward value from Execute stage
+			mem_wb_forw        : in std_logic_vector(FISC_INTEGER_SZ-1 downto 0); -- Forward value from Writeback stage
+			idexmem_regwrite   : in std_logic;
 			-- Pipeline (data) outputs:
 			ifid_pc_out        : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
 			ifid_instruction   : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
@@ -196,6 +201,7 @@ PACKAGE FISC_DEFINES IS
 		opB       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		sign_ext  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		result    : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		result_early : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		aluop     : in  std_logic_vector(1  downto 0);
 		opcode    : in  std_logic_vector(10 downto 0);
 		alusrc    : in  std_logic;
@@ -206,7 +212,9 @@ PACKAGE FISC_DEFINES IS
 		-- Pipeline (data) outputs:
 		ifid_instruction   : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 		ifidex_instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
-		ex_opB             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
+		ifid_pc_out        : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		ifidex_pc_out      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		ex_opB             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		-- Pipeline (control) outputs
 		id_memwrite    : in  std_logic;
 		id_memread     : in  std_logic;
@@ -237,10 +245,12 @@ PACKAGE FISC_DEFINES IS
 			access_width : in  std_logic_vector(1 downto 0);
 			-- Pipeline (data) outputs:
 			mem_address           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
-			ifidex_instruction    : in std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+			ifidex_instruction    : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 			ifidexmem_instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
-			idex_regwrite         : in std_logic;
-			idex_memtoreg         : in std_logic;
+			ifidex_pc_out         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+			ifidexmem_pc_out      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+			idex_regwrite         : in  std_logic;
+			idex_memtoreg         : in  std_logic;
 			idexmem_regwrite      : out std_logic := '0';
 			idexmem_memtoreg      : out std_logic := '0';
 			-- Pipeline flush/freeze:

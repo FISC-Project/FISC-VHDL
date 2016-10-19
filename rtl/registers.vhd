@@ -60,7 +60,7 @@ BEGIN
 				end case;
 			elsif opcode(10 downto 5) = "100101" then
 				-- Link PC to register 30 (store return address):
-				regfile(30) <= current_pc + "100";
+				regfile(30) <= writedata;
 			else
 				-- Write normally to the register:
 				regfile(to_integer(unsigned(writereg))) <= writedata;

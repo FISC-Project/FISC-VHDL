@@ -108,10 +108,12 @@ ENTITY Stage4_Memory_Access IS
 		access_width : in  std_logic_vector(1 downto 0);
 		-- Pipeline (data) outputs:
 		mem_address           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
-		ifidex_instruction    : in std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+		ifidex_instruction    : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 		ifidexmem_instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
-		idex_regwrite         : in std_logic;
-		idex_memtoreg         : in std_logic;
+		ifidex_pc_out         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		ifidexmem_pc_out      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		idex_regwrite         : in  std_logic;
+		idex_memtoreg         : in  std_logic;
 		idexmem_regwrite      : out std_logic := '0';
 		idexmem_memtoreg      : out std_logic := '0';
 		-- Pipeline flush/freeze:
@@ -146,6 +148,7 @@ BEGIN
 					data_out <= data_out_reg;
 					mem_address <= address;
 					ifidexmem_instruction <= ifidex_instruction;
+					ifidexmem_pc_out <= ifidex_pc_out;
 					-- Move the controls:
 					idexmem_regwrite <= idex_regwrite;
 					idexmem_memtoreg <= idex_memtoreg;

@@ -74,17 +74,20 @@ ARCHITECTURE RTL OF Stage1_Fetch IS
 	-- Inner Pipeline Layer:
 	signal instruction_reg : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 	signal pc_out_reg      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
+	signal pc_out_reg_cpy  : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0'); -- Just a copy, not pipelined
 BEGIN
 	Program_Counter1:    Program_Counter    PORT MAP(clk, new_pc_reg, fsm_next, reset, pc_out_reg);
-	Instruction_Memory1: Instruction_Memory PORT MAP(pc_out_reg, instruction_reg);	
+	Instruction_Memory1: Instruction_Memory PORT MAP(pc_out_reg_cpy, instruction_reg);
 	
 	-- If this stage is stalling/freezing, we may not write the new PC value
 	pc_wr_reg <= '1' WHEN fsm_next = '1' AND (if_freeze = '0' OR if_flush = '0');
 
 	-- NOTE: There are two ways to branch unconditionally. Either use the microcode unit for ANY instruction, or use the B/BR instructions with no other side effects
 	new_pc_reg <=
-		new_pc WHEN (pc_src or uncond_branch_flag) = '1' or instruction_reg(31 downto 26) = "000101" or instruction_reg(31 downto 26) = "100101"
+		new_pc WHEN (pc_src or uncond_branch_flag) = '1'
 		ELSE pc_out_reg + "100";
+	
+	pc_out_reg_cpy <= pc_out_reg WHEN pc_src = '0' ELSE new_pc_reg;
 	
 	process(clk) begin
 		if clk'event and clk = '0' then
@@ -92,7 +95,7 @@ BEGIN
 				if if_flush = '0' and if_freeze = '0' then -- In the fetch stage, freezing is the same as flushing/stalling
 					-- Move the Fetch Stage's Inner Pipeline Forward:
 					if_instruction <= instruction_reg;
-					pc_out         <= pc_out_reg;
+					pc_out <= pc_out_reg_cpy;
 				end if;
 		--	end if;
 		end if;

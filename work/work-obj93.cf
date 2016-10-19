@@ -1,46 +1,46 @@
 v 4
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/alu.vhd" "d83667a99edf9ce5f87f970a7527d316b9b9d8a3" "20161019023358.690":
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/alu.vhd" "d83667a99edf9ce5f87f970a7527d316b9b9d8a3" "20161019234235.819":
   entity alu at 1( 0) + 0 on 38;
   architecture rtl of alu at 21( 612) + 0 on 39;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/defines.vhd" "2f6d084a5363b94bc52c85e70c2ef5de31b887a5" "20161019023358.690":
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/defines.vhd" "5e3ce9941bb431d985b5c89c58bd75c5f67227dd" "20161019234235.818":
   package fisc_defines at 1( 0) + 0 on 11;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/fisc.vhd" "c4f1d4c30cefce3cc7018106e9e15d8b1a2bb488" "20161019023358.690":
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/fisc.vhd" "a4d0dd7989c6e43eb1c815c0c83ae7ecc87153d2" "20161019234235.818":
   entity fisc at 1( 0) + 0 on 14;
   architecture rtl of fisc at 12( 178) + 0 on 15;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/flags.vhd" "f6c497596864a3919c44dc65f30de64fee5d1125" "20161019023358.690":
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/flags.vhd" "f6c497596864a3919c44dc65f30de64fee5d1125" "20161019234235.819":
   entity flags at 1( 0) + 0 on 30;
   architecture rtl of flags at 19( 456) + 0 on 31;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/instruction_memory.vhd" "c89daff1f1409edb12f270b18acee26cae3ee3a3" "20161019023358.690":
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/instruction_memory.vhd" "c89daff1f1409edb12f270b18acee26cae3ee3a3" "20161019234235.819":
   entity instruction_memory at 1( 0) + 0 on 32;
   architecture rtl of instruction_memory at 18( 520) + 0 on 33;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/microcode.vhd" "b22932bf8ecfd41182ab85b48d9f60b0784cd05f" "20161019023358.690":
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/microcode.vhd" "a20a1834bd448d7db16f295dcf12a315c1a264b1" "20161019234235.819":
   entity microcode at 1( 0) + 0 on 34;
   architecture rtl of microcode at 17( 716) + 0 on 35;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/registers.vhd" "7556b1bbfdb874147715e03b9228384870be2ea3" "20161019023358.690":
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/registers.vhd" "52e64a72f1ebc3645842e5b47728d49e2d27153a" "20161019234235.819":
   entity regfile at 1( 0) + 0 on 36;
   architecture rtl of regfile at 24( 954) + 0 on 37;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/stage1_fetch.vhd" "4990ee9d53436e35f7b5c8919a48414f4ca42b24" "20161019023358.690":
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/stage1_fetch.vhd" "2bf8e96efd72e9e3fa3eec960c26e72889700e55" "20161019234235.818":
   entity program_counter at 1( 0) + 0 on 16;
   architecture rtl of program_counter at 16( 387) + 0 on 17;
   entity stage1_fetch at 33( 814) + 0 on 18;
   architecture rtl of stage1_fetch at 54( 1550) + 0 on 19;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/stage2_decode.vhd" "894166e485643f9baf72e7fe603f5a553abb15a0" "20161019023358.690":
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/stage2_decode.vhd" "290caf58d4ae4e1204b308bb30b639782e242a5d" "20161019234235.818":
   entity stage2_decode at 1( 0) + 0 on 20;
-  architecture rtl of stage2_decode at 38( 1837) + 0 on 21;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/stage3_execute.vhd" "9b7e54d9c67e024c9547737ed223d746585d1a2f" "20161019023358.690":
+  architecture rtl of stage2_decode at 43( 2271) + 0 on 21;
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/stage3_execute.vhd" "b855aaa1e42189494b01dedc0fec8a5e068f0c3f" "20161019234235.818":
   entity stage3_execute at 1( 0) + 0 on 22;
-  architecture rtl of stage3_execute at 43( 1736) + 0 on 23;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/stage4_memory_access.vhd" "eca0a18d81b37128785cda429b907ddeac3ededf" "20161019023358.690":
+  architecture rtl of stage3_execute at 46( 1990) + 0 on 23;
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/stage4_memory_access.vhd" "97318eddfae3a4db7d55cab935320a7ab589756a" "20161019234235.818":
   entity data_memory at 1( 0) + 0 on 24;
   architecture rtl of data_memory at 23( 731) + 0 on 25;
   entity stage4_memory_access at 94( 4019) + 0 on 26;
-  architecture rtl of stage4_memory_access at 123( 5294) + 0 on 27;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/stage5_writeback.vhd" "b0da63baeef95157e71015d83d992c9403206ef7" "20161019023358.690":
+  architecture rtl of stage4_memory_access at 125( 5470) + 0 on 27;
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/stage5_writeback.vhd" "b0da63baeef95157e71015d83d992c9403206ef7" "20161019234235.819":
   entity stage5_writeback at 1( 0) + 0 on 28;
   architecture rtl of stage5_writeback at 15( 440) + 0 on 29;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/top.vhd" "9e107953501b983f3d75ba8ac5853f5152d0a2fa" "20161019023358.690":
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/top.vhd" "9e107953501b983f3d75ba8ac5853f5152d0a2fa" "20161019234235.818":
   entity top at 1( 0) + 0 on 12;
   architecture rtl of top at 7( 101) + 0 on 13;
-file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/top_synth.vhd" "cf34ea233cfe981435b5f710822647b33fdb1a7a" "20161019023358.515":
+file "C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\3-Development\FISC\" "rtl/top_synth.vhd" "cf34ea233cfe981435b5f710822647b33fdb1a7a" "20161019234235.624":
   entity top_synth at 1( 0) + 0 on 4;
   architecture rtl of top_synth at 12( 175) + 0 on 4;

@@ -12,6 +12,7 @@ ENTITY Stage3_Execute IS
 		opB       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		sign_ext  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		result    : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		result_early : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		aluop     : in  std_logic_vector(1  downto 0); -- Consume control on this stage
 		opcode    : in  std_logic_vector(10 downto 0);
 		alusrc    : in  std_logic;
@@ -22,6 +23,8 @@ ENTITY Stage3_Execute IS
 		-- Pipeline (data) outputs:
 		ifid_instruction   : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 		ifidex_instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
+		ifid_pc_out        : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		ifidex_pc_out      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		ex_opB             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
 		-- Pipeline (control) outputs
 		id_memwrite    : in  std_logic;
@@ -58,12 +61,17 @@ ARCHITECTURE RTL OF Stage3_Execute IS
 	signal alu_opB_reg : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal func_reg    : std_logic_vector(3 downto 0) := (others => '0');
 	-- Inner Pipeline Layer:
-	signal result_reg  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal result_reg    : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal alu_neg_reg   : std_logic := '0';
+	signal alu_zero_reg  : std_logic := '0';
+	signal alu_overf_reg : std_logic := '0';
+	signal alu_carry_reg : std_logic := '0';
 BEGIN
 	-- Instantiate ALU:
-	ALU1: ALU PORT MAP(clk, opA, alu_opB_reg, func_reg, result_reg, alu_neg, alu_zero, alu_overf, alu_carry);
+	ALU1: ALU PORT MAP(clk, opA, alu_opB_reg, func_reg, result_reg, alu_neg_reg, alu_zero_reg, alu_overf_reg, alu_carry_reg);
 	
 	alu_opB_reg <= sign_ext WHEN alusrc = '1' ELSE opB;
+	result_early <= result_reg;
 	
 	func_reg   <= "0010" WHEN aluop = "00" ELSE "0111" WHEN aluop(0) = '1' ELSE 
 	              "0010" WHEN (aluop(1) = '1' AND (opcode = "10001011000" or opcode(10 downto 1) = "1001000100" or opcode(10 downto 1) = "1011000100" or opcode = "10101011000" or opcode(10 downto 2) = "111100101" or opcode(10 downto 2) = "110100101")) ELSE -- ADD, MOVK and MOVZ
@@ -89,12 +97,17 @@ BEGIN
 					result <= result_reg;
 					ex_opB <= opB;
 					ifidex_instruction <= ifid_instruction;
+					ifidex_pc_out <= ifid_pc_out;
 					-- Move the controls:
 					idex_memwrite  <= id_memwrite;
 					idex_memread   <= id_memread;
 					idex_regwrite  <= id_regwrite;
 					idex_memtoreg  <= id_memtoreg;
 					idex_set_flags <= id_set_flags;
+					alu_neg        <= alu_neg_reg;
+					alu_zero       <= alu_zero_reg;
+					alu_overf      <= alu_overf_reg;
+					alu_carry      <= alu_carry_reg;
 				else
 					-- Stall the pipeline (preserve the data):
 					idex_memwrite  <= '0';
@@ -102,6 +115,10 @@ BEGIN
 					idex_regwrite  <= '0';
 					idex_memtoreg  <= '0';
 					idex_set_flags <= '0';
+					alu_neg        <= '0';
+					alu_zero       <= '0';
+					alu_overf      <= '0';
+					alu_carry      <= '0';
 				end if;
 			end if;
 		end if;

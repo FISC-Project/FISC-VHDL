@@ -13,6 +13,7 @@ ARCHITECTURE RTL OF FISC IS
 	-----------------------------------------------
 	-- Microcode Control Bus (very important):
 	signal id_microcode_ctrl : std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
+	signal id_microcode_ctrl_early : std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
 	
 	---- Stage interconnect wires declaration: ----
 	-- Stage 1 - Fetch Interconnect wires --
@@ -40,16 +41,18 @@ ARCHITECTURE RTL OF FISC IS
 	-----------------------------------------
 	
 	-- Stage 3 - Execute Interconnect wires --
-	signal ex_srcA       : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-	signal ex_srcB       : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-	signal ex_result     : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-	signal ex_alu_neg    : std_logic; -- Condition code
-	signal ex_alu_zero   : std_logic; -- Condition code
-	signal ex_alu_overf  : std_logic; -- Condition code
-	signal ex_alu_carry  : std_logic; -- Condition code
+	signal ex_srcA         : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal ex_srcB         : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal ex_result       : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal ex_result_early : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal ex_alu_neg      : std_logic; -- Condition code
+	signal ex_alu_zero     : std_logic; -- Condition code
+	signal ex_alu_overf    : std_logic; -- Condition code
+	signal ex_alu_carry    : std_logic; -- Condition code
 	-- Pipeline output:
 	signal ifidex_instruction : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 	signal ex_opB             : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal ifidex_pc_out      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	-- Pipeline controls:
 	signal idex_memwrite  : std_logic;
 	signal idex_memread   : std_logic;
@@ -66,6 +69,7 @@ ARCHITECTURE RTL OF FISC IS
 	signal mem_data_out : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal mem_address           : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal ifidexmem_instruction : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+	signal ifidexmem_pc_out      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	-- Pipeline controls:
 	signal idexmem_regwrite      : std_logic;
 	signal idexmem_memtoreg      : std_logic;
@@ -96,20 +100,20 @@ ARCHITECTURE RTL OF FISC IS
 	signal set_flags : std_logic := '0';
 	--------------------------------------------------------------------------------------------------------------
 	
-	--
+	-- Forwarding Control Signals : ------------
 	signal forwA : std_logic_vector(1 downto 0);
 	signal forwB : std_logic_vector(1 downto 0);
-	--
+	--------------------------------------------
 BEGIN
 	---- Microarchitecture Stages Declaration: ----
 	-- Stage 1: Fetch
 	Stage1_Fetch1   : Stage1_Fetch   PORT MAP(clk, if_new_pc, if_reset_pc, id_microcode_ctrl(0), id_pc_src, if_uncond_branch_flag, if_instruction, if_pc_out, if_flush, if_freeze);
 	-- Stage 2: Decode
-	Stage2_Decode1  : Stage2_Decode  PORT MAP(clk, id_sos, id_microcode_ctrl, if_instruction, wb_writeback_data, idexmem_regwrite, id_outA, id_outB, ifidexmem_instruction(4 downto 0), if_pc_out, if_new_pc, id_sign_ext, id_pc_src, if_uncond_branch_flag, flag_neg, flag_zero, flag_overf, flag_carry, ifidexmem_instruction, ifid_pc_out, ifid_instruction, id_flush, id_freeze);
+	Stage2_Decode1  : Stage2_Decode  PORT MAP(clk, id_sos, id_microcode_ctrl, id_microcode_ctrl_early, if_instruction, wb_writeback_data, idexmem_regwrite, id_outA, id_outB, ifidexmem_instruction(4 downto 0), if_pc_out, ifidexmem_pc_out, if_new_pc, id_sign_ext, id_pc_src, if_uncond_branch_flag, flag_neg, flag_zero, flag_overf, flag_carry, ifidexmem_instruction, ex_result_early, wb_writeback_data, idexmem_regwrite, ifid_pc_out, ifid_instruction, id_flush, id_freeze);
 	-- Stage 3: Execute
-	Stage3_Execute1 : Stage3_Execute PORT MAP(clk, ex_srcA, ex_srcB, id_sign_ext, ex_result, aluop, ifid_instruction(31 downto 21), alusrc, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, ifid_instruction, ifidex_instruction, ex_opB, memwrite, memread, regwrite, memtoreg, set_flags, idex_memwrite, idex_memread, idex_regwrite, idex_memtoreg, idex_set_flags, ex_flush, ex_freeze);
+	Stage3_Execute1 : Stage3_Execute PORT MAP(clk, ex_srcA, ex_srcB, id_sign_ext, ex_result, ex_result_early, aluop, ifid_instruction(31 downto 21), alusrc, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, ifid_instruction, ifidex_instruction, ifid_pc_out, ifidex_pc_out, ex_opB, memwrite, memread, regwrite, memtoreg, set_flags, idex_memwrite, idex_memread, idex_regwrite, idex_memtoreg, idex_set_flags, ex_flush, ex_freeze);
 	-- Stage 4: Memory Access
-	Stage4_Memory_Access1: Stage4_Memory_Access PORT MAP(clk, ex_result, ex_opB, mem_data_out, idex_memwrite, idex_memread, ifidex_instruction(11 downto 10), mem_address, ifidex_instruction, ifidexmem_instruction, idex_regwrite, idex_memtoreg, idexmem_regwrite, idexmem_memtoreg, mem_flush, mem_freeze);
+	Stage4_Memory_Access1: Stage4_Memory_Access PORT MAP(clk, ex_result, ex_opB, mem_data_out, idex_memwrite, idex_memread, ifidex_instruction(11 downto 10), mem_address, ifidex_instruction, ifidexmem_instruction, ifidex_pc_out, ifidexmem_pc_out, idex_regwrite, idex_memtoreg, idexmem_regwrite, idexmem_memtoreg, mem_flush, mem_freeze);
 	-- Stage 3: Writeback
 	Stage5_Writeback1: Stage5_Writeback PORT MAP(clk, mem_address, mem_data_out, idexmem_memtoreg, wb_writeback_data);
 	
@@ -133,21 +137,7 @@ BEGIN
 				AND (ifidexmem_instruction(4 downto 0) = ifid_instruction(9 downto 5))
 			)
 		ELSE "00"; -- Don't forward anything, just select the normal operand from the register through the pipe ID/EX
-	
-	-- FORWARDING 'A' LOGIC BACKUP: 
-	--	"10" WHEN (idex_regwrite = '1' AND ifidex_instruction(4 downto 0) /= "11111" AND ifidex_instruction(4 downto 0) = ifid_instruction(9 downto 5)) ELSE -- Forward EX/MEM ALU Result
-	--	"01" WHEN -- Forward MEM/WB Writeback result
-	--		(
-	--			idexmem_regwrite = '1' AND ifidexmem_instruction(4 downto 0) /= "11111" 
-	--			AND NOT(
-	--				idex_regwrite = '1' 
-	--				AND (ifidex_instruction(4 downto 0) /= "11111") 
-	--				AND (ifidex_instruction(4 downto 0) /= ifid_instruction(9 downto 5))
-	--			)
-	--			AND (ifidexmem_instruction(4 downto 0) = ifid_instruction(9 downto 5))
-	--		)
-	--	ELSE "00"; -- Don't forward anything, just select the normal operand from the register through the pipe ID/EX
-	
+		
 	forwB <= 
 		"10" WHEN (idex_regwrite = '1' AND ifidex_instruction(4 downto 0) /= "11111" AND ifidex_instruction(4 downto 0) = ifid_instruction(20 downto 16)) ELSE -- Forward EX/MEM ALU Result
 		"01" WHEN -- Forward MEM/WB Writeback result
@@ -174,10 +164,12 @@ BEGIN
 	
 	-- Hazard Detection logic declaration:
 	-- Stall Decode Stage due to Loads followed by an R-Type instruction:
-	id_flush <= '1' WHEN (memread = '1' AND ((ifid_instruction(4 downto 0) = if_instruction(9 downto 5)) OR ifid_instruction(4 downto 0) = if_instruction(20 downto 16))) ELSE '0';
+	id_flush <= 
+		'1' WHEN (memread = '1' AND ((ifid_instruction(4 downto 0) = if_instruction(9 downto 5)) OR ifid_instruction(4 downto 0) = if_instruction(20 downto 16)))
+		ELSE '0';
 	if_flush <= id_flush;
 	
-	if_uncond_branch_flag <= id_microcode_ctrl(3); -- Control (ID (MCU *UNPIPELINED*))	
+	if_uncond_branch_flag <= id_microcode_ctrl_early(3); -- Control (ID (MCU *UNPIPELINED*))	
 	if_reset_pc <= '0'; -- TODO: Use this signal
 	
 	-- Control Signals Assignment: --
@@ -196,7 +188,7 @@ BEGIN
 		if restart_cpu = '1' then
 			id_sos <= '1';
 		else
-			if clk = '0' then
+			if clk = '0' then 		
 				if id_microcode_ctrl(0) = '1' then
 					id_sos <= '1';
 				else
