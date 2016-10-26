@@ -1,5 +1,5 @@
 Analysis & Synthesis report for top
-Wed Oct 26 03:55:57 2016
+Wed Oct 26 04:20:40 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -308,7 +308,7 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Oct 26 03:55:57 2016       ;
+; Analysis & Synthesis Status        ; Successful - Wed Oct 26 04:20:40 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
 ; Top-level Entity Name              ; top_synth                                   ;
@@ -4177,7 +4177,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Wed Oct 26 03:51:58 2016
+    Info: Processing started: Wed Oct 26 04:18:23 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FISC -c top
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university_modules/computer_systems_engineering_-_year_3/singleton_meng_year_3_project/3-development/fisc/rtl/dram_sim.vhd
@@ -4527,9 +4527,9 @@ Info (21057): Implemented 2 device resources after synthesis - the final resourc
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 0 output pins
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 18 warnings
-    Info: Peak virtual memory: 3299 megabytes
-    Info: Processing ended: Wed Oct 26 03:55:57 2016
-    Info: Elapsed time: 00:03:59
-    Info: Total CPU time (on all processors): 00:04:20
+    Info: Peak virtual memory: 3236 megabytes
+    Info: Processing ended: Wed Oct 26 04:20:40 2016
+    Info: Elapsed time: 00:02:17
+    Info: Total CPU time (on all processors): 00:02:42
 
 

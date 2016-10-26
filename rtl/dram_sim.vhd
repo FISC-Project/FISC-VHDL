@@ -43,7 +43,7 @@ ARCHITECTURE RTL OF DRAM_Sim IS
 		variable index_field   : integer;
 		variable j             : integer := 0;
 	begin
-		index_field := to_integer(unsigned(address_l1ic(L1_IC_INDEXOFF downto 6))) * L1_IC_DATABLOCKSIZE;
+		index_field := (to_integer(unsigned(address_l1ic(L1_IC_INDEXOFF downto 6))) * L1_IC_DATABLOCKSIZE) * (to_integer(unsigned(address_l1ic(L1_IC_ADDR_WIDTH-1 downto L1_IC_ADDR_WIDTH-L1_IC_TAGWIDTH))) + 1);
 		for i in index_field to index_field+L1_IC_DATABLOCKSIZE-1 loop
 			aggregate((((L1_IC_DATABLOCKSIZE-j-1)+1)*8)-1 downto (L1_IC_DATABLOCKSIZE-j-1)*8) 
 				:= dram_mem(i);
