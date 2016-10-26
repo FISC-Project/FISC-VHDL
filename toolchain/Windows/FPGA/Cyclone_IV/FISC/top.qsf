@@ -168,13 +168,14 @@ set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/top_tf.v -se
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name VHDL_FILE ../../../../../rtl/dram_sim.vhd
+set_global_assignment -name VHDL_FILE ../../../../../rtl/l1_icache.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/flags.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/stage5_writeback.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/stage4_memory_access.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/stage3_execute.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/alu.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/registers.vhd
-set_global_assignment -name VHDL_FILE ../../../../../rtl/instruction_memory.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/top_synth.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/stage2_decode.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/stage1_fetch.vhd

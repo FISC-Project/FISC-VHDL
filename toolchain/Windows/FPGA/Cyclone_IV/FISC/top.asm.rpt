@@ -1,5 +1,5 @@
 Assembler report for top
-Thu Oct 20 00:45:36 2016
+Wed Oct 26 03:56:10 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -38,7 +38,7 @@ agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Thu Oct 20 00:45:36 2016 ;
+; Assembler Status      ; Successful - Wed Oct 26 03:56:10 2016 ;
 ; Revision Name         ; top                                   ;
 ; Top-level Entity Name ; top_synth                             ;
 ; Family                ; Cyclone IV E                          ;
@@ -79,14 +79,14 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Thu Oct 20 00:45:33 2016
+    Info: Processing started: Wed Oct 26 03:56:08 2016
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off FISC -c top
 Info (115031): Writing out detailed assembly data for power analysis
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 732 megabytes
-    Info: Processing ended: Thu Oct 20 00:45:36 2016
-    Info: Elapsed time: 00:00:03
+    Info: Peak virtual memory: 736 megabytes
+    Info: Processing ended: Wed Oct 26 03:56:10 2016
+    Info: Elapsed time: 00:00:02
     Info: Total CPU time (on all processors): 00:00:02
 
 

@@ -21,6 +21,7 @@ ARCHITECTURE RTL OF FISC IS
 	signal if_reset_pc           : std_logic; -- Control (*UNUSED* (for now...))
 	signal if_uncond_branch_flag : std_logic; -- Control (ID (MCU))
 	signal if_instruction        : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
+	signal if_new_pc_unpiped     : std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 	signal if_pc_out             : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
 	signal if_flush              : std_logic := '0';
 	signal if_freeze             : std_logic := '0';
@@ -100,14 +101,22 @@ ARCHITECTURE RTL OF FISC IS
 	signal set_flags : std_logic := '0';
 	--------------------------------------------------------------------------------------------------------------
 	
-	-- Forwarding Control Signals : ------------
+	-- Forwarding Control Signals --------------
 	signal forwA : std_logic_vector(1 downto 0);
 	signal forwB : std_logic_vector(1 downto 0);
 	--------------------------------------------
+	
+	-- L1 Instruction Cache Internal Signals --
+	signal l1_ic_request_data : std_logic := '1';
+	signal l1_ic_hit          : std_logic;
+	signal l1_ic_miss         : std_logic;
+	signal l1_ic_data         : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+	signal l1_ic_data_src     : std_logic;
+	-------------------------------------------
 BEGIN
 	---- Microarchitecture Stages Declaration: ----
 	-- Stage 1: Fetch
-	Stage1_Fetch1   : Stage1_Fetch   PORT MAP(clk, if_new_pc, if_reset_pc, id_microcode_ctrl(0), id_pc_src, if_uncond_branch_flag, if_instruction, if_pc_out, if_flush, if_freeze);
+	Stage1_Fetch1   : Stage1_Fetch   PORT MAP(clk, if_new_pc, if_reset_pc, id_microcode_ctrl(0), id_pc_src, if_uncond_branch_flag, l1_ic_data, if_instruction, if_new_pc_unpiped, if_pc_out, if_flush, if_freeze);
 	-- Stage 2: Decode
 	Stage2_Decode1  : Stage2_Decode  PORT MAP(clk, id_sos, id_microcode_ctrl, id_microcode_ctrl_early, if_instruction, wb_writeback_data, idexmem_regwrite, id_outA, id_outB, ifidexmem_instruction(4 downto 0), if_pc_out, ifidexmem_pc_out, if_new_pc, id_sign_ext, id_pc_src, if_uncond_branch_flag, flag_neg, flag_zero, flag_overf, flag_carry, ifidexmem_instruction, ex_result_early, wb_writeback_data, idexmem_regwrite, ifid_pc_out, ifid_instruction, id_flush, id_freeze);
 	-- Stage 3: Execute
@@ -122,7 +131,7 @@ BEGIN
 	
 	-- Exception Flags declaration:
 	-- TODO
-	
+		
 	-- Forwarding logic declaration:
 	forwA <= 
 		"10" WHEN (idex_regwrite = '1' AND ifidex_instruction(4 downto 0) /= "11111" AND ifidex_instruction(4 downto 0) = ifid_instruction(9 downto 5)) ELSE -- Forward EX/MEM ALU Result
@@ -180,6 +189,9 @@ BEGIN
 	memtoreg  <= id_microcode_ctrl(7);  -- Control (WB)
 	alusrc    <= id_microcode_ctrl(8);  -- Control (EX)
 	set_flags <= id_microcode_ctrl(13); -- Control (originates from ID and is used on stage EX)
+	
+	-- L1 Instruction Cache Declaration:
+	L1_ICache1: ENTITY work.L1_ICache PORT MAP(clk, l1_ic_request_data, if_new_pc_unpiped, l1_ic_hit, l1_ic_miss, l1_ic_data, l1_ic_data_src);
 	
 	--------------------------
 	------- Behaviour: -------
