@@ -5,7 +5,8 @@ USE work.FISC_DEFINES.all;
 ENTITY FISC IS
 	PORT(
 		clk         : in std_logic;
-		restart_cpu : in std_logic
+		restart_cpu : in std_logic;
+		dbus : out std_logic_vector(3 downto 0)
 	);
 END FISC;
 
@@ -114,6 +115,10 @@ ARCHITECTURE RTL OF FISC IS
 	signal l1_ic_data_src     : std_logic;
 	-------------------------------------------
 BEGIN
+	dbus(1 downto 0) <= aluop;
+	dbus(2) <= restart_cpu;
+	dbus(3) <= clk;
+	
 	---- Microarchitecture Stages Declaration: ----
 	-- Stage 1: Fetch
 	Stage1_Fetch1   : Stage1_Fetch   PORT MAP(clk, if_new_pc, if_reset_pc, id_microcode_ctrl(0), id_pc_src, if_uncond_branch_flag, l1_ic_data, if_instruction, if_new_pc_unpiped, if_pc_out, if_flush, if_freeze);
@@ -123,7 +128,7 @@ BEGIN
 	Stage3_Execute1 : Stage3_Execute PORT MAP(clk, ex_srcA, ex_srcB, id_sign_ext, ex_result, ex_result_early, aluop, ifid_instruction(31 downto 21), alusrc, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, ifid_instruction, ifidex_instruction, ifid_pc_out, ifidex_pc_out, ex_opB, memwrite, memread, regwrite, memtoreg, set_flags, idex_memwrite, idex_memread, idex_regwrite, idex_memtoreg, idex_set_flags, ex_flush, ex_freeze);
 	-- Stage 4: Memory Access
 	Stage4_Memory_Access1: Stage4_Memory_Access PORT MAP(clk, ex_result, ex_opB, mem_data_out, idex_memwrite, idex_memread, ifidex_instruction(11 downto 10), mem_address, ifidex_instruction, ifidexmem_instruction, ifidex_pc_out, ifidexmem_pc_out, idex_regwrite, idex_memtoreg, idexmem_regwrite, idexmem_memtoreg, mem_flush, mem_freeze);
-	-- Stage 3: Writeback
+	-- Stage 5: Writeback
 	Stage5_Writeback1: Stage5_Writeback PORT MAP(clk, mem_address, mem_data_out, idexmem_memtoreg, wb_writeback_data);
 	
 	-- Flags declaration:

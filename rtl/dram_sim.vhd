@@ -33,7 +33,22 @@ ARCHITECTURE RTL OF DRAM_Sim IS
 		return ret;
 	end function;
 	
-	signal dram_mem : mem_t := load_dram_mem("fisc_imem.bin");
+	signal dram_mem : mem_t := 
+		(
+		0 =>  "10001011",
+		1 =>  "00011111",
+		2 =>  "00000011",
+		3 =>  "11111111",
+		4 =>  "10001011",
+		5 =>  "00011111",
+		6 =>  "00000011",
+		7 =>  "11111111",
+		8 =>  "00010100",
+		9 =>  "00000000",
+		10 => "00000000",
+		11 => "00000000",
+		others => (others => '0')); 
+		--load_dram_mem("fisc_imem.bin");
 	
 	function build_l1ic_datablock(
 		dram_mem     : mem_t;

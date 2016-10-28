@@ -61,7 +61,6 @@ END L1_ICache_Set;
 ARCHITECTURE RTL OF L1_ICache_Set IS
 	signal hitbus         : std_logic_vector(L1_IC_WAYCOUNT-1 downto 0);
 	signal wide_data_out  : std_logic_vector((L1_IC_DATABLOCKSIZE * L1_IC_WAYCOUNT * 8) - 1 downto 0); -- Huge aggregated data bus from all the ways in each set
-	signal set_enabled    : std_logic := '0';
 	signal wr_ways_enable : std_logic;
 BEGIN
 	GEN_WAYS:
@@ -71,27 +70,15 @@ BEGIN
 	end generate GEN_WAYS;
 	
 	-- Enable or disable writting to this Set's Ways
-	wr_ways_enable <= wr AND set_enabled;
+	wr_ways_enable <= '1' WHEN wr = '1' AND wr_set = set_idx_in ELSE '0';
 	
 	-- Select the data from the ways based on the hit bus (TODO: Use generate on the statements below):
 	data_out <= 
-		wide_data_out((1 * L1_IC_DATABLOCKSIZE * 8)-1 downto 0)                             WHEN hitbus = "0001" ELSE
-		wide_data_out((2 * L1_IC_DATABLOCKSIZE * 8)-1 downto (1 * L1_IC_DATABLOCKSIZE * 8)) WHEN hitbus = "0010" ELSE
-		wide_data_out((3 * L1_IC_DATABLOCKSIZE * 8)-1 downto (2 * L1_IC_DATABLOCKSIZE * 8)) WHEN hitbus = "0100" ELSE
-		wide_data_out((4 * L1_IC_DATABLOCKSIZE * 8)-1 downto (3 * L1_IC_DATABLOCKSIZE * 8)) WHEN hitbus = "1000" ELSE
+		wide_data_out((1 * L1_IC_DATABLOCKSIZE * 8)-1 downto 0)                             WHEN hitbus = "01" ELSE
+		wide_data_out((2 * L1_IC_DATABLOCKSIZE * 8)-1 downto (1 * L1_IC_DATABLOCKSIZE * 8)) WHEN hitbus = "10" ELSE
 		(others => 'Z');
 		
 	hit <= '1' WHEN to_integer(unsigned(hitbus)) > 0 AND to_integer(unsigned(sel_set)) = set_idx_in ELSE '0';
-	
-	process(clk) begin
-		if clk'event and clk = '1' then
-			if wr = '1' and wr_set = set_idx_in then
-				set_enabled <= '1';
-			else
-				set_enabled <= '0';
-			end if;
-		end if;
-	end process;
 END ARCHITECTURE RTL;
 
 -------------------------------------------------
@@ -137,13 +124,13 @@ ARCHITECTURE RTL OF L1_ICache IS
 		variable data_ret                   : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 		variable super_wide_data_out_offset : integer := 0;
 		variable wordoff_field              : integer;
-		variable index_field                : std_logic_vector(L1_IC_INDEXOFF-6 downto 0) := (others => '0');
+		variable index_field                : std_logic_vector(L1_IC_INDEXOFF-L1_IC_BYTE_OFF downto 0) := (others => '0');
 	begin 
 		if hit_reg = '0' then
 			wordoff_field := to_integer(unsigned(address(L1_IC_WORDOFF-1 downto 2))) * FISC_INSTRUCTION_SZ;
 			data_ret := DRAM_datablock_out(DRAM_datablock_out'length-wordoff_field-1 downto DRAM_datablock_out'length-wordoff_field-FISC_INSTRUCTION_SZ);
 		else
-			index_field   := address(L1_IC_INDEXOFF downto 6);
+			index_field   := address(L1_IC_INDEXOFF downto L1_IC_BYTE_OFF);
 			wordoff_field := to_integer(unsigned(address(L1_IC_WORDOFF-1 downto 2)));
 			super_wide_data_out_offset := (to_integer(unsigned(index_field)) + 1) * L1_IC_DATABLOCKSIZE * 8 - (wordoff_field * FISC_INSTRUCTION_SZ);
 			data_ret := super_wide_data_out(super_wide_data_out_offset-1 downto super_wide_data_out_offset-FISC_INSTRUCTION_SZ);
@@ -157,7 +144,7 @@ BEGIN
 	GEN_SETS:
 	for i in 0 to L1_IC_SETCOUNT-1 generate
 		SETX: ENTITY work.L1_ICache_Set 
-			PORT MAP(clk, i, address(L1_IC_ADDR_WIDTH-1 downto L1_IC_ADDR_WIDTH-L1_IC_TAGWIDTH), hitwidebus(i), super_wide_data_out(((i+1) * L1_IC_DATABLOCKSIZE * 8)-1 downto i * L1_IC_DATABLOCKSIZE * 8), DRAM_datablock_out, cache_wr, cache_wr_way, cache_wr_set, address(L1_IC_INDEXOFF downto 6));
+			PORT MAP(clk, i, address(L1_IC_ADDR_WIDTH-1 downto L1_IC_ADDR_WIDTH-L1_IC_TAGWIDTH), hitwidebus(i), super_wide_data_out(((i+1) * L1_IC_DATABLOCKSIZE * 8)-1 downto i * L1_IC_DATABLOCKSIZE * 8), DRAM_datablock_out, cache_wr, cache_wr_way, cache_wr_set, address(L1_IC_INDEXOFF downto L1_IC_BYTE_OFF));
 	end generate GEN_SETS;
 	
 	data     <= data_output_handle(hit_reg, address, DRAM_datablock_out, super_wide_data_out);	
@@ -167,7 +154,7 @@ BEGIN
 	
 	process(clk, request_data)
 		variable wordoff_field  : integer;
-		variable index_field    : std_logic_vector(L1_IC_INDEXOFF-6 downto 0) := (others => '0');
+		variable index_field    : std_logic_vector(L1_IC_INDEXOFF-L1_IC_BYTE_OFF downto 0) := (others => '0');
 		variable super_wide_data_out_offset : integer := 0;
 	begin
 		if clk'event and clk = '1' and request_data = '1' then
@@ -176,10 +163,10 @@ BEGIN
 				-- Fetch a data block from main memory using the address and store it in the cache. Also, output the data in parallel into the CPU Core.
 				
 				-- Now write this received block into Cache:
-				index_field := address(L1_IC_INDEXOFF downto 6);
+				index_field := address(L1_IC_INDEXOFF downto L1_IC_BYTE_OFF);
 				
 				cache_wr_way <= 0; -- TODO: Use algorithm to decide in which way to put this block
-				cache_wr_set <= (2**to_integer(unsigned(index_field)))-1; -- The set field is always fixed in set associative caches
+				cache_wr_set <= to_integer(unsigned(index_field)); -- The set field is always fixed in set associative caches
 				cache_wr <= '1';
 				
 				-- Make the data ready:

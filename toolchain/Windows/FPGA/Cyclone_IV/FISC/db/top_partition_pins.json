@@ -2,7 +2,32 @@
 	"partitions" : [
 		{
 			"name" : "Top",
-			"pins" : []
+			"pins" : [
+				{
+					"name" : "DS_DP",
+					"strict" : false
+				},
+				{
+					"name" : "DS_G",
+					"strict" : false
+				},
+				{
+					"name" : "DS_C",
+					"strict" : false
+				},
+				{
+					"name" : "DS_D",
+					"strict" : false
+				},
+				{
+					"name" : "KEY3",
+					"strict" : false
+				},
+				{
+					"name" : "CLK",
+					"strict" : false
+				}
+			]
 		}
 	]
 }

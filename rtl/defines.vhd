@@ -7,7 +7,8 @@ PACKAGE FISC_DEFINES IS
 	COMPONENT FISC
 		PORT(
 			clk : IN std_logic;
-			restart_cpu : in std_logic
+			restart_cpu : in std_logic;
+			dbus : out std_logic_vector(3 downto 0)
 		);
 	END COMPONENT;
 	-------------------------
@@ -275,12 +276,13 @@ PACKAGE FISC_DEFINES IS
 	-----------------------------------------------------------------
 	
 	---------------- L1 INSTRUCTION CACHE DEFINES -------------------
-	constant L1_IC_ADDR_WIDTH    : integer := 64;  -- Size of the address to be used on the L1 Cache and RAM
-	constant L1_IC_WAYCOUNT      : integer := 4;   -- Associativity level
-	constant L1_IC_DATABLOCKSIZE : integer := 64;  -- Size of the data field (in bytes)
-	constant L1_IC_SETCOUNT      : integer := 256; -- Each set contains L1_IC_DATABLOCKSIZE * L1_IC_WAYCOUNT bytes. Therefore, the total cache size (in bytes) is => L1_IC_SETCOUNT * L1_IC_DATABLOCKSIZE * L1_IC_WAYCOUNT
+	constant L1_IC_ADDR_WIDTH    : integer := 64; -- Size of the address to be used on the L1 Cache and RAM
+	constant L1_IC_WAYCOUNT      : integer := 2;  -- Associativity level
+	constant L1_IC_DATABLOCKSIZE : integer := 32; -- Size of the data field (in bytes)
+	constant L1_IC_SETCOUNT      : integer := 32; -- Each set contains L1_IC_DATABLOCKSIZE * L1_IC_WAYCOUNT bytes. Therefore, the total cache size (in bytes) is => L1_IC_SETCOUNT * L1_IC_DATABLOCKSIZE * L1_IC_WAYCOUNT
 	
-	constant L1_IC_TAGWIDTH      : integer := L1_IC_ADDR_WIDTH - integer(ceil(log2(real(L1_IC_SETCOUNT)))) - 6;
+	constant L1_IC_BYTE_OFF      : integer := integer(ceil(log2(real(L1_IC_DATABLOCKSIZE / 4)))) + 2;
+	constant L1_IC_TAGWIDTH      : integer := L1_IC_ADDR_WIDTH - integer(ceil(log2(real(L1_IC_SETCOUNT)))) - L1_IC_BYTE_OFF;
 	constant L1_IC_INDEXOFF      : integer := L1_IC_ADDR_WIDTH - L1_IC_TAGWIDTH - 1;
 	constant L1_IC_INDEXWIDTH    : integer := integer(ceil(log2(real(L1_IC_SETCOUNT))));
 	constant L1_IC_WORDOFF       : integer := integer(ceil(log2(real(L1_IC_DATABLOCKSIZE/(FISC_INSTRUCTION_SZ/8))))) + 2;
