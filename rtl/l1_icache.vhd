@@ -90,13 +90,23 @@ USE work.FISC_DEFINES.all;
 
 ENTITY L1_ICache IS
 	PORT(
-		clk            : in  std_logic;
-		request_data   : in  std_logic; -- Trigger the search for the data using the specified address on the L1 Instruction Cache
-		address        : in  std_logic_vector(L1_IC_ADDR_WIDTH-1 downto 0);
-		hit            : out std_logic;
-		miss           : out std_logic;
-		data           : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
-		data_src       : out std_logic := '0'
+		clk               : in  std_logic;
+		request_data      : in  std_logic; -- Trigger the search for the data using the specified address on the L1 Instruction Cache
+		address           : in  std_logic_vector(L1_IC_ADDR_WIDTH-1 downto 0);
+		fetching_mem      : out std_logic := '0';
+		hit               : out std_logic;
+		miss              : out std_logic;
+		data              : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+		data_src          : out std_logic := '0';
+		-- SDRAM Controls:
+		sdram_cmd_ready   : in  std_logic;
+		sdram_cmd_en      : out std_logic := '0';
+		sdram_cmd_wr      : out std_logic := '0';
+		sdram_cmd_address : out std_logic_vector(22 downto 0) := (others => '0');
+		sdram_cmd_byte_en : out std_logic_vector(3  downto 0) := (others => '0');
+		sdram_cmd_data_in : out std_logic_vector(31 downto 0) := (others => '0');
+		sdram_data_out    : in  std_logic_vector(31 downto 0);
+		sdram_data_ready  : in  std_logic
 	);
 END L1_ICache;
 
@@ -107,18 +117,24 @@ ARCHITECTURE RTL OF L1_ICache IS
 	signal data_ready          : std_logic := '0';
 	signal data_reg            : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 	
-	signal DRAM_datablock_out  : std_logic_vector((L1_IC_DATABLOCKSIZE * 8)-1 downto 0);
+	signal sdram_cmd_address_reg : std_logic_vector(22 downto 0) := (others => '0');
+
+	-- SDRAM Data blocks can't be fetched in one go from memory. We need to request memory sequentially until we fill the signal below:
+	signal   SDRAM_datablock_out        : std_logic_vector((L1_IC_DATABLOCKSIZE * 8)-1 downto 0) := (others => '0');
+	constant SDRAM_datablock_count_orig : integer := L1_IC_DATABLOCKSIZE / 4;
+	signal   SDRAM_datablock_count      : integer := SDRAM_datablock_count_orig; -- How many memory requests per datablock do we need
+	signal   fetching_mem_reg           : std_logic := '0';
 	
 	-- Write data to Cache signals:
 	signal cache_wr            : std_logic := '0';
 	signal cache_wr_way        : integer   :=  0;
 	signal cache_wr_set        : integer   :=  0;
-		
+	
 	function data_output_handle
 	(
 		hit_reg             : std_logic;
 		address             : std_logic_vector(L1_IC_ADDR_WIDTH-1 downto 0);
-		DRAM_datablock_out  : std_logic_vector((L1_IC_DATABLOCKSIZE * 8)-1 downto 0);
+		SDRAM_datablock_out : std_logic_vector((L1_IC_DATABLOCKSIZE * 8)-1 downto 0);
 		super_wide_data_out : std_logic_vector((L1_IC_DATABLOCKSIZE * L1_IC_SETCOUNT * 8) - 1 downto 0)
 	) return std_logic_vector is
 		variable data_ret                   : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
@@ -128,7 +144,7 @@ ARCHITECTURE RTL OF L1_ICache IS
 	begin 
 		if hit_reg = '0' then
 			wordoff_field := to_integer(unsigned(address(L1_IC_WORDOFF-1 downto 2))) * FISC_INSTRUCTION_SZ;
-			data_ret := DRAM_datablock_out(DRAM_datablock_out'length-wordoff_field-1 downto DRAM_datablock_out'length-wordoff_field-FISC_INSTRUCTION_SZ);
+			data_ret := SDRAM_datablock_out(SDRAM_datablock_out'length-wordoff_field-1 downto SDRAM_datablock_out'length-wordoff_field-FISC_INSTRUCTION_SZ);
 		else
 			index_field   := address(L1_IC_INDEXOFF downto L1_IC_BYTE_OFF);
 			wordoff_field := to_integer(unsigned(address(L1_IC_WORDOFF-1 downto 2)));
@@ -138,49 +154,85 @@ ARCHITECTURE RTL OF L1_ICache IS
 		return data_ret;
 	end data_output_handle;
 BEGIN
-	DRAM_Sim1 : ENTITY work.DRAM_Sim PORT MAP(address, DRAM_datablock_out);
-
 	-- Generate all the Sets in the Cache:
 	GEN_SETS:
 	for i in 0 to L1_IC_SETCOUNT-1 generate
 		SETX: ENTITY work.L1_ICache_Set 
-			PORT MAP(clk, i, address(L1_IC_ADDR_WIDTH-1 downto L1_IC_ADDR_WIDTH-L1_IC_TAGWIDTH), hitwidebus(i), super_wide_data_out(((i+1) * L1_IC_DATABLOCKSIZE * 8)-1 downto i * L1_IC_DATABLOCKSIZE * 8), DRAM_datablock_out, cache_wr, cache_wr_way, cache_wr_set, address(L1_IC_INDEXOFF downto L1_IC_BYTE_OFF));
+			PORT MAP(clk, i, address(L1_IC_ADDR_WIDTH-1 downto L1_IC_ADDR_WIDTH-L1_IC_TAGWIDTH), hitwidebus(i), super_wide_data_out(((i+1) * L1_IC_DATABLOCKSIZE * 8)-1 downto i * L1_IC_DATABLOCKSIZE * 8), SDRAM_datablock_out, cache_wr, cache_wr_way, cache_wr_set, address(L1_IC_INDEXOFF downto L1_IC_BYTE_OFF));
 	end generate GEN_SETS;
 	
-	data     <= data_output_handle(hit_reg, address, DRAM_datablock_out, super_wide_data_out);	
-	hit_reg  <= '0' WHEN to_integer(unsigned(hitwidebus)) = 0 ELSE '1';
-	hit      <= hit_reg or data_ready;
-	miss     <= not hit_reg;
+	data         <= data_output_handle(hit_reg, address, SDRAM_datablock_out, super_wide_data_out);	
+	hit_reg      <= '0' WHEN to_integer(unsigned(hitwidebus)) = 0 ELSE '1';
+	hit          <= hit_reg or data_ready;
+	miss         <= not hit_reg;
+	fetching_mem <= fetching_mem_reg;
+	
+	sdram_cmd_address <= sdram_cmd_address_reg;
 	
 	process(clk, request_data)
-		variable wordoff_field  : integer;
-		variable index_field    : std_logic_vector(L1_IC_INDEXOFF-L1_IC_BYTE_OFF downto 0) := (others => '0');
+		variable wordoff_field : integer;
+		variable index_field   : std_logic_vector(L1_IC_INDEXOFF-L1_IC_BYTE_OFF downto 0) := (others => '0');
 		variable super_wide_data_out_offset : integer := 0;
 	begin
-		if clk'event and clk = '1' and request_data = '1' then
-			if hit_reg = '0' then -- It's a miss...
-				-- Algorithm:
-				-- Fetch a data block from main memory using the address and store it in the cache. Also, output the data in parallel into the CPU Core.
-				
-				-- Now write this received block into Cache:
-				index_field := address(L1_IC_INDEXOFF downto L1_IC_BYTE_OFF);
-				
-				cache_wr_way <= 0; -- TODO: Use algorithm to decide in which way to put this block
-				cache_wr_set <= to_integer(unsigned(index_field)); -- The set field is always fixed in set associative caches
-				cache_wr <= '1';
-				
-				-- Make the data ready:
-				data_ready <= '1'; -- TODO: In the future it will take multiple cycles for this flag to be '1' because of the DRAM Controller
-				data_src   <= '1'; -- The data came from Main Memory
-			else -- It's a hit!
-				-- Note: the data is already being outputted in parallel due to the assignment and the function data_output_handle()
-				
-				-- We're not writing to cache anymore:
-				cache_wr <= '0';
+		-- Algorithm:
+		-- Fetch a data block from main memory using the address and store it in the cache. Also, output the data in parallel into the CPU Core.	
 			
-				-- Make the data ready:
-				data_ready <= '0';
-				data_src   <= '0'; -- The data came from Cache
+		if clk'event then
+			if clk = '0' then
+				-- Handle the Fetch cycle from CACHE <-> SDRAM:
+				if fetching_mem_reg = '1' and sdram_data_ready = '1' then
+					if SDRAM_datablock_count > 0 then
+						-- We're fetching a word from SDRAM:
+						SDRAM_datablock_out(SDRAM_datablock_out'length - ((SDRAM_datablock_count_orig-SDRAM_datablock_count) * 32)-1 downto SDRAM_datablock_out'length - ((SDRAM_datablock_count_orig-SDRAM_datablock_count) * 32)-32) <= sdram_data_out;
+						sdram_cmd_address_reg <= sdram_cmd_address_reg + "100";
+						SDRAM_datablock_count <= SDRAM_datablock_count - 1; -- Fetch next sub block
+					else
+						-- We're done fetching memory:
+						fetching_mem_reg <= '0';
+						-- Write to Cache and forward the data to the CPU:
+						sdram_cmd_en <= '0';
+						index_field  := address(L1_IC_INDEXOFF downto L1_IC_BYTE_OFF);
+							
+						cache_wr_way <= 0; -- TODO: Use algorithm to decide in which way to put this block
+						cache_wr_set <= to_integer(unsigned(index_field)); -- The set field is always fixed in set associative caches
+						cache_wr     <= '1';
+													
+						-- Make the data ready:
+						data_ready <= '1';
+						data_src   <= '1'; -- The data came from Main Memory					
+					end if;
+				else
+					cache_wr   <= '0';
+					data_ready <= '0';
+					data_src   <= '0';
+				end if;
+			else
+				if request_data = '1' and fetching_mem_reg = '0' then -- CPU is requesting data from Cache
+					if hit_reg = '0' then -- It's a miss... The Cache will now request data from SDRAM
+						if SDRAM_datablock_count = SDRAM_datablock_count_orig then -- Trigger the fetch cycle
+							-- Trigger the request to nth block from SDRAM and put into the datablock:
+							fetching_mem_reg  <= '1'; -- This will stall the CPU until the Fetch cycle has finished
+							sdram_cmd_wr      <= '0'; -- SDRAM in read mode
+							sdram_cmd_address_reg <= address(22 downto 0);
+							sdram_cmd_byte_en <= (others => '1');
+							sdram_cmd_en      <= '1'; -- Enable SDRAM Controller (trigger request)
+						end if;
+					else -- It's a hit!
+						-- Restart block counter:
+						SDRAM_datablock_count <= SDRAM_datablock_count_orig;
+						-- Note: the data is already being outputted in parallel due to the assignment and the function data_output_handle()
+						
+						fetching_mem_reg <= '0';
+						sdram_cmd_en     <= '0';
+						
+						-- We're not writing to cache anymore:
+						cache_wr <= '0';
+					
+						-- Make the data ready:
+						data_ready <= '0';
+						data_src   <= '0'; -- The data came from Cache
+					end if;
+				end if;
 			end if;
 		end if;
 	end process;

@@ -3,16 +3,6 @@ USE IEEE.std_logic_1164.all;
 USE IEEE.math_real.all;
 
 PACKAGE FISC_DEFINES IS
-	-- FISC CHIP COMPONENT --
-	COMPONENT FISC
-		PORT(
-			clk : IN std_logic;
-			restart_cpu : in std_logic;
-			dbus : out std_logic_vector(3 downto 0)
-		);
-	END COMPONENT;
-	-------------------------
-
 	---------- FISC ISA DEFINES -----------
 	constant FISC_INSTRUCTION_SZ    : integer := 32; -- Each instruction is 32 bits wide
 	constant FISC_INTEGER_SZ        : integer := 64; -- Each integer value is 64 bits wide

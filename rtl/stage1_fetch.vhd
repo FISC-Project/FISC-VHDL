@@ -86,13 +86,14 @@ BEGIN
 	
 	process(clk) begin
 		if clk'event and clk = '0' then
-		--	if fsm_next = '1' then
-				if if_flush = '0' and if_freeze = '0' then -- In the fetch stage, freezing is the same as flushing/stalling
-					-- Move the Fetch Stage's Inner Pipeline Forward:
-					if_instruction <= l1ic_instruction;
-					pc_out <= pc_out_reg_cpy;
-				end if;
-		--	end if;
+			if if_flush = '0' and if_freeze = '0' and reset = '0' then -- In the fetch stage, freezing is the same as flushing/stalling
+				-- Move the Fetch Stage's Inner Pipeline Forward:
+				if_instruction <= l1ic_instruction;
+				pc_out <= pc_out_reg_cpy;
+			elsif reset = '1' then
+				if_instruction <= (others => '0');
+				pc_out <= (others => '0');
+			end if;
 		end if;
 	end process;
 END ARCHITECTURE RTL;
