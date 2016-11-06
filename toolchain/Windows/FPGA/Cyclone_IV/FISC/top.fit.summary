@@ -1,16 +1,16 @@
-Fitter Status : Successful - Fri Oct 28 13:48:05 2016
+Fitter Status : Successful - Sun Nov 06 01:57:50 2016
 Quartus Prime Version : 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 Revision Name : top
-Top-level Entity Name : top_synth
+Top-level Entity Name : dram_controller_tb
 Family : Cyclone IV E
 Device : EP4CE6E22C8
 Timing Models : Final
-Total logic elements : 2,276 / 6,272 ( 36 % )
-    Total combinational functions : 1,413 / 6,272 ( 23 % )
-    Dedicated logic registers : 1,895 / 6,272 ( 30 % )
-Total registers : 1895
-Total pins : 6 / 92 ( 7 % )
+Total logic elements : 154 / 6,272 ( 2 % )
+    Total combinational functions : 125 / 6,272 ( 2 % )
+    Dedicated logic registers : 102 / 6,272 ( 2 % )
+Total registers : 102
+Total pins : 44 / 92 ( 48 % )
 Total virtual pins : 0
 Total memory bits : 0 / 276,480 ( 0 % )
 Embedded Multiplier 9-bit elements : 0 / 30 ( 0 % )
-Total PLLs : 0 / 2 ( 0 % )
+Total PLLs : 1 / 2 ( 50 % )

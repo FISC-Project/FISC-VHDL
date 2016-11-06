@@ -1,5 +1,5 @@
 Flow report for top
-Fri Oct 28 13:48:29 2016
+Sun Nov 06 01:58:03 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -41,22 +41,22 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Fri Oct 28 13:48:29 2016       ;
+; Flow Status                        ; Successful - Sun Nov 06 01:58:03 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
-; Top-level Entity Name              ; top_synth                                   ;
+; Top-level Entity Name              ; dram_controller_tb                          ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE6E22C8                                 ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 2,276 / 6,272 ( 36 % )                      ;
-;     Total combinational functions  ; 1,413 / 6,272 ( 23 % )                      ;
-;     Dedicated logic registers      ; 1,895 / 6,272 ( 30 % )                      ;
-; Total registers                    ; 1895                                        ;
-; Total pins                         ; 6 / 92 ( 7 % )                              ;
+; Total logic elements               ; 154 / 6,272 ( 2 % )                         ;
+;     Total combinational functions  ; 125 / 6,272 ( 2 % )                         ;
+;     Dedicated logic registers      ; 102 / 6,272 ( 2 % )                         ;
+; Total registers                    ; 102                                         ;
+; Total pins                         ; 44 / 92 ( 48 % )                            ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 0 / 276,480 ( 0 % )                         ;
 ; Embedded Multiplier 9-bit elements ; 0 / 30 ( 0 % )                              ;
-; Total PLLs                         ; 0 / 2 ( 0 % )                               ;
+; Total PLLs                         ; 1 / 2 ( 50 % )                              ;
 +------------------------------------+---------------------------------------------+
 
 
@@ -65,42 +65,45 @@ agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 10/28/2016 13:45:08 ;
+; Start date & time ; 11/06/2016 01:57:11 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; top                 ;
 +-------------------+---------------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------+
-; Flow Non-Default Global Settings                                                                                            ;
-+--------------------------------------+---------------------------------------+---------------+-------------+----------------+
-; Assignment Name                      ; Value                                 ; Default Value ; Entity Name ; Section Id     ;
-+--------------------------------------+---------------------------------------+---------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID                ; 123658570900799.147765870706536       ; --            ; --          ; --             ;
-; EDA_DESIGN_INSTANCE_NAME             ; NA                                    ; --            ; --          ; top_vlg_tst    ;
-; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; top_vlg_tst                           ; --            ; --          ; eda_simulation ;
-; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                           ; --            ; --          ; eda_simulation ;
-; EDA_SIMULATION_TOOL                  ; ModelSim (Verilog)                    ; <None>        ; --          ; --             ;
-; EDA_TEST_BENCH_ENABLE_STATUS         ; TEST_BENCH_MODE                       ; --            ; --          ; eda_simulation ;
-; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/top_tf.v          ; --            ; --          ; top_vlg_tst    ;
-; EDA_TEST_BENCH_MODULE_NAME           ; top_vlg_tst                           ; --            ; --          ; top_vlg_tst    ;
-; EDA_TEST_BENCH_NAME                  ; top_vlg_tst                           ; --            ; --          ; eda_simulation ;
-; EDA_TIME_SCALE                       ; 1 ps                                  ; --            ; --          ; eda_simulation ;
-; ENABLE_SIGNALTAP                     ; Off                                   ; --            ; --          ; --             ;
-; MAX_CORE_JUNCTION_TEMP               ; 85                                    ; --            ; --          ; --             ;
-; MIN_CORE_JUNCTION_TEMP               ; 0                                     ; --            ; --          ; --             ;
-; OUTPUT_IO_TIMING_FAR_END_VMEAS       ; Half Signal Swing                     ; --            ; --          ; --             ;
-; OUTPUT_IO_TIMING_FAR_END_VMEAS       ; Half Signal Swing                     ; --            ; --          ; --             ;
-; OUTPUT_IO_TIMING_NEAR_END_VMEAS      ; Half Vccio                            ; --            ; --          ; --             ;
-; OUTPUT_IO_TIMING_NEAR_END_VMEAS      ; Half Vccio                            ; --            ; --          ; --             ;
-; PARTITION_COLOR                      ; 16764057                              ; --            ; top_synth   ; Top            ;
-; PARTITION_FITTER_PRESERVATION_LEVEL  ; PLACEMENT_AND_ROUTING                 ; --            ; top_synth   ; Top            ;
-; PARTITION_NETLIST_TYPE               ; SOURCE                                ; --            ; top_synth   ; Top            ;
-; POWER_BOARD_THERMAL_MODEL            ; None (CONSERVATIVE)                   ; --            ; --          ; --             ;
-; POWER_PRESET_COOLING_SOLUTION        ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW ; --            ; --          ; --             ;
-; TOP_LEVEL_ENTITY                     ; top_synth                             ; top           ; --          ; --             ;
-; USE_SIGNALTAP_FILE                   ; stp1.stp                              ; --            ; --          ; --             ;
-+--------------------------------------+---------------------------------------+---------------+-------------+----------------+
++------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                   ;
++--------------------------------------+---------------------------------------+---------------+--------------------+----------------+
+; Assignment Name                      ; Value                                 ; Default Value ; Entity Name        ; Section Id     ;
++--------------------------------------+---------------------------------------+---------------+--------------------+----------------+
+; COMPILER_SIGNATURE_ID                ; 123658570900799.147839383005344       ; --            ; --                 ; --             ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                    ; --            ; --                 ; top_vlg_tst    ;
+; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; top_vlg_tst                           ; --            ; --                 ; eda_simulation ;
+; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                           ; --            ; --                 ; eda_simulation ;
+; EDA_SIMULATION_TOOL                  ; ModelSim (Verilog)                    ; <None>        ; --                 ; --             ;
+; EDA_TEST_BENCH_ENABLE_STATUS         ; TEST_BENCH_MODE                       ; --            ; --                 ; eda_simulation ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/top_tf.v          ; --            ; --                 ; top_vlg_tst    ;
+; EDA_TEST_BENCH_MODULE_NAME           ; top_vlg_tst                           ; --            ; --                 ; top_vlg_tst    ;
+; EDA_TEST_BENCH_NAME                  ; top_vlg_tst                           ; --            ; --                 ; eda_simulation ;
+; EDA_TIME_SCALE                       ; 1 ps                                  ; --            ; --                 ; eda_simulation ;
+; ENABLE_SIGNALTAP                     ; Off                                   ; --            ; --                 ; --             ;
+; MAX_CORE_JUNCTION_TEMP               ; 85                                    ; --            ; --                 ; --             ;
+; MIN_CORE_JUNCTION_TEMP               ; 0                                     ; --            ; --                 ; --             ;
+; MISC_FILE                            ; pll.cmp                               ; --            ; --                 ; --             ;
+; MISC_FILE                            ; pll.ppf                               ; --            ; --                 ; --             ;
+; MISC_FILE                            ; iobuf.cmp                             ; --            ; --                 ; --             ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS       ; Half Signal Swing                     ; --            ; --                 ; --             ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS       ; Half Signal Swing                     ; --            ; --                 ; --             ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS      ; Half Vccio                            ; --            ; --                 ; --             ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS      ; Half Vccio                            ; --            ; --                 ; --             ;
+; PARTITION_COLOR                      ; 16764057                              ; --            ; dram_controller_tb ; Top            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL  ; PLACEMENT_AND_ROUTING                 ; --            ; dram_controller_tb ; Top            ;
+; PARTITION_NETLIST_TYPE               ; SOURCE                                ; --            ; dram_controller_tb ; Top            ;
+; POWER_BOARD_THERMAL_MODEL            ; None (CONSERVATIVE)                   ; --            ; --                 ; --             ;
+; POWER_PRESET_COOLING_SOLUTION        ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW ; --            ; --                 ; --             ;
+; TOP_LEVEL_ENTITY                     ; dram_controller_tb                    ; top           ; --                 ; --             ;
+; USE_SIGNALTAP_FILE                   ; stp1.stp                              ; --            ; --                 ; --             ;
++--------------------------------------+---------------------------------------+---------------+--------------------+----------------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------+
@@ -108,12 +111,12 @@ agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:01:58     ; 1.0                     ; 1097 MB             ; 00:02:27                           ;
-; Fitter                    ; 00:00:53     ; 1.0                     ; 1211 MB             ; 00:00:52                           ;
-; Assembler                 ; 00:00:02     ; 1.0                     ; 745 MB              ; 00:00:02                           ;
-; TimeQuest Timing Analyzer ; 00:00:07     ; 1.0                     ; 806 MB              ; 00:00:07                           ;
-; EDA Netlist Writer        ; 00:00:08     ; 1.0                     ; 726 MB              ; 00:00:08                           ;
-; Total                     ; 00:03:08     ; --                      ; --                  ; 00:03:36                           ;
+; Analysis & Synthesis      ; 00:00:27     ; 1.0                     ; 864 MB              ; 00:00:58                           ;
+; Fitter                    ; 00:00:11     ; 1.0                     ; 1095 MB             ; 00:00:11                           ;
+; Assembler                 ; 00:00:01     ; 1.0                     ; 736 MB              ; 00:00:01                           ;
+; TimeQuest Timing Analyzer ; 00:00:04     ; 1.0                     ; 783 MB              ; 00:00:04                           ;
+; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 707 MB              ; 00:00:02                           ;
+; Total                     ; 00:00:45     ; --                      ; --                  ; 00:01:16                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

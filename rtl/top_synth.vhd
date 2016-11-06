@@ -25,7 +25,7 @@ BEGIN
 	DS_D  <= not dbus(3);
 
 	-- Declare FISC Core: --
-	FISC_CORE: FISC PORT MAP(clk, NOT KEY3, dbus);
+	--FISC_CORE: FISC PORT MAP(clk, NOT KEY3, dbus);
 	
 	process(CLK)
 	begin
