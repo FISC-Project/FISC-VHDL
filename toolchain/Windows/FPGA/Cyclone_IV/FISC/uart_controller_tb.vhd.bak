@@ -1,0 +1,200 @@
+LIBRARY IEEE;
+USE IEEE.STD_LOGIC_1164.ALL;
+USE  IEEE.NUMERIC_STD.ALL;
+
+ENTITY divide_by3 IS
+PORT (
+ clk      : IN  STD_LOGIC                              ;
+ reset_n  : IN  STD_LOGIC                              ;
+ o_clk_by3: OUT STD_LOGIC := '0'                      
+ );
+END divide_by3;
+
+ARCHITECTURE Arch OF divide_by3 IS
+SIGNAL COUNTER : UNSIGNED(1 DOWNTO 0);
+SIGNAL div_1   : STD_LOGIC;
+SIGNAL div_2   : STD_LOGIC;
+SIGNAL clk_low_cnt   : STD_LOGIC;
+SIGNAL clk_high_cnt   : STD_LOGIC;
+
+BEGIN
+
+-- Counter generation
+PROCESS(clk,reset_n)
+  BEGIN
+    IF (reset_n = '0') THEN
+      COUNTER <= "11";
+    ELSIF RISING_EDGE(clk) THEN
+      IF COUNTER = "11" THEN
+        COUNTER <= "00";
+      ELSE 
+        COUNTER <=  COUNTER + 1;
+      END IF;
+    END IF;
+END PROCESS;
+
+-- clk_r generation
+PROCESS(clk,reset_n)
+  BEGIN
+    IF (reset_n = '0') THEN
+      clk_low_cnt  <= '0';
+      clk_high_cnt <= '0';
+    ELSIF RISING_EDGE(clk) THEN
+      IF COUNTER = "00" THEN
+        clk_low_cnt <= '1';
+      ELSE 
+        clk_low_cnt <= '0';
+      END IF;
+      IF COUNTER = "11" THEN
+        clk_high_cnt <= '1';
+      ELSE 
+        clk_high_cnt <= '0';
+      END IF;
+    END IF;
+END PROCESS;
+
+-- div_1 generation
+PROCESS(clk,reset_n)
+  BEGIN
+    IF (reset_n = '0') THEN
+      div_1 <= '0';
+    ELSIF RISING_EDGE(clk) THEN
+      IF clk_low_cnt = '1' THEN
+        div_1 <= NOT div_1;
+      END IF;
+    END IF;
+  END PROCESS;
+
+-- clk_f generation
+PROCESS(clk,reset_n)
+  BEGIN
+    IF (reset_n = '0') THEN
+      div_2 <= '0';
+    ELSIF FALLING_EDGE(clk) THEN
+      IF clk_high_cnt = '1' THEN
+        div_2 <= NOT div_2;
+      END IF;
+    END IF;
+  END PROCESS;
+
+o_clk_by3 <= div_1 XOR div_2;
+   
+
+END Arch;
+
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.all;
+
+ENTITY UART_Controller_tb IS
+	PORT(
+		CLK   : in  std_logic;
+		RXD   : out  std_logic;
+		TXD   : in std_logic;
+		DS_DP : out std_logic;
+		DS_G  : out std_logic;
+		DS_C  : out std_logic;
+		DS_D  : out std_logic
+	);
+END UART_Controller_tb;
+
+ARCHITECTURE RTL OF UART_Controller_tb IS
+	signal reset : std_logic := '0';
+	signal reset_n : std_logic;
+	type fsm is (
+		s_init,
+		s_init_done,
+		s_uart_cmd_enable_irq,
+		s_uart_cmd_done,
+		s_tx,
+		s_rx,
+		s_rx_wait,
+		s_idle,
+		s1,s2
+	);
+	signal state : fsm := s_init;
+	
+	signal leds : std_logic_vector(3 downto 0) := (others => '0');
+	
+	-- UART Controller Wires:
+	signal uart_write      : std_logic := '0'; -- Drive
+	signal uart_writedata  : std_logic_vector(7 downto 0) := (others => '0'); -- Drive
+	signal uart_readdata   : std_logic_vector(7 downto 0); -- Read
+	signal uart_write_irq  : std_logic; -- Write IRQ (READ)
+	signal uart_read_irq   : std_logic; -- Read IRQ (READ)
+
+	signal master_clk : std_logic := '0';
+	signal is_init : std_logic := '0';
+	signal clk_div : std_logic := '0';
+	--signal CLK, RXD, TXD : std_logic := '0';
+BEGIN
+	--	CLK <= NOT CLK AFTER 10.416665 NS;
+		reset_n <= not reset;
+	
+		master_clk <= CLK WHEN is_init = '0' ELSE clk_div;
+		
+		DS_DP <= not leds(0);
+		DS_G  <= not leds(1);
+		DS_C  <= not leds(2);
+		DS_D  <= not leds(3);
+		
+		UART_Controller1 : ENTITY work.UART_Controller
+			GENERIC MAP(
+				baud => 9600,
+				clock_frequency => 48000000
+			)
+			PORT MAP (
+				clock               => clk,
+				reset               => reset,
+				data_stream_in      => uart_writedata,
+				data_stream_in_stb  => uart_write,
+				data_stream_in_ack  => uart_write_irq,
+				data_stream_out     => uart_readdata,
+				data_stream_out_stb => uart_read_irq,
+				tx                  => rxd,
+				rx                  => txd
+			);
+			
+		inst_divide_by3 : ENTITY work.divide_by3
+		PORT MAP (
+		 clk      => CLK      ,
+		 reset_n  => reset_n  ,
+		 o_clk_by3=> clk_div
+		 );
+				
+		process(clk) begin
+			if rising_edge(clk) then
+				case state is
+					when s_init => 
+						reset <= '1';
+						uart_write <= '0';
+						uart_writedata <= (others => '0');
+						state <= s_init_done;
+						
+					when s_init_done =>
+						reset <= '0';
+						is_init <= '1';
+						state <= s1;
+												
+					when s_tx =>
+						uart_writedata <= "01100001";
+						uart_write <= '1';
+						if uart_write_irq = '1' then
+							leds <= "0111";
+							state <= s1;
+						end if;
+											
+					when s_rx =>
+						if uart_read_irq = '1' then
+							leds <= "1101"; --uart_readdata(3 downto 0);
+							state <= s1;
+						end if;						
+					
+					when s1 => state <= s2;
+					when s2 => state <= s_tx;
+					
+					when s_idle => state <= s_idle;					
+					when others => state <= s_idle;
+				end case;
+			end if;
+		end process;
+END ARCHITECTURE RTL;

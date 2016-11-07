@@ -28,6 +28,7 @@ ARCHITECTURE RTL OF FISC IS
 	-- Microcode Control Bus (very important):
 	signal id_microcode_ctrl : std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
 	signal id_microcode_ctrl_early : std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
+	-----------------------------------------------
 	
 	---- Stage interconnect wires declaration: ----
 	-- Stage 1 - Fetch Interconnect wires --
@@ -39,7 +40,7 @@ ARCHITECTURE RTL OF FISC IS
 	signal if_pc_out             : std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
 	signal if_flush              : std_logic := '0';
 	signal if_freeze             : std_logic := '0';
-	----------------------------------------
+	-----------------------------------------------
 	
 	-- Stage 2 - Decode Interconnect wires --
 	signal id_sos           : std_logic := '0';
@@ -105,7 +106,7 @@ ARCHITECTURE RTL OF FISC IS
 	------------------------------------
 	
 	--------------------------------------------------------------------------------------------------------------
-	-- Control Wires (from Microcode Unit, can also be considered the inner pipeline layer of the decode stage) --
+	-- Control Wires (from Microcode Unit, can also be considered the inner pipeline layer of the decode stage)
 	signal aluop     : std_logic_vector(1 downto 0) := "00";
 	signal memwrite  : std_logic := '0';
 	signal memread   : std_logic := '0';
@@ -138,8 +139,8 @@ ARCHITECTURE RTL OF FISC IS
 	signal l1_sdram_data_out    : std_logic_vector(31 downto 0);
 	-------------------------------------------
 	
-	-- Main Memory Signals --
-	signal main_memory_fetching : std_logic := '0';
+	-- Main Memory Control Signals ------------
+	signal main_memory_fetching : std_logic := '0'; -- Is the CPU currently fetching from Main Memory?
 	-------------------------------------------
 BEGIN
 	dbus(1 downto 0) <= aluop;
@@ -166,7 +167,7 @@ BEGIN
 	-- Flags declaration:
 	Flags1: Flags PORT MAP(clk_routed, idex_set_flags, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, flag_neg, flag_zero, flag_overf, flag_carry);
 	
-	-- Exception Flags declaration:
+	-- Exception and Interrupts Flags declaration:
 	-- TODO
 		
 	-- Forwarding logic declaration:
@@ -235,6 +236,9 @@ BEGIN
 		l1_sdram_cmd_byte_en, l1_sdram_cmd_data_in, l1_sdram_data_out, l1_sdram_data_ready
 	);
 	
+	-- L1 Data Cache Declaration:
+	-- TODO
+	
 	-- Route the SDRAM controls:
 	l1_sdram_cmd_ready  <= sdram_cmd_ready;
 	sdram_cmd_en        <= l1_sdram_cmd_en;
@@ -246,7 +250,7 @@ BEGIN
 	l1_sdram_data_out   <= sdram_data_out;	
 	
 	--------------------------
-	------- Behaviour: -------
+	------- Behaviour --------
 	--------------------------
 	process(clk, restart_cpu, id_microcode_ctrl) begin
 		if restart_cpu = '1' then
