@@ -96,63 +96,63 @@ CLK                          : 24        : input  : 2.5 V             :         
 GND+                         : 25        :        :                   :         : 2         :                
 VCCIO2                       : 26        : power  :                   : 2.5V    : 2         :                
 GND                          : 27        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 28        :        :                   :         : 2         :                
+SDRAM_DQ1                    : 28        : bidir  : 2.5 V             :         : 2         : Y              
 VCCINT                       : 29        : power  :                   : 1.2V    :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 30        :        :                   :         : 2         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 31        :        :                   :         : 2         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 32        :        :                   :         : 2         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 33        :        :                   :         : 2         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 34        :        :                   :         : 2         :                
+SDRAM_DQ0                    : 30        : bidir  : 2.5 V             :         : 2         : Y              
+SDRAM_DQ3                    : 31        : bidir  : 2.5 V             :         : 2         : Y              
+SDRAM_DQ2                    : 32        : bidir  : 2.5 V             :         : 2         : Y              
+SDRAM_DQ4                    : 33        : bidir  : 2.5 V             :         : 2         : Y              
+SDRAM_DQ5                    : 34        : bidir  : 2.5 V             :         : 2         : Y              
 VCCA1                        : 35        : power  :                   : 2.5V    :           :                
 GNDA1                        : 36        : gnd    :                   :         :           :                
 VCCD_PLL1                    : 37        : power  :                   : 1.2V    :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 38        :        :                   :         : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 39        :        :                   :         : 3         :                
+SDRAM_DQ6                    : 38        : bidir  : 2.5 V             :         : 3         : Y              
+SDRAM_DQ7                    : 39        : bidir  : 2.5 V             :         : 3         : Y              
 VCCIO3                       : 40        : power  :                   : 2.5V    : 3         :                
 GND                          : 41        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 42        :        :                   :         : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 43        :        :                   :         : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 44        :        :                   :         : 3         :                
+SDRAM_DQML                   : 42        : output : 2.5 V             :         : 3         : Y              
+SDRAM_WE_N                   : 43        : output : 2.5 V             :         : 3         : Y              
+SDRAM_CAS_N                  : 44        : output : 2.5 V             :         : 3         : Y              
 VCCINT                       : 45        : power  :                   : 1.2V    :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 46        :        :                   :         : 3         :                
+SDRAM_RAS_N                  : 46        : output : 2.5 V             :         : 3         : Y              
 VCCIO3                       : 47        : power  :                   : 2.5V    : 3         :                
 GND                          : 48        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 49        :        :                   :         : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 50        :        :                   :         : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 51        :        :                   :         : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 52        :        :                   :         : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 53        :        :                   :         : 3         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 54        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 55        :        :                   :         : 4         :                
+SDRAM_DQ15                   : 49        : bidir  : 2.5 V             :         : 3         : Y              
+SDRAM_DQ14                   : 50        : bidir  : 2.5 V             :         : 3         : Y              
+SDRAM_DQ13                   : 51        : bidir  : 2.5 V             :         : 3         : Y              
+SDRAM_DQ12                   : 52        : bidir  : 2.5 V             :         : 3         : Y              
+SDRAM_DQ11                   : 53        : bidir  : 2.5 V             :         : 3         : Y              
+SDRAM_DQ10                   : 54        : bidir  : 2.5 V             :         : 4         : Y              
+SDRAM_DQ9                    : 55        : bidir  : 2.5 V             :         : 4         : Y              
 VCCIO4                       : 56        : power  :                   : 2.5V    : 4         :                
 GND                          : 57        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 58        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 59        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 60        :        :                   :         : 4         :                
+SDRAM_DQ8                    : 58        : bidir  : 2.5 V             :         : 4         : Y              
+SDRAM_DQMH                   : 59        : output : 2.5 V             :         : 4         : Y              
+SDRAM_CLK                    : 60        : output : 2.5 V             :         : 4         : Y              
 VCCINT                       : 61        : power  :                   : 1.2V    :           :                
 VCCIO4                       : 62        : power  :                   : 2.5V    : 4         :                
 GND                          : 63        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 64        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 65        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 66        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 67        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 68        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 69        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 70        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 71        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 72        :        :                   :         : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 73        :        :                   :         : 5         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 74        :        :                   :         : 5         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 75        :        :                   :         : 5         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 76        :        :                   :         : 5         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 77        :        :                   :         : 5         :                
+SDRAM_CKE                    : 64        : output : 2.5 V             :         : 4         : Y              
+SDRAM_A12                    : 65        : output : 2.5 V             :         : 4         : Y              
+SDRAM_A11                    : 66        : output : 2.5 V             :         : 4         : Y              
+SDRAM_A9                     : 67        : output : 2.5 V             :         : 4         : Y              
+SDRAM_A8                     : 68        : output : 2.5 V             :         : 4         : Y              
+SDRAM_A7                     : 69        : output : 2.5 V             :         : 4         : Y              
+SDRAM_A6                     : 70        : output : 2.5 V             :         : 4         : Y              
+SDRAM_A5                     : 71        : output : 2.5 V             :         : 4         : Y              
+SDRAM_A4                     : 72        : output : 2.5 V             :         : 4         : Y              
+SDRAM_BA0                    : 73        : output : 2.5 V             :         : 5         : Y              
+SDRAM_CS_N                   : 74        : output : 2.5 V             :         : 5         : Y              
+SDRAM_BA1                    : 75        : output : 2.5 V             :         : 5         : Y              
+SDRAM_A10                    : 76        : output : 2.5 V             :         : 5         : Y              
+SDRAM_A0                     : 77        : output : 2.5 V             :         : 5         : Y              
 VCCINT                       : 78        : power  :                   : 1.2V    :           :                
 GND                          : 79        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 80        :        :                   :         : 5         :                
+SDRAM_A1                     : 80        : output : 2.5 V             :         : 5         : Y              
 VCCIO5                       : 81        : power  :                   : 2.5V    : 5         :                
 GND                          : 82        : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 83        :        :                   :         : 5         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : 84        :        :                   :         : 5         :                
+SDRAM_A2                     : 83        : output : 2.5 V             :         : 5         : Y              
+SDRAM_A3                     : 84        : output : 2.5 V             :         : 5         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : 85        :        :                   :         : 5         :                
 RXD                          : 86        : output : 2.5 V             :         : 5         : Y              
 TXD                          : 87        : input  : 2.5 V             :         : 5         : Y              

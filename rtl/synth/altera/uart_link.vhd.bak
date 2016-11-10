@@ -1,0 +1,17 @@
+ENTITY UART_Link IS
+	PORT(
+	
+	);
+END UART_Link;
+
+ARCHITECTURE RTL OF UART_Link IS
+BEGIN
+	--uart_fifo_inst : uart_fifo PORT MAP (
+	--	clock	 => clock_sig,
+	--	data	 => data_sig,
+	--	rdreq	 => rdreq_sig,
+	--	wrreq	 => wrreq_sig,
+	--	q	 => q_sig
+	--);
+
+END ARCHITECTURE RTL;

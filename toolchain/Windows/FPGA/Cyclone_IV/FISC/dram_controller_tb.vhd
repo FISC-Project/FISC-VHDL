@@ -54,13 +54,15 @@ ENTITY dram_controller_tb IS
 END dram_controller_tb;
 
 ARCHITECTURE RTL OF dram_controller_tb IS
+	signal z : boolean := false;
+
 	-- SDRAM Controller Wires:
 	signal restart_system    : std_logic := '0'; -- Drive
 	signal sdram_cmd_ready   : std_logic := '0'; -- Read
 	signal sdram_cmd_en      : std_logic := '0'; -- Drive
 	signal sdram_cmd_wr      : std_logic := '0'; -- Drive
 	signal sdram_cmd_address : std_logic_vector(22 downto 0) := (others => '0'); -- Drive
-	signal sdram_cmd_byte_en : std_logic_vector(3  downto 0) := (others => '0'); -- Drive
+	signal sdram_cmd_byte_en : std_logic_vector(3  downto 0) := (others => '1'); -- Drive
 	signal sdram_cmd_data_in : std_logic_vector(31 downto 0) := (others => '0'); -- Drive
 	signal sdram_data_out    : std_logic_vector(31 downto 0) := (others => '0'); -- Read
 	signal sdram_data_ready  : std_logic := '0'; -- Read
@@ -71,7 +73,20 @@ ARCHITECTURE RTL OF dram_controller_tb IS
 	signal sdram_dqmhl : std_logic_vector(1  downto 0);
 	signal sdram_dqn   : std_logic_vector(15 downto 0);
 	
-	type fsm_t is (s_init_pll,s_init,s_init_wait,s_write,s_write_wait,s_write_wait2,s_read,s_read_wait,s_idle);
+	-- Available FSM states:
+	type fsm_t is (
+		s_init_pll,
+		s_init,
+		s_init_wait,
+		s_clear,
+		s_write,
+		s_write2,
+		s_write_wait,
+		s_write_wait2,
+		s_read,
+		s_read_wait,
+		s_idle
+	);
 	signal state : fsm_t := s_init_pll;	attribute FSM_ENCODING : string;
 	attribute FSM_ENCODING of state : signal is "ONE-HOT";
 	
@@ -80,6 +95,59 @@ ARCHITECTURE RTL OF dram_controller_tb IS
 	signal leds        : std_logic_vector(3 downto 0) := (others => '0');
 	signal new_clk     : std_logic := '0';
 	signal pll_reset   : std_logic := '0';
+	
+	-- Algorithm variables:
+	signal clear_ctr            : integer := 0;
+	signal clear_wait           : boolean := false;
+	signal sdram_write_wait_ctr : integer := 2;
+	
+	impure function sdram_write(address, data: integer) return boolean is
+	begin
+		-- Write to Address:
+		sdram_cmd_address <= std_logic_vector(to_unsigned(address, sdram_cmd_address'length));
+		-- Write the following Data:
+		sdram_cmd_data_in <= std_logic_vector(to_unsigned(data, sdram_cmd_data_in'length));
+		-- Request transaction:
+		sdram_cmd_wr <= '1';
+		sdram_cmd_en <= '1';
+		return true;
+	end function;
+	
+	impure function sdram_write_wait(wait_twice : boolean) return boolean is
+	begin
+		sdram_cmd_en <= '0';
+		sdram_cmd_wr <= '0';
+		if sdram_cmd_ready = '1' then
+			if sdram_write_wait_ctr /= 0 and wait_twice then
+				-- We need to wait twice when we write to SDRAM:
+				sdram_write_wait_ctr <= sdram_write_wait_ctr - 1;
+				return false;
+			else
+				-- Restore Write Wait Counter:
+				sdram_write_wait_ctr <= 2;
+				return true;
+			end if;
+		else
+			return false;
+		end if;
+	end function;
+	
+	impure function sdram_read(address : integer) return boolean is
+	begin
+		-- Read from Address:
+		sdram_cmd_address <= std_logic_vector(to_unsigned(address, sdram_cmd_address'length));
+		-- Request transaction:
+		sdram_cmd_data_in <= (others => '0');
+		sdram_cmd_wr <= '0';
+		sdram_cmd_en <= '1';
+		return true;
+	end function;
+	
+	impure function sdram_read_wait return boolean is
+	begin
+		sdram_cmd_en <= '0';
+		return sdram_data_ready = '1';
+	end function;
 BEGIN
 	master_clk <= CLK when pll_running = '0' ELSE new_clk;
 	
@@ -145,7 +213,6 @@ BEGIN
 	----------------
 	process(master_clk) begin
 		if master_clk'event and master_clk = '1' then
-	
 			if new_clk = '1' then
 				pll_running <= '1';
 			end if;
@@ -157,46 +224,56 @@ BEGIN
 					
 				when s_init => -- Trigger startup cycle
 					restart_system <= '1';
-					sdram_cmd_byte_en <= (others => '1');
-					state <= s_init_wait;
-					pll_reset <= '0';
+					pll_reset      <= '0';
+					state          <= s_init_wait;
 					
 				when s_init_wait => -- Wait for startup to finish
 					restart_system <= '0';
-					if sdram_cmd_ready = '1' then sdram_cmd_en <= '0'; state <= s_write; end if; -- Next FSM state
-					
+					if sdram_cmd_ready = '1' then sdram_cmd_en <= '0'; state <= s_clear; end if; -- Next FSM state
+				
+				when s_clear =>
+					if clear_wait = false then
+						z<=sdram_write(clear_ctr, 0);
+						clear_wait <= true;
+					else
+						clear_ctr <= clear_ctr + 1;
+						if clear_ctr > 10 then
+							clear_ctr <= 0;
+							if sdram_write_wait(true) then 
+								state <= s_write; -- Next FSM state
+							end if;
+						end if;
+						if sdram_write_wait(true) then 
+							clear_wait <= false;
+						end if;
+					end if;
+				
 				when s_write => -- Write data
-					-- Address:
-					sdram_cmd_address <= std_logic_vector(to_unsigned(0, sdram_cmd_address'length));
-					-- Data:
-					sdram_cmd_data_in <= std_logic_vector(to_unsigned(12, sdram_cmd_data_in'length));
-					
-					sdram_cmd_wr <= '1';
-					sdram_cmd_en <= '1'; -- Request transaction
+					z<=sdram_write(0, 10);
 					state <= s_write_wait; -- Next FSM state
-				
+
 				when s_write_wait => -- Wait for data to finish writing
-					sdram_cmd_en <= '0';
-					sdram_cmd_wr <= '0';
-					if sdram_cmd_ready = '1' then state <= s_write_wait2; end if; -- Next FSM state
+					if sdram_write_wait(true) then
+						state <= s_write2; -- Return to previous state
+					end if;
+		
+				when s_write2 =>
+					z<=sdram_write(2, 13);
+					state <= s_write_wait2; -- Next FSM state
 				
-				when s_write_wait2 =>
-					if sdram_cmd_ready = '1' then state <= s_read; end if; -- Next FSM state
-			
+				when s_write_wait2 => -- Wait for data to finish writing
+					if sdram_write_wait(true) then
+						state <= s_read; -- Return to previous state
+					end if;	
+				
 				when s_read => -- Read data
-					-- Address:
-					sdram_cmd_address <= std_logic_vector(to_unsigned(0, sdram_cmd_address'length));
-					
-					sdram_cmd_data_in <= (others => '0');
-					sdram_cmd_wr <= '0';
-					sdram_cmd_en <= '1';
+					z<=sdram_read(1);
 					state <= s_read_wait; -- Next FSM state
 					
 				when s_read_wait => -- Wait for data to finish reading. Then grab the output and output the data into the LEDs
-					sdram_cmd_en <= '0';
-					if sdram_data_ready = '1' then 
+					if sdram_read_wait then 
 						leds  <= sdram_data_out(3 downto 0);
-						state <= s_idle; 
+						state <= s_idle;
 					end if; -- Next FSM state
 					
 				when s_idle => state <= s_idle; -- Idle

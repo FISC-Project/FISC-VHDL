@@ -51,16 +51,6 @@ BEGIN
 			sdram_cmd_data_in, sdram_data_ready, sdram_data_out
 		);
 	
-	-- Actual DRAM Controller Declared for the Synthesizer:
-	-- DRAM_Controller1 : ENTITY work.DRAM_Controller 
-	--	PORT MAP(
-	--		clk, restart_system, sdram_cmd_ready, sdram_cmd_en, 
-	--		sdram_cmd_wr, sdram_cmd_address, sdram_cmd_byte_en, 
-	--		sdram_cmd_data_in, sdram_data_out, sdram_data_ready, 
-	--		sdram_cke, sdram_clk, sdram_cs_n, sdram_we_n, sdram_cas_n,
-	--		sdram_ras_n, sdram_an, sdram_ban, sdram_dqmhl, sdram_dqn
-	--	);
-
 	-- Generate Clock: --
 	clk <= '1' AFTER 1 fs WHEN clk = '0' ELSE '0' AFTER 1 fs WHEN clk = '1';
 	
