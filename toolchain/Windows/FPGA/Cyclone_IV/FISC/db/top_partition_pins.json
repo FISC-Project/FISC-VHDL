@@ -40,6 +40,10 @@
 					"strict" : false
 				},
 				{
+					"name" : "RXD",
+					"strict" : false
+				},
+				{
 					"name" : "DS_DP",
 					"strict" : false
 				},
@@ -48,11 +52,19 @@
 					"strict" : false
 				},
 				{
+					"name" : "DS_C",
+					"strict" : false
+				},
+				{
 					"name" : "DS_D",
 					"strict" : false
 				},
 				{
 					"name" : "CLK",
+					"strict" : false
+				},
+				{
+					"name" : "TXD",
 					"strict" : false
 				}
 			]

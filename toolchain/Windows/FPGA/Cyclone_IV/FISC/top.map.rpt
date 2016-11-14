@@ -1,5 +1,5 @@
 Analysis & Synthesis report for top
-Thu Nov 10 20:32:45 2016
+Tue Nov 15 00:52:13 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -15,24 +15,25 @@ Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
   7. Analysis & Synthesis Resource Utilization by Entity
   8. Analysis & Synthesis IP Cores Summary
   9. State Machine - |MIOSystem_tb|state
- 10. State Machine - |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_state
- 11. State Machine - |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_state
- 12. State Machine - |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|state
- 13. Registers Removed During Synthesis
- 14. Removed Registers Triggering Further Register Optimizations
- 15. General Register Statistics
- 16. Inverted Register Statistics
- 17. Multiplexer Restructuring Statistics (Restructuring Performed)
- 18. Source assignments for UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram
- 19. Parameter Settings for User Entity Instance: pll:pll_inst|altpll:altpll_component
- 20. Parameter Settings for User Entity Instance: UART_Controller:UART_Controller1
- 21. Parameter Settings for User Entity Instance: UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component
- 22. altpll Parameter Settings by Entity Instance
- 23. scfifo Parameter Settings by Entity Instance
- 24. Port Connectivity Checks: "UART_Link:UART_Link1|uart_fifo:UART_FIFO1"
- 25. Post-Synthesis Netlist Statistics for Top Partition
- 26. Elapsed Time Per Partition
- 27. Analysis & Synthesis Messages
+ 10. State Machine - |MIOSystem_tb|UART_Link:UART_Link1|state
+ 11. State Machine - |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_state
+ 12. State Machine - |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_state
+ 13. State Machine - |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|state
+ 14. Registers Removed During Synthesis
+ 15. Removed Registers Triggering Further Register Optimizations
+ 16. General Register Statistics
+ 17. Inverted Register Statistics
+ 18. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 19. Source assignments for UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram
+ 20. Parameter Settings for User Entity Instance: pll:pll_inst|altpll:altpll_component
+ 21. Parameter Settings for User Entity Instance: UART_Controller:UART_Controller1
+ 22. Parameter Settings for User Entity Instance: UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component
+ 23. altpll Parameter Settings by Entity Instance
+ 24. scfifo Parameter Settings by Entity Instance
+ 25. Port Connectivity Checks: "UART_Link:UART_Link1|uart_fifo:UART_FIFO1"
+ 26. Post-Synthesis Netlist Statistics for Top Partition
+ 27. Elapsed Time Per Partition
+ 28. Analysis & Synthesis Messages
 
 
 
@@ -59,15 +60,15 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Thu Nov 10 20:32:45 2016       ;
+; Analysis & Synthesis Status        ; Successful - Tue Nov 15 00:52:12 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
 ; Top-level Entity Name              ; MIOSystem_tb                                ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 94                                          ;
-;     Total combinational functions  ; 85                                          ;
-;     Dedicated logic registers      ; 55                                          ;
-; Total registers                    ; 55                                          ;
+; Total logic elements               ; 474                                         ;
+;     Total combinational functions  ; 398                                         ;
+;     Dedicated logic registers      ; 278                                         ;
+; Total registers                    ; 278                                         ;
 ; Total pins                         ; 46                                          ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 0                                           ;
@@ -207,39 +208,39 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +-----------------------------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary                                                                                   ;
-+---------------------------------------------+---------------------------------------------------------------------------------+
-; Resource                                    ; Usage                                                                           ;
-+---------------------------------------------+---------------------------------------------------------------------------------+
-; Estimated Total logic elements              ; 94                                                                              ;
-;                                             ;                                                                                 ;
-; Total combinational functions               ; 85                                                                              ;
-; Logic element usage by number of LUT inputs ;                                                                                 ;
-;     -- 4 input functions                    ; 16                                                                              ;
-;     -- 3 input functions                    ; 13                                                                              ;
-;     -- <=2 input functions                  ; 56                                                                              ;
-;                                             ;                                                                                 ;
-; Logic elements by mode                      ;                                                                                 ;
-;     -- normal mode                          ; 61                                                                              ;
-;     -- arithmetic mode                      ; 24                                                                              ;
-;                                             ;                                                                                 ;
-; Total registers                             ; 55                                                                              ;
-;     -- Dedicated logic registers            ; 55                                                                              ;
-;     -- I/O registers                        ; 0                                                                               ;
-;                                             ;                                                                                 ;
-; I/O pins                                    ; 46                                                                              ;
-;                                             ;                                                                                 ;
-; Embedded Multiplier 9-bit elements          ; 0                                                                               ;
-;                                             ;                                                                                 ;
-; Total PLLs                                  ; 1                                                                               ;
-;     -- PLLs                                 ; 1                                                                               ;
-;                                             ;                                                                                 ;
-; Maximum fan-out node                        ; pll:pll_inst|altpll:altpll_component|pll_altpll:auto_generated|wire_pll1_clk[0] ;
-; Maximum fan-out                             ; 47                                                                              ;
-; Total fan-out                               ; 399                                                                             ;
-; Average fan-out                             ; 1.60                                                                            ;
-+---------------------------------------------+---------------------------------------------------------------------------------+
++---------------------------------------------------------+
+; Analysis & Synthesis Resource Usage Summary             ;
++---------------------------------------------+-----------+
+; Resource                                    ; Usage     ;
++---------------------------------------------+-----------+
+; Estimated Total logic elements              ; 474       ;
+;                                             ;           ;
+; Total combinational functions               ; 398       ;
+; Logic element usage by number of LUT inputs ;           ;
+;     -- 4 input functions                    ; 145       ;
+;     -- 3 input functions                    ; 61        ;
+;     -- <=2 input functions                  ; 192       ;
+;                                             ;           ;
+; Logic elements by mode                      ;           ;
+;     -- normal mode                          ; 278       ;
+;     -- arithmetic mode                      ; 120       ;
+;                                             ;           ;
+; Total registers                             ; 278       ;
+;     -- Dedicated logic registers            ; 278       ;
+;     -- I/O registers                        ; 0         ;
+;                                             ;           ;
+; I/O pins                                    ; 46        ;
+;                                             ;           ;
+; Embedded Multiplier 9-bit elements          ; 0         ;
+;                                             ;           ;
+; Total PLLs                                  ; 1         ;
+;     -- PLLs                                 ; 1         ;
+;                                             ;           ;
+; Maximum fan-out node                        ; CLK~input ;
+; Maximum fan-out                             ; 234       ;
+; Total fan-out                               ; 2105      ;
+; Average fan-out                             ; 2.68      ;
++---------------------------------------------+-----------+
 
 
 +---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -247,11 +248,12 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +------------------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------+-----------------------+--------------+
 ; Compilation Hierarchy Node                                       ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                   ; Entity Name           ; Library Name ;
 +------------------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------+-----------------------+--------------+
-; |MIOSystem_tb                                                    ; 85 (5)            ; 55 (7)       ; 0           ; 0            ; 0       ; 0         ; 46   ; 0            ; |MIOSystem_tb                                                                                                         ; MIOSystem_tb          ; work         ;
-;    |DRAM_Controller:DRAM_Controller1|                            ; 80 (80)           ; 45 (45)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1                                                                        ; DRAM_Controller       ; work         ;
+; |MIOSystem_tb                                                    ; 398 (6)           ; 278 (7)      ; 0           ; 0            ; 0       ; 0         ; 46   ; 0            ; |MIOSystem_tb                                                                                                         ; MIOSystem_tb          ; work         ;
+;    |DRAM_Controller:DRAM_Controller1|                            ; 79 (79)           ; 45 (45)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1                                                                        ; DRAM_Controller       ; work         ;
 ;       |iobuf:iob_dq_iob|                                         ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iobuf:iob_dq_iob                                                       ; iobuf                 ; work         ;
 ;          |iobuf_iobuf_bidir_p1p:iobuf_iobuf_bidir_p1p_component| ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iobuf:iob_dq_iob|iobuf_iobuf_bidir_p1p:iobuf_iobuf_bidir_p1p_component ; iobuf_iobuf_bidir_p1p ; work         ;
-;    |UART_Link:UART_Link1|                                        ; 0 (0)             ; 3 (3)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|UART_Link:UART_Link1                                                                                    ; UART_Link             ; work         ;
+;    |UART_Controller:UART_Controller1|                            ; 82 (82)           ; 59 (59)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|UART_Controller:UART_Controller1                                                                        ; UART_Controller       ; work         ;
+;    |UART_Link:UART_Link1|                                        ; 231 (231)         ; 167 (167)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|UART_Link:UART_Link1                                                                                    ; UART_Link             ; work         ;
 ;    |pll:pll_inst|                                                ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|pll:pll_inst                                                                                            ; pll                   ; work         ;
 ;       |altpll:altpll_component|                                  ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|pll:pll_inst|altpll:altpll_component                                                                    ; altpll                ; work         ;
 ;          |pll_altpll:auto_generated|                             ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|pll:pll_inst|altpll:altpll_component|pll_altpll:auto_generated                                          ; pll_altpll            ; work         ;
@@ -281,6 +283,20 @@ Encoding Type:  One-Hot
 ; state.s_init_wait ; 0            ; 1                 ; 0            ; 1                ;
 ; state.s_idle      ; 1            ; 0                 ; 0            ; 1                ;
 +-------------------+--------------+-------------------+--------------+------------------+
+
+
+Encoding Type:  One-Hot
++----------------------------------------------------------------------------------------------------+
+; State Machine - |MIOSystem_tb|UART_Link:UART_Link1|state                                           ;
++------------------+---------------+------------------+-------------+---------------+----------------+
+; Name             ; state.s_txing ; state.s_act_wait ; state.s_act ; state.s_rxing ; state.s_listen ;
++------------------+---------------+------------------+-------------+---------------+----------------+
+; state.s_listen   ; 0             ; 0                ; 0           ; 0             ; 0              ;
+; state.s_rxing    ; 0             ; 0                ; 0           ; 1             ; 1              ;
+; state.s_act      ; 0             ; 0                ; 1           ; 0             ; 1              ;
+; state.s_act_wait ; 0             ; 1                ; 0           ; 0             ; 1              ;
+; state.s_txing    ; 1             ; 0                ; 0           ; 0             ; 1              ;
++------------------+---------------+------------------+-------------+---------------+----------------+
 
 
 Encoding Type:  One-Hot
@@ -342,7 +358,6 @@ Encoding Type:  One-Hot
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------+
 ; Register name                                                                                                                                                                        ; Reason for Removal                                         ;
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------+
-; UART_Link:UART_Link1|leds[2]                                                                                                                                                         ; Stuck at GND due to stuck port data_in                     ;
 ; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|cntr_1ob:wr_ptr|counter_reg_bit[0..5]                              ; Stuck at GND due to stuck port clock_enable                ;
 ; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|cntr_1ob:rd_ptr_count|counter_reg_bit[0..5]                        ; Stuck at GND due to stuck port clock_enable                ;
 ; DRAM_Controller:DRAM_Controller1|save_byte_en[0..3]                                                                                                                                  ; Stuck at GND due to stuck port clock_enable                ;
@@ -357,13 +372,12 @@ Encoding Type:  One-Hot
 ; DRAM_Controller:DRAM_Controller1|iob_address[1..4,6..9,11,12]                                                                                                                        ; Stuck at GND due to stuck port data_in                     ;
 ; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|b_full                                     ; Lost fanout                                                ;
 ; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|b_non_empty                                ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_tx_data_vec[7]                                                                                                                                 ; Stuck at GND due to stuck port data_in                     ;
+; UART_Link:UART_Link1|data_buffer_sz_latch[8,9,11..31]                                                                                                                                ; Merged with UART_Link:UART_Link1|data_buffer_sz_latch[10]  ;
 ; DRAM_Controller:DRAM_Controller1|iob_data[1..15]                                                                                                                                     ; Merged with DRAM_Controller:DRAM_Controller1|iob_data[0]   ;
 ; DRAM_Controller:DRAM_Controller1|iob_dq_hiz[1..15]                                                                                                                                   ; Merged with DRAM_Controller:DRAM_Controller1|iob_dq_hiz[0] ;
 ; DRAM_Controller:DRAM_Controller1|iob_dq_hiz[0]                                                                                                                                       ; Stuck at GND due to stuck port data_in                     ;
-; UART_Controller:UART_Controller1|uart_tx_data_vec[6]                                                                                                                                 ; Stuck at GND due to stuck port data_in                     ;
 ; DRAM_Controller:DRAM_Controller1|iob_data[0]                                                                                                                                         ; Stuck at GND due to stuck port data_in                     ;
-; UART_Controller:UART_Controller1|uart_tx_data_vec[0..5]                                                                                                                              ; Stuck at GND due to stuck port data_in                     ;
+; UART_Link:UART_Link1|data_buffer_sz_latch[10]                                                                                                                                        ; Stuck at GND due to stuck port data_in                     ;
 ; DRAM_Controller:DRAM_Controller1|got_transaction                                                                                                                                     ; Stuck at GND due to stuck port data_in                     ;
 ; DRAM_Controller:DRAM_Controller1|state.s_open_in_2                                                                                                                                   ; Stuck at GND due to stuck port data_in                     ;
 ; DRAM_Controller:DRAM_Controller1|state.s_write_1                                                                                                                                     ; Stuck at GND due to stuck port data_in                     ;
@@ -378,102 +392,42 @@ Encoding Type:  One-Hot
 ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_9                                                                                                                                   ; Stuck at GND due to stuck port data_in                     ;
 ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_8                                                                                                                                   ; Stuck at GND due to stuck port data_in                     ;
 ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_7                                                                                                                                   ; Stuck at GND due to stuck port data_in                     ;
-; UART_Controller:UART_Controller1|uart_rx_bit                                                                                                                                         ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_rx_bit_tick                                                                                                                                    ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_rx_count[0..2]                                                                                                                                 ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|rx_baud_tick                                                                                                                                        ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_rx_filter[0,1]                                                                                                                                 ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_rx_bit_spacing[0..3]                                                                                                                           ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|rx_baud_counter[0..5]                                                                                                                               ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_rx_data_sr[0,1]                                                                                                                                ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_rx_state.rx_get_start_bit                                                                                                                      ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_rx_state.rx_get_data                                                                                                                           ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_rx_state.rx_get_stop_bit                                                                                                                       ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_tx_state.tx_send_data                                                                                                                          ; Stuck at GND due to stuck port data_in                     ;
-; UART_Controller:UART_Controller1|uart_tx_state.tx_send_start_bit                                                                                                                     ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_tx_count[0..2]                                                                                                                                 ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_tx_data                                                                                                                                        ; Stuck at VCC due to stuck port data_in                     ;
-; UART_Controller:UART_Controller1|tx_baud_tick                                                                                                                                        ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|uart_tx_state.tx_send_stop_bit                                                                                                                      ; Lost fanout                                                ;
-; UART_Controller:UART_Controller1|tx_baud_counter[0..9]                                                                                                                               ; Lost fanout                                                ;
-; Total Number of Removed Registers = 193                                                                                                                                              ;                                                            ;
+; Total Number of Removed Registers = 167                                                                                                                                              ;                                                            ;
 +--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                                                                      ;
-+-------------------------------------------------------------+--------------------------------+-------------------------------------------------------------------+
-; Register name                                               ; Reason for Removal             ; Registers Removed due to This Register                            ;
-+-------------------------------------------------------------+--------------------------------+-------------------------------------------------------------------+
-; UART_Controller:UART_Controller1|uart_tx_data_vec[7]        ; Stuck at GND                   ; UART_Controller:UART_Controller1|uart_tx_data_vec[6],             ;
-;                                                             ; due to stuck port data_in      ; UART_Controller:UART_Controller1|uart_tx_data_vec[5],             ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_tx_data_vec[4],             ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_tx_data_vec[3],             ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_tx_data_vec[2],             ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_tx_data_vec[1],             ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_tx_data_vec[0],             ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_tx_data,                    ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|tx_baud_tick,                    ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|tx_baud_counter[0],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|tx_baud_counter[1],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|tx_baud_counter[2],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|tx_baud_counter[3],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|tx_baud_counter[4],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|tx_baud_counter[5],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|tx_baud_counter[6],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|tx_baud_counter[7],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|tx_baud_counter[8],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|tx_baud_counter[9]               ;
-; DRAM_Controller:DRAM_Controller1|save_wr                    ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|iob_bank[0],                     ;
-;                                                             ; due to stuck port clock_enable ; DRAM_Controller:DRAM_Controller1|iob_bank[1],                     ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[1],                  ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[2],                  ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[3],                  ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[4],                  ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[6],                  ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[7],                  ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[8],                  ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[9],                  ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[11],                 ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[12],                 ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|iob_dq_hiz[0],                   ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|got_transaction                  ;
-; UART_Controller:UART_Controller1|uart_rx_bit                ; Lost Fanouts                   ; UART_Controller:UART_Controller1|rx_baud_tick,                    ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_rx_filter[0],               ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_rx_filter[1],               ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|rx_baud_counter[0],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|rx_baud_counter[1],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|rx_baud_counter[2],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|rx_baud_counter[3],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|rx_baud_counter[4],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|rx_baud_counter[5],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_rx_data_sr[1],              ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_rx_data_sr[0]               ;
-; DRAM_Controller:DRAM_Controller1|state.s_write_1            ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|state.s_write_2,                 ;
-;                                                             ; due to stuck port data_in      ; DRAM_Controller:DRAM_Controller1|state.s_write_3,                 ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|state.s_precharge,               ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_9,               ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_8,               ;
-;                                                             ;                                ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_7                ;
-; UART_Controller:UART_Controller1|uart_rx_bit_tick           ; Lost Fanouts                   ; UART_Controller:UART_Controller1|uart_rx_bit_spacing[0],          ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_rx_bit_spacing[1],          ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_rx_bit_spacing[2],          ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_rx_bit_spacing[3],          ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_rx_state.rx_get_start_bit   ;
-; UART_Controller:UART_Controller1|uart_rx_count[2]           ; Lost Fanouts                   ; UART_Controller:UART_Controller1|uart_rx_count[0],                ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_rx_count[1],                ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_rx_state.rx_get_data        ;
-; DRAM_Controller:DRAM_Controller1|state.s_open_in_2          ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|state.s_open_in_1,               ;
-;                                                             ; due to stuck port data_in      ; DRAM_Controller:DRAM_Controller1|state.s_read_1                   ;
-; DRAM_Controller:DRAM_Controller1|state.s_read_2             ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|state.s_read_3,                  ;
-;                                                             ; due to stuck port data_in      ; DRAM_Controller:DRAM_Controller1|state.s_read_4                   ;
-; UART_Controller:UART_Controller1|uart_tx_state.tx_send_data ; Stuck at GND                   ; UART_Controller:UART_Controller1|uart_tx_state.tx_send_start_bit, ;
-;                                                             ; due to stuck port data_in      ; UART_Controller:UART_Controller1|uart_tx_state.tx_send_stop_bit   ;
-; UART_Controller:UART_Controller1|uart_tx_count[2]           ; Lost Fanouts                   ; UART_Controller:UART_Controller1|uart_tx_count[0],                ;
-;                                                             ;                                ; UART_Controller:UART_Controller1|uart_tx_count[1]                 ;
-; DRAM_Controller:DRAM_Controller1|save_d_in[0]               ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|iob_data[0]                      ;
-;                                                             ; due to stuck port clock_enable ;                                                                   ;
-+-------------------------------------------------------------+--------------------------------+-------------------------------------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                                               ;
++----------------------------------------------------+--------------------------------+-----------------------------------------------------+
+; Register name                                      ; Reason for Removal             ; Registers Removed due to This Register              ;
++----------------------------------------------------+--------------------------------+-----------------------------------------------------+
+; DRAM_Controller:DRAM_Controller1|save_wr           ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|iob_bank[0],       ;
+;                                                    ; due to stuck port clock_enable ; DRAM_Controller:DRAM_Controller1|iob_bank[1],       ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[1],    ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[2],    ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[3],    ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[4],    ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[6],    ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[7],    ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[8],    ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[9],    ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[11],   ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[12],   ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_dq_hiz[0],     ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|got_transaction    ;
+; DRAM_Controller:DRAM_Controller1|state.s_write_1   ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|state.s_write_2,   ;
+;                                                    ; due to stuck port data_in      ; DRAM_Controller:DRAM_Controller1|state.s_write_3,   ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|state.s_precharge, ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_9, ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_8, ;
+;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_7  ;
+; DRAM_Controller:DRAM_Controller1|state.s_open_in_2 ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|state.s_open_in_1, ;
+;                                                    ; due to stuck port data_in      ; DRAM_Controller:DRAM_Controller1|state.s_read_1     ;
+; DRAM_Controller:DRAM_Controller1|state.s_read_2    ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|state.s_read_3,    ;
+;                                                    ; due to stuck port data_in      ; DRAM_Controller:DRAM_Controller1|state.s_read_4     ;
+; DRAM_Controller:DRAM_Controller1|save_d_in[0]      ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|iob_data[0]        ;
+;                                                    ; due to stuck port clock_enable ;                                                     ;
++----------------------------------------------------+--------------------------------+-----------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -481,12 +435,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 55    ;
-; Number of registers using Synchronous Clear  ; 2     ;
-; Number of registers using Synchronous Load   ; 0     ;
+; Total registers                              ; 278   ;
+; Number of registers using Synchronous Clear  ; 67    ;
+; Number of registers using Synchronous Load   ; 37    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 5     ;
+; Number of registers using Clock Enable       ; 197   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -499,15 +453,21 @@ Encoding Type:  One-Hot
 ; DRAM_Controller:DRAM_Controller1|iob_command[0]         ; 1       ;
 ; DRAM_Controller:DRAM_Controller1|iob_command[1]         ; 1       ;
 ; DRAM_Controller:DRAM_Controller1|iob_command[2]         ; 1       ;
+; UART_Controller:UART_Controller1|uart_tx_data           ; 2       ;
 ; DRAM_Controller:DRAM_Controller1|startup_wait_count[2]  ; 5       ;
-; DRAM_Controller:DRAM_Controller1|startup_wait_count[4]  ; 6       ;
+; DRAM_Controller:DRAM_Controller1|startup_wait_count[4]  ; 5       ;
 ; DRAM_Controller:DRAM_Controller1|startup_wait_count[5]  ; 2       ;
 ; DRAM_Controller:DRAM_Controller1|startup_wait_count[6]  ; 2       ;
 ; DRAM_Controller:DRAM_Controller1|startup_wait_count[8]  ; 2       ;
 ; DRAM_Controller:DRAM_Controller1|startup_wait_count[9]  ; 2       ;
 ; DRAM_Controller:DRAM_Controller1|startup_wait_count[10] ; 2       ;
 ; DRAM_Controller:DRAM_Controller1|startup_wait_count[13] ; 2       ;
-; Total number of inverted registers = 11                 ;         ;
+; UART_Controller:UART_Controller1|uart_rx_bit            ; 4       ;
+; UART_Controller:UART_Controller1|uart_rx_filter[0]      ; 3       ;
+; UART_Controller:UART_Controller1|uart_rx_filter[1]      ; 3       ;
+; UART_Controller:UART_Controller1|uart_rx_data_sr[1]     ; 2       ;
+; UART_Controller:UART_Controller1|uart_rx_data_sr[0]     ; 1       ;
+; Total number of inverted registers = 17                 ;         ;
 +---------------------------------------------------------+---------+
 
 
@@ -516,16 +476,32 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                            ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------+
-; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|tx_baud_counter[1]     ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|rx_baud_counter[5]     ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_data_vec[6]    ;
+; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|tx_baud_counter[0]     ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|rx_baud_counter[2]     ;
 ; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_bit_spacing[2] ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[6][7]               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[5][5]               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[4][7]               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[3][7]               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[2][7]               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[1][2]               ;
 ; 4:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_count[2]       ;
-; 5:1                ; 3 bits    ; 9 LEs         ; 3 LEs                ; 6 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_count[2]       ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_data_sr[1]     ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[0][4]                  ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[1][4]                  ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[0][7]               ;
+; 11:1               ; 8 bits    ; 56 LEs        ; 56 LEs               ; 0 LEs                  ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|iob_uart_writedata[1]              ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_data_vec[5]    ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 3 LEs                ; 9 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_count[0]       ;
+; 11:1               ; 32 bits   ; 224 LEs       ; 32 LEs               ; 192 LEs                ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer_fill_ctr[30]           ;
+; 13:1               ; 32 bits   ; 256 LEs       ; 64 LEs               ; 192 LEs                ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer_fill_ctr[17]        ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_data_sr[0]     ;
 ; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|state                  ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iob_address            ;
-; 6:1                ; 3 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; No         ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_state          ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 9 LEs                ; 3 LEs                  ; No         ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_state          ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 9 LEs                ; 3 LEs                  ; No         ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_state          ;
+; 15:1               ; 2 bits    ; 20 LEs        ; 8 LEs                ; 12 LEs                 ; No         ; |MIOSystem_tb|UART_Link:UART_Link1|state                              ;
+; 16:1               ; 2 bits    ; 20 LEs        ; 4 LEs                ; 16 LEs                 ; No         ; |MIOSystem_tb|UART_Link:UART_Link1|state                              ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------+
 
 
@@ -1005,24 +981,28 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 46                          ;
-; cycloneiii_ff         ; 55                          ;
-;     ENA               ; 5                           ;
-;     SCLR              ; 2                           ;
-;     plain             ; 48                          ;
+; cycloneiii_ff         ; 278                         ;
+;     ENA               ; 119                         ;
+;     ENA SCLR          ; 41                          ;
+;     ENA SCLR SLD      ; 5                           ;
+;     ENA SLD           ; 32                          ;
+;     SCLR              ; 21                          ;
+;     plain             ; 60                          ;
 ; cycloneiii_io_obuf    ; 16                          ;
-; cycloneiii_lcell_comb ; 94                          ;
-;     arith             ; 24                          ;
-;         2 data inputs ; 24                          ;
-;     normal            ; 70                          ;
-;         0 data inputs ; 2                           ;
-;         1 data inputs ; 10                          ;
-;         2 data inputs ; 29                          ;
-;         3 data inputs ; 13                          ;
-;         4 data inputs ; 16                          ;
+; cycloneiii_lcell_comb ; 407                         ;
+;     arith             ; 120                         ;
+;         2 data inputs ; 112                         ;
+;         3 data inputs ; 8                           ;
+;     normal            ; 287                         ;
+;         0 data inputs ; 1                           ;
+;         1 data inputs ; 18                          ;
+;         2 data inputs ; 70                          ;
+;         3 data inputs ; 53                          ;
+;         4 data inputs ; 145                         ;
 ; cycloneiii_pll        ; 1                           ;
 ;                       ;                             ;
-; Max LUT depth         ; 6.00                        ;
-; Average LUT depth     ; 2.56                        ;
+; Max LUT depth         ; 7.00                        ;
+; Average LUT depth     ; 3.41                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1031,7 +1011,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:02     ;
+; Top            ; 00:00:03     ;
 +----------------+--------------+
 
 
@@ -1041,12 +1021,12 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Thu Nov 10 20:32:01 2016
+    Info: Processing started: Tue Nov 15 00:51:34 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FISC -c top
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university_modules/computer_systems_engineering_-_year_3/singleton_meng_year_3_project/4-development/fisc/rtl/synth/altera/uart_link.vhd
-    Info (12022): Found design unit 1: UART_Link-RTL File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 32
-    Info (12023): Found entity 1: UART_Link File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 4
+    Info (12022): Found design unit 1: UART_Link-RTL File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 33
+    Info (12023): Found entity 1: UART_Link File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 5
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university_modules/computer_systems_engineering_-_year_3/singleton_meng_year_3_project/4-development/fisc/rtl/synth/altera/uart_controller.vhd
     Info (12022): Found design unit 1: UART_Controller-rtl File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_controller.vhd Line: 50
     Info (12023): Found entity 1: UART_Controller File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_controller.vhd Line: 32
@@ -1186,21 +1166,20 @@ Info (12128): Elaborating entity "iobuf" for hierarchy "DRAM_Controller:DRAM_Con
 Info (12128): Elaborating entity "iobuf_iobuf_bidir_p1p" for hierarchy "DRAM_Controller:DRAM_Controller1|iobuf:iob_dq_iob|iobuf_iobuf_bidir_p1p:iobuf_iobuf_bidir_p1p_component" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/iobuf.vhd Line: 162
 Info (12128): Elaborating entity "UART_Controller" for hierarchy "UART_Controller:UART_Controller1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 150
 Info (12128): Elaborating entity "UART_Link" for hierarchy "UART_Link:UART_Link1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 168
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(36): used explicit default value for signal "iob_sdram_cmd_en" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 36
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(37): used explicit default value for signal "iob_sdram_cmd_wr" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 37
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(38): used explicit default value for signal "iob_sdram_cmd_address" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 38
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(39): used explicit default value for signal "iob_sdram_cmd_byte_en" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 39
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(40): used explicit default value for signal "iob_sdram_cmd_data_in" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 40
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(43): used explicit default value for signal "iob_uart_write" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 43
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(44): used explicit default value for signal "iob_uart_writedata" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 44
-Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(47): object "uart_fifo_data_out" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 47
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(48): used explicit default value for signal "uart_fifo_data_in" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 48
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(49): used explicit default value for signal "uart_fifo_rd" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 49
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(50): used explicit default value for signal "uart_fifo_wr" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 50
-Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(51): object "uart_fifo_alm_full" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 51
-Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(52): object "uart_fifo_empty" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 52
-Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(53): object "uart_fifo_full" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 53
-Info (12128): Elaborating entity "uart_fifo" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 72
+Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(37): used explicit default value for signal "iob_sdram_cmd_en" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 37
+Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(38): used explicit default value for signal "iob_sdram_cmd_wr" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 38
+Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(39): used explicit default value for signal "iob_sdram_cmd_address" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 39
+Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(40): used explicit default value for signal "iob_sdram_cmd_byte_en" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 40
+Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(41): used explicit default value for signal "iob_sdram_cmd_data_in" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 41
+Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(48): object "uart_fifo_data_out" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 48
+Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(49): used explicit default value for signal "uart_fifo_data_in" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 49
+Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(50): used explicit default value for signal "uart_fifo_rd" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 50
+Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(51): used explicit default value for signal "uart_fifo_wr" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 51
+Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(52): object "uart_fifo_alm_full" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 52
+Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(53): object "uart_fifo_empty" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 53
+Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(54): object "uart_fifo_full" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 54
+Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(91): object "ctrl_done" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 91
+Info (12128): Elaborating entity "uart_fifo" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 112
 Info (12128): Elaborating entity "scfifo" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd Line: 99
 Info (12130): Elaborated megafunction instantiation "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd Line: 99
 Info (12133): Instantiated megafunction "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component" with the following parameter: File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd Line: 99
@@ -1257,24 +1236,20 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "SDRAM_A12" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 28
     Warning (13410): Pin "SDRAM_BA0" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 29
     Warning (13410): Pin "SDRAM_BA1" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 30
-    Warning (13410): Pin "RXD" is stuck at VCC File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 49
-    Warning (13410): Pin "DS_C" is stuck at VCC File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 53
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 41 registers lost all their fanouts during netlist optimizations.
+Info (17049): 2 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
-Warning (21074): Design contains 1 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "TXD" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 50
-Info (21057): Implemented 142 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 540 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 28 output pins
     Info (21060): Implemented 16 bidirectional pins
-    Info (21061): Implemented 95 logic cells
+    Info (21061): Implemented 493 logic cells
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 43 warnings
-    Info: Peak virtual memory: 887 megabytes
-    Info: Processing ended: Thu Nov 10 20:32:45 2016
-    Info: Elapsed time: 00:00:44
-    Info: Total CPU time (on all processors): 00:01:09
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 38 warnings
+    Info: Peak virtual memory: 890 megabytes
+    Info: Processing ended: Tue Nov 15 00:52:13 2016
+    Info: Elapsed time: 00:00:39
+    Info: Total CPU time (on all processors): 00:01:10
 
 
