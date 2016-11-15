@@ -68,7 +68,7 @@ ARCHITECTURE RTL OF UART_Link IS
 	
 	-- Packet Reception/Transmission variables:
 	constant carrier_buffer_sz  : integer := 7; -- Size of the carrier buffer, in bytes
-	constant data_buffer_max_sz : integer := 2; -- Max size of the data buffer, in bytes. This value is fixed.
+	constant data_buffer_max_sz : integer := 8; -- Max size of the data buffer, in bytes. This value is fixed.
 	signal data_buffer_sz       : integer := 0; -- Size of the data buffer, in bytes. This can vary.
 	signal data_buffer_sz_latch : integer := 0; -- The latched version of the signal 'data_buffer_sz'
 	

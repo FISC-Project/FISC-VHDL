@@ -1,14 +1,14 @@
-Fitter Status : Successful - Tue Nov 15 00:52:26 2016
+Fitter Status : Successful - Tue Nov 15 01:54:57 2016
 Quartus Prime Version : 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 Revision Name : top
 Top-level Entity Name : MIOSystem_tb
 Family : Cyclone IV E
 Device : EP4CE6E22C8
 Timing Models : Final
-Total logic elements : 430 / 6,272 ( 7 % )
-    Total combinational functions : 403 / 6,272 ( 6 % )
-    Dedicated logic registers : 278 / 6,272 ( 4 % )
-Total registers : 278
+Total logic elements : 500 / 6,272 ( 8 % )
+    Total combinational functions : 450 / 6,272 ( 7 % )
+    Dedicated logic registers : 326 / 6,272 ( 5 % )
+Total registers : 326
 Total pins : 46 / 92 ( 50 % )
 Total virtual pins : 0
 Total memory bits : 0 / 276,480 ( 0 % )
