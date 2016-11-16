@@ -1,5 +1,5 @@
 Analysis & Synthesis report for top
-Tue Nov 15 01:54:41 2016
+Wed Nov 16 22:38:56 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -20,20 +20,19 @@ Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
  12. State Machine - |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_state
  13. State Machine - |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|state
  14. Registers Removed During Synthesis
- 15. Removed Registers Triggering Further Register Optimizations
- 16. General Register Statistics
- 17. Inverted Register Statistics
- 18. Multiplexer Restructuring Statistics (Restructuring Performed)
- 19. Source assignments for UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram
- 20. Parameter Settings for User Entity Instance: pll:pll_inst|altpll:altpll_component
- 21. Parameter Settings for User Entity Instance: UART_Controller:UART_Controller1
- 22. Parameter Settings for User Entity Instance: UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component
- 23. altpll Parameter Settings by Entity Instance
- 24. scfifo Parameter Settings by Entity Instance
- 25. Port Connectivity Checks: "UART_Link:UART_Link1|uart_fifo:UART_FIFO1"
- 26. Post-Synthesis Netlist Statistics for Top Partition
- 27. Elapsed Time Per Partition
- 28. Analysis & Synthesis Messages
+ 15. General Register Statistics
+ 16. Inverted Register Statistics
+ 17. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 18. Source assignments for UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram
+ 19. Parameter Settings for User Entity Instance: pll:pll_inst|altpll:altpll_component
+ 20. Parameter Settings for User Entity Instance: UART_Controller:UART_Controller1
+ 21. Parameter Settings for User Entity Instance: UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component
+ 22. altpll Parameter Settings by Entity Instance
+ 23. scfifo Parameter Settings by Entity Instance
+ 24. Port Connectivity Checks: "UART_Link:UART_Link1|uart_fifo:UART_FIFO1"
+ 25. Post-Synthesis Netlist Statistics for Top Partition
+ 26. Elapsed Time Per Partition
+ 27. Analysis & Synthesis Messages
 
 
 
@@ -60,15 +59,15 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Tue Nov 15 01:54:41 2016       ;
+; Analysis & Synthesis Status        ; Successful - Wed Nov 16 22:38:56 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
 ; Top-level Entity Name              ; MIOSystem_tb                                ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 569                                         ;
-;     Total combinational functions  ; 445                                         ;
-;     Dedicated logic registers      ; 326                                         ;
-; Total registers                    ; 326                                         ;
+; Total logic elements               ; 948                                         ;
+;     Total combinational functions  ; 701                                         ;
+;     Dedicated logic registers      ; 622                                         ;
+; Total registers                    ; 622                                         ;
 ; Total pins                         ; 46                                          ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 0                                           ;
@@ -213,20 +212,20 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+-----------+
 ; Resource                                    ; Usage     ;
 +---------------------------------------------+-----------+
-; Estimated Total logic elements              ; 569       ;
+; Estimated Total logic elements              ; 948       ;
 ;                                             ;           ;
-; Total combinational functions               ; 445       ;
+; Total combinational functions               ; 701       ;
 ; Logic element usage by number of LUT inputs ;           ;
-;     -- 4 input functions                    ; 185       ;
-;     -- 3 input functions                    ; 70        ;
-;     -- <=2 input functions                  ; 190       ;
+;     -- 4 input functions                    ; 276       ;
+;     -- 3 input functions                    ; 152       ;
+;     -- <=2 input functions                  ; 273       ;
 ;                                             ;           ;
 ; Logic elements by mode                      ;           ;
-;     -- normal mode                          ; 325       ;
-;     -- arithmetic mode                      ; 120       ;
+;     -- normal mode                          ; 550       ;
+;     -- arithmetic mode                      ; 151       ;
 ;                                             ;           ;
-; Total registers                             ; 326       ;
-;     -- Dedicated logic registers            ; 326       ;
+; Total registers                             ; 622       ;
+;     -- Dedicated logic registers            ; 622       ;
 ;     -- I/O registers                        ; 0         ;
 ;                                             ;           ;
 ; I/O pins                                    ; 46        ;
@@ -237,9 +236,9 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;     -- PLLs                                 ; 1         ;
 ;                                             ;           ;
 ; Maximum fan-out node                        ; CLK~input ;
-; Maximum fan-out                             ; 282       ;
-; Total fan-out                               ; 2432      ;
-; Average fan-out                             ; 2.76      ;
+; Maximum fan-out                             ; 410       ;
+; Total fan-out                               ; 4071      ;
+; Average fan-out                             ; 2.84      ;
 +---------------------------------------------+-----------+
 
 
@@ -248,12 +247,12 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +------------------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------+-----------------------+--------------+
 ; Compilation Hierarchy Node                                       ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                   ; Entity Name           ; Library Name ;
 +------------------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------+-----------------------+--------------+
-; |MIOSystem_tb                                                    ; 445 (6)           ; 326 (7)      ; 0           ; 0            ; 0       ; 0         ; 46   ; 0            ; |MIOSystem_tb                                                                                                         ; MIOSystem_tb          ; work         ;
-;    |DRAM_Controller:DRAM_Controller1|                            ; 79 (79)           ; 45 (45)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1                                                                        ; DRAM_Controller       ; work         ;
+; |MIOSystem_tb                                                    ; 701 (7)           ; 622 (8)      ; 0           ; 0            ; 0       ; 0         ; 46   ; 0            ; |MIOSystem_tb                                                                                                         ; MIOSystem_tb          ; work         ;
+;    |DRAM_Controller:DRAM_Controller1|                            ; 135 (135)         ; 213 (213)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1                                                                        ; DRAM_Controller       ; work         ;
 ;       |iobuf:iob_dq_iob|                                         ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iobuf:iob_dq_iob                                                       ; iobuf                 ; work         ;
 ;          |iobuf_iobuf_bidir_p1p:iobuf_iobuf_bidir_p1p_component| ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iobuf:iob_dq_iob|iobuf_iobuf_bidir_p1p:iobuf_iobuf_bidir_p1p_component ; iobuf_iobuf_bidir_p1p ; work         ;
 ;    |UART_Controller:UART_Controller1|                            ; 82 (82)           ; 59 (59)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|UART_Controller:UART_Controller1                                                                        ; UART_Controller       ; work         ;
-;    |UART_Link:UART_Link1|                                        ; 278 (278)         ; 215 (215)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|UART_Link:UART_Link1                                                                                    ; UART_Link             ; work         ;
+;    |UART_Link:UART_Link1|                                        ; 477 (477)         ; 342 (342)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|UART_Link:UART_Link1                                                                                    ; UART_Link             ; work         ;
 ;    |pll:pll_inst|                                                ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|pll:pll_inst                                                                                            ; pll                   ; work         ;
 ;       |altpll:altpll_component|                                  ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|pll:pll_inst|altpll:altpll_component                                                                    ; altpll                ; work         ;
 ;          |pll_altpll:auto_generated|                             ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|pll:pll_inst|altpll:altpll_component|pll_altpll:auto_generated                                          ; pll_altpll            ; work         ;
@@ -286,17 +285,16 @@ Encoding Type:  One-Hot
 
 
 Encoding Type:  One-Hot
-+----------------------------------------------------------------------------------------------------+
-; State Machine - |MIOSystem_tb|UART_Link:UART_Link1|state                                           ;
-+------------------+---------------+------------------+-------------+---------------+----------------+
-; Name             ; state.s_txing ; state.s_act_wait ; state.s_act ; state.s_rxing ; state.s_listen ;
-+------------------+---------------+------------------+-------------+---------------+----------------+
-; state.s_listen   ; 0             ; 0                ; 0           ; 0             ; 0              ;
-; state.s_rxing    ; 0             ; 0                ; 0           ; 1             ; 1              ;
-; state.s_act      ; 0             ; 0                ; 1           ; 0             ; 1              ;
-; state.s_act_wait ; 0             ; 1                ; 0           ; 0             ; 1              ;
-; state.s_txing    ; 1             ; 0                ; 0           ; 0             ; 1              ;
-+------------------+---------------+------------------+-------------+---------------+----------------+
++--------------------------------------------------------------------------------------+
+; State Machine - |MIOSystem_tb|UART_Link:UART_Link1|state                             ;
++------------------+---------------+------------------+---------------+----------------+
+; Name             ; state.s_txing ; state.s_act_wait ; state.s_rxing ; state.s_listen ;
++------------------+---------------+------------------+---------------+----------------+
+; state.s_listen   ; 0             ; 0                ; 0             ; 0              ;
+; state.s_rxing    ; 0             ; 0                ; 1             ; 1              ;
+; state.s_act_wait ; 0             ; 1                ; 0             ; 1              ;
+; state.s_txing    ; 1             ; 0                ; 0             ; 1              ;
++------------------+---------------+------------------+---------------+----------------+
 
 
 Encoding Type:  One-Hot
@@ -353,81 +351,57 @@ Encoding Type:  One-Hot
 +-------------------+-------------------+----------------+----------------+----------------+----------------+-----------------+-----------------+-----------------+-------------------+-------------------+--------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-----------------+
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                                                                                                                                                                ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------+
-; Register name                                                                                                                                                                        ; Reason for Removal                                         ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------+
-; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|cntr_1ob:wr_ptr|counter_reg_bit[0..5]                              ; Stuck at GND due to stuck port clock_enable                ;
-; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|cntr_1ob:rd_ptr_count|counter_reg_bit[0..5]                        ; Stuck at GND due to stuck port clock_enable                ;
-; DRAM_Controller:DRAM_Controller1|save_byte_en[0..3]                                                                                                                                  ; Stuck at GND due to stuck port clock_enable                ;
-; DRAM_Controller:DRAM_Controller1|save_d_in[0..31]                                                                                                                                    ; Stuck at GND due to stuck port clock_enable                ;
-; DRAM_Controller:DRAM_Controller1|save_wr                                                                                                                                             ; Stuck at GND due to stuck port clock_enable                ;
-; DRAM_Controller:DRAM_Controller1|save_col[0..9,11,12]                                                                                                                                ; Stuck at GND due to stuck port clock_enable                ;
-; DRAM_Controller:DRAM_Controller1|save_bank[0,1]                                                                                                                                      ; Stuck at GND due to stuck port clock_enable                ;
-; DRAM_Controller:DRAM_Controller1|save_row[0..12]                                                                                                                                     ; Stuck at GND due to stuck port clock_enable                ;
-; DRAM_Controller:DRAM_Controller1|iob_command[3]                                                                                                                                      ; Stuck at GND due to stuck port data_in                     ;
-; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|cntr_do7:count_usedw|counter_reg_bit[0..5] ; Stuck at GND due to stuck port clock_enable                ;
-; DRAM_Controller:DRAM_Controller1|iob_bank[0,1]                                                                                                                                       ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|iob_address[1..4,6..9,11,12]                                                                                                                        ; Stuck at GND due to stuck port data_in                     ;
-; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|b_full                                     ; Lost fanout                                                ;
-; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|b_non_empty                                ; Lost fanout                                                ;
-; UART_Link:UART_Link1|data_buffer_sz_latch[8,9,11..31]                                                                                                                                ; Merged with UART_Link:UART_Link1|data_buffer_sz_latch[10]  ;
-; DRAM_Controller:DRAM_Controller1|iob_data[1..15]                                                                                                                                     ; Merged with DRAM_Controller:DRAM_Controller1|iob_data[0]   ;
-; DRAM_Controller:DRAM_Controller1|iob_dq_hiz[1..15]                                                                                                                                   ; Merged with DRAM_Controller:DRAM_Controller1|iob_dq_hiz[0] ;
-; DRAM_Controller:DRAM_Controller1|iob_dq_hiz[0]                                                                                                                                       ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|iob_data[0]                                                                                                                                         ; Stuck at GND due to stuck port data_in                     ;
-; UART_Link:UART_Link1|data_buffer_sz_latch[10]                                                                                                                                        ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|got_transaction                                                                                                                                     ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_open_in_2                                                                                                                                   ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_write_1                                                                                                                                     ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_open_in_1                                                                                                                                   ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_write_2                                                                                                                                     ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_write_3                                                                                                                                     ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_read_1                                                                                                                                      ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_read_2                                                                                                                                      ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_read_3                                                                                                                                      ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_read_4                                                                                                                                      ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_precharge                                                                                                                                   ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_idle_in_9                                                                                                                                   ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_idle_in_8                                                                                                                                   ; Stuck at GND due to stuck port data_in                     ;
-; DRAM_Controller:DRAM_Controller1|state.s_idle_in_7                                                                                                                                   ; Stuck at GND due to stuck port data_in                     ;
-; Total Number of Removed Registers = 167                                                                                                                                              ;                                                            ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------+
-
-
-+-------------------------------------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                                               ;
-+----------------------------------------------------+--------------------------------+-----------------------------------------------------+
-; Register name                                      ; Reason for Removal             ; Registers Removed due to This Register              ;
-+----------------------------------------------------+--------------------------------+-----------------------------------------------------+
-; DRAM_Controller:DRAM_Controller1|save_wr           ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|iob_bank[0],       ;
-;                                                    ; due to stuck port clock_enable ; DRAM_Controller:DRAM_Controller1|iob_bank[1],       ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[1],    ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[2],    ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[3],    ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[4],    ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[6],    ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[7],    ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[8],    ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[9],    ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[11],   ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_address[12],   ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|iob_dq_hiz[0],     ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|got_transaction    ;
-; DRAM_Controller:DRAM_Controller1|state.s_write_1   ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|state.s_write_2,   ;
-;                                                    ; due to stuck port data_in      ; DRAM_Controller:DRAM_Controller1|state.s_write_3,   ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|state.s_precharge, ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_9, ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_8, ;
-;                                                    ;                                ; DRAM_Controller:DRAM_Controller1|state.s_idle_in_7  ;
-; DRAM_Controller:DRAM_Controller1|state.s_open_in_2 ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|state.s_open_in_1, ;
-;                                                    ; due to stuck port data_in      ; DRAM_Controller:DRAM_Controller1|state.s_read_1     ;
-; DRAM_Controller:DRAM_Controller1|state.s_read_2    ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|state.s_read_3,    ;
-;                                                    ; due to stuck port data_in      ; DRAM_Controller:DRAM_Controller1|state.s_read_4     ;
-; DRAM_Controller:DRAM_Controller1|save_d_in[0]      ; Stuck at GND                   ; DRAM_Controller:DRAM_Controller1|iob_data[0]        ;
-;                                                    ; due to stuck port clock_enable ;                                                     ;
-+----------------------------------------------------+--------------------------------+-----------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                                                                                                                                                  ;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
+; Register name                                                                                                                                                                        ; Reason for Removal                                           ;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
+; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|cntr_1ob:wr_ptr|counter_reg_bit[0..5]                              ; Stuck at GND due to stuck port clock_enable                  ;
+; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|cntr_1ob:rd_ptr_count|counter_reg_bit[0..5]                        ; Stuck at GND due to stuck port clock_enable                  ;
+; DRAM_Controller:DRAM_Controller1|save_col[0,8,9,11,12]                                                                                                                               ; Stuck at GND due to stuck port data_in                       ;
+; DRAM_Controller:DRAM_Controller1|iob_command[3]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|cntr_do7:count_usedw|counter_reg_bit[0..5] ; Stuck at GND due to stuck port clock_enable                  ;
+; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|b_full                                     ; Lost fanout                                                  ;
+; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|b_non_empty                                ; Lost fanout                                                  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[6][0]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[5][0]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[4][7]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[4][6]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[4][5]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[4][4]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[4][3]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[4][2]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[0][7]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[0][6]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[0][5]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[0][4]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[0][2]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[6][2]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[6][4]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|carrier_buffer_sched[6][5]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|iob_sdram_cmd_byte_en[0..3]                                                                                                                                     ; Merged with UART_Link:UART_Link1|iob_sdram_cmd_en            ;
+; UART_Link:UART_Link1|data_buffer_sz_latch[8,9,11..31]                                                                                                                                ; Merged with UART_Link:UART_Link1|data_buffer_sz_latch[10]    ;
+; DRAM_Controller:DRAM_Controller1|save_byte_en[1..3]                                                                                                                                  ; Merged with DRAM_Controller:DRAM_Controller1|save_byte_en[0] ;
+; UART_Link:UART_Link1|carrier_buffer_sched[0][1]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[0][3]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[4][0]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[4][1]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[5][1]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[5][2]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[5][3]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[5][4]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[5][5]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[5][6]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[5][7]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[6][1]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[6][3]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[6][6]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; UART_Link:UART_Link1|carrier_buffer_sched[6][7]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
+; DRAM_Controller:DRAM_Controller1|iob_dq_hiz[1..15]                                                                                                                                   ; Merged with DRAM_Controller:DRAM_Controller1|iob_dq_hiz[0]   ;
+; UART_Link:UART_Link1|data_buffer_sz_latch[10]                                                                                                                                        ; Stuck at GND due to stuck port data_in                       ;
+; DRAM_Controller:DRAM_Controller1|save_byte_en[0]                                                                                                                                     ; Stuck at VCC due to stuck port data_in                       ;
+; Total Number of Removed Registers = 104                                                                                                                                              ;                                                              ;
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -435,12 +409,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 326   ;
-; Number of registers using Synchronous Clear  ; 67    ;
+; Total registers                              ; 622   ;
+; Number of registers using Synchronous Clear  ; 73    ;
 ; Number of registers using Synchronous Load   ; 37    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 245   ;
+; Number of registers using Clock Enable       ; 471   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -462,12 +436,13 @@ Encoding Type:  One-Hot
 ; DRAM_Controller:DRAM_Controller1|startup_wait_count[9]  ; 2       ;
 ; DRAM_Controller:DRAM_Controller1|startup_wait_count[10] ; 2       ;
 ; DRAM_Controller:DRAM_Controller1|startup_wait_count[13] ; 2       ;
+; UART_Link:UART_Link1|sdram_write_wait_ctr[1]            ; 2       ;
 ; UART_Controller:UART_Controller1|uart_rx_bit            ; 4       ;
 ; UART_Controller:UART_Controller1|uart_rx_filter[0]      ; 3       ;
 ; UART_Controller:UART_Controller1|uart_rx_filter[1]      ; 3       ;
 ; UART_Controller:UART_Controller1|uart_rx_data_sr[1]     ; 2       ;
 ; UART_Controller:UART_Controller1|uart_rx_data_sr[0]     ; 1       ;
-; Total number of inverted registers = 17                 ;         ;
+; Total number of inverted registers = 18                 ;         ;
 +---------------------------------------------------------+---------+
 
 
@@ -476,38 +451,43 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                            ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_data_vec[5]    ;
-; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|tx_baud_counter[2]     ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_data_vec[2]    ;
+; 3:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|iob_sdram_cmd_data_in[8]           ;
+; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|tx_baud_counter[3]     ;
 ; 3:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|rx_baud_counter[2]     ;
-; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_bit_spacing[3] ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[6][4]               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[5][6]               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[4][1]               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[3][2]               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[2][1]               ;
-; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[1][3]               ;
-; 4:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_count[1]       ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[0][1]                  ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[1][3]                  ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[2][3]                  ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[3][4]                  ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[4][6]                  ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[5][6]                  ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[6][6]                  ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[7][3]                  ;
-; 6:1                ; 8 bits    ; 32 LEs        ; 0 LEs                ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[0][2]               ;
-; 6:1                ; 7 bits    ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_data_vec[5]    ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 3 LEs                ; 9 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_count[2]       ;
-; 17:1               ; 8 bits    ; 88 LEs        ; 88 LEs               ; 0 LEs                  ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|iob_uart_writedata[0]              ;
-; 11:1               ; 32 bits   ; 224 LEs       ; 32 LEs               ; 192 LEs                ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer_fill_ctr[16]           ;
-; 13:1               ; 32 bits   ; 256 LEs       ; 64 LEs               ; 192 LEs                ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer_fill_ctr[21]        ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_data_sr[1]     ;
-; 3:1                ; 3 bits    ; 6 LEs         ; 6 LEs                ; 0 LEs                  ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|state                  ;
+; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_bit_spacing[0] ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_count[2]       ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iob_data[11]           ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_data_vec[0]    ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[6][2]               ;
+; 7:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[6][1]               ;
+; 7:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[5][1]               ;
+; 7:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[4][4]               ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 2 LEs                ; 6 LEs                  ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[4][0]               ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[3][5]               ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[2][5]               ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[1][0]               ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 3 LEs                ; 9 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_count[1]       ;
+; 17:1               ; 8 bits    ; 88 LEs        ; 88 LEs               ; 0 LEs                  ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|iob_uart_writedata[5]              ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[0][3]                  ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[1][1]                  ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[2][6]                  ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[3][2]                  ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 8 LEs                ; 40 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[4][2]                  ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 8 LEs                ; 40 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[5][7]                  ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 8 LEs                ; 40 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[6][5]                  ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 8 LEs                ; 40 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[7][4]                  ;
+; 10:1               ; 5 bits    ; 30 LEs        ; 5 LEs                ; 25 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[0][6]               ;
+; 10:1               ; 3 bits    ; 18 LEs        ; 3 LEs                ; 15 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[0][1]               ;
+; 11:1               ; 32 bits   ; 224 LEs       ; 32 LEs               ; 192 LEs                ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer_fill_ctr[8]            ;
+; 13:1               ; 32 bits   ; 256 LEs       ; 64 LEs               ; 192 LEs                ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer_fill_ctr[15]        ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_data_sr[0]     ;
+; 3:1                ; 13 bits   ; 26 LEs        ; 13 LEs               ; 13 LEs                 ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iob_address            ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|state                  ;
 ; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iob_command            ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 9 LEs                ; 3 LEs                  ; No         ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_state          ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 9 LEs                ; 3 LEs                  ; No         ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_state          ;
-; 15:1               ; 2 bits    ; 20 LEs        ; 8 LEs                ; 12 LEs                 ; No         ; |MIOSystem_tb|UART_Link:UART_Link1|state                              ;
-; 16:1               ; 2 bits    ; 20 LEs        ; 4 LEs                ; 16 LEs                 ; No         ; |MIOSystem_tb|UART_Link:UART_Link1|state                              ;
+; 8:1                ; 2 bits    ; 10 LEs        ; 4 LEs                ; 6 LEs                  ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|state                  ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------+
 
 
@@ -987,28 +967,29 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 46                          ;
-; cycloneiii_ff         ; 326                         ;
-;     ENA               ; 167                         ;
+; cycloneiii_ff         ; 622                         ;
+;     ENA               ; 393                         ;
 ;     ENA SCLR          ; 41                          ;
 ;     ENA SCLR SLD      ; 5                           ;
 ;     ENA SLD           ; 32                          ;
-;     SCLR              ; 21                          ;
-;     plain             ; 60                          ;
+;     SCLR              ; 27                          ;
+;     plain             ; 124                         ;
+; cycloneiii_io_ibuf    ; 16                          ;
 ; cycloneiii_io_obuf    ; 16                          ;
-; cycloneiii_lcell_comb ; 454                         ;
-;     arith             ; 120                         ;
-;         2 data inputs ; 112                         ;
+; cycloneiii_lcell_comb ; 707                         ;
+;     arith             ; 151                         ;
+;         2 data inputs ; 143                         ;
 ;         3 data inputs ; 8                           ;
-;     normal            ; 334                         ;
-;         0 data inputs ; 1                           ;
-;         1 data inputs ; 18                          ;
-;         2 data inputs ; 68                          ;
-;         3 data inputs ; 62                          ;
-;         4 data inputs ; 185                         ;
+;     normal            ; 556                         ;
+;         0 data inputs ; 2                           ;
+;         1 data inputs ; 16                          ;
+;         2 data inputs ; 118                         ;
+;         3 data inputs ; 144                         ;
+;         4 data inputs ; 276                         ;
 ; cycloneiii_pll        ; 1                           ;
 ;                       ;                             ;
 ; Max LUT depth         ; 7.00                        ;
-; Average LUT depth     ; 3.40                        ;
+; Average LUT depth     ; 2.76                        ;
 +-----------------------+-----------------------------+
 
 
@@ -1017,7 +998,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:04     ;
+; Top            ; 00:00:06     ;
 +----------------+--------------+
 
 
@@ -1027,7 +1008,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Tue Nov 15 01:54:06 2016
+    Info: Processing started: Wed Nov 16 22:38:06 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FISC -c top
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university_modules/computer_systems_engineering_-_year_3/singleton_meng_year_3_project/4-development/fisc/rtl/synth/altera/uart_link.vhd
@@ -1172,11 +1153,7 @@ Info (12128): Elaborating entity "iobuf" for hierarchy "DRAM_Controller:DRAM_Con
 Info (12128): Elaborating entity "iobuf_iobuf_bidir_p1p" for hierarchy "DRAM_Controller:DRAM_Controller1|iobuf:iob_dq_iob|iobuf_iobuf_bidir_p1p:iobuf_iobuf_bidir_p1p_component" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/iobuf.vhd Line: 162
 Info (12128): Elaborating entity "UART_Controller" for hierarchy "UART_Controller:UART_Controller1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 150
 Info (12128): Elaborating entity "UART_Link" for hierarchy "UART_Link:UART_Link1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 168
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(37): used explicit default value for signal "iob_sdram_cmd_en" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 37
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(38): used explicit default value for signal "iob_sdram_cmd_wr" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 38
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(39): used explicit default value for signal "iob_sdram_cmd_address" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 39
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(40): used explicit default value for signal "iob_sdram_cmd_byte_en" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 40
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(41): used explicit default value for signal "iob_sdram_cmd_data_in" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 41
+Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(34): used explicit default value for signal "iob_leds" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 34
 Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(48): object "uart_fifo_data_out" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 48
 Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(49): used explicit default value for signal "uart_fifo_data_in" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 49
 Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(50): used explicit default value for signal "uart_fifo_rd" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 50
@@ -1184,8 +1161,8 @@ Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(51): used expl
 Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(52): object "uart_fifo_alm_full" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 52
 Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(53): object "uart_fifo_empty" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 53
 Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(54): object "uart_fifo_full" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 54
-Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(91): object "ctrl_done" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 91
-Info (12128): Elaborating entity "uart_fifo" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 112
+Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(127): object "sdram_save_data" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 127
+Info (12128): Elaborating entity "uart_fifo" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 154
 Info (12128): Elaborating entity "scfifo" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd Line: 99
 Info (12130): Elaborated megafunction instantiation "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd Line: 99
 Info (12133): Instantiated megafunction "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component" with the following parameter: File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd Line: 99
@@ -1230,32 +1207,24 @@ Warning (14284): Synthesized away the following node(s):
         Warning (14320): Synthesized away node "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram|q_b[7]" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/altsyncram_ihm1.tdf Line: 250
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "SDRAM_CS_N" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 12
-    Warning (13410): Pin "SDRAM_A1" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 17
-    Warning (13410): Pin "SDRAM_A2" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 18
-    Warning (13410): Pin "SDRAM_A3" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 19
-    Warning (13410): Pin "SDRAM_A4" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 20
-    Warning (13410): Pin "SDRAM_A6" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 22
-    Warning (13410): Pin "SDRAM_A7" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 23
-    Warning (13410): Pin "SDRAM_A8" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 24
-    Warning (13410): Pin "SDRAM_A9" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 25
-    Warning (13410): Pin "SDRAM_A11" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 27
-    Warning (13410): Pin "SDRAM_A12" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 28
-    Warning (13410): Pin "SDRAM_BA0" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 29
-    Warning (13410): Pin "SDRAM_BA1" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 30
+    Warning (13410): Pin "DS_DP" is stuck at VCC File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 51
+    Warning (13410): Pin "DS_G" is stuck at VCC File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 52
+    Warning (13410): Pin "DS_C" is stuck at VCC File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 53
+    Warning (13410): Pin "DS_D" is stuck at VCC File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 54
 Info (286030): Timing-Driven Synthesis is running
 Info (17049): 2 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 635 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 1028 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 28 output pins
     Info (21060): Implemented 16 bidirectional pins
-    Info (21061): Implemented 588 logic cells
+    Info (21061): Implemented 981 logic cells
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 38 warnings
-    Info: Peak virtual memory: 887 megabytes
-    Info: Processing ended: Tue Nov 15 01:54:41 2016
-    Info: Elapsed time: 00:00:35
-    Info: Total CPU time (on all processors): 00:01:07
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 26 warnings
+    Info: Peak virtual memory: 891 megabytes
+    Info: Processing ended: Wed Nov 16 22:38:56 2016
+    Info: Elapsed time: 00:00:50
+    Info: Total CPU time (on all processors): 00:01:15
 
 

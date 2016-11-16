@@ -7,12 +7,11 @@ state.s_init_wait 0 1 0 1
 state.s_idle 1 0 0 1 
 
 State Machine - |MIOSystem_tb|UART_Link:UART_Link1|state
-Name state.s_txing state.s_act_wait state.s_act state.s_rxing state.s_listen 
-state.s_listen 0 0 0 0 0 
-state.s_rxing 0 0 0 1 1 
-state.s_act 0 0 1 0 1 
-state.s_act_wait 0 1 0 0 1 
-state.s_txing 1 0 0 0 1 
+Name state.s_txing state.s_act_wait state.s_rxing state.s_listen 
+state.s_listen 0 0 0 0 
+state.s_rxing 0 0 1 1 
+state.s_act_wait 0 1 0 1 
+state.s_txing 1 0 0 1 
 
 State Machine - |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_state
 Name uart_tx_state.tx_send_stop_bit uart_tx_state.tx_send_data uart_tx_state.tx_send_start_bit 
