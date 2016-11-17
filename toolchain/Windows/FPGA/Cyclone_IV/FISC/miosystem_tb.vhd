@@ -31,8 +31,8 @@ ENTITY MIOSystem_tb IS
 		SDRAM_DQML  : out   std_logic;
 		SDRAM_DQMH  : out   std_logic;
 		SDRAM_DQ0   : inout std_logic;
-	   SDRAM_DQ1   : inout std_logic;
-	   SDRAM_DQ2   : inout std_logic;
+		SDRAM_DQ1   : inout std_logic;
+		SDRAM_DQ2   : inout std_logic;
 		SDRAM_DQ3   : inout std_logic;
 		SDRAM_DQ4   : inout std_logic;
 		SDRAM_DQ5   : inout std_logic;

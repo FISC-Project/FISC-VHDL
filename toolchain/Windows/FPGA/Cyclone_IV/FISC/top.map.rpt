@@ -1,5 +1,5 @@
 Analysis & Synthesis report for top
-Wed Nov 16 22:38:56 2016
+Thu Nov 17 01:53:42 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -23,16 +23,12 @@ Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
  15. General Register Statistics
  16. Inverted Register Statistics
  17. Multiplexer Restructuring Statistics (Restructuring Performed)
- 18. Source assignments for UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram
- 19. Parameter Settings for User Entity Instance: pll:pll_inst|altpll:altpll_component
- 20. Parameter Settings for User Entity Instance: UART_Controller:UART_Controller1
- 21. Parameter Settings for User Entity Instance: UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component
- 22. altpll Parameter Settings by Entity Instance
- 23. scfifo Parameter Settings by Entity Instance
- 24. Port Connectivity Checks: "UART_Link:UART_Link1|uart_fifo:UART_FIFO1"
- 25. Post-Synthesis Netlist Statistics for Top Partition
- 26. Elapsed Time Per Partition
- 27. Analysis & Synthesis Messages
+ 18. Parameter Settings for User Entity Instance: pll:pll_inst|altpll:altpll_component
+ 19. Parameter Settings for User Entity Instance: UART_Controller:UART_Controller1
+ 20. altpll Parameter Settings by Entity Instance
+ 21. Post-Synthesis Netlist Statistics for Top Partition
+ 22. Elapsed Time Per Partition
+ 23. Analysis & Synthesis Messages
 
 
 
@@ -59,15 +55,15 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Nov 16 22:38:56 2016       ;
+; Analysis & Synthesis Status        ; Successful - Thu Nov 17 01:53:42 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
 ; Top-level Entity Name              ; MIOSystem_tb                                ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 948                                         ;
-;     Total combinational functions  ; 701                                         ;
-;     Dedicated logic registers      ; 622                                         ;
-; Total registers                    ; 622                                         ;
+; Total logic elements               ; 904                                         ;
+;     Total combinational functions  ; 687                                         ;
+;     Dedicated logic registers      ; 581                                         ;
+; Total registers                    ; 581                                         ;
 ; Total pins                         ; 46                                          ;
 ; Total virtual pins                 ; 0                                           ;
 ; Total memory bits                  ; 0                                           ;
@@ -174,37 +170,24 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------+--------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                                                           ;
-+-----------------------------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path                    ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                                                                                                                                    ; Library ;
-+-----------------------------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
-; ../../../../../rtl/synth/altera/uart_link.vhd       ; yes             ; User VHDL File               ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd                                ;         ;
-; ../../../../../rtl/synth/altera/uart_controller.vhd ; yes             ; User VHDL File               ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_controller.vhd                          ;         ;
-; ../../../../../rtl/synth/altera/dram_controller.vhd ; yes             ; User VHDL File               ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/dram_controller.vhd                          ;         ;
-; miosystem_tb.vhd                                    ; yes             ; User VHDL File               ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd       ;         ;
-; pll.vhd                                             ; yes             ; User Wizard-Generated File   ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/pll.vhd                ;         ;
-; iobuf.vhd                                           ; yes             ; User Wizard-Generated File   ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/iobuf.vhd              ;         ;
-; uart_fifo.vhd                                       ; yes             ; User Wizard-Generated File   ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd          ;         ;
-; altpll.tdf                                          ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/altpll.tdf                                                                                                                                  ;         ;
-; aglobal160.inc                                      ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/aglobal160.inc                                                                                                                              ;         ;
-; stratix_pll.inc                                     ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/stratix_pll.inc                                                                                                                             ;         ;
-; stratixii_pll.inc                                   ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/stratixii_pll.inc                                                                                                                           ;         ;
-; cycloneii_pll.inc                                   ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/cycloneii_pll.inc                                                                                                                           ;         ;
-; db/pll_altpll.v                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/pll_altpll.v        ;         ;
-; scfifo.tdf                                          ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/scfifo.tdf                                                                                                                                  ;         ;
-; a_regfifo.inc                                       ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/a_regfifo.inc                                                                                                                               ;         ;
-; a_dpfifo.inc                                        ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/a_dpfifo.inc                                                                                                                                ;         ;
-; a_i2fifo.inc                                        ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/a_i2fifo.inc                                                                                                                                ;         ;
-; a_fffifo.inc                                        ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/a_fffifo.inc                                                                                                                                ;         ;
-; a_f2fifo.inc                                        ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/a_f2fifo.inc                                                                                                                                ;         ;
-; db/scfifo_i761.tdf                                  ; yes             ; Auto-Generated Megafunction  ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/scfifo_i761.tdf     ;         ;
-; db/a_dpfifo_vq31.tdf                                ; yes             ; Auto-Generated Megafunction  ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/a_dpfifo_vq31.tdf   ;         ;
-; db/a_fefifo_b6f.tdf                                 ; yes             ; Auto-Generated Megafunction  ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/a_fefifo_b6f.tdf    ;         ;
-; db/cntr_do7.tdf                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/cntr_do7.tdf        ;         ;
-; db/altsyncram_ihm1.tdf                              ; yes             ; Auto-Generated Megafunction  ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/altsyncram_ihm1.tdf ;         ;
-; db/cntr_1ob.tdf                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/cntr_1ob.tdf        ;         ;
-+-----------------------------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
++------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                                                                                                     ;
++-----------------------------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path                    ; Used in Netlist ; File Type                    ; File Name with Absolute Path                                                                                                                                                              ; Library ;
++-----------------------------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
+; ../../../../../rtl/synth/altera/uart_link.vhd       ; yes             ; User VHDL File               ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd                          ;         ;
+; ../../../../../rtl/synth/altera/uart_controller.vhd ; yes             ; User VHDL File               ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_controller.vhd                    ;         ;
+; ../../../../../rtl/synth/altera/dram_controller.vhd ; yes             ; User VHDL File               ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/dram_controller.vhd                    ;         ;
+; miosystem_tb.vhd                                    ; yes             ; User VHDL File               ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd ;         ;
+; pll.vhd                                             ; yes             ; User Wizard-Generated File   ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/pll.vhd          ;         ;
+; iobuf.vhd                                           ; yes             ; User Wizard-Generated File   ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/iobuf.vhd        ;         ;
+; altpll.tdf                                          ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/altpll.tdf                                                                                                                            ;         ;
+; aglobal160.inc                                      ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/aglobal160.inc                                                                                                                        ;         ;
+; stratix_pll.inc                                     ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/stratix_pll.inc                                                                                                                       ;         ;
+; stratixii_pll.inc                                   ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/stratixii_pll.inc                                                                                                                     ;         ;
+; cycloneii_pll.inc                                   ; yes             ; Megafunction                 ; c:/altera_lite/16.0/quartus/libraries/megafunctions/cycloneii_pll.inc                                                                                                                     ;         ;
+; db/pll_altpll.v                                     ; yes             ; Auto-Generated Megafunction  ; C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/pll_altpll.v  ;         ;
++-----------------------------------------------------+-----------------+------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+---------+
 
 
 +---------------------------------------------------------+
@@ -212,20 +195,20 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+-----------+
 ; Resource                                    ; Usage     ;
 +---------------------------------------------+-----------+
-; Estimated Total logic elements              ; 948       ;
+; Estimated Total logic elements              ; 904       ;
 ;                                             ;           ;
-; Total combinational functions               ; 701       ;
+; Total combinational functions               ; 687       ;
 ; Logic element usage by number of LUT inputs ;           ;
-;     -- 4 input functions                    ; 276       ;
-;     -- 3 input functions                    ; 152       ;
-;     -- <=2 input functions                  ; 273       ;
+;     -- 4 input functions                    ; 268       ;
+;     -- 3 input functions                    ; 130       ;
+;     -- <=2 input functions                  ; 289       ;
 ;                                             ;           ;
 ; Logic elements by mode                      ;           ;
-;     -- normal mode                          ; 550       ;
+;     -- normal mode                          ; 536       ;
 ;     -- arithmetic mode                      ; 151       ;
 ;                                             ;           ;
-; Total registers                             ; 622       ;
-;     -- Dedicated logic registers            ; 622       ;
+; Total registers                             ; 581       ;
+;     -- Dedicated logic registers            ; 581       ;
 ;     -- I/O registers                        ; 0         ;
 ;                                             ;           ;
 ; I/O pins                                    ; 46        ;
@@ -236,9 +219,9 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;     -- PLLs                                 ; 1         ;
 ;                                             ;           ;
 ; Maximum fan-out node                        ; CLK~input ;
-; Maximum fan-out                             ; 410       ;
-; Total fan-out                               ; 4071      ;
-; Average fan-out                             ; 2.84      ;
+; Maximum fan-out                             ; 369       ;
+; Total fan-out                               ; 3952      ;
+; Average fan-out                             ; 2.87      ;
 +---------------------------------------------+-----------+
 
 
@@ -247,12 +230,12 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +------------------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------+-----------------------+--------------+
 ; Compilation Hierarchy Node                                       ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                   ; Entity Name           ; Library Name ;
 +------------------------------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-----------------------------------------------------------------------------------------------------------------------+-----------------------+--------------+
-; |MIOSystem_tb                                                    ; 701 (7)           ; 622 (8)      ; 0           ; 0            ; 0       ; 0         ; 46   ; 0            ; |MIOSystem_tb                                                                                                         ; MIOSystem_tb          ; work         ;
+; |MIOSystem_tb                                                    ; 687 (6)           ; 581 (7)      ; 0           ; 0            ; 0       ; 0         ; 46   ; 0            ; |MIOSystem_tb                                                                                                         ; MIOSystem_tb          ; work         ;
 ;    |DRAM_Controller:DRAM_Controller1|                            ; 135 (135)         ; 213 (213)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1                                                                        ; DRAM_Controller       ; work         ;
 ;       |iobuf:iob_dq_iob|                                         ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iobuf:iob_dq_iob                                                       ; iobuf                 ; work         ;
 ;          |iobuf_iobuf_bidir_p1p:iobuf_iobuf_bidir_p1p_component| ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iobuf:iob_dq_iob|iobuf_iobuf_bidir_p1p:iobuf_iobuf_bidir_p1p_component ; iobuf_iobuf_bidir_p1p ; work         ;
 ;    |UART_Controller:UART_Controller1|                            ; 82 (82)           ; 59 (59)      ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|UART_Controller:UART_Controller1                                                                        ; UART_Controller       ; work         ;
-;    |UART_Link:UART_Link1|                                        ; 477 (477)         ; 342 (342)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|UART_Link:UART_Link1                                                                                    ; UART_Link             ; work         ;
+;    |UART_Link:UART_Link1|                                        ; 464 (464)         ; 302 (302)    ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|UART_Link:UART_Link1                                                                                    ; UART_Link             ; work         ;
 ;    |pll:pll_inst|                                                ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|pll:pll_inst                                                                                            ; pll                   ; work         ;
 ;       |altpll:altpll_component|                                  ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|pll:pll_inst|altpll:altpll_component                                                                    ; altpll                ; work         ;
 ;          |pll_altpll:auto_generated|                             ; 0 (0)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |MIOSystem_tb|pll:pll_inst|altpll:altpll_component|pll_altpll:auto_generated                                          ; pll_altpll            ; work         ;
@@ -267,7 +250,6 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------+--------------+---------+--------------+--------------+-----------------------------------------------------------------+-----------------+
 ; Altera ; ALTIOBUF     ; 16.0    ; N/A          ; N/A          ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iobuf:iob_dq_iob ; iobuf.vhd       ;
 ; Altera ; ALTPLL       ; 16.0    ; N/A          ; N/A          ; |MIOSystem_tb|pll:pll_inst                                      ; pll.vhd         ;
-; Altera ; FIFO         ; 16.0    ; N/A          ; N/A          ; |MIOSystem_tb|UART_Link:UART_Link1|uart_fifo:UART_FIFO1         ; uart_fifo.vhd   ;
 +--------+--------------+---------+--------------+--------------+-----------------------------------------------------------------+-----------------+
 
 
@@ -285,16 +267,20 @@ Encoding Type:  One-Hot
 
 
 Encoding Type:  One-Hot
-+--------------------------------------------------------------------------------------+
-; State Machine - |MIOSystem_tb|UART_Link:UART_Link1|state                             ;
-+------------------+---------------+------------------+---------------+----------------+
-; Name             ; state.s_txing ; state.s_act_wait ; state.s_rxing ; state.s_listen ;
-+------------------+---------------+------------------+---------------+----------------+
-; state.s_listen   ; 0             ; 0                ; 0             ; 0              ;
-; state.s_rxing    ; 0             ; 0                ; 1             ; 1              ;
-; state.s_act_wait ; 0             ; 1                ; 0             ; 1              ;
-; state.s_txing    ; 1             ; 0                ; 0             ; 1              ;
-+------------------+---------------+------------------+---------------+----------------+
++-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; State Machine - |MIOSystem_tb|UART_Link:UART_Link1|state                                                                                                                                        ;
++--------------------------+-------------------------+--------------------+--------------------------+---------------------+---------------------+---------------+---------------+----------------+
+; Name                     ; state.s_sdram_read_wait ; state.s_sdram_read ; state.s_sdram_write_wait ; state.s_sdram_write ; state.s_ctrl_switch ; state.s_txing ; state.s_rxing ; state.s_listen ;
++--------------------------+-------------------------+--------------------+--------------------------+---------------------+---------------------+---------------+---------------+----------------+
+; state.s_listen           ; 0                       ; 0                  ; 0                        ; 0                   ; 0                   ; 0             ; 0             ; 0              ;
+; state.s_rxing            ; 0                       ; 0                  ; 0                        ; 0                   ; 0                   ; 0             ; 1             ; 1              ;
+; state.s_txing            ; 0                       ; 0                  ; 0                        ; 0                   ; 0                   ; 1             ; 0             ; 1              ;
+; state.s_ctrl_switch      ; 0                       ; 0                  ; 0                        ; 0                   ; 1                   ; 0             ; 0             ; 1              ;
+; state.s_sdram_write      ; 0                       ; 0                  ; 0                        ; 1                   ; 0                   ; 0             ; 0             ; 1              ;
+; state.s_sdram_write_wait ; 0                       ; 0                  ; 1                        ; 0                   ; 0                   ; 0             ; 0             ; 1              ;
+; state.s_sdram_read       ; 0                       ; 1                  ; 0                        ; 0                   ; 0                   ; 0             ; 0             ; 1              ;
+; state.s_sdram_read_wait  ; 1                       ; 0                  ; 0                        ; 0                   ; 0                   ; 0             ; 0             ; 1              ;
++--------------------------+-------------------------+--------------------+--------------------------+---------------------+---------------------+---------------+---------------+----------------+
 
 
 Encoding Type:  One-Hot
@@ -351,57 +337,22 @@ Encoding Type:  One-Hot
 +-------------------+-------------------+----------------+----------------+----------------+----------------+-----------------+-----------------+-----------------+-------------------+-------------------+--------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+-----------------+
 
 
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                                                                                                                                                                                                  ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
-; Register name                                                                                                                                                                        ; Reason for Removal                                           ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
-; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|cntr_1ob:wr_ptr|counter_reg_bit[0..5]                              ; Stuck at GND due to stuck port clock_enable                  ;
-; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|cntr_1ob:rd_ptr_count|counter_reg_bit[0..5]                        ; Stuck at GND due to stuck port clock_enable                  ;
-; DRAM_Controller:DRAM_Controller1|save_col[0,8,9,11,12]                                                                                                                               ; Stuck at GND due to stuck port data_in                       ;
-; DRAM_Controller:DRAM_Controller1|iob_command[3]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|cntr_do7:count_usedw|counter_reg_bit[0..5] ; Stuck at GND due to stuck port clock_enable                  ;
-; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|b_full                                     ; Lost fanout                                                  ;
-; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|b_non_empty                                ; Lost fanout                                                  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[6][0]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[5][0]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[4][7]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[4][6]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[4][5]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[4][4]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[4][3]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[4][2]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[0][7]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[0][6]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[0][5]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[0][4]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[0][2]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[6][2]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[6][4]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|carrier_buffer_sched[6][5]                                                                                                                                      ; Stuck at GND due to stuck port data_in                       ;
-; UART_Link:UART_Link1|iob_sdram_cmd_byte_en[0..3]                                                                                                                                     ; Merged with UART_Link:UART_Link1|iob_sdram_cmd_en            ;
-; UART_Link:UART_Link1|data_buffer_sz_latch[8,9,11..31]                                                                                                                                ; Merged with UART_Link:UART_Link1|data_buffer_sz_latch[10]    ;
-; DRAM_Controller:DRAM_Controller1|save_byte_en[1..3]                                                                                                                                  ; Merged with DRAM_Controller:DRAM_Controller1|save_byte_en[0] ;
-; UART_Link:UART_Link1|carrier_buffer_sched[0][1]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[0][3]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[4][0]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[4][1]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[5][1]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[5][2]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[5][3]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[5][4]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[5][5]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[5][6]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[5][7]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[6][1]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[6][3]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[6][6]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; UART_Link:UART_Link1|carrier_buffer_sched[6][7]                                                                                                                                      ; Merged with UART_Link:UART_Link1|carrier_buffer_sched[0][0]  ;
-; DRAM_Controller:DRAM_Controller1|iob_dq_hiz[1..15]                                                                                                                                   ; Merged with DRAM_Controller:DRAM_Controller1|iob_dq_hiz[0]   ;
-; UART_Link:UART_Link1|data_buffer_sz_latch[10]                                                                                                                                        ; Stuck at GND due to stuck port data_in                       ;
-; DRAM_Controller:DRAM_Controller1|save_byte_en[0]                                                                                                                                     ; Stuck at VCC due to stuck port data_in                       ;
-; Total Number of Removed Registers = 104                                                                                                                                              ;                                                              ;
-+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------------------------------------------+
++-----------------------------------------------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                                                                    ;
++--------------------------------------------------------+--------------------------------------------------------------+
+; Register name                                          ; Reason for Removal                                           ;
++--------------------------------------------------------+--------------------------------------------------------------+
+; DRAM_Controller:DRAM_Controller1|save_col[0,8,9,11,12] ; Stuck at GND due to stuck port data_in                       ;
+; DRAM_Controller:DRAM_Controller1|iob_command[3]        ; Stuck at GND due to stuck port data_in                       ;
+; UART_Link:UART_Link1|data_buffer_sz_latch[8,9,11..31]  ; Merged with UART_Link:UART_Link1|data_buffer_sz_latch[10]    ;
+; DRAM_Controller:DRAM_Controller1|save_byte_en[1..3]    ; Merged with DRAM_Controller:DRAM_Controller1|save_byte_en[0] ;
+; UART_Link:UART_Link1|iob_sdram_cmd_byte_en[1..3]       ; Merged with UART_Link:UART_Link1|iob_sdram_cmd_byte_en[0]    ;
+; UART_Link:UART_Link1|iob_sdram_cmd_en                  ; Merged with UART_Link:UART_Link1|iob_sdram_cmd_byte_en[0]    ;
+; DRAM_Controller:DRAM_Controller1|iob_dq_hiz[1..15]     ; Merged with DRAM_Controller:DRAM_Controller1|iob_dq_hiz[0]   ;
+; UART_Link:UART_Link1|data_buffer_sz_latch[10]          ; Stuck at GND due to stuck port data_in                       ;
+; DRAM_Controller:DRAM_Controller1|save_byte_en[0]       ; Stuck at VCC due to stuck port data_in                       ;
+; Total Number of Removed Registers = 53                 ;                                                              ;
++--------------------------------------------------------+--------------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -409,12 +360,12 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 622   ;
+; Total registers                              ; 581   ;
 ; Number of registers using Synchronous Clear  ; 73    ;
-; Number of registers using Synchronous Load   ; 37    ;
+; Number of registers using Synchronous Load   ; 69    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 471   ;
+; Number of registers using Clock Enable       ; 435   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -451,53 +402,42 @@ Encoding Type:  One-Hot
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output                                            ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------+
-; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_data_vec[2]    ;
-; 3:1                ; 32 bits   ; 64 LEs        ; 32 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|iob_sdram_cmd_data_in[8]           ;
-; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|tx_baud_counter[3]     ;
-; 3:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|rx_baud_counter[2]     ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 8 LEs                ; 8 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_data_vec[7]    ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[3][1]               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[2][1]               ;
+; 3:1                ; 8 bits    ; 16 LEs        ; 0 LEs                ; 16 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[1][1]               ;
+; 3:1                ; 10 bits   ; 20 LEs        ; 10 LEs               ; 10 LEs                 ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|tx_baud_counter[0]     ;
+; 3:1                ; 6 bits    ; 12 LEs        ; 6 LEs                ; 6 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|rx_baud_counter[1]     ;
 ; 3:1                ; 4 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_bit_spacing[0] ;
-; 4:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_count[2]       ;
-; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iob_data[11]           ;
-; 6:1                ; 7 bits    ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_data_vec[0]    ;
-; 7:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[6][2]               ;
-; 7:1                ; 4 bits    ; 16 LEs        ; 4 LEs                ; 12 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[6][1]               ;
-; 7:1                ; 7 bits    ; 28 LEs        ; 7 LEs                ; 21 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[5][1]               ;
-; 7:1                ; 6 bits    ; 24 LEs        ; 6 LEs                ; 18 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[4][4]               ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 2 LEs                ; 6 LEs                  ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[4][0]               ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[3][5]               ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[2][5]               ;
-; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[1][0]               ;
-; 7:1                ; 3 bits    ; 12 LEs        ; 3 LEs                ; 9 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_count[1]       ;
-; 17:1               ; 8 bits    ; 88 LEs        ; 88 LEs               ; 0 LEs                  ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|iob_uart_writedata[5]              ;
-; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[0][3]                  ;
-; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[1][1]                  ;
-; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[2][6]                  ;
-; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[3][2]                  ;
-; 10:1               ; 8 bits    ; 48 LEs        ; 8 LEs                ; 40 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[4][2]                  ;
-; 10:1               ; 8 bits    ; 48 LEs        ; 8 LEs                ; 40 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[5][7]                  ;
-; 10:1               ; 8 bits    ; 48 LEs        ; 8 LEs                ; 40 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[6][5]                  ;
-; 10:1               ; 8 bits    ; 48 LEs        ; 8 LEs                ; 40 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[7][4]                  ;
-; 10:1               ; 5 bits    ; 30 LEs        ; 5 LEs                ; 25 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[0][6]               ;
-; 10:1               ; 3 bits    ; 18 LEs        ; 3 LEs                ; 15 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[0][1]               ;
-; 11:1               ; 32 bits   ; 224 LEs       ; 32 LEs               ; 192 LEs                ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer_fill_ctr[8]            ;
-; 13:1               ; 32 bits   ; 256 LEs       ; 64 LEs               ; 192 LEs                ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer_fill_ctr[15]        ;
-; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_data_sr[0]     ;
+; 4:1                ; 3 bits    ; 6 LEs         ; 3 LEs                ; 3 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_count[0]       ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[4][6]                  ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[5][2]                  ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[6][2]                  ;
+; 6:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[7][2]                  ;
+; 5:1                ; 16 bits   ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iob_data[0]            ;
+; 6:1                ; 7 bits    ; 28 LEs        ; 14 LEs               ; 14 LEs                 ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_data_vec[2]    ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[6][5]               ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[5][5]               ;
+; 7:1                ; 8 bits    ; 32 LEs        ; 8 LEs                ; 24 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[4][3]               ;
+; 7:1                ; 3 bits    ; 12 LEs        ; 3 LEs                ; 9 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_count[0]       ;
+; 17:1               ; 8 bits    ; 88 LEs        ; 88 LEs               ; 0 LEs                  ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|iob_uart_writedata[1]              ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[0][2]                  ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[1][3]                  ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[2][1]                  ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 16 LEs               ; 32 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer[3][6]                  ;
+; 10:1               ; 8 bits    ; 48 LEs        ; 8 LEs                ; 40 LEs                 ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer[0][7]               ;
+; 11:1               ; 32 bits   ; 224 LEs       ; 32 LEs               ; 192 LEs                ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|data_buffer_fill_ctr[27]           ;
+; 13:1               ; 32 bits   ; 256 LEs       ; 64 LEs               ; 192 LEs                ; Yes        ; |MIOSystem_tb|UART_Link:UART_Link1|carrier_buffer_fill_ctr[27]        ;
+; 3:1                ; 2 bits    ; 4 LEs         ; 2 LEs                ; 2 LEs                  ; Yes        ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_data_sr[1]     ;
 ; 3:1                ; 13 bits   ; 26 LEs        ; 13 LEs               ; 13 LEs                 ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iob_address            ;
 ; 3:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|state                  ;
-; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iob_command            ;
+; 4:1                ; 2 bits    ; 4 LEs         ; 4 LEs                ; 0 LEs                  ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|iob_address            ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 9 LEs                ; 3 LEs                  ; No         ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_state          ;
 ; 7:1                ; 3 bits    ; 12 LEs        ; 9 LEs                ; 3 LEs                  ; No         ; |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_state          ;
 ; 8:1                ; 2 bits    ; 10 LEs        ; 4 LEs                ; 6 LEs                  ; No         ; |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|state                  ;
+; 19:1               ; 2 bits    ; 24 LEs        ; 8 LEs                ; 16 LEs                 ; No         ; |MIOSystem_tb|UART_Link:UART_Link1|state                              ;
+; 20:1               ; 2 bits    ; 26 LEs        ; 4 LEs                ; 22 LEs                 ; No         ; |MIOSystem_tb|UART_Link:UART_Link1|state                              ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+-----------------------------------------------------------------------+
-
-
-+------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Source assignments for UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram ;
-+---------------------------------+--------------------+------+----------------------------------------------------------------------------------------------------+
-; Assignment                      ; Value              ; From ; To                                                                                                 ;
-+---------------------------------+--------------------+------+----------------------------------------------------------------------------------------------------+
-; OPTIMIZE_POWER_DURING_SYNTHESIS ; NORMAL_COMPILATION ; -    ; -                                                                                                  ;
-+---------------------------------+--------------------+------+----------------------------------------------------------------------------------------------------+
 
 
 +-----------------------------------------------------------------------------------+
@@ -885,35 +825,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
-+----------------------------------------------------------------------------------------------------------------+
-; Parameter Settings for User Entity Instance: UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component ;
-+-------------------------+--------------+-----------------------------------------------------------------------+
-; Parameter Name          ; Value        ; Type                                                                  ;
-+-------------------------+--------------+-----------------------------------------------------------------------+
-; AUTO_CARRY_CHAINS       ; ON           ; AUTO_CARRY                                                            ;
-; IGNORE_CARRY_BUFFERS    ; OFF          ; IGNORE_CARRY                                                          ;
-; AUTO_CASCADE_CHAINS     ; ON           ; AUTO_CASCADE                                                          ;
-; IGNORE_CASCADE_BUFFERS  ; OFF          ; IGNORE_CASCADE                                                        ;
-; lpm_width               ; 8            ; Signed Integer                                                        ;
-; LPM_NUMWORDS            ; 64           ; Signed Integer                                                        ;
-; LPM_WIDTHU              ; 6            ; Signed Integer                                                        ;
-; LPM_SHOWAHEAD           ; OFF          ; Untyped                                                               ;
-; UNDERFLOW_CHECKING      ; ON           ; Untyped                                                               ;
-; OVERFLOW_CHECKING       ; ON           ; Untyped                                                               ;
-; ALLOW_RWCYCLE_WHEN_FULL ; OFF          ; Untyped                                                               ;
-; ADD_RAM_OUTPUT_REGISTER ; OFF          ; Untyped                                                               ;
-; ALMOST_FULL_VALUE       ; 32           ; Signed Integer                                                        ;
-; ALMOST_EMPTY_VALUE      ; 0            ; Untyped                                                               ;
-; ENABLE_ECC              ; FALSE        ; Untyped                                                               ;
-; USE_EAB                 ; ON           ; Untyped                                                               ;
-; MAXIMIZE_SPEED          ; 5            ; Untyped                                                               ;
-; DEVICE_FAMILY           ; Cyclone IV E ; Untyped                                                               ;
-; OPTIMIZE_FOR_SPEED      ; 5            ; Untyped                                                               ;
-; CBXI_PARAMETER          ; scfifo_i761  ; Untyped                                                               ;
-+-------------------------+--------------+-----------------------------------------------------------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
 +----------------------------------------------------------------------+
 ; altpll Parameter Settings by Entity Instance                         ;
 +-------------------------------+--------------------------------------+
@@ -931,65 +842,35 @@ Note: In order to hide this table in the UI and the text report file, please set
 +-------------------------------+--------------------------------------+
 
 
-+------------------------------------------------------------------------------------------------+
-; scfifo Parameter Settings by Entity Instance                                                   ;
-+----------------------------+-------------------------------------------------------------------+
-; Name                       ; Value                                                             ;
-+----------------------------+-------------------------------------------------------------------+
-; Number of entity instances ; 1                                                                 ;
-; Entity Instance            ; UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component ;
-;     -- FIFO Type           ; Single Clock                                                      ;
-;     -- lpm_width           ; 8                                                                 ;
-;     -- LPM_NUMWORDS        ; 64                                                                ;
-;     -- LPM_SHOWAHEAD       ; OFF                                                               ;
-;     -- USE_EAB             ; ON                                                                ;
-+----------------------------+-------------------------------------------------------------------+
-
-
-+-----------------------------------------------------------------------------------------------------------------------+
-; Port Connectivity Checks: "UART_Link:UART_Link1|uart_fifo:UART_FIFO1"                                                 ;
-+-------------+--------+----------+-------------------------------------------------------------------------------------+
-; Port        ; Type   ; Severity ; Details                                                                             ;
-+-------------+--------+----------+-------------------------------------------------------------------------------------+
-; data        ; Input  ; Info     ; Stuck at GND                                                                        ;
-; rdreq       ; Input  ; Info     ; Stuck at GND                                                                        ;
-; wrreq       ; Input  ; Info     ; Stuck at GND                                                                        ;
-; almost_full ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-; empty       ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-; full        ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-; q           ; Output ; Info     ; Connected to dangling logic. Logic that only feeds a dangling port will be removed. ;
-+-------------+--------+----------+-------------------------------------------------------------------------------------+
-
-
 +-----------------------------------------------------+
 ; Post-Synthesis Netlist Statistics for Top Partition ;
 +-----------------------+-----------------------------+
 ; Type                  ; Count                       ;
 +-----------------------+-----------------------------+
 ; boundary_port         ; 46                          ;
-; cycloneiii_ff         ; 622                         ;
-;     ENA               ; 393                         ;
+; cycloneiii_ff         ; 581                         ;
+;     ENA               ; 325                         ;
 ;     ENA SCLR          ; 41                          ;
 ;     ENA SCLR SLD      ; 5                           ;
-;     ENA SLD           ; 32                          ;
+;     ENA SLD           ; 64                          ;
 ;     SCLR              ; 27                          ;
-;     plain             ; 124                         ;
+;     plain             ; 119                         ;
 ; cycloneiii_io_ibuf    ; 16                          ;
 ; cycloneiii_io_obuf    ; 16                          ;
-; cycloneiii_lcell_comb ; 707                         ;
+; cycloneiii_lcell_comb ; 693                         ;
 ;     arith             ; 151                         ;
 ;         2 data inputs ; 143                         ;
 ;         3 data inputs ; 8                           ;
-;     normal            ; 556                         ;
+;     normal            ; 542                         ;
 ;         0 data inputs ; 2                           ;
 ;         1 data inputs ; 16                          ;
-;         2 data inputs ; 118                         ;
-;         3 data inputs ; 144                         ;
-;         4 data inputs ; 276                         ;
+;         2 data inputs ; 134                         ;
+;         3 data inputs ; 122                         ;
+;         4 data inputs ; 268                         ;
 ; cycloneiii_pll        ; 1                           ;
 ;                       ;                             ;
 ; Max LUT depth         ; 7.00                        ;
-; Average LUT depth     ; 2.76                        ;
+; Average LUT depth     ; 2.93                        ;
 +-----------------------+-----------------------------+
 
 
@@ -998,7 +879,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:06     ;
+; Top            ; 00:00:04     ;
 +----------------+--------------+
 
 
@@ -1008,7 +889,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
-    Info: Processing started: Wed Nov 16 22:38:06 2016
+    Info: Processing started: Thu Nov 17 01:53:10 2016
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off FISC -c top
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Info (12021): Found 2 design units, including 1 entities, in source file /users/miguel/dropbox/university_modules/computer_systems_engineering_-_year_3/singleton_meng_year_3_project/4-development/fisc/rtl/synth/altera/uart_link.vhd
@@ -1083,9 +964,6 @@ Info (12021): Found 4 design units, including 2 entities, in source file iobuf.v
 Info (12021): Found 2 design units, including 1 entities, in source file uart_controller_tb.vhd
     Info (12022): Found design unit 1: UART_Controller_tb-RTL File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_controller_tb.vhd Line: 17
     Info (12023): Found entity 1: UART_Controller_tb File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_controller_tb.vhd Line: 5
-Info (12021): Found 2 design units, including 1 entities, in source file uart_fifo.vhd
-    Info (12022): Found design unit 1: uart_fifo-SYN File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd Line: 58
-    Info (12023): Found entity 1: uart_fifo File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd Line: 43
 Info (12127): Elaborating entity "miosystem_tb" for the top level hierarchy
 Info (12128): Elaborating entity "pll" for hierarchy "pll:pll_inst" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 123
 Info (12128): Elaborating entity "altpll" for hierarchy "pll:pll_inst|altpll:altpll_component" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/pll.vhd Line: 136
@@ -1154,57 +1032,8 @@ Info (12128): Elaborating entity "iobuf_iobuf_bidir_p1p" for hierarchy "DRAM_Con
 Info (12128): Elaborating entity "UART_Controller" for hierarchy "UART_Controller:UART_Controller1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 150
 Info (12128): Elaborating entity "UART_Link" for hierarchy "UART_Link:UART_Link1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 168
 Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(34): used explicit default value for signal "iob_leds" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 34
-Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(48): object "uart_fifo_data_out" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 48
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(49): used explicit default value for signal "uart_fifo_data_in" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 49
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(50): used explicit default value for signal "uart_fifo_rd" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 50
-Warning (10540): VHDL Signal Declaration warning at uart_link.vhd(51): used explicit default value for signal "uart_fifo_wr" because signal was never assigned a value File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 51
-Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(52): object "uart_fifo_alm_full" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 52
-Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(53): object "uart_fifo_empty" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 53
-Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(54): object "uart_fifo_full" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 54
-Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(127): object "sdram_save_data" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 127
-Info (12128): Elaborating entity "uart_fifo" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 154
-Info (12128): Elaborating entity "scfifo" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd Line: 99
-Info (12130): Elaborated megafunction instantiation "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd Line: 99
-Info (12133): Instantiated megafunction "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component" with the following parameter: File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/uart_fifo.vhd Line: 99
-    Info (12134): Parameter "add_ram_output_register" = "OFF"
-    Info (12134): Parameter "almost_full_value" = "32"
-    Info (12134): Parameter "intended_device_family" = "Cyclone IV E"
-    Info (12134): Parameter "lpm_numwords" = "64"
-    Info (12134): Parameter "lpm_showahead" = "OFF"
-    Info (12134): Parameter "lpm_type" = "scfifo"
-    Info (12134): Parameter "lpm_width" = "8"
-    Info (12134): Parameter "lpm_widthu" = "6"
-    Info (12134): Parameter "overflow_checking" = "ON"
-    Info (12134): Parameter "underflow_checking" = "ON"
-    Info (12134): Parameter "use_eab" = "ON"
-Info (12021): Found 1 design units, including 1 entities, in source file db/scfifo_i761.tdf
-    Info (12023): Found entity 1: scfifo_i761 File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/scfifo_i761.tdf Line: 25
-Info (12128): Elaborating entity "scfifo_i761" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated" File: c:/altera_lite/16.0/quartus/libraries/megafunctions/scfifo.tdf Line: 300
-Info (12021): Found 1 design units, including 1 entities, in source file db/a_dpfifo_vq31.tdf
-    Info (12023): Found entity 1: a_dpfifo_vq31 File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/a_dpfifo_vq31.tdf Line: 29
-Info (12128): Elaborating entity "a_dpfifo_vq31" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/scfifo_i761.tdf Line: 37
-Info (12021): Found 1 design units, including 1 entities, in source file db/a_fefifo_b6f.tdf
-    Info (12023): Found entity 1: a_fefifo_b6f File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/a_fefifo_b6f.tdf Line: 25
-Info (12128): Elaborating entity "a_fefifo_b6f" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/a_dpfifo_vq31.tdf Line: 42
-Info (12021): Found 1 design units, including 1 entities, in source file db/cntr_do7.tdf
-    Info (12023): Found entity 1: cntr_do7 File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/cntr_do7.tdf Line: 26
-Info (12128): Elaborating entity "cntr_do7" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|a_fefifo_b6f:fifo_state|cntr_do7:count_usedw" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/a_fefifo_b6f.tdf Line: 39
-Info (12021): Found 1 design units, including 1 entities, in source file db/altsyncram_ihm1.tdf
-    Info (12023): Found entity 1: altsyncram_ihm1 File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/altsyncram_ihm1.tdf Line: 28
-Info (12128): Elaborating entity "altsyncram_ihm1" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/a_dpfifo_vq31.tdf Line: 43
-Info (12021): Found 1 design units, including 1 entities, in source file db/cntr_1ob.tdf
-    Info (12023): Found entity 1: cntr_1ob File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/cntr_1ob.tdf Line: 26
-Info (12128): Elaborating entity "cntr_1ob" for hierarchy "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|cntr_1ob:rd_ptr_count" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/a_dpfifo_vq31.tdf Line: 44
-Warning (14284): Synthesized away the following node(s):
-    Warning (14285): Synthesized away the following RAM node(s):
-        Warning (14320): Synthesized away node "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram|q_b[0]" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/altsyncram_ihm1.tdf Line: 40
-        Warning (14320): Synthesized away node "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram|q_b[1]" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/altsyncram_ihm1.tdf Line: 70
-        Warning (14320): Synthesized away node "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram|q_b[2]" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/altsyncram_ihm1.tdf Line: 100
-        Warning (14320): Synthesized away node "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram|q_b[3]" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/altsyncram_ihm1.tdf Line: 130
-        Warning (14320): Synthesized away node "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram|q_b[4]" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/altsyncram_ihm1.tdf Line: 160
-        Warning (14320): Synthesized away node "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram|q_b[5]" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/altsyncram_ihm1.tdf Line: 190
-        Warning (14320): Synthesized away node "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram|q_b[6]" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/altsyncram_ihm1.tdf Line: 220
-        Warning (14320): Synthesized away node "UART_Link:UART_Link1|uart_fifo:UART_FIFO1|scfifo:scfifo_component|scfifo_i761:auto_generated|a_dpfifo_vq31:dpfifo|altsyncram_ihm1:FIFOram|q_b[7]" File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/db/altsyncram_ihm1.tdf Line: 250
+Warning (10036): Verilog HDL or VHDL warning at uart_link.vhd(113): object "sdram_save_data" assigned a value but never read File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 113
+Warning (10037): Verilog HDL or VHDL warning at uart_link.vhd(292): conditional expression evaluates to a constant File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/rtl/synth/altera/uart_link.vhd Line: 292
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "SDRAM_CS_N" is stuck at GND File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 12
     Warning (13410): Pin "DS_DP" is stuck at VCC File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 51
@@ -1212,19 +1041,18 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "DS_C" is stuck at VCC File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 53
     Warning (13410): Pin "DS_D" is stuck at VCC File: C:/Users/Miguel/Dropbox/University_Modules/Computer_Systems_Engineering_-_Year_3/Singleton_MEng_Year_3_Project/4-Development/FISC/toolchain/Windows/FPGA/Cyclone_IV/FISC/miosystem_tb.vhd Line: 54
 Info (286030): Timing-Driven Synthesis is running
-Info (17049): 2 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 1028 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 981 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 28 output pins
     Info (21060): Implemented 16 bidirectional pins
-    Info (21061): Implemented 981 logic cells
+    Info (21061): Implemented 934 logic cells
     Info (21065): Implemented 1 PLLs
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 26 warnings
-    Info: Peak virtual memory: 891 megabytes
-    Info: Processing ended: Wed Nov 16 22:38:56 2016
-    Info: Elapsed time: 00:00:50
-    Info: Total CPU time (on all processors): 00:01:15
+Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 10 warnings
+    Info: Peak virtual memory: 869 megabytes
+    Info: Processing ended: Thu Nov 17 01:53:42 2016
+    Info: Elapsed time: 00:00:32
+    Info: Total CPU time (on all processors): 00:01:02
 
 

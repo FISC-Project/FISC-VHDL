@@ -3,12 +3,12 @@ TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow 1200mV 85C Model Setup 'pll_inst|altpll_component|auto_generated|pll1|clk[0]'
-Slack : -4.737
-TNS   : -405.529
+Slack : -4.970
+TNS   : -412.639
 
 Type  : Slow 1200mV 85C Model Setup 'CLK'
-Slack : -3.811
-TNS   : -260.228
+Slack : -4.143
+TNS   : -376.394
 
 Type  : Slow 1200mV 85C Model Hold 'CLK'
 Slack : 0.452
@@ -19,20 +19,20 @@ Slack : 0.453
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'pll_inst|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 3.535
+Slack : 3.562
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CLK'
-Slack : 10.201
+Slack : 10.198
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'pll_inst|altpll_component|auto_generated|pll1|clk[0]'
-Slack : -4.298
-TNS   : -362.414
+Slack : -4.494
+TNS   : -369.040
 
 Type  : Slow 1200mV 0C Model Setup 'CLK'
-Slack : -3.925
-TNS   : -264.647
+Slack : -4.165
+TNS   : -375.437
 
 Type  : Slow 1200mV 0C Model Hold 'CLK'
 Slack : 0.400
@@ -43,20 +43,20 @@ Slack : 0.401
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'pll_inst|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 3.510
+Slack : 3.561
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CLK'
-Slack : 10.190
+Slack : 10.188
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'pll_inst|altpll_component|auto_generated|pll1|clk[0]'
-Slack : -2.096
-TNS   : -181.423
+Slack : -2.168
+TNS   : -182.039
 
 Type  : Fast 1200mV 0C Model Setup 'CLK'
-Slack : -1.677
-TNS   : -102.810
+Slack : -1.576
+TNS   : -139.069
 
 Type  : Fast 1200mV 0C Model Hold 'pll_inst|altpll_component|auto_generated|pll1|clk[0]'
 Slack : 0.185
@@ -67,11 +67,11 @@ Slack : 0.186
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'pll_inst|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 3.600
+Slack : 3.602
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CLK'
-Slack : 9.851
+Slack : 9.850
 TNS   : 0.000
 
 ------------------------------------------------------------

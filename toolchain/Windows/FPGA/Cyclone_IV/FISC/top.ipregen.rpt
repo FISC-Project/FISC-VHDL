@@ -1,5 +1,5 @@
 IP Upgrade report for top
-Sat Nov 05 18:11:22 2016
+Wed Nov 16 23:50:14 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -35,10 +35,10 @@ agreement for further details.
 +----------------------------------------------------------------------------+
 ; IP Upgrade Summary                                                         ;
 +------------------------------+---------------------------------------------+
-; IP Components Upgrade Status ; Failed - Sat Nov 05 18:11:22 2016           ;
+; IP Components Upgrade Status ; Failed - Wed Nov 16 23:50:14 2016           ;
 ; Quartus Prime Version        ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                ; top                                         ;
-; Top-level Entity Name        ; dram_controller_tb                          ;
+; Top-level Entity Name        ; miosystem_tb                                ;
 ; Family                       ; Cyclone IV E                                ;
 +------------------------------+---------------------------------------------+
 
@@ -48,9 +48,9 @@ agreement for further details.
 +---------------------+
 Info (23030): Evaluation of Tcl script c:/altera_lite/16.0/quartus/common/tcl/internal/ip_regen/ip_regen.tcl was successful
 Info: Quartus Prime Shell was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 875 megabytes
-    Info: Processing ended: Sat Nov 05 18:11:22 2016
-    Info: Elapsed time: 00:00:26
-    Info: Total CPU time (on all processors): 00:00:57
+    Info: Peak virtual memory: 941 megabytes
+    Info: Processing ended: Wed Nov 16 23:50:14 2016
+    Info: Elapsed time: 00:00:35
+    Info: Total CPU time (on all processors): 00:01:01
 
 
