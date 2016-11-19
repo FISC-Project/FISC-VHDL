@@ -1,16 +1,16 @@
-Fitter Status : Successful - Thu Nov 17 01:54:10 2016
+Fitter Status : Successful - Sat Nov 19 00:37:13 2016
 Quartus Prime Version : 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 Revision Name : top
-Top-level Entity Name : MIOSystem_tb
+Top-level Entity Name : FLASHMEM_Controller_tb
 Family : Cyclone IV E
 Device : EP4CE6E22C8
 Timing Models : Final
-Total logic elements : 873 / 6,272 ( 14 % )
-    Total combinational functions : 690 / 6,272 ( 11 % )
-    Dedicated logic registers : 581 / 6,272 ( 9 % )
-Total registers : 581
-Total pins : 46 / 92 ( 50 % )
+Total logic elements : 191 / 6,272 ( 3 % )
+    Total combinational functions : 187 / 6,272 ( 3 % )
+    Dedicated logic registers : 78 / 6,272 ( 1 % )
+Total registers : 78
+Total pins : 10 / 92 ( 11 % )
 Total virtual pins : 0
 Total memory bits : 0 / 276,480 ( 0 % )
 Embedded Multiplier 9-bit elements : 0 / 30 ( 0 % )
-Total PLLs : 1 / 2 ( 50 % )
+Total PLLs : 0 / 2 ( 0 % )
