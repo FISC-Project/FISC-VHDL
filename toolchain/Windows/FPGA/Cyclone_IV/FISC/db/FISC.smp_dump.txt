@@ -1,31 +1,54 @@
 
-State Machine - |FLASHMEM_Controller_tb|state
-Name state.s_idle state.s_reset_done state.s_reset 
-state.s_reset 0 0 0 
-state.s_reset_done 0 1 1 
-state.s_idle 1 0 1 
+State Machine - |MIOSystem_tb|state
+Name state.s_idle state.s_init_wait state.s_init state.s_init_pll 
+state.s_init_pll 0 0 0 0 
+state.s_init 0 0 1 1 
+state.s_init_wait 0 1 0 1 
+state.s_idle 1 0 0 1 
 
-State Machine - |FLASHMEM_Controller_tb|FLASHMEM_Controller:FLASHMEM_Controller1|trans_state
-Name trans_state.s_trans_finish trans_state.s_trans_data trans_state.s_trans_addr trans_state.s_trans_opcode trans_state.s_trans_null 
-trans_state.s_trans_null 0 0 0 0 0 
-trans_state.s_trans_opcode 0 0 0 1 1 
-trans_state.s_trans_addr 0 0 1 0 1 
-trans_state.s_trans_data 0 1 0 0 1 
-trans_state.s_trans_finish 1 0 0 0 1 
+State Machine - |MIOSystem_tb|UART_Link:UART_Link1|state
+Name state.s_sdram_read_wait state.s_sdram_read state.s_sdram_write_wait state.s_sdram_write state.s_ctrl_switch state.s_txing state.s_rxing state.s_listen 
+state.s_listen 0 0 0 0 0 0 0 0 
+state.s_rxing 0 0 0 0 0 0 1 1 
+state.s_txing 0 0 0 0 0 1 0 1 
+state.s_ctrl_switch 0 0 0 0 1 0 0 1 
+state.s_sdram_write 0 0 0 1 0 0 0 1 
+state.s_sdram_write_wait 0 0 1 0 0 0 0 1 
+state.s_sdram_read 0 1 0 0 0 0 0 1 
+state.s_sdram_read_wait 1 0 0 0 0 0 0 1 
 
-State Machine - |FLASHMEM_Controller_tb|FLASHMEM_Controller:FLASHMEM_Controller1|state
-Name state.s_idle state.s_sector_erase_wait state.s_write_wait state.s_sector_erase state.s_write_enable_sector state.s_write_page state.s_write_enable state.s_read_byte state.s_read_status2 state.s_read_status1 state.s_testbench state.s_reset_done state.s_reset state.s_wait_reset 
-state.s_wait_reset 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-state.s_reset 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
-state.s_reset_done 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
-state.s_testbench 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
-state.s_read_status1 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
-state.s_read_status2 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
-state.s_read_byte 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
-state.s_write_enable 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
-state.s_write_page 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
-state.s_write_enable_sector 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
-state.s_sector_erase 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
-state.s_write_wait 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
-state.s_sector_erase_wait 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
-state.s_idle 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+State Machine - |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_state
+Name uart_tx_state.tx_send_stop_bit uart_tx_state.tx_send_data uart_tx_state.tx_send_start_bit 
+uart_tx_state.tx_send_start_bit 0 0 0 
+uart_tx_state.tx_send_data 0 1 1 
+uart_tx_state.tx_send_stop_bit 1 0 1 
+
+State Machine - |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_state
+Name uart_rx_state.rx_get_stop_bit uart_rx_state.rx_get_data uart_rx_state.rx_get_start_bit 
+uart_rx_state.rx_get_start_bit 0 0 0 
+uart_rx_state.rx_get_data 0 1 1 
+uart_rx_state.rx_get_stop_bit 1 0 1 
+
+State Machine - |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|state
+Name state.s_precharge state.s_read_4 state.s_read_3 state.s_read_2 state.s_read_1 state.s_write_3 state.s_write_2 state.s_write_1 state.s_open_in_1 state.s_open_in_2 state.s_idle state.s_idle_in_1 state.s_idle_in_2 state.s_idle_in_3 state.s_idle_in_4 state.s_idle_in_5 state.s_idle_in_6 state.s_idle_in_7 state.s_idle_in_8 state.s_idle_in_9 state.s_startup 
+state.s_startup 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+state.s_idle_in_9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
+state.s_idle_in_8 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 1 
+state.s_idle_in_7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 1 
+state.s_idle_in_6 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 
+state.s_idle_in_5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 1 
+state.s_idle_in_4 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 1 
+state.s_idle_in_3 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 
+state.s_idle_in_2 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 1 
+state.s_idle_in_1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 
+state.s_idle 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 1 
+state.s_open_in_2 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 1 
+state.s_open_in_1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 1 
+state.s_write_1 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 1 
+state.s_write_2 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+state.s_write_3 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+state.s_read_1 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+state.s_read_2 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+state.s_read_3 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+state.s_read_4 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
+state.s_precharge 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 

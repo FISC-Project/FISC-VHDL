@@ -1,5 +1,5 @@
 IP Upgrade report for top
-Fri Nov 18 01:28:47 2016
+Sat Nov 19 20:05:37 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -35,7 +35,7 @@ agreement for further details.
 +----------------------------------------------------------------------------+
 ; IP Upgrade Summary                                                         ;
 +------------------------------+---------------------------------------------+
-; IP Components Upgrade Status ; Failed - Fri Nov 18 01:28:47 2016           ;
+; IP Components Upgrade Status ; Failed - Sat Nov 19 20:05:37 2016           ;
 ; Quartus Prime Version        ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                ; top                                         ;
 ; Top-level Entity Name        ; flashmem_controller_tb                      ;
@@ -49,8 +49,8 @@ agreement for further details.
 Info (23030): Evaluation of Tcl script c:/altera_lite/16.0/quartus/common/tcl/internal/ip_regen/ip_regen.tcl was successful
 Info: Quartus Prime Shell was successful. 0 errors, 0 warnings
     Info: Peak virtual memory: 875 megabytes
-    Info: Processing ended: Fri Nov 18 01:28:47 2016
-    Info: Elapsed time: 00:00:29
-    Info: Total CPU time (on all processors): 00:00:55
+    Info: Processing ended: Sat Nov 19 20:05:37 2016
+    Info: Elapsed time: 00:00:25
+    Info: Total CPU time (on all processors): 00:00:56
 
 

@@ -38,7 +38,7 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE6E22C8
-set_global_assignment -name TOP_LEVEL_ENTITY flashmem_controller_tb
+set_global_assignment -name TOP_LEVEL_ENTITY miosystem_tb
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION "11.1 SP2"
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "22:59:44  JUNE 04, 2013"
 set_global_assignment -name LAST_QUARTUS_VERSION 16.0.0
@@ -165,10 +165,6 @@ set_global_assignment -name EDA_TEST_BENCH_NAME top_vlg_tst -section_id eda_simu
 set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id top_vlg_tst
 set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME top_vlg_tst -section_id top_vlg_tst
 set_global_assignment -name EDA_TEST_BENCH_FILE simulation/modelsim/top_tf.v -section_id top_vlg_tst
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_global_assignment -name VHDL_FILE ../../../../../rtl/synth/altera/spi_controller.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/synth/altera/flashmem_controller.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/synth/altera/uart_link.vhd
 set_global_assignment -name VHDL_FILE ../../../../../rtl/synth/altera/uart_controller.vhd
@@ -192,4 +188,7 @@ set_global_assignment -name QIP_FILE pll.qip
 set_global_assignment -name QIP_FILE iobuf.qip
 set_global_assignment -name VHDL_FILE uart_controller_tb.vhd
 set_global_assignment -name VHDL_FILE flashmem_controller_tb.vhdl
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
