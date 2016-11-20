@@ -24,59 +24,11 @@
 					"strict" : false
 				},
 				{
-					"name" : "SDRAM_A1",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_A2",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_A3",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_A4",
-					"strict" : false
-				},
-				{
 					"name" : "SDRAM_A5",
 					"strict" : false
 				},
 				{
-					"name" : "SDRAM_A6",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_A7",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_A8",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_A9",
-					"strict" : false
-				},
-				{
 					"name" : "SDRAM_A10",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_A11",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_A12",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_BA0",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_BA1",
 					"strict" : false
 				},
 				{
@@ -92,67 +44,15 @@
 					"strict" : false
 				},
 				{
-					"name" : "SDRAM_DQ0",
+					"name" : "FLASH_CS",
 					"strict" : false
 				},
 				{
-					"name" : "SDRAM_DQ1",
+					"name" : "FLASH_CLK",
 					"strict" : false
 				},
 				{
-					"name" : "SDRAM_DQ2",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ3",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ4",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ5",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ6",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ7",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ8",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ9",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ10",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ11",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ12",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ13",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ14",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQ15",
+					"name" : "FLASH_DI",
 					"strict" : false
 				},
 				{
@@ -160,7 +60,7 @@
 					"strict" : false
 				},
 				{
-					"name" : "TXD",
+					"name" : "FLASH_DO",
 					"strict" : false
 				}
 			]

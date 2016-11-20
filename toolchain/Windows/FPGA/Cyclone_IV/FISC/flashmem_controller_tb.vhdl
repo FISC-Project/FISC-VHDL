@@ -82,7 +82,7 @@ BEGIN
 					
 				-- READ WHOLE PAGE --
 				when s_read_page =>
-					fmem_address     <= 0; -- Read from this address
+					fmem_address     <= 1; -- Read from this address
 					
 					fmem_instruction <= INSTR_READ_PAGE;
 					fmem_enable      <= '1';
@@ -115,11 +115,12 @@ BEGIN
 						state                   <= s_write_enable;
 					else
 						-- Now we can write to the page:
-						fmem_address     <= 0; -- Write to this address
+						fmem_address     <= 1; -- Write to this address
 						fmem_data_write  <= std_logic_vector(to_unsigned(14, fmem_data_write'length)); -- Write this data
 					
 						fmem_instruction <= INSTR_WRITE_PAGE;
 						fmem_enable      <= '1';
+						returned         <= false;
 						wait_next_state  <= s_read_page;
 						state            <= s_control_wait;
 					end if;

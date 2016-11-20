@@ -48,6 +48,11 @@ ENTITY MIOSystem_tb IS
 		SDRAM_DQ15  : inout std_logic;
 		RXD         : out   std_logic; -- RXD is OUT and !!NOT!! IN
 		TXD         : in    std_logic; -- TXD IS IN  and !!NOT!! OUT
+		FLASH_CS    : out   std_logic; -- /SS (Drive)
+		FLASH_DO    : in    std_logic; -- MISO (Read)
+		FLASH_WP    : out   std_logic;
+		FLASH_CLK   : out   std_logic; -- SCK (Drive)
+		FLASH_DI    : out   std_logic; -- MOSI (Drive)
 		DS_DP       : out   std_logic;
 		DS_G        : out   std_logic;
 		DS_C        : out   std_logic;
@@ -99,6 +104,20 @@ ARCHITECTURE RTL OF MIOSystem_tb IS
 	------------------------------------------------------
 	------------------------------------------------------
 	
+	-----------------------------------------
+	------- Flash Memory Controller ---------
+	-----------------------------------------
+	signal fmem_reset_done  : std_logic;
+	signal fmem_enable      : std_logic;
+	signal fmem_ready       : std_logic;
+	signal fmem_instruction : integer;
+	signal fmem_address     : integer;
+	signal fmem_data_write  : std_logic_vector(256*8-1 downto 0);
+	signal fmem_data_read   : std_logic_vector(256*8-1 downto 0);
+	signal fmem_status      : std_logic_vector(7       downto 0);
+	------------------------------------------------------
+	------------------------------------------------------
+	
 	---------------------------------
 	------- UART Controller ---------
 	---------------------------------
@@ -109,13 +128,13 @@ ARCHITECTURE RTL OF MIOSystem_tb IS
 	signal uart_read_irq  : std_logic; -- Read  IRQ (Read)
 	------------------------------------------------------
 	------------------------------------------------------
-	
+
 	---------------------------
 	------- UART Link ---------
 	---------------------------
 	signal uart_link_enable : std_logic := '0';
 	------------------------------------------------------
-	------------------------------------------------------
+	------------------------------------------------------	
 BEGIN
 	(DS_D, DS_C, DS_G, DS_DP) <= not leds;
 	
@@ -146,6 +165,14 @@ BEGIN
 	sdram_dq7 <= sdram_dqn(7); sdram_dq8 <= sdram_dqn(8); sdram_dq9 <= sdram_dqn(9); sdram_dq10 <= sdram_dqn(10);
 	sdram_dq11 <= sdram_dqn(11); sdram_dq12 <= sdram_dqn(12); sdram_dq13 <= sdram_dqn(13); sdram_dq14 <= sdram_dqn(14); sdram_dq15 <= sdram_dqn(15);
 	
+	-- Flash Memory Instantiation:
+	FLASHMEM_Controller1: ENTITY work.FLASHMEM_Controller PORT MAP (
+		CLK, restart_system, fmem_reset_done, fmem_enable, fmem_ready, fmem_instruction, fmem_address, fmem_data_write, fmem_data_read, fmem_status,
+		FLASH_CS, FLASH_DO, FLASH_DI, FLASH_CLK
+	);
+	
+	FLASH_WP <= '1'; -- We don't want to mess with Write Protection
+	
 	-- UART Controller Instantiation:
 	UART_Controller1 : ENTITY work.UART_Controller
 		GENERIC MAP(
@@ -170,6 +197,7 @@ BEGIN
 			leds, -- TODO: TEMPORARY
 			CLK, pll_out_clk, pll_running, uart_link_enable,
 			sdram_cmd_ready, sdram_cmd_en, sdram_cmd_wr, sdram_cmd_address, sdram_cmd_byte_en, sdram_cmd_data_in, sdram_data_out, sdram_data_ready,
+			fmem_enable, fmem_ready, fmem_instruction, fmem_address, fmem_data_write, fmem_data_read, fmem_status,
 			uart_write, uart_writedata, uart_readdata, uart_write_irq, uart_read_irq
 		);
 	
@@ -195,7 +223,8 @@ BEGIN
 					
 				when s_init_wait => -- Wait for system startup to finish
 					restart_system <= '0';
-					if sdram_cmd_ready = '1' then -- Wait for the SDRAM because it is the component with the longest wait time 
+					-- Wait for the SDRAM and Flash Memory to initialize:
+					if sdram_cmd_ready = '1' and fmem_reset_done = '1' then
 						uart_link_enable <= '1'; -- The UART Link is now ready to receive, transmit and control devices through UART Communication
 						state <= s_idle; -- Enter idle state and let the components make transactions with each other 
 					end if;
