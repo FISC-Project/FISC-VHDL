@@ -162,6 +162,7 @@ ARCHITECTURE RTL OF UART_Link IS
 	constant INSTR_WRITE_ENABLE : integer := 6;
 	constant INSTR_WRITE_PAGE   : integer := 2;
 	constant INSTR_SECTOR_ERASE : integer := 32;
+	constant INSTR_CHIP_ERASE   : integer := 199;
 BEGIN
 	leds <= iob_leds; -- TODO: REMOVE THIS LATER
 

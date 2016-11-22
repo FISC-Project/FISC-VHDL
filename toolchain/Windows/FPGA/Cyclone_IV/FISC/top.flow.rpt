@@ -1,5 +1,5 @@
 Flow report for top
-Sun Nov 20 12:49:59 2016
+Tue Nov 22 01:12:04 2016
 Quartus Prime Version 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 
 
@@ -41,22 +41,22 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Sun Nov 20 12:49:59 2016       ;
+; Flow Status                        ; Successful - Tue Nov 22 01:12:04 2016       ;
 ; Quartus Prime Version              ; 16.0.0 Build 211 04/27/2016 SJ Lite Edition ;
 ; Revision Name                      ; top                                         ;
-; Top-level Entity Name              ; MIOSystem_tb                                ;
+; Top-level Entity Name              ; Flash_Memory_Loader                         ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE6E22C8                                 ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 252 / 6,272 ( 4 % )                         ;
-;     Total combinational functions  ; 244 / 6,272 ( 4 % )                         ;
-;     Dedicated logic registers      ; 141 / 6,272 ( 2 % )                         ;
-; Total registers                    ; 141                                         ;
-; Total pins                         ; 51 / 92 ( 55 % )                            ;
+; Total logic elements               ; 4,983 / 6,272 ( 79 % )                      ;
+;     Total combinational functions  ; 1,983 / 6,272 ( 32 % )                      ;
+;     Dedicated logic registers      ; 4,338 / 6,272 ( 69 % )                      ;
+; Total registers                    ; 4338                                        ;
+; Total pins                         ; 10 / 92 ( 11 % )                            ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 0 / 276,480 ( 0 % )                         ;
+; Total memory bits                  ; 65,536 / 276,480 ( 24 % )                   ;
 ; Embedded Multiplier 9-bit elements ; 0 / 30 ( 0 % )                              ;
-; Total PLLs                         ; 1 / 2 ( 50 % )                              ;
+; Total PLLs                         ; 0 / 2 ( 0 % )                               ;
 +------------------------------------+---------------------------------------------+
 
 
@@ -65,45 +65,46 @@ agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 11/20/2016 12:48:53 ;
+; Start date & time ; 11/22/2016 01:09:09 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; top                 ;
 +-------------------+---------------------+
 
 
-+------------------------------------------------------------------------------------------------------------------------------+
-; Flow Non-Default Global Settings                                                                                             ;
-+--------------------------------------+---------------------------------------+---------------+--------------+----------------+
-; Assignment Name                      ; Value                                 ; Default Value ; Entity Name  ; Section Id     ;
-+--------------------------------------+---------------------------------------+---------------+--------------+----------------+
-; COMPILER_SIGNATURE_ID                ; 123658570900799.147964613304596       ; --            ; --           ; --             ;
-; EDA_DESIGN_INSTANCE_NAME             ; NA                                    ; --            ; --           ; top_vlg_tst    ;
-; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; top_vlg_tst                           ; --            ; --           ; eda_simulation ;
-; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                           ; --            ; --           ; eda_simulation ;
-; EDA_SIMULATION_TOOL                  ; ModelSim (Verilog)                    ; <None>        ; --           ; --             ;
-; EDA_TEST_BENCH_ENABLE_STATUS         ; TEST_BENCH_MODE                       ; --            ; --           ; eda_simulation ;
-; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/top_tf.v          ; --            ; --           ; top_vlg_tst    ;
-; EDA_TEST_BENCH_MODULE_NAME           ; top_vlg_tst                           ; --            ; --           ; top_vlg_tst    ;
-; EDA_TEST_BENCH_NAME                  ; top_vlg_tst                           ; --            ; --           ; eda_simulation ;
-; EDA_TIME_SCALE                       ; 1 ps                                  ; --            ; --           ; eda_simulation ;
-; ENABLE_SIGNALTAP                     ; Off                                   ; --            ; --           ; --             ;
-; MAX_CORE_JUNCTION_TEMP               ; 85                                    ; --            ; --           ; --             ;
-; MIN_CORE_JUNCTION_TEMP               ; 0                                     ; --            ; --           ; --             ;
-; MISC_FILE                            ; pll.cmp                               ; --            ; --           ; --             ;
-; MISC_FILE                            ; pll.ppf                               ; --            ; --           ; --             ;
-; MISC_FILE                            ; iobuf.cmp                             ; --            ; --           ; --             ;
-; OUTPUT_IO_TIMING_FAR_END_VMEAS       ; Half Signal Swing                     ; --            ; --           ; --             ;
-; OUTPUT_IO_TIMING_FAR_END_VMEAS       ; Half Signal Swing                     ; --            ; --           ; --             ;
-; OUTPUT_IO_TIMING_NEAR_END_VMEAS      ; Half Vccio                            ; --            ; --           ; --             ;
-; OUTPUT_IO_TIMING_NEAR_END_VMEAS      ; Half Vccio                            ; --            ; --           ; --             ;
-; PARTITION_COLOR                      ; 16764057                              ; --            ; miosystem_tb ; Top            ;
-; PARTITION_FITTER_PRESERVATION_LEVEL  ; PLACEMENT_AND_ROUTING                 ; --            ; miosystem_tb ; Top            ;
-; PARTITION_NETLIST_TYPE               ; SOURCE                                ; --            ; miosystem_tb ; Top            ;
-; POWER_BOARD_THERMAL_MODEL            ; None (CONSERVATIVE)                   ; --            ; --           ; --             ;
-; POWER_PRESET_COOLING_SOLUTION        ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW ; --            ; --           ; --             ;
-; TOP_LEVEL_ENTITY                     ; miosystem_tb                          ; top           ; --           ; --             ;
-; USE_SIGNALTAP_FILE                   ; stp1.stp                              ; --            ; --           ; --             ;
-+--------------------------------------+---------------------------------------+---------------+--------------+----------------+
++-------------------------------------------------------------------------------------------------------------------------------------+
+; Flow Non-Default Global Settings                                                                                                    ;
++--------------------------------------+---------------------------------------+---------------+---------------------+----------------+
+; Assignment Name                      ; Value                                 ; Default Value ; Entity Name         ; Section Id     ;
++--------------------------------------+---------------------------------------+---------------+---------------------+----------------+
+; COMPILER_SIGNATURE_ID                ; 123658570900799.147977694905532       ; --            ; --                  ; --             ;
+; EDA_DESIGN_INSTANCE_NAME             ; NA                                    ; --            ; --                  ; top_vlg_tst    ;
+; EDA_NATIVELINK_SIMULATION_TEST_BENCH ; top_vlg_tst                           ; --            ; --                  ; eda_simulation ;
+; EDA_OUTPUT_DATA_FORMAT               ; Verilog Hdl                           ; --            ; --                  ; eda_simulation ;
+; EDA_SIMULATION_TOOL                  ; ModelSim (Verilog)                    ; <None>        ; --                  ; --             ;
+; EDA_TEST_BENCH_ENABLE_STATUS         ; TEST_BENCH_MODE                       ; --            ; --                  ; eda_simulation ;
+; EDA_TEST_BENCH_FILE                  ; simulation/modelsim/top_tf.v          ; --            ; --                  ; top_vlg_tst    ;
+; EDA_TEST_BENCH_MODULE_NAME           ; top_vlg_tst                           ; --            ; --                  ; top_vlg_tst    ;
+; EDA_TEST_BENCH_NAME                  ; top_vlg_tst                           ; --            ; --                  ; eda_simulation ;
+; EDA_TIME_SCALE                       ; 1 ps                                  ; --            ; --                  ; eda_simulation ;
+; ENABLE_SIGNALTAP                     ; Off                                   ; --            ; --                  ; --             ;
+; MAX_CORE_JUNCTION_TEMP               ; 85                                    ; --            ; --                  ; --             ;
+; MIN_CORE_JUNCTION_TEMP               ; 0                                     ; --            ; --                  ; --             ;
+; MISC_FILE                            ; pll.cmp                               ; --            ; --                  ; --             ;
+; MISC_FILE                            ; pll.ppf                               ; --            ; --                  ; --             ;
+; MISC_FILE                            ; iobuf.cmp                             ; --            ; --                  ; --             ;
+; MISC_FILE                            ; rom_8x8192.cmp                        ; --            ; --                  ; --             ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS       ; Half Signal Swing                     ; --            ; --                  ; --             ;
+; OUTPUT_IO_TIMING_FAR_END_VMEAS       ; Half Signal Swing                     ; --            ; --                  ; --             ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS      ; Half Vccio                            ; --            ; --                  ; --             ;
+; OUTPUT_IO_TIMING_NEAR_END_VMEAS      ; Half Vccio                            ; --            ; --                  ; --             ;
+; PARTITION_COLOR                      ; 16764057                              ; --            ; flash_memory_loader ; Top            ;
+; PARTITION_FITTER_PRESERVATION_LEVEL  ; PLACEMENT_AND_ROUTING                 ; --            ; flash_memory_loader ; Top            ;
+; PARTITION_NETLIST_TYPE               ; SOURCE                                ; --            ; flash_memory_loader ; Top            ;
+; POWER_BOARD_THERMAL_MODEL            ; None (CONSERVATIVE)                   ; --            ; --                  ; --             ;
+; POWER_PRESET_COOLING_SOLUTION        ; 23 MM HEAT SINK WITH 200 LFPM AIRFLOW ; --            ; --                  ; --             ;
+; TOP_LEVEL_ENTITY                     ; flash_memory_loader                   ; top           ; --                  ; --             ;
+; USE_SIGNALTAP_FILE                   ; stp1.stp                              ; --            ; --                  ; --             ;
++--------------------------------------+---------------------------------------+---------------+---------------------+----------------+
 
 
 +-------------------------------------------------------------------------------------------------------------------------------+
@@ -111,12 +112,12 @@ agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:00:39     ; 1.0                     ; 917 MB              ; 00:01:11                           ;
-; Fitter                    ; 00:00:13     ; 1.0                     ; 1097 MB             ; 00:00:12                           ;
-; Assembler                 ; 00:00:02     ; 1.0                     ; 736 MB              ; 00:00:02                           ;
-; TimeQuest Timing Analyzer ; 00:00:04     ; 1.0                     ; 793 MB              ; 00:00:04                           ;
-; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 709 MB              ; 00:00:02                           ;
-; Total                     ; 00:01:00     ; --                      ; --                  ; 00:01:31                           ;
+; Analysis & Synthesis      ; 00:00:55     ; 1.0                     ; 925 MB              ; 00:01:25                           ;
+; Fitter                    ; 00:01:25     ; 1.0                     ; 1230 MB             ; 00:01:21                           ;
+; Assembler                 ; 00:00:02     ; 1.0                     ; 748 MB              ; 00:00:02                           ;
+; TimeQuest Timing Analyzer ; 00:00:10     ; 1.0                     ; 834 MB              ; 00:00:10                           ;
+; EDA Netlist Writer        ; 00:00:13     ; 1.0                     ; 748 MB              ; 00:00:12                           ;
+; Total                     ; 00:02:45     ; --                      ; --                  ; 00:03:10                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 

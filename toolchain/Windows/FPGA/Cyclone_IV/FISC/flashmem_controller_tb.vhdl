@@ -18,9 +18,9 @@ ENTITY FLASHMEM_Controller_tb IS
 END FLASHMEM_Controller_tb;
 
 ARCHITECTURE RTL OF FLASHMEM_Controller_tb IS
-	signal z    : boolean := false;
 	signal leds : std_logic_vector(3 downto 0) := (others => '0');
 	
+	-- Flash Memory Controller Wires:
 	signal fmem_reset       : std_logic := '0';
 	signal fmem_reset_done  : std_logic;
 	signal fmem_enable      : std_logic := '0';

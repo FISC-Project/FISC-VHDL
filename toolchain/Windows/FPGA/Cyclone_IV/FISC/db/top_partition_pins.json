@@ -4,46 +4,6 @@
 			"name" : "Top",
 			"pins" : [
 				{
-					"name" : "SDRAM_CKE",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_WE_N",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_CAS_N",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_RAS_N",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_A0",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_A5",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_A10",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQML",
-					"strict" : false
-				},
-				{
-					"name" : "SDRAM_DQMH",
-					"strict" : false
-				},
-				{
-					"name" : "RXD",
-					"strict" : false
-				},
-				{
 					"name" : "FLASH_CS",
 					"strict" : false
 				},
@@ -53,6 +13,18 @@
 				},
 				{
 					"name" : "FLASH_DI",
+					"strict" : false
+				},
+				{
+					"name" : "DS_DP",
+					"strict" : false
+				},
+				{
+					"name" : "DS_G",
+					"strict" : false
+				},
+				{
+					"name" : "DS_C",
 					"strict" : false
 				},
 				{

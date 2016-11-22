@@ -48,6 +48,7 @@ ARCHITECTURE RTL OF FLASHMEM_Controller IS
 	constant INSTR_WRITE_ENABLE : integer := 6;
 	constant INSTR_WRITE_PAGE   : integer := 2;
 	constant INSTR_SECTOR_ERASE : integer := 32;
+	constant INSTR_CHIP_ERASE   : integer := 199;
 	
 	-- Size Constants:
 	constant FLASH_CS_ENABLE     : std_logic := '0';
@@ -134,7 +135,7 @@ BEGIN
 							when s_trans_opcode =>
 								-- Opcode is being sent on the clk falling edge (through MOSI)
 								if shift_reg_idx = flash_opcode'high then
-									if flash_opcode = std_logic_vector(to_unsigned(INSTR_WRITE_ENABLE, flash_opcode'length)) then
+									if flash_opcode = std_logic_vector(to_unsigned(INSTR_WRITE_ENABLE, flash_opcode'length)) or flash_opcode = std_logic_vector(to_unsigned(INSTR_CHIP_ERASE, flash_opcode'length)) then
 										trans_state    <= s_trans_finish;
 										sck_sched_fall <= '1';
 									else
@@ -211,7 +212,7 @@ BEGIN
 										state     <= s_idle;
 									end if;
 								else
-									if (flash_opcode = std_logic_vector(to_unsigned(INSTR_WRITE_PAGE, flash_opcode'length)) or flash_opcode = std_logic_vector(to_unsigned(INSTR_SECTOR_ERASE, flash_opcode'length))) then
+									if (flash_opcode = std_logic_vector(to_unsigned(INSTR_WRITE_PAGE, flash_opcode'length)) or flash_opcode = std_logic_vector(to_unsigned(INSTR_SECTOR_ERASE, flash_opcode'length)) or flash_opcode = std_logic_vector(to_unsigned(INSTR_CHIP_ERASE, flash_opcode'length))) then
 										flash_opcode <= std_logic_vector(to_unsigned(INSTR_READ_STATUS1, flash_opcode'length));
 										busy_wait    <= true;
 										state        <= s_control; -- After writing occurs, we should wait for the memory to be unbusy
