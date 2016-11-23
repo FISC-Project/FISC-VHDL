@@ -2,7 +2,7 @@ LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.numeric_std.all;
 
-ENTITY FLASHMEM_Controller IS
+ENTITY FLASHMEM_Controller_PageWide IS
 	PORT(
 		-- Flash Memory Controller wires:
 		clk         : in  std_logic;
@@ -13,7 +13,7 @@ ENTITY FLASHMEM_Controller IS
 		instruction : in  integer;
 		address     : in  integer;
 		data_write  : in  std_logic_vector(256*8-1 downto 0); -- Smallest size that can be written is 1 page (256 bytes)
-		data_read   : out std_logic_vector(4*8-1   downto 0) := (others => '0'); -- Makes sense to read a whole page at once
+		data_read   : out std_logic_vector(256*8-1 downto 0) := (others => '0'); -- Makes sense to read a whole page at once
 		status      : out std_logic_vector(7       downto 0) := (others => '0');
 		
 		-- SPI Output wires:
@@ -24,7 +24,7 @@ ENTITY FLASHMEM_Controller IS
 	);
 END ENTITY;
 
-ARCHITECTURE RTL OF FLASHMEM_Controller IS
+ARCHITECTURE RTL OF FLASHMEM_Controller_PageWide IS
 	type fsm_t is (
 		s_wait_reset, s_reset, s_reset_done,
 		s_control,
@@ -55,7 +55,7 @@ ARCHITECTURE RTL OF FLASHMEM_Controller IS
 	constant FLASH_CS_DISABLE    : std_logic := '1';
 	constant FLASH_OPCODE_SZ     : integer   :=  8;
 	constant FLASH_ADDR_SZ       : integer   :=  24;
-	constant FLASH_READBUFF_SZ   : integer   :=  8*4;
+	constant FLASH_READBUFF_SZ   : integer   :=  8*256;
 	constant FLASH_WRITE_BUFF_SZ : integer   :=  8*256;
 	constant FLASH_STATUS_SZ     : integer   :=  8;
 	
@@ -123,7 +123,7 @@ BEGIN
 				when s_control =>
 					if trans_state = s_trans_null then
 						if busy_wait = false then
-							flash_opcode <= std_logic_vector(to_unsigned(instruction, flash_opcode'length));
+							flash_opcode    <= std_logic_vector(to_unsigned(instruction, flash_opcode'length));
 						end if;
 						flash_addr      <= std_logic_vector(to_unsigned(address, flash_addr'length));
 						flash_writebuff <= data_write;

@@ -49,7 +49,7 @@ ARCHITECTURE RTL OF Flash_Memory_Loader IS
 	signal   fmem_data_read         : std_logic_vector(FLASH_MEM_BUFF_SIZE-1 downto 0);
 	signal   fmem_status            : std_logic_vector(7 downto 0);
 	
-	signal   fmem_data_write_fill_ctr : integer := FLASH_MEM_PAGE_SIZE-1; -- Which byte out of the 256 bytes are we currently writing into?
+	signal   fmem_data_write_fill_ctr : integer := 0; -- Which byte out of the 256 bytes are we currently writing into?
 	signal   fmem_pages_loaded        : integer := 0; -- How many pages have we loaded so far?
 	
 	-- Flash Memory Instruction Constants (there's more instructions, but this is all we need):
@@ -78,7 +78,7 @@ BEGIN
 	
 	FLASH_WP <= '1'; -- We don't want to mess with Write Protection
 	
-	FLASHMEM_Controller1: ENTITY work.FLASHMEM_Controller_PageWide PORT MAP (
+	FLASHMEM_Controller1: ENTITY work.FLASHMEM_Controller PORT MAP (
 		CLK, fmem_reset, fmem_reset_done, fmem_enable, fmem_ready, fmem_instruction, fmem_address, fmem_data_write, fmem_data_read, fmem_status,
 		FLASH_CS, FLASH_DO, FLASH_DI, FLASH_CLK
 	);
@@ -140,13 +140,13 @@ BEGIN
 						else
 							if skipping = false then
 								fmem_data_write((fmem_data_write_fill_ctr+1)*8-1 downto fmem_data_write_fill_ctr*8) <= rom_data;
-								fmem_data_write_fill_ctr <= fmem_data_write_fill_ctr - 1;
+								fmem_data_write_fill_ctr <= fmem_data_write_fill_ctr + 1;
 								
-								if fmem_data_write_fill_ctr = 0 then
+								if fmem_data_write_fill_ctr = FLASH_MEM_PAGE_SIZE-1 then
 									-- We've filled the buffer, it's time to write it into the aligned address
 									fmem_address             <= fmem_pages_loaded * FLASH_MEM_PAGE_SIZE;
 									state                    <= s_write_page;
-									fmem_data_write_fill_ctr <= FLASH_MEM_PAGE_SIZE-1;
+									fmem_data_write_fill_ctr <= 0;
 									fmem_pages_loaded        <= fmem_pages_loaded + 1;
 								end if;
 								

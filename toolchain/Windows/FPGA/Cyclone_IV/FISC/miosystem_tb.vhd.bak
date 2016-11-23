@@ -113,7 +113,7 @@ ARCHITECTURE RTL OF MIOSystem_tb IS
 	signal fmem_instruction : integer;
 	signal fmem_address     : integer;
 	signal fmem_data_write  : std_logic_vector(256*8-1 downto 0);
-	signal fmem_data_read   : std_logic_vector(4*8-1   downto 0);
+	signal fmem_data_read   : std_logic_vector(256*8-1 downto 0);
 	signal fmem_status      : std_logic_vector(7       downto 0);
 	------------------------------------------------------
 	------------------------------------------------------
@@ -133,7 +133,6 @@ ARCHITECTURE RTL OF MIOSystem_tb IS
 	------- UART Link ---------
 	---------------------------
 	signal uart_link_enable : std_logic := '0';
-	signal uart_link_ready  : std_logic := '0';
 	------------------------------------------------------
 	------------------------------------------------------	
 BEGIN
@@ -196,7 +195,7 @@ BEGIN
 	UART_Link1: ENTITY work.UART_Link
 		PORT MAP (
 			leds, -- TODO: TEMPORARY
-			CLK, pll_out_clk, pll_running, uart_link_enable, uart_link_ready,
+			CLK, pll_out_clk, pll_running, uart_link_enable,
 			sdram_cmd_ready, sdram_cmd_en, sdram_cmd_wr, sdram_cmd_address, sdram_cmd_byte_en, sdram_cmd_data_in, sdram_data_out, sdram_data_ready,
 			fmem_enable, fmem_ready, fmem_instruction, fmem_address, fmem_data_write, fmem_data_read, fmem_status,
 			uart_write, uart_writedata, uart_readdata, uart_write_irq, uart_read_irq
@@ -226,11 +225,8 @@ BEGIN
 					restart_system <= '0';
 					-- Wait for the SDRAM and Flash Memory to initialize:
 					if sdram_cmd_ready = '1' and fmem_reset_done = '1' then
-						uart_link_enable <= '1'; -- Let the UART Link module initialize
-						if uart_link_ready = '1' then
-							-- The UART Link is now ready to receive, transmit and control devices through UART Communication
-							state <= s_idle; -- Enter idle state and let the components make transactions with each other 
-						end if;
+						uart_link_enable <= '1'; -- The UART Link is now ready to receive, transmit and control devices through UART Communication
+						state <= s_idle; -- Enter idle state and let the components make transactions with each other 
 					end if;
 					
 				when s_idle => -- Do nothing

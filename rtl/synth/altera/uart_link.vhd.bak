@@ -9,7 +9,6 @@ ENTITY UART_Link IS
 		pll_clk           : in  std_logic; -- 130 MHz PLL output 
 		pll_running       : in  std_logic;
 		enable_link       : in  std_logic;
-		ready             : out std_logic := '0'; -- Has the UART Link finished initialization?
 		
 		-- SDRAM Controller Wires:
 		sdram_cmd_ready   : in  std_logic; -- Read
@@ -27,7 +26,7 @@ ENTITY UART_Link IS
 		fmem_instruction  : out integer;   -- Drive
 		fmem_address      : out integer;   -- Drive
 		fmem_data_write   : out std_logic_vector(256*8-1 downto 0); -- Drive
-		fmem_data_read    : in  std_logic_vector(4*8-1   downto 0); -- Read
+		fmem_data_read    : in  std_logic_vector(256*8-1 downto 0); -- Read
 		fmem_status       : in  std_logic_vector(7       downto 0); -- Read
 		
 		-- UART Controller Wires:
@@ -40,18 +39,20 @@ ENTITY UART_Link IS
 END UART_Link;
 
 ARCHITECTURE RTL OF UART_Link IS
+	signal iob_leds : std_logic_vector(3 downto 0) := "0000";
+
 	-----------------------------------
 	-- EXTREMELY IMPORTANT CONSTANTS:
 	-- In case you want to save a considerable amount of FPGA resources (approx. 240 logic elements), 
 	-- you can just set the following boolean to false, but you'll lose the ability to receive packets from the FPGA, 
 	-- so be careful and make sure your software doesn't rely on acknowledgments
-	constant tx_enable          : boolean := true;
+	constant tx_enable          : boolean := false;
 	-- In case you want to write directly to SDRAM through UART, set the following boolean to true.
 	-- This is EXTREMELY important, because it saves a tremendous amount of resources. Also, it might make sense
 	-- to disable this on release day, since it's not the UART/PC's job to load up the SDRAM.
-	constant sdram_write_enable : boolean := true;
+	constant sdram_write_enable : boolean := false;
 	-- If you don't want to write to flash memory from UART (ever), and want to save a lot of FPGA space, turn the following boolean false:
-	constant fmem_write_enable  : boolean := true;
+	constant fmem_write_enable  : boolean := false;
 	
 	-- !!!! RECOMMENDATIONS !!!!
 	-- There are 4 modes that will be used on the system:
@@ -80,13 +81,10 @@ ARCHITECTURE RTL OF UART_Link IS
 		
 	-- Algorithm FSM:
 	type fsm_t is (
-		s_init, s_init_done,   -- Initialize UART Link
-		s_load_fmem,           -- Load Flash Memory into SDRAM. This happens everytime the FPGA is initialized
 		s_listen,              -- Stay idle and wait for reception of packets
 		s_rxing,               -- An SOT byte was received and now we're fetching bytes and building up the single packet until the byte EOT comes up
 		s_txing,               -- We acted on the rx'd packet and now we're sending a response. Could be an ack or multi-packet response / transaction. Then, we listen for new packets / stay idle
 		s_ctrl_switch,         -- Decide what state to go whenever a packet is received
-		-- System Control states:
 		s_sdram_write,         -- This state triggers a write command on the SDRAM
 		s_sdram_write_wait,    -- This state waits for the SDRAM to finish writing
 		s_sdram_read,          -- This state triggers a read command on the SDRAM
@@ -99,11 +97,11 @@ ARCHITECTURE RTL OF UART_Link IS
 		s_fmem_control_wait    -- This state waits for the Flash Memory to finish its command execution
 		-- TODO: We'll add more states here whenever we want to control a new device, such as the Flash Memory using SPI
 	);
-	signal state : fsm_t := s_init;
+	signal state : fsm_t := s_listen;
 	
 	-- Communication tokens:
 	constant SOT : signed(7 downto 0) := "10000001"; -- Start of Transmission byte
-	constant EOT : signed(7 downto 0) := "10000010"; -- End   of Transmission byte
+	constant EOT : signed(7 downto 0) := "10000010"; -- End of Transmission byte
 	
 	-- Packet Reception/Transmission buffer variables:
 	constant carrier_buffer_sz       : integer := 7; -- Size of the carrier buffer, in bytes
@@ -149,38 +147,25 @@ ARCHITECTURE RTL OF UART_Link IS
 	constant PCKT_FMEM_ERASE_S_ACK : integer := 10;
 	constant PCKT_INVAL            : integer := 11;
 	
-	signal uart_controlling        : boolean := false; -- When a device is controlled, who requested it? The UART or the CPU? If this is true, then the UART Controller did. Otherwise, it was the CPU.
-	
 	-- SDRAM Control variables:
 	signal   sdram_write_wait_ctr  : integer := 2; -- We need to wait 2 Clock cycles whenever we write to SDRAM (could be a bug on the dram controller...)
 	signal   sdram_save_data       : std_logic_vector(31 downto 0) := (others => '0'); -- Save SDRAM Data when a Read IRQ occurs
 
-	-- Flash Memory Control Constants and Variables:
-	constant FLASH_MEM_BUFF_SIZE          : integer :=  4 * 8;   -- How many bits do we want to load from flash memory
+	-- Flash Memory Control variables:
 	signal   fmem_wait_next_state         : fsm_t   := s_listen; -- After controling the memory and waiting, where shall the fsm state go next
 	signal   fmem_write_enable_next_state : fsm_t   := s_listen; -- After write enabling, should we write to a page or erase a sector?
 	signal   fmem_fsm_jumping             : boolean := false;    -- Will we jump erase/write->write_enable->ctrl_wait->erase/write ?
 	signal   fmem_returned                : boolean := false;    -- Have we finished jumping erase/write->write_enable->ctrl_wait->erase/write ?
-	signal   fmem_save_data               : std_logic_vector(FLASH_MEM_BUFF_SIZE-1 downto 0) := (others => '0'); -- Save Flash Memory Data
-	signal   fmem_pages_loaded            : integer := 0; -- How many pages have we loaded so far?
+	signal   fmem_save_data               : std_logic_vector(256*8-1 downto 0) := (others => '0'); -- Save Flash Memory Data
 	-- Flash Memory Instruction Constants (there's more instructions, but this is all we need):
-	constant INSTR_READ_PAGE              : integer := 3;
-	constant INSTR_WRITE_ENABLE           : integer := 6;
-	constant INSTR_WRITE_PAGE             : integer := 2;
-	constant INSTR_SECTOR_ERASE           : integer := 32;
-	constant INSTR_CHIP_ERASE             : integer := 199;
-	
-	-- Memory Loading (Flash Memory -> SDRAM) Constants and variables:
-	constant loadmem_wordcount_max        : integer := 512;   -- How many words (32 bits) do we want to load from Flash Memory
-	signal   loadmem_wordcount            : integer := 0;     -- How many words have we loaded so far
-	signal   loading_memory               : boolean := false; -- Are we currently loading memory?
-	type load_mem_fsm_t is (
-		s_loadmem_rd_page, 
-		s_loadmem_write_sdram
-	);
-	signal load_mem_fsm : load_mem_fsm_t := s_loadmem_rd_page;
-	
+	constant INSTR_READ_PAGE    : integer := 3;
+	constant INSTR_WRITE_ENABLE : integer := 6;
+	constant INSTR_WRITE_PAGE   : integer := 2;
+	constant INSTR_SECTOR_ERASE : integer := 32;
+	constant INSTR_CHIP_ERASE   : integer := 199;
 BEGIN
+	leds <= iob_leds; -- TODO: REMOVE THIS LATER
+
 	-------------------------
 	-------------------------
 	------ Assignments ------
@@ -224,71 +209,20 @@ BEGIN
 				-- Algorithm: Receive, Parse/Interpret, Control and Transmit Back Communications here --
 				----------------------------------------------------------------------------------------
 				case state is
-					---------------------------
-					-- Initialize UART Link: --
-					---------------------------
-					when s_init => 
-						loading_memory <= true;
-						state          <= s_load_fmem;
-					
-					when s_init_done =>
-						ready          <= '1';
-						loading_memory <= false;
-						state          <= s_listen; -- Now listen for UART Packets (if the feature is enabled)
-						
-					
-					-------------------------------------------
-					-- Load the Flash Memory into the SDRAM: --
-					-------------------------------------------
-					when s_load_fmem =>
-						-- * Steps: *
-						-- 1- Load a single page (at a time) from flash memory into 'fmem_save_data'
-						-- 2- Return, then write from 'fmem_save_data' to 'data_buffer' (which will be used by the sdram write fsm state)
-						-- 3- Repeat steps 1 and 2
-						
-						if loadmem_wordcount = loadmem_wordcount_max then
-							-- We're finished loading all the words into SDRAM.
-							state <= s_init_done;
-						else
-							case load_mem_fsm is
-								when s_loadmem_rd_page =>
-									-- Set from which aligned address we want to read from flash memory
-									data_buffer(23 downto 0) <= std_logic_vector(to_unsigned(fmem_pages_loaded * 4, 24));
-									fmem_pages_loaded        <= fmem_pages_loaded + 1;
-									load_mem_fsm             <= s_loadmem_write_sdram; -- After reading it, we'll write this page into the SDRAM
-									state                    <= s_fmem_read_page;      -- Go read the page
-									
-								when s_loadmem_write_sdram =>
-									-- Set the SDRAM address:
-									data_buffer(22 downto 0)  <= std_logic_vector(to_unsigned(loadmem_wordcount, 23));
-									-- Set the Data:
-									data_buffer(63 downto 32) <= fmem_save_data;
-									loadmem_wordcount         <= loadmem_wordcount + 1;
-									load_mem_fsm              <= s_loadmem_rd_page;
-									
-									-- Let's now write this data into the SDRAM:
-									state <= s_sdram_write;
-									
-								when others => -- Ignore this
-							end case;
-						end if;
-						
-										
 					-------------------------
 					-- Listen for Packets: --
 					-------------------------
-					when s_listen =>
-						uart_controlling <= false;
-						iob_uart_write   <= '0';
+					when s_listen => 
+						iob_uart_write <= '0';
 						if uart_read_irq = '1' then
 							-- TODO: Redirect this received byte from UART into the IRQ Controller of the CPU
+							-- TODO: Execute special command when asked, which is the loading of the Boot code from Flash Memory into the SDRAM. This command will be requested by the top entity
 							if (tx_enable or sdram_write_enable or fmem_write_enable) then -- If none of these 'OR conditions's are true, then the UART Link Debugging features are offline and we're in Release Mode 
 								if uart_readdata = std_logic_vector(SOT) then
 									state <= s_rxing;
 								end if;
 							end if;
 						end if;
-					
 					
 					--------------------------------------
 					-- Wait, receive and collect bytes: --
@@ -345,8 +279,7 @@ BEGIN
 										-- We've finished writing into the data buffer. Now we should expect an EOT byte:
 										if uart_readdata = std_logic_vector(EOT) then
 											-- Success! The received packet is good and ready to be used
-											state            <= s_ctrl_switch;
-											uart_controlling <= true;
+											state <= s_ctrl_switch;
 										else
 											-- The byte following the data buffer was NOT an EOT signal, meaning, the transmission is invalid, and the packet shall be dropped
 											-- TODO: Handle this error
@@ -409,7 +342,6 @@ BEGIN
 								end if;
 							end case;
 					
-					
 					--------------------
 					-- CONTROL SWITCH --
 					--------------------
@@ -458,12 +390,12 @@ BEGIN
 					-----------------------------
 					when s_sdram_write =>
 						-- Write word to SDRAM:
-						iob_sdram_cmd_address <= data_buffer(22 downto 0);
+						iob_sdram_cmd_address <= data_buffer(22 downto 0); --data_buffer(2)(6 downto 0) & data_buffer(1) & data_buffer(0);
 						iob_sdram_cmd_data_in <= data_buffer(63 downto 32);
-						iob_sdram_cmd_byte_en <= (others => '1');
-						iob_sdram_cmd_wr      <= '1';
-						iob_sdram_cmd_en      <= '1';
-						state                 <= s_sdram_write_wait;
+						iob_sdram_cmd_byte_en <= (others => '1'); -- TODO: We will need to change the width of the SDRAM operation (8 bits, 16 bits and 32 bits)
+						iob_sdram_cmd_wr <= '1';
+						iob_sdram_cmd_en <= '1';
+						state <= s_sdram_write_wait;
 					
 					when s_sdram_write_wait =>
 						iob_sdram_cmd_en <= '0';
@@ -476,23 +408,19 @@ BEGIN
 							else
 								-- We're done writing!
 								sdram_write_wait_ctr <= 2;
-								if loading_memory then
-									state <= s_load_fmem;
-								else
-									state <= s_listen;
-								end if;
+								state <= s_listen;
 								-- TODO: In case the TX irq is enabled, instead of jumping to 's_listen', jump to 's_txing'
 							end if;
 						end if;
 						
 					when s_sdram_read =>
-						iob_sdram_cmd_address <= data_buffer(22 downto 0);
+						iob_sdram_cmd_address <= data_buffer(22 downto 0); --data_buffer(2)(6 downto 0) & data_buffer(1) & data_buffer(0);
 						iob_sdram_cmd_data_in <= (others => '0');
-						iob_sdram_cmd_byte_en <= (others => '1');
-						iob_sdram_cmd_wr      <= '0';
-						iob_sdram_cmd_en      <= '1';
-						state                 <= s_sdram_read_wait;
-					
+						iob_sdram_cmd_byte_en <= (others => '1'); -- TODO: We will need to change the width of the SDRAM operation (8 bits, 16 bits and 32 bits)
+						iob_sdram_cmd_wr <= '0';
+						iob_sdram_cmd_en <= '1';
+						state <= s_sdram_read_wait;
+						
 					when s_sdram_read_wait =>
 						iob_sdram_cmd_en <= '0';
 						iob_sdram_cmd_byte_en <= (others => '0');
@@ -524,9 +452,11 @@ BEGIN
 						state                <= s_fmem_control_wait;
 						
 					when s_fmem_read_page_done =>
+						-- TODO: For now, we'll just send this data through UART,
+						-- in the future, we might want to send it to the CPU instead
 						fmem_save_data <= fmem_data_read;
 						
-						if tx_enable and uart_controlling then
+						if tx_enable then
 							-- Build and Transmit the received data back:
 							data_buffer(31 downto 0)           <= fmem_data_read(31 downto 0);
 							carrier_buffer(CARRIER_TOTAL_SIZE) <= std_logic_vector(to_unsigned(carrier_buffer_sz + 4, 8));
@@ -536,11 +466,7 @@ BEGIN
 							
 							state <= s_txing; -- Send the data!
 						else
-							if loading_memory then
-								state <= s_load_fmem;
-							else
-								state <= s_listen;
-							end if;
+							state <= s_listen;
 						end if;
 					
 					when s_fmem_write_enable =>

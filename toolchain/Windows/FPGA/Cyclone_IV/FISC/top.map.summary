@@ -1,14 +1,14 @@
-Analysis & Synthesis Status : Successful - Tue Nov 22 01:10:04 2016
+Analysis & Synthesis Status : Successful - Wed Nov 23 02:33:42 2016
 Quartus Prime Version : 16.0.0 Build 211 04/27/2016 SJ Lite Edition
 Revision Name : top
-Top-level Entity Name : Flash_Memory_Loader
+Top-level Entity Name : MIOSystem_tb
 Family : Cyclone IV E
-Total logic elements : 6,112
-    Total combinational functions : 1,980
-    Dedicated logic registers : 4,338
-Total registers : 4338
-Total pins : 10
+Total logic elements : 1,481
+    Total combinational functions : 1,117
+    Dedicated logic registers : 926
+Total registers : 926
+Total pins : 51
 Total virtual pins : 0
-Total memory bits : 65,536
+Total memory bits : 0
 Embedded Multiplier 9-bit elements : 0
-Total PLLs : 0
+Total PLLs : 1

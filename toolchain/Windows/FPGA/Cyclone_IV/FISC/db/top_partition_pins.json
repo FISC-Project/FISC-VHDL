@@ -4,6 +4,94 @@
 			"name" : "Top",
 			"pins" : [
 				{
+					"name" : "SDRAM_CKE",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_WE_N",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_CAS_N",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_RAS_N",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A0",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A1",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A2",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A3",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A4",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A5",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A6",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A7",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A8",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A9",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A10",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A11",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_A12",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_BA0",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_BA1",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQML",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQMH",
+					"strict" : false
+				},
+				{
+					"name" : "RXD",
+					"strict" : false
+				},
+				{
 					"name" : "FLASH_CS",
 					"strict" : false
 				},
@@ -16,15 +104,67 @@
 					"strict" : false
 				},
 				{
-					"name" : "DS_DP",
+					"name" : "SDRAM_DQ0",
 					"strict" : false
 				},
 				{
-					"name" : "DS_G",
+					"name" : "SDRAM_DQ1",
 					"strict" : false
 				},
 				{
-					"name" : "DS_C",
+					"name" : "SDRAM_DQ2",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ3",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ4",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ5",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ6",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ7",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ8",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ9",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ10",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ11",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ12",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ13",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ14",
+					"strict" : false
+				},
+				{
+					"name" : "SDRAM_DQ15",
 					"strict" : false
 				},
 				{
@@ -33,6 +173,10 @@
 				},
 				{
 					"name" : "FLASH_DO",
+					"strict" : false
+				},
+				{
+					"name" : "TXD",
 					"strict" : false
 				}
 			]
