@@ -6,11 +6,11 @@ ENTITY top IS END top;
 
 ARCHITECTURE RTL OF top IS
 	-- CPU Control Wires:
-	signal clk            : std_logic := '0'; -- Simulated Clock Signal
-	signal restart_system : std_logic := '0'; -- Simulated Restart CPU Flags
-	signal pause_cpu      : std_logic := '1'; -- Pause/Freeze the CPU completely
-	signal dbus           : std_logic_vector(3 downto 0); -- TODO: TEMPORARY. REMOVE LATER
-	signal system_startup : std_logic := '0'; -- Signals when the system has completely initialized before the CPU is allowed to execute
+	signal clk               : std_logic := '0'; -- Simulated Clock Signal
+	signal restart_system    : std_logic := '0'; -- Simulated Restart CPU Flags
+	signal pause_cpu         : std_logic := '1'; -- Pause/Freeze the CPU completely
+	signal dbus              : std_logic_vector(3 downto 0); -- TODO: TEMPORARY. REMOVE LATER
+	signal system_startup    : std_logic := '0'; -- Signals when the system has completely initialized before the CPU is allowed to execute
 	
 	-- SDRAM Controller Wires:
 	signal sdram_cmd_ready   : std_logic := '0';
@@ -23,16 +23,16 @@ ARCHITECTURE RTL OF top IS
 	signal sdram_data_ready  : std_logic := '0';
 	
 	-- SDRAM Wires:
-	signal sdram_cke   : std_logic;
-	signal sdram_clk   : std_logic;
-	signal sdram_cs_n  : std_logic;
-	signal sdram_we_n  : std_logic;
-	signal sdram_cas_n : std_logic;
-	signal sdram_ras_n : std_logic;
-	signal sdram_an    : std_logic_vector(12 downto 0);
-	signal sdram_ban   : std_logic_vector(1  downto 0);
-	signal sdram_dqmhl : std_logic_vector(1  downto 0);
-	signal sdram_dqn   : std_logic_vector(15 downto 0);
+	signal sdram_cke         : std_logic;
+	signal sdram_clk         : std_logic;
+	signal sdram_cs_n        : std_logic;
+	signal sdram_we_n        : std_logic;
+	signal sdram_cas_n       : std_logic;
+	signal sdram_ras_n       : std_logic;
+	signal sdram_an          : std_logic_vector(12 downto 0);
+	signal sdram_ban         : std_logic_vector(1  downto 0);
+	signal sdram_dqmhl       : std_logic_vector(1  downto 0);
+	signal sdram_dqn         : std_logic_vector(15 downto 0);
 BEGIN
 	-- Declare FISC Core: --
 	FISC_CORE: ENTITY work.FISC PORT MAP(
@@ -54,7 +54,8 @@ BEGIN
 	-- Generate Clock: --
 	clk <= '1' AFTER 1 fs WHEN clk = '0' ELSE '0' AFTER 1 fs WHEN clk = '1';
 	
-	process(clk) begin
+	-- Initialization Process:
+	init_proc: process(clk) begin
 		if clk'event and clk = '1' then
 			if sdram_cmd_ready = '1' then
 				system_startup <= '1'; -- The System's devices are now initialized! (TODO: In the future, when there's multiple devices, we must change this logic)
@@ -62,8 +63,8 @@ BEGIN
 		end if;
 	end process;
 	
-	-- Testbench Process:
-	process begin
+	-- Main Process:
+	main_proc: process begin
 		----------------------------------------
 		-- Initialize All Systems here first: --
 		----------------------------------------

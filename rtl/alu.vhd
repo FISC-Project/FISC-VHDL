@@ -6,15 +6,15 @@ USE work.FISC_DEFINES.all;
 
 ENTITY ALU IS
 	PORT(
-		clk         : in  std_logic;
-		opA         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		opB         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		func        : in  std_logic_vector(3 downto 0);
-		result      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		neg         : out std_logic := '0'; 
-		zero        : out std_logic := '0';
-		overf       : out std_logic := '0';
-		carry       : out std_logic := '0'
+		clk    : in  std_logic;
+		opA    : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		opB    : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		func   : in  std_logic_vector(3 downto 0);
+		result : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		neg    : out std_logic := '0'; 
+		zero   : out std_logic := '0';
+		overf  : out std_logic := '0';
+		carry  : out std_logic := '0'
 	);
 END;
 
@@ -27,8 +27,8 @@ ARCHITECTURE RTL OF ALU IS
 	signal sdivisor_operand : integer;
 	signal udivisor_operand : integer;
 BEGIN
-	sdivisor_operand <= to_integer(signed(opB_ext)) WHEN signed(opB_ext) > 0 ELSE 1;               -- TODO RAISE EXCEPTION ON ELSE
-	udivisor_operand <= to_integer(unsigned(opB_ext)) WHEN signed(opB_ext) > 0 ELSE 1;             -- TODO RAISE EXCEPTION ON ELSE
+	sdivisor_operand <= to_integer(signed(opB_ext))   WHEN signed(opB_ext) > 0 ELSE 1; -- TODO RAISE EXCEPTION ON ELSE
+	udivisor_operand <= to_integer(unsigned(opB_ext)) WHEN signed(opB_ext) > 0 ELSE 1; -- TODO RAISE EXCEPTION ON ELSE
 	
 	result_reg <= result_reg_ext(FISC_INTEGER_SZ-1 downto 0);
 	
@@ -56,7 +56,10 @@ BEGIN
 	overf  <= '1' WHEN unsigned(result_reg) < 0 ELSE '0';
 	carry  <= result_reg_ext(FISC_INTEGER_SZ);
 	
-	process(result_reg_ext)
+	----------------
+	-- Behaviour: --
+	----------------
+	main_proc: process(result_reg_ext)
 	begin
 	   if result_reg_ext(FISC_INTEGER_SZ) /= result_reg_ext(FISC_INTEGER_SZ-1) then
 	      if result_reg_ext(FISC_INTEGER_SZ) = '1' then

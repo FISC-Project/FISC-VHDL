@@ -61,7 +61,10 @@ BEGIN
 		WHEN memread = '1' and access_width = "10" ELSE 
 			(data_out'range => 'Z');
 	
-	process(clk, memwrite) begin
+	----------------
+	-- Behaviour: --
+	----------------   
+	main_proc: process(clk, memwrite) begin
 		if clk'event and clk = '1' and memwrite = '1' then
 			case access_width is
 				when "11" => 
@@ -99,63 +102,54 @@ USE work.FISC_DEFINES.all;
 
 ENTITY Stage4_Memory_Access IS
 	PORT(
-		clk          : in  std_logic;
-		address      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		data_in      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		data_out     : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Pipeline data output
-		memwrite     : in  std_logic; -- Consume control on this stage
-		memread      : in  std_logic; -- Consume control on this stage
-		access_width : in  std_logic_vector(1 downto 0);
+		clk                   : in  std_logic;
+		address               : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		data_in               : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		data_out              : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Pipeline data output
+		memwrite              : in  std_logic; -- Consume control on this stage
+		memread               : in  std_logic; -- Consume control on this stage
+		access_width          : in  std_logic_vector(1 downto 0);
 		-- Pipeline (data) outputs:
-		mem_address           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
+		mem_address           : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
 		ifidex_instruction    : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 		ifidexmem_instruction : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
-		ifidex_pc_out         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		ifidexmem_pc_out      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		ifidex_pc_out         : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
+		ifidexmem_pc_out      : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
 		idex_regwrite         : in  std_logic;
 		idex_memtoreg         : in  std_logic;
 		idexmem_regwrite      : out std_logic := '0';
 		idexmem_memtoreg      : out std_logic := '0';
 		-- Pipeline flush/freeze:
-		mem_flush             : in std_logic;
-		mem_freeze            : in std_logic
+		mem_flush             : in  std_logic;
+		mem_freeze            : in  std_logic
 	);
 END Stage4_Memory_Access;
 
-ARCHITECTURE RTL OF Stage4_Memory_Access IS
-	COMPONENT Data_Memory
-		PORT(
-			clk          : in  std_logic;
-			address      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			data_in      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			data_out     : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			memwrite     : in  std_logic;
-			memread      : in  std_logic;
-			access_width : in  std_logic_vector(1 downto 0)
-		);
-	END COMPONENT;
-	
+ARCHITECTURE RTL OF Stage4_Memory_Access IS	
 	-- Inner Pipeline Layer:
 	signal data_out_reg : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 BEGIN
-	Data_Memory1: Data_Memory PORT MAP(clk, address, data_in, data_out_reg, memwrite, memread, access_width);
+	Data_Memory1: ENTITY work.Data_Memory PORT MAP(clk, address, data_in, data_out_reg, memwrite, memread, access_width);
 	
-	process(clk) begin
-		if clk'event and clk = '0' then
+	----------------
+	-- Behaviour: --
+	----------------
+	main_proc: process(clk) begin
+		if falling_edge(clk) then
 			if mem_freeze = '0' then
 				if mem_flush = '0' then			
 					-- Move the Memory Access Stage's Inner Pipeline Forward:
-					data_out <= data_out_reg;
-					mem_address <= address;
+					data_out              <= data_out_reg;
+					mem_address           <= address;
 					ifidexmem_instruction <= ifidex_instruction;
-					ifidexmem_pc_out <= ifidex_pc_out;
+					ifidexmem_pc_out      <= ifidex_pc_out;
 					-- Move the controls:
-					idexmem_regwrite <= idex_regwrite;
-					idexmem_memtoreg <= idex_memtoreg;
+					idexmem_regwrite      <= idex_regwrite;
+					idexmem_memtoreg      <= idex_memtoreg;
 				else
 					-- Stall the pipeline (preserve the data):
-					idexmem_regwrite <= '0';
-					idexmem_memtoreg <= '0';
+					idexmem_regwrite      <= '0';
+					idexmem_memtoreg      <= '0';
 				end if;
 			end if;
 		end if;

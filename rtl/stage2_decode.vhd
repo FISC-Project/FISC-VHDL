@@ -7,59 +7,43 @@ USE work.FISC_DEFINES.all;
 
 ENTITY Stage2_Decode IS
 	PORT(
-		clk                : in  std_logic;
-		sos                : in  std_logic;
-		microcode_ctrl     : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0)   := (others => '0');
-		microcode_ctrl_early : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0'); 
-		if_instruction     : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
-		writedata          : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
-		regwrite           : in  std_logic;
-		outA               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
-		outB               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
-		writereg_addr      : in  std_logic_vector(4 downto 0);
-		current_pc         : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		ifidexmem_pc_out   : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		new_pc             : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		sign_ext           : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
-		pc_src             : out std_logic;
-		uncond_branch_flag : in  std_logic;
-		flag_neg           : in  std_logic; -- Condition code
-		flag_zero          : in  std_logic; -- Condition code
-		flag_overf         : in  std_logic; -- Condition code
-		flag_carry         : in  std_logic; -- Condition code
-		ifidexmem_instruction : in std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0); -- This signal is used only for MOVZ and MOVK
-		ex_result_forw     : in std_logic_vector(FISC_INTEGER_SZ-1 downto 0); -- Forward value from Execute stage
-		mem_wb_forw        : in std_logic_vector(FISC_INTEGER_SZ-1 downto 0); -- Forward value from Writeback stage
-		idexmem_regwrite   : in std_logic;
+		clk                   : in  std_logic;
+		sos                   : in  std_logic;
+		microcode_ctrl        : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
+		microcode_ctrl_early  : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0'); 
+		if_instruction        : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+		writedata             : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
+		regwrite              : in  std_logic;
+		outA                  : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		outB                  : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		writereg_addr         : in  std_logic_vector(4 downto 0);
+		current_pc            : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		ifidexmem_pc_out      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		new_pc                : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		sign_ext              : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		pc_src                : out std_logic;
+		uncond_branch_flag    : in  std_logic;
+		flag_neg              : in  std_logic; -- Condition code
+		flag_zero             : in  std_logic; -- Condition code
+		flag_overf            : in  std_logic; -- Condition code
+		flag_carry            : in  std_logic; -- Condition code
+		ifidexmem_instruction : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0); -- This signal is used only for MOVZ and MOVK
+		ex_result_forw        : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0); -- Forward value from Execute stage
+		mem_wb_forw           : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0); -- Forward value from Writeback stage
+		idexmem_regwrite      : in  std_logic;
 		-- Pipeline (data) outputs:
-		ifid_pc_out        : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)     := (others => '0');
-		ifid_instruction   : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
+		ifid_pc_out           : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
+		ifid_instruction      : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 		-- Pipeline flush/freeze:
-		id_flush           : in std_logic;
-		id_freeze          : in std_logic
+		id_flush              : in  std_logic;
+		id_freeze             : in  std_logic
 	);
 END Stage2_Decode;
 
-ARCHITECTURE RTL OF Stage2_Decode IS
-	COMPONENT RegFile
-		PORT(
-			clk          : in  std_logic;
-			readreg1     : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
-			readreg2     : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
-			writereg     : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
-			writedata    : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			outA         : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			outB         : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			regwr        : in  std_logic;
-			current_pc   : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-			opcode       : in  std_logic_vector(10 downto 0);
-			mov_quadrant : in  std_logic_vector(1 downto 0)
-		);
-	END COMPONENT;
-	
+ARCHITECTURE RTL OF Stage2_Decode IS	
 	signal ifid_instruction_reg : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 	signal microcode_ctrl_reg   : std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
-	signal microcode_ctrl_copy : std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0)  := (others => '0');
+	signal microcode_ctrl_copy  : std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
 	
 	signal reg2loc              : std_logic := '0';
 	signal cbnz_branch_flag     : std_logic := '0';
@@ -72,17 +56,16 @@ ARCHITECTURE RTL OF Stage2_Decode IS
 	signal ifid_pc_out_reg      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 	-- Inner Pipeline Layer:
 	-- Data:
-	signal outA_reg           : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-	signal outB_reg           : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-	signal sign_ext_reg       : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
-	signal sign_ext_copy      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Not pipelined!
+	signal outA_reg             : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal outB_reg             : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal sign_ext_reg         : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+	signal sign_ext_copy        : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Not pipelined!
 BEGIN
 	-- Instantiate Microcode Unit:
-	Microcode1: Microcode 
-		PORT MAP(clk, sos, if_instruction(31 downto 21), microcode_ctrl_reg);
+	Microcode1: ENTITY work.Microcode PORT MAP(clk, sos, if_instruction(31 downto 21), microcode_ctrl_reg);
 	
 	-- Instantiate Register File:
-	RegFile1: RegFile 
+	RegFile1: ENTITY work.RegFile 
 		PORT MAP(clk, if_instruction(9 downto 5), tmp_readreg1, writereg_addr, writedata, outA_reg, outB_reg, regwrite, ifidexmem_pc_out, ifidexmem_instruction(31 downto 21), ifidexmem_instruction(22 downto 21));
 	
 	microcode_ctrl_early <= microcode_ctrl_reg;
@@ -119,13 +102,13 @@ BEGIN
 	
 	ifid_pc_out      <= ifid_pc_out_reg;
 	
-	sign_ext_reg   <= (51 downto 0 => '0') & if_instruction(21 downto 10) WHEN microcode_ctrl_reg(12 downto 10)    = "000"  -- Sign extend from ALU_immediate
+	sign_ext_reg     <=  (51 downto 0 => '0') & if_instruction(21 downto 10) WHEN microcode_ctrl_reg(12 downto 10) = "000"  -- Sign extend from ALU_immediate
 					ELSE (57 downto 0 => '0') & if_instruction(15 downto 10) WHEN microcode_ctrl_reg(12 downto 10) = "001"  -- Sign extend from shamt
 					ELSE (54 downto 0 => '0') & if_instruction(20 downto 12) WHEN microcode_ctrl_reg(12 downto 10) = "010"  -- Sign extend from DT_address
-					ELSE (37 downto 0 => '0') & if_instruction(25 downto 0) WHEN microcode_ctrl_reg(12 downto 10)  = "011"  -- Sign extend from BR_Address
-					ELSE (44 downto 0 => '0') & if_instruction(23 downto 5) WHEN microcode_ctrl_reg(12 downto 10)  = "100"  -- Sign extend from COND BR_Address
-					ELSE (47 downto 0 => '0') & if_instruction(20 downto 5) WHEN microcode_ctrl_reg(12 downto 10)  = "101"  -- Sign extend from MOV_immediate
-					ELSE ("00" & current_pc(63 downto 2))+"1" WHEN microcode_ctrl_reg(12 downto 10)  = "110";               -- Sign extend from the Program Counter
+					ELSE (37 downto 0 => '0') & if_instruction(25 downto 0)  WHEN microcode_ctrl_reg(12 downto 10) = "011"  -- Sign extend from BR_Address
+					ELSE (44 downto 0 => '0') & if_instruction(23 downto 5)  WHEN microcode_ctrl_reg(12 downto 10) = "100"  -- Sign extend from COND BR_Address
+					ELSE (47 downto 0 => '0') & if_instruction(20 downto 5)  WHEN microcode_ctrl_reg(12 downto 10) = "101"  -- Sign extend from MOV_immediate
+					ELSE ("00" & current_pc(63 downto 2))+"1"                WHEN microcode_ctrl_reg(12 downto 10) = "110"; -- Sign extend from the Program Counter
 	
 	-- Forwarding Logic from Execute stage to Decode Stage:
 	decode_forw <=
@@ -143,10 +126,13 @@ BEGIN
 		ELSE std_logic_vector(signed(if_instruction(25 downto 0) & "00") + signed(current_pc)) WHEN uncond_branch_flag = '1' -- B and BL jump
 		ELSE std_logic_vector(signed(if_instruction(23 downto 5) & "00") + signed(current_pc)); -- CBNZ, CBZ and B.cond jump
 		
-	tmp_readreg1   <= if_instruction(4 downto 0) WHEN reg2loc = '1' ELSE if_instruction(20 downto 16); -- Select either RD or RM fields for input readreg1 (only effective with Instr. Format R)
+	tmp_readreg1 <= if_instruction(4 downto 0) WHEN reg2loc = '1' ELSE if_instruction(20 downto 16); -- Select either RD or RM fields for input readreg1 (only effective with Instr. Format R)
 
-	process(clk) begin
-		if clk'event and clk = '0' then
+	----------------
+	-- Behaviour: --
+	----------------
+	main_proc: process(clk) begin
+		if falling_edge(clk) then
 			if id_freeze = '0' then
 				if id_flush = '0' then
 					-- Move the Decode Stage's Inner Pipeline Forward:
@@ -157,8 +143,8 @@ BEGIN
 					sign_ext_copy        <= sign_ext_reg;
 					ifid_instruction_reg <= if_instruction;
 					-- Move all the control wires as well:
-					microcode_ctrl        <= microcode_ctrl_reg;
-					microcode_ctrl_copy   <= microcode_ctrl_reg;
+					microcode_ctrl       <= microcode_ctrl_reg;
+					microcode_ctrl_copy  <= microcode_ctrl_reg;
 				else
 					-- Stall the pipeline (preserve the data, except the instruction):
 					ifid_instruction_reg <= (others => '0');

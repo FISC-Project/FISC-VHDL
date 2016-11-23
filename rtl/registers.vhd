@@ -26,9 +26,12 @@ ARCHITECTURE RTL OF RegFile IS
 	signal regfile : regfile_t := (others => (others => '0'));
 BEGIN
 	outA <= (outA'range => '0') WHEN (readreg1 = "11111" or opcode(10 downto 2) = "111100101" or opcode(10 downto 2) = "110100101") ELSE regfile(to_integer(unsigned(readreg1)));
-	outB <= (outB'range => '0') WHEN readreg2 = "11111" ELSE regfile(to_integer(unsigned(readreg2)));
+	outB <= (outB'range => '0') WHEN  readreg2 = "11111" ELSE regfile(to_integer(unsigned(readreg2)));
 
-	process(clk, regwr) begin
+	----------------
+	-- Behaviour: --
+	----------------
+	main_proc: process(clk, regwr) begin
 		if clk'event and clk = '1' and regwr = '1' then
 			if opcode(10 downto 2) = "111100101" then
 				-- Execute MOVK:
@@ -43,18 +46,18 @@ BEGIN
 				-- Execute MOVZ:
 				case mov_quadrant is
 					when "00" => 
-						regfile(to_integer(unsigned(writereg)))(15 downto 0) <= writedata(15 downto 0);
+						regfile(to_integer(unsigned(writereg)))(15 downto 0)  <= writedata(15 downto 0);
 						regfile(to_integer(unsigned(writereg)))(63 downto 16) <= (others => '0');
 					when "01" =>
-						regfile(to_integer(unsigned(writereg)))(15 downto 0) <= (others => '0');
+						regfile(to_integer(unsigned(writereg)))(15 downto 0)  <= (others => '0');
 						regfile(to_integer(unsigned(writereg)))(31 downto 16) <= writedata(15 downto 0);
 						regfile(to_integer(unsigned(writereg)))(63 downto 32) <= (others => '0');
 					when "10" => 
-						regfile(to_integer(unsigned(writereg)))(31 downto 0) <= (others => '0');
+						regfile(to_integer(unsigned(writereg)))(31 downto 0)  <= (others => '0');
 						regfile(to_integer(unsigned(writereg)))(47 downto 32) <= writedata(15 downto 0);
 						regfile(to_integer(unsigned(writereg)))(63 downto 48) <= (others => '0');
 					when "11" =>
-						regfile(to_integer(unsigned(writereg)))(47 downto 0) <= (others => '0');
+						regfile(to_integer(unsigned(writereg)))(47 downto 0)  <= (others => '0');
 						regfile(to_integer(unsigned(writereg)))(63 downto 48) <= writedata(15 downto 0);
 					when others =>
 				end case;

@@ -26,7 +26,7 @@ ARCHITECTURE RTL OF FISC IS
 
 	-----------------------------------------------
 	-- Microcode Control Bus (very important):
-	signal id_microcode_ctrl : std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
+	signal id_microcode_ctrl       : std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
 	signal id_microcode_ctrl_early : std_logic_vector(MICROCODE_CTRL_WIDTH downto 0) := (others => '0');
 	-----------------------------------------------
 	
@@ -82,7 +82,7 @@ ARCHITECTURE RTL OF FISC IS
 	
 	-- Stage 4 - Memory Access Interconnect wires --
 	-- Pipeline output:
-	signal mem_data_out : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal mem_data_out          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal mem_address           : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal ifidexmem_instruction : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 	signal ifidexmem_pc_out      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
@@ -99,10 +99,10 @@ ARCHITECTURE RTL OF FISC IS
 	--------------------------------------------
 	
 	-- Flag Outputs / Condition Codes --
-	signal flag_neg     : std_logic; -- Condition code
-	signal flag_zero    : std_logic; -- Condition code
-	signal flag_overf   : std_logic; -- Condition code
-	signal flag_carry   : std_logic; -- Condition code
+	signal flag_neg   : std_logic; -- Condition code
+	signal flag_zero  : std_logic; -- Condition code
+	signal flag_overf : std_logic; -- Condition code
+	signal flag_carry : std_logic; -- Condition code
 	------------------------------------
 	
 	--------------------------------------------------------------------------------------------------------------
@@ -122,12 +122,12 @@ ARCHITECTURE RTL OF FISC IS
 	--------------------------------------------
 	
 	-- L1 Instruction Cache Internal Signals --
-	signal l1_ic_request_data : std_logic := '1';
-	signal l1_fetching_mem    : std_logic;
-	signal l1_ic_hit          : std_logic;
-	signal l1_ic_miss         : std_logic;
-	signal l1_ic_data         : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
-	signal l1_ic_data_src     : std_logic;
+	signal l1_ic_request_data   : std_logic := '1';
+	signal l1_fetching_mem      : std_logic;
+	signal l1_ic_hit            : std_logic;
+	signal l1_ic_miss           : std_logic;
+	signal l1_ic_data           : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+	signal l1_ic_data_src       : std_logic;
 	-- L1 Cache's SDRAM Controls (will be routed):
 	signal l1_sdram_cmd_ready   : std_logic;
 	signal l1_sdram_cmd_en      : std_logic;
@@ -143,6 +143,7 @@ ARCHITECTURE RTL OF FISC IS
 	signal main_memory_fetching : std_logic := '0'; -- Is the CPU currently fetching from Main Memory?
 	-------------------------------------------
 BEGIN
+	-- TODO: REMOVE THIS LATER:
 	dbus(1 downto 0) <= aluop;
 	dbus(2)          <= restart_cpu;
 	dbus(3)          <= clk;
@@ -154,18 +155,18 @@ BEGIN
 	
 	---- Microarchitecture Stages Declaration: ----
 	-- Stage 1: Fetch
-	Stage1_Fetch1   : Stage1_Fetch   PORT MAP(clk_routed, if_new_pc, if_reset_pc, id_microcode_ctrl(0), id_pc_src, if_uncond_branch_flag, l1_ic_data, if_instruction, if_new_pc_unpiped, if_pc_out, if_flush, if_freeze);
+	Stage1_Fetch1   : ENTITY work.Stage1_Fetch   PORT MAP(clk_routed, if_new_pc, if_reset_pc, id_microcode_ctrl(0), id_pc_src, if_uncond_branch_flag, l1_ic_data, if_instruction, if_new_pc_unpiped, if_pc_out, if_flush, if_freeze);
 	-- Stage 2: Decode
-	Stage2_Decode1  : Stage2_Decode  PORT MAP(clk_routed, id_sos, id_microcode_ctrl, id_microcode_ctrl_early, if_instruction, wb_writeback_data, idexmem_regwrite, id_outA, id_outB, ifidexmem_instruction(4 downto 0), if_pc_out, ifidexmem_pc_out, if_new_pc, id_sign_ext, id_pc_src, if_uncond_branch_flag, flag_neg, flag_zero, flag_overf, flag_carry, ifidexmem_instruction, ex_result_early, wb_writeback_data, idexmem_regwrite, ifid_pc_out, ifid_instruction, id_flush, id_freeze);
+	Stage2_Decode1  : ENTITY work.Stage2_Decode  PORT MAP(clk_routed, id_sos, id_microcode_ctrl, id_microcode_ctrl_early, if_instruction, wb_writeback_data, idexmem_regwrite, id_outA, id_outB, ifidexmem_instruction(4 downto 0), if_pc_out, ifidexmem_pc_out, if_new_pc, id_sign_ext, id_pc_src, if_uncond_branch_flag, flag_neg, flag_zero, flag_overf, flag_carry, ifidexmem_instruction, ex_result_early, wb_writeback_data, idexmem_regwrite, ifid_pc_out, ifid_instruction, id_flush, id_freeze);
 	-- Stage 3: Execute
-	Stage3_Execute1 : Stage3_Execute PORT MAP(clk_routed, ex_srcA, ex_srcB, id_sign_ext, ex_result, ex_result_early, aluop, ifid_instruction(31 downto 21), alusrc, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, ifid_instruction, ifidex_instruction, ifid_pc_out, ifidex_pc_out, ex_opB, memwrite, memread, regwrite, memtoreg, set_flags, idex_memwrite, idex_memread, idex_regwrite, idex_memtoreg, idex_set_flags, ex_flush, ex_freeze);
+	Stage3_Execute1 : ENTITY work.Stage3_Execute PORT MAP(clk_routed, ex_srcA, ex_srcB, id_sign_ext, ex_result, ex_result_early, aluop, ifid_instruction(31 downto 21), alusrc, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, ifid_instruction, ifidex_instruction, ifid_pc_out, ifidex_pc_out, ex_opB, memwrite, memread, regwrite, memtoreg, set_flags, idex_memwrite, idex_memread, idex_regwrite, idex_memtoreg, idex_set_flags, ex_flush, ex_freeze);
 	-- Stage 4: Memory Access
-	Stage4_Memory_Access1: Stage4_Memory_Access PORT MAP(clk_routed, ex_result, ex_opB, mem_data_out, idex_memwrite, idex_memread, ifidex_instruction(11 downto 10), mem_address, ifidex_instruction, ifidexmem_instruction, ifidex_pc_out, ifidexmem_pc_out, idex_regwrite, idex_memtoreg, idexmem_regwrite, idexmem_memtoreg, mem_flush, mem_freeze);
+	Stage4_Memory_Access1: ENTITY work.Stage4_Memory_Access PORT MAP(clk_routed, ex_result, ex_opB, mem_data_out, idex_memwrite, idex_memread, ifidex_instruction(11 downto 10), mem_address, ifidex_instruction, ifidexmem_instruction, ifidex_pc_out, ifidexmem_pc_out, idex_regwrite, idex_memtoreg, idexmem_regwrite, idexmem_memtoreg, mem_flush, mem_freeze);
 	-- Stage 5: Writeback
-	Stage5_Writeback1: Stage5_Writeback PORT MAP(clk_routed, mem_address, mem_data_out, idexmem_memtoreg, wb_writeback_data);
+	Stage5_Writeback1: ENTITY work.Stage5_Writeback PORT MAP(clk_routed, mem_address, mem_data_out, idexmem_memtoreg, wb_writeback_data);
 	
 	-- Flags declaration:
-	Flags1: Flags PORT MAP(clk_routed, idex_set_flags, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, flag_neg, flag_zero, flag_overf, flag_carry);
+	Flags1: ENTITY work.Flags PORT MAP(clk_routed, idex_set_flags, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, flag_neg, flag_zero, flag_overf, flag_carry);
 	
 	-- Exception and Interrupts Flags declaration:
 	-- TODO
@@ -221,12 +222,12 @@ BEGIN
 	
 	-- Control Signals Assignment: --
 	aluop     <= id_microcode_ctrl(2 downto 1); -- Control (EX)
-	memwrite  <= id_microcode_ctrl(4);  -- Control (MEM)
-	memread   <= id_microcode_ctrl(5);  -- Control (MEM)
-	regwrite  <= id_microcode_ctrl(6);  -- Control (WB)
-	memtoreg  <= id_microcode_ctrl(7);  -- Control (WB)
-	alusrc    <= id_microcode_ctrl(8);  -- Control (EX)
-	set_flags <= id_microcode_ctrl(13); -- Control (originates from ID and is used on stage EX)
+	memwrite  <= id_microcode_ctrl(4);          -- Control (MEM)
+	memread   <= id_microcode_ctrl(5);          -- Control (MEM)
+	regwrite  <= id_microcode_ctrl(6);          -- Control (WB)
+	memtoreg  <= id_microcode_ctrl(7);          -- Control (WB)
+	alusrc    <= id_microcode_ctrl(8);          -- Control (EX)
+	set_flags <= id_microcode_ctrl(13);         -- Control (originates from ID and is used on stage EX)
 	
 	-- L1 Instruction Cache Declaration:
 	L1_ICache1: ENTITY work.L1_ICache PORT MAP(
@@ -249,10 +250,10 @@ BEGIN
 	l1_sdram_data_ready <= sdram_data_ready;
 	l1_sdram_data_out   <= sdram_data_out;	
 	
-	--------------------------
-	------- Behaviour --------
-	--------------------------
-	process(clk, restart_cpu, id_microcode_ctrl) begin
+	---------------------------
+	------- Behaviour: --------
+	---------------------------
+	main_proc: process(clk, restart_cpu, id_microcode_ctrl) begin
 		if restart_cpu = '1' then
 			id_sos <= '1';
 		else

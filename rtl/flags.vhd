@@ -3,12 +3,12 @@ USE IEEE.std_logic_1164.all;
 
 ENTITY Flags IS
 	PORT(
-		clk            : in std_logic;
-		flag_wr        : in std_logic;
-		neg_flag_in    : in std_logic;
-		zero_flag_in   : in std_logic;
-		overf_flag_in  : in std_logic;
-		carry_flag_in  : in std_logic;
+		clk            : in  std_logic;
+		flag_wr        : in  std_logic;
+		neg_flag_in    : in  std_logic;
+		zero_flag_in   : in  std_logic;
+		overf_flag_in  : in  std_logic;
+		carry_flag_in  : in  std_logic;
 		neg_flag_out   : out std_logic := '0';
 		zero_flag_out  : out std_logic := '0';
 		overf_flag_out : out std_logic := '0';
@@ -27,7 +27,7 @@ BEGIN
 	overf_flag_out <= overf_flag_in WHEN flag_wr = '1' ELSE overf_flag_reg;
 	carry_flag_out <= carry_flag_in WHEN flag_wr = '1' ELSE carry_flag_reg;
 
-	process(clk, flag_wr) begin
+	main_proc: process(clk, flag_wr) begin
 		if clk'event and clk = '1' and flag_wr = '1' then
 			neg_flag_reg   <= neg_flag_in;
 			zero_flag_reg  <= zero_flag_in;
