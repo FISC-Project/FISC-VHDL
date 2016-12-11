@@ -1,6 +1,0 @@
-ADDI X0, XZR, 10; // Move decimal 10 to register X0
-ADDI X0, X0, 1; // Increment X0 by 1
-SUBI X0, X0, 10;
-CMP X0, X0;
-MOV X1, X0;
-MOV X1, X0;

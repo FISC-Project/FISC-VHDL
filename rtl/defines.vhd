@@ -105,7 +105,7 @@ PACKAGE FISC_DEFINES IS
 	
 	---------------- L1 INSTRUCTION CACHE DEFINES -------------------
 	constant L1_IC_ADDR_WIDTH    : integer := 64; -- Size of the address to be used on the L1 Cache and RAM
-	constant L1_IC_WAYCOUNT      : integer := 2;  -- Associativity level
+	constant L1_IC_WAYCOUNT      : integer := 1;  -- Associativity level
 	constant L1_IC_DATABLOCKSIZE : integer := 32; -- Size of the data field (in bytes)
 	constant L1_IC_SETCOUNT      : integer := 32; -- Each set contains L1_IC_DATABLOCKSIZE * L1_IC_WAYCOUNT bytes. Therefore, the total cache size (in bytes) is => L1_IC_SETCOUNT * L1_IC_DATABLOCKSIZE * L1_IC_WAYCOUNT
 	

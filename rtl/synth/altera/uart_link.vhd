@@ -4,7 +4,6 @@ USE IEEE.numeric_std.all;
 
 ENTITY UART_Link IS
 	PORT(
-		leds              : out std_logic_vector(3 downto 0) := (others => '0'); -- TODO: REMOVE THIS LATER
 		clk               : in  std_logic; -- 48 MHz original input clock
 		pll_clk           : in  std_logic; -- 130 MHz PLL output 
 		pll_running       : in  std_logic;
@@ -20,6 +19,13 @@ ENTITY UART_Link IS
 		sdram_cmd_data_in : out std_logic_vector(31 downto 0); -- Drive
 		sdram_data_out    : in  std_logic_vector(31 downto 0); -- Read
 		sdram_data_ready  : in  std_logic; -- Read
+		
+		-- CPU's SDRAM Controller Wires:
+		cpu_sdram_cmd_en      : in std_logic; -- Driven by the CPU
+		cpu_sdram_cmd_wr      : in std_logic; -- Driven by the CPU
+		cpu_sdram_cmd_address : in std_logic_vector(22 downto 0); -- Driven by the CPU
+		cpu_sdram_cmd_byte_en : in std_logic_vector(3  downto 0); -- Driven by the CPU
+		cpu_sdram_cmd_data_in : in std_logic_vector(31 downto 0); -- Driven by the CPU
 		
 		-- Flash Memory Controller Wires:
 		fmem_enable       : out std_logic; -- Drive
@@ -45,13 +51,13 @@ ARCHITECTURE RTL OF UART_Link IS
 	-- In case you want to save a considerable amount of FPGA resources (approx. 240 logic elements), 
 	-- you can just set the following boolean to false, but you'll lose the ability to receive packets from the FPGA, 
 	-- so be careful and make sure your software doesn't rely on acknowledgments
-	constant tx_enable          : boolean := true;
+	constant tx_enable          : boolean := false;
 	-- In case you want to write directly to SDRAM through UART, set the following boolean to true.
 	-- This is EXTREMELY important, because it saves a tremendous amount of resources. Also, it might make sense
 	-- to disable this on release day, since it's not the UART/PC's job to load up the SDRAM.
-	constant sdram_write_enable : boolean := true;
+	constant sdram_write_enable : boolean := false;
 	-- If you don't want to write to flash memory from UART (ever), and want to save a lot of FPGA space, turn the following boolean false:
-	constant fmem_write_enable  : boolean := true;
+	constant fmem_write_enable  : boolean := false;
 	
 	-- !!!! RECOMMENDATIONS !!!!
 	-- There are 4 modes that will be used on the system:
@@ -188,12 +194,12 @@ BEGIN
 	-------------------------
 	
 	-- SDRAM Controller Wire Assignments:
-	-- TODO: Multiplex these IOB wires between the CPU and the UART Link, so that we don't have to instantiate 2 SDRAM Controllers
-	sdram_cmd_en      <= iob_sdram_cmd_en;
-	sdram_cmd_wr      <= iob_sdram_cmd_wr;
-	sdram_cmd_address <= iob_sdram_cmd_address;
-	sdram_cmd_byte_en <= iob_sdram_cmd_byte_en;
-	sdram_cmd_data_in <= iob_sdram_cmd_data_in;
+	--Multiplex these IOB wires between the CPU and the UART Link, so that we don't have to instantiate 2 SDRAM Controllers
+	sdram_cmd_en      <= iob_sdram_cmd_en      WHEN uart_controlling ELSE cpu_sdram_cmd_en;
+	sdram_cmd_wr      <= iob_sdram_cmd_wr      WHEN uart_controlling ELSE cpu_sdram_cmd_wr;
+	sdram_cmd_address <= iob_sdram_cmd_address WHEN uart_controlling ELSE cpu_sdram_cmd_address;
+	sdram_cmd_byte_en <= iob_sdram_cmd_byte_en WHEN uart_controlling ELSE cpu_sdram_cmd_byte_en;
+	sdram_cmd_data_in <= iob_sdram_cmd_data_in WHEN uart_controlling ELSE cpu_sdram_cmd_data_in;
 	
 	-- Flash Memory Wire Assignments:
 	fmem_enable       <= iob_fmem_enable;

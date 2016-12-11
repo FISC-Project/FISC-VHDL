@@ -42,7 +42,7 @@ ARCHITECTURE RTL OF Data_Memory IS
 		return ret;
 	end function;
 	
-	signal memory : mem_t := load_dmem("fisc_dmem.bin");
+	signal memory : mem_t := load_dmem("bin/bootloader.bin");
 BEGIN
 	data_out <= 
 			-- Read 64 bits:

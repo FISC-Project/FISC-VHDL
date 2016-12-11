@@ -135,7 +135,15 @@ ARCHITECTURE RTL OF MIOSystem_tb IS
 	signal uart_link_enable : std_logic := '0';
 	signal uart_link_ready  : std_logic := '0';
 	------------------------------------------------------
-	------------------------------------------------------	
+	------------------------------------------------------
+	
+	-- Dummy CPU Wires: --
+	signal dummy_sdram_cmd_en      : std_logic := '0';
+	signal dummy_sdram_cmd_wr      : std_logic := '0';
+	signal dummy_sdram_cmd_address : std_logic_vector(22 downto 0) := (others => '0');
+	signal dummy_sdram_cmd_byte_en : std_logic_vector(3  downto 0) := (others => '0');
+	signal dummy_sdram_cmd_data_in : std_logic_vector(31 downto 0) := (others => '0');
+
 BEGIN
 	(DS_D, DS_C, DS_G, DS_DP) <= not leds;
 	
@@ -195,9 +203,9 @@ BEGIN
 	-- UART Link Instantiation:
 	UART_Link1: ENTITY work.UART_Link
 		PORT MAP (
-			leds, -- TODO: TEMPORARY
 			CLK, pll_out_clk, pll_running, uart_link_enable, uart_link_ready,
 			sdram_cmd_ready, sdram_cmd_en, sdram_cmd_wr, sdram_cmd_address, sdram_cmd_byte_en, sdram_cmd_data_in, sdram_data_out, sdram_data_ready,
+			dummy_sdram_cmd_en, dummy_sdram_cmd_wr, dummy_sdram_cmd_address, dummy_sdram_cmd_byte_en, dummy_sdram_cmd_data_in,
 			fmem_enable, fmem_ready, fmem_instruction, fmem_address, fmem_data_write, fmem_data_read, fmem_status,
 			uart_write, uart_writedata, uart_readdata, uart_write_irq, uart_read_irq
 		);

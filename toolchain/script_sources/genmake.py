@@ -56,7 +56,7 @@ for i in range(len(c_filename_list)):
 command_template = "\tgcc -c $< -o $@"
 
 for i in range(len(c_filename_list)):
-	make_src_new += "$(OBJ)/" + c_filenames_no_path[i] + ".o: ./"+c_filename_list[i] + "\n\t@printf \"2."+str(i+1)+"- Compiling C file '"+c_filename_list[i]+"': \"\n"+command_template+"\n\n"
+	make_src_new += "$(OBJ)/" + c_filenames_no_path[i] + ".o: ./"+c_filename_list[i] + "\n\t@printf \""+str(i+1)+"- Compiling C file '"+c_filename_list[i]+"': \"\n"+command_template+"\n\n"
 
 # Append temination token:
 make_src_new += "#__GENMAKE_END__"

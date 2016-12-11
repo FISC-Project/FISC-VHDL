@@ -1,12 +1,12 @@
 
-State Machine - |MIOSystem_tb|state
+State Machine - |top_synth|state
 Name state.s_idle state.s_init_wait state.s_init state.s_init_pll 
 state.s_init_pll 0 0 0 0 
 state.s_init 0 0 1 1 
 state.s_init_wait 0 1 0 1 
 state.s_idle 1 0 0 1 
 
-State Machine - |MIOSystem_tb|UART_Link:UART_Link1|fmem_write_enable_next_state
+State Machine - |top_synth|UART_Link:UART_Link1|fmem_write_enable_next_state
 Name fmem_write_enable_next_state.s_fmem_control_wait fmem_write_enable_next_state.s_fmem_erase_sector fmem_write_enable_next_state.s_fmem_write_page fmem_write_enable_next_state.s_fmem_write_enable fmem_write_enable_next_state.s_fmem_read_page_done fmem_write_enable_next_state.s_fmem_read_page fmem_write_enable_next_state.s_sdram_read_wait fmem_write_enable_next_state.s_sdram_read fmem_write_enable_next_state.s_sdram_write_wait fmem_write_enable_next_state.s_sdram_write fmem_write_enable_next_state.s_ctrl_switch fmem_write_enable_next_state.s_txing fmem_write_enable_next_state.s_rxing fmem_write_enable_next_state.s_listen fmem_write_enable_next_state.s_load_fmem fmem_write_enable_next_state.s_init_done fmem_write_enable_next_state.s_init 
 fmem_write_enable_next_state.s_init 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 fmem_write_enable_next_state.s_init_done 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
@@ -26,7 +26,7 @@ fmem_write_enable_next_state.s_fmem_write_page 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1
 fmem_write_enable_next_state.s_fmem_erase_sector 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 fmem_write_enable_next_state.s_fmem_control_wait 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 
-State Machine - |MIOSystem_tb|UART_Link:UART_Link1|fmem_wait_next_state
+State Machine - |top_synth|UART_Link:UART_Link1|fmem_wait_next_state
 Name fmem_wait_next_state.s_fmem_control_wait fmem_wait_next_state.s_fmem_erase_sector fmem_wait_next_state.s_fmem_write_page fmem_wait_next_state.s_fmem_write_enable fmem_wait_next_state.s_fmem_read_page_done fmem_wait_next_state.s_fmem_read_page fmem_wait_next_state.s_sdram_read_wait fmem_wait_next_state.s_sdram_read fmem_wait_next_state.s_sdram_write_wait fmem_wait_next_state.s_sdram_write fmem_wait_next_state.s_ctrl_switch fmem_wait_next_state.s_txing fmem_wait_next_state.s_rxing fmem_wait_next_state.s_listen fmem_wait_next_state.s_load_fmem fmem_wait_next_state.s_init_done fmem_wait_next_state.s_init 
 fmem_wait_next_state.s_init 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 fmem_wait_next_state.s_init_done 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
@@ -46,7 +46,7 @@ fmem_wait_next_state.s_fmem_write_page 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1
 fmem_wait_next_state.s_fmem_erase_sector 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 fmem_wait_next_state.s_fmem_control_wait 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 
-State Machine - |MIOSystem_tb|UART_Link:UART_Link1|state
+State Machine - |top_synth|UART_Link:UART_Link1|state
 Name state.s_fmem_control_wait state.s_fmem_erase_sector state.s_fmem_write_page state.s_fmem_write_enable state.s_fmem_read_page_done state.s_fmem_read_page state.s_sdram_read_wait state.s_sdram_read state.s_sdram_write_wait state.s_sdram_write state.s_ctrl_switch state.s_txing state.s_rxing state.s_listen state.s_load_fmem state.s_init_done state.s_init 
 state.s_init 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 state.s_init_done 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 
@@ -66,19 +66,19 @@ state.s_fmem_write_page 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1
 state.s_fmem_erase_sector 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 state.s_fmem_control_wait 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 
 
-State Machine - |MIOSystem_tb|UART_Controller:UART_Controller1|uart_tx_state
+State Machine - |top_synth|UART_Controller:UART_Controller1|uart_tx_state
 Name uart_tx_state.tx_send_stop_bit uart_tx_state.tx_send_data uart_tx_state.tx_send_start_bit 
 uart_tx_state.tx_send_start_bit 0 0 0 
 uart_tx_state.tx_send_data 0 1 1 
 uart_tx_state.tx_send_stop_bit 1 0 1 
 
-State Machine - |MIOSystem_tb|UART_Controller:UART_Controller1|uart_rx_state
+State Machine - |top_synth|UART_Controller:UART_Controller1|uart_rx_state
 Name uart_rx_state.rx_get_stop_bit uart_rx_state.rx_get_data uart_rx_state.rx_get_start_bit 
 uart_rx_state.rx_get_start_bit 0 0 0 
 uart_rx_state.rx_get_data 0 1 1 
 uart_rx_state.rx_get_stop_bit 1 0 1 
 
-State Machine - |MIOSystem_tb|FLASHMEM_Controller:FLASHMEM_Controller1|trans_state
+State Machine - |top_synth|FLASHMEM_Controller:FLASHMEM_Controller1|trans_state
 Name trans_state.s_trans_finish trans_state.s_trans_data trans_state.s_trans_addr trans_state.s_trans_opcode trans_state.s_trans_null 
 trans_state.s_trans_null 0 0 0 0 0 
 trans_state.s_trans_opcode 0 0 0 1 1 
@@ -86,7 +86,7 @@ trans_state.s_trans_addr 0 0 1 0 1
 trans_state.s_trans_data 0 1 0 0 1 
 trans_state.s_trans_finish 1 0 0 0 1 
 
-State Machine - |MIOSystem_tb|FLASHMEM_Controller:FLASHMEM_Controller1|state
+State Machine - |top_synth|FLASHMEM_Controller:FLASHMEM_Controller1|state
 Name state.s_idle state.s_control state.s_reset_done state.s_reset state.s_wait_reset 
 state.s_wait_reset 0 0 0 0 0 
 state.s_reset 0 0 0 1 1 
@@ -94,7 +94,7 @@ state.s_reset_done 0 0 1 0 1
 state.s_control 0 1 0 0 1 
 state.s_idle 1 0 0 0 1 
 
-State Machine - |MIOSystem_tb|DRAM_Controller:DRAM_Controller1|state
+State Machine - |top_synth|DRAM_Controller:DRAM_Controller1|state
 Name state.s_precharge state.s_read_4 state.s_read_3 state.s_read_2 state.s_read_1 state.s_write_3 state.s_write_2 state.s_write_1 state.s_open_in_1 state.s_open_in_2 state.s_idle state.s_idle_in_1 state.s_idle_in_2 state.s_idle_in_3 state.s_idle_in_4 state.s_idle_in_5 state.s_idle_in_6 state.s_idle_in_7 state.s_idle_in_8 state.s_idle_in_9 state.s_startup 
 state.s_startup 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
 state.s_idle_in_9 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 

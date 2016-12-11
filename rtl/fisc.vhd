@@ -21,7 +21,7 @@ ENTITY FISC IS
 END FISC;
 
 ARCHITECTURE RTL OF FISC IS
-	signal clk_routed   : std_logic;
+	signal master_clk   : std_logic;
 	signal clk_old_edge : std_logic;
 
 	-----------------------------------------------
@@ -144,29 +144,27 @@ ARCHITECTURE RTL OF FISC IS
 	-------------------------------------------
 BEGIN
 	-- TODO: REMOVE THIS LATER:
-	dbus(1 downto 0) <= aluop;
-	dbus(2)          <= restart_cpu;
-	dbus(3)          <= clk;
+	dbus <= (aluop(1), aluop(0), restart_cpu, clk);
 	
 	main_memory_fetching <= l1_fetching_mem; -- Or if fetching from L2
 	
 	-- Do not update any component if the pause signal is asserted or if the Caches are fetching from Main Memory:
-	clk_routed <= clk_old_edge WHEN pause = '1' OR main_memory_fetching = '1' ELSE clk;
+	master_clk <= clk_old_edge WHEN pause = '1' OR main_memory_fetching = '1' ELSE clk;
 	
 	---- Microarchitecture Stages Declaration: ----
 	-- Stage 1: Fetch
-	Stage1_Fetch1   : ENTITY work.Stage1_Fetch   PORT MAP(clk_routed, if_new_pc, if_reset_pc, id_microcode_ctrl(0), id_pc_src, if_uncond_branch_flag, l1_ic_data, if_instruction, if_new_pc_unpiped, if_pc_out, if_flush, if_freeze);
+	Stage1_Fetch1   : ENTITY work.Stage1_Fetch   PORT MAP(master_clk, if_new_pc, if_reset_pc, id_microcode_ctrl(0), id_pc_src, if_uncond_branch_flag, l1_ic_data, if_instruction, if_new_pc_unpiped, if_pc_out, if_flush, if_freeze);
 	-- Stage 2: Decode
-	Stage2_Decode1  : ENTITY work.Stage2_Decode  PORT MAP(clk_routed, id_sos, id_microcode_ctrl, id_microcode_ctrl_early, if_instruction, wb_writeback_data, idexmem_regwrite, id_outA, id_outB, ifidexmem_instruction(4 downto 0), if_pc_out, ifidexmem_pc_out, if_new_pc, id_sign_ext, id_pc_src, if_uncond_branch_flag, flag_neg, flag_zero, flag_overf, flag_carry, ifidexmem_instruction, ex_result_early, wb_writeback_data, idexmem_regwrite, ifid_pc_out, ifid_instruction, id_flush, id_freeze);
+	Stage2_Decode1  : ENTITY work.Stage2_Decode  PORT MAP(master_clk, id_sos, id_microcode_ctrl, id_microcode_ctrl_early, if_instruction, wb_writeback_data, idexmem_regwrite, id_outA, id_outB, ifidexmem_instruction(4 downto 0), if_pc_out, ifidexmem_pc_out, if_new_pc, id_sign_ext, id_pc_src, if_uncond_branch_flag, flag_neg, flag_zero, flag_overf, flag_carry, ifidexmem_instruction, ex_result_early, wb_writeback_data, idexmem_regwrite, ifid_pc_out, ifid_instruction, id_flush, id_freeze);
 	-- Stage 3: Execute
-	Stage3_Execute1 : ENTITY work.Stage3_Execute PORT MAP(clk_routed, ex_srcA, ex_srcB, id_sign_ext, ex_result, ex_result_early, aluop, ifid_instruction(31 downto 21), alusrc, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, ifid_instruction, ifidex_instruction, ifid_pc_out, ifidex_pc_out, ex_opB, memwrite, memread, regwrite, memtoreg, set_flags, idex_memwrite, idex_memread, idex_regwrite, idex_memtoreg, idex_set_flags, ex_flush, ex_freeze);
+	Stage3_Execute1 : ENTITY work.Stage3_Execute PORT MAP(master_clk, ex_srcA, ex_srcB, id_sign_ext, ex_result, ex_result_early, aluop, ifid_instruction(31 downto 21), alusrc, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, ifid_instruction, ifidex_instruction, ifid_pc_out, ifidex_pc_out, ex_opB, memwrite, memread, regwrite, memtoreg, set_flags, idex_memwrite, idex_memread, idex_regwrite, idex_memtoreg, idex_set_flags, ex_flush, ex_freeze);
 	-- Stage 4: Memory Access
-	Stage4_Memory_Access1: ENTITY work.Stage4_Memory_Access PORT MAP(clk_routed, ex_result, ex_opB, mem_data_out, idex_memwrite, idex_memread, ifidex_instruction(11 downto 10), mem_address, ifidex_instruction, ifidexmem_instruction, ifidex_pc_out, ifidexmem_pc_out, idex_regwrite, idex_memtoreg, idexmem_regwrite, idexmem_memtoreg, mem_flush, mem_freeze);
+	Stage4_Memory_Access1: ENTITY work.Stage4_Memory_Access PORT MAP(master_clk, ex_result, ex_opB, mem_data_out, idex_memwrite, idex_memread, ifidex_instruction(11 downto 10), mem_address, ifidex_instruction, ifidexmem_instruction, ifidex_pc_out, ifidexmem_pc_out, idex_regwrite, idex_memtoreg, idexmem_regwrite, idexmem_memtoreg, mem_flush, mem_freeze);
 	-- Stage 5: Writeback
-	Stage5_Writeback1: ENTITY work.Stage5_Writeback PORT MAP(clk_routed, mem_address, mem_data_out, idexmem_memtoreg, wb_writeback_data);
+	Stage5_Writeback1: ENTITY work.Stage5_Writeback PORT MAP(master_clk, mem_address, mem_data_out, idexmem_memtoreg, wb_writeback_data);
 	
 	-- Flags declaration:
-	Flags1: ENTITY work.Flags PORT MAP(clk_routed, idex_set_flags, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, flag_neg, flag_zero, flag_overf, flag_carry);
+	Flags1: ENTITY work.Flags PORT MAP(master_clk, idex_set_flags, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, flag_neg, flag_zero, flag_overf, flag_carry);
 	
 	-- Exception and Interrupts Flags declaration:
 	-- TODO
@@ -229,13 +227,22 @@ BEGIN
 	alusrc    <= id_microcode_ctrl(8);          -- Control (EX)
 	set_flags <= id_microcode_ctrl(13);         -- Control (originates from ID and is used on stage EX)
 	
-	-- L1 Instruction Cache Declaration:
-	L1_ICache1: ENTITY work.L1_ICache PORT MAP(
-		clk, l1_ic_request_data, if_new_pc_unpiped, l1_fetching_mem,
-		l1_ic_hit, l1_ic_miss, l1_ic_data, l1_ic_data_src,
+	-- !TODO! VERY IMPORTANT NOTE !TODO!
+	-- All Caches will be bypassed for now. The FPGA we're synthesizing this code on cannot handle Caches as they currently are designed.
+	-- We will try to add caches later, but for now, we'll have to deal with direct SDRAM access, which is extremely awful for our CPI calculation
+	Memory_Handler1: ENTITY work.Memory_Handler PORT MAP (
+		clk, l1_ic_request_data, if_new_pc_unpiped, l1_fetching_mem, l1_ic_data,
 		l1_sdram_cmd_ready, l1_sdram_cmd_en, l1_sdram_cmd_wr, l1_sdram_cmd_address,
 		l1_sdram_cmd_byte_en, l1_sdram_cmd_data_in, l1_sdram_data_out, l1_sdram_data_ready
 	);
+	
+	-- L1 Instruction Cache Declaration:
+	--L1_ICache1: ENTITY work.L1_ICache PORT MAP(
+	--	clk, l1_ic_request_data, if_new_pc_unpiped, l1_fetching_mem,
+	--	l1_ic_hit, l1_ic_miss, l1_ic_data, l1_ic_data_src,
+	--	l1_sdram_cmd_ready, l1_sdram_cmd_en, l1_sdram_cmd_wr, l1_sdram_cmd_address,
+	--	l1_sdram_cmd_byte_en, l1_sdram_cmd_data_in, l1_sdram_data_out, l1_sdram_data_ready
+	--);
 	
 	-- L1 Data Cache Declaration:
 	-- TODO
@@ -253,7 +260,7 @@ BEGIN
 	---------------------------
 	------- Behaviour: --------
 	---------------------------
-	main_proc: process(clk, restart_cpu, id_microcode_ctrl) begin
+	main_proc: process(clk, restart_cpu, id_microcode_ctrl, pause, main_memory_fetching) begin
 		if restart_cpu = '1' then
 			id_sos <= '1';
 		else

@@ -11,13 +11,13 @@ ENTITY Stage2_Decode IS
 		sos                   : in  std_logic;
 		microcode_ctrl        : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
 		microcode_ctrl_early  : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0'); 
-		if_instruction        : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+		if_instruction        : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 		writedata             : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 		regwrite              : in  std_logic;
 		outA                  : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		outB                  : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		writereg_addr         : in  std_logic_vector(4 downto 0);
-		current_pc            : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		current_pc            : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		ifidexmem_pc_out      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		new_pc                : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		sign_ext              : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');

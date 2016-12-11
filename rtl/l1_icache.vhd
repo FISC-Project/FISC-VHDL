@@ -60,7 +60,7 @@ END L1_ICache_Set;
 
 ARCHITECTURE RTL OF L1_ICache_Set IS
 	signal hitbus         : std_logic_vector(L1_IC_WAYCOUNT-1 downto 0);
-	signal wide_data_out  : std_logic_vector((L1_IC_DATABLOCKSIZE * L1_IC_WAYCOUNT * 8) - 1 downto 0); -- Huge aggregated data bus from all the ways in each set
+	signal wide_data_out  : std_logic_vector((L1_IC_DATABLOCKSIZE * (L1_IC_WAYCOUNT+1) * 8) - 1 downto 0); -- Huge aggregated data bus from all the ways in each set
 	signal wr_ways_enable : std_logic;
 BEGIN
 	GEN_WAYS:
@@ -169,69 +169,69 @@ BEGIN
 	
 	sdram_cmd_address <= sdram_cmd_address_reg;
 	
+	-------------------------------------
+	-- L1 Instruction Cache Behaviour: --
+	-------------------------------------
 	process(clk, request_data)
-		variable wordoff_field : integer;
-		variable index_field   : std_logic_vector(L1_IC_INDEXOFF-L1_IC_BYTE_OFF downto 0) := (others => '0');
-		variable super_wide_data_out_offset : integer := 0;
+		variable index_field : std_logic_vector(L1_IC_INDEXOFF-L1_IC_BYTE_OFF downto 0) := (others => '0');
 	begin
 		-- Algorithm:
 		-- Fetch a data block from main memory using the address and store it in the cache. Also, output the data in parallel into the CPU Core.	
 			
-		if clk'event then
-			if clk = '0' then
-				-- Handle the Fetch cycle from CACHE <-> SDRAM:
-				if fetching_mem_reg = '1' and sdram_data_ready = '1' then
-					if SDRAM_datablock_count > 0 then
-						-- We're fetching a word from SDRAM:
-						SDRAM_datablock_out(SDRAM_datablock_out'length - ((SDRAM_datablock_count_orig-SDRAM_datablock_count) * 32)-1 downto SDRAM_datablock_out'length - ((SDRAM_datablock_count_orig-SDRAM_datablock_count) * 32)-32) <= sdram_data_out;
-						sdram_cmd_address_reg <= sdram_cmd_address_reg + "100";
-						SDRAM_datablock_count <= SDRAM_datablock_count - 1; -- Fetch next sub block
-					else
-						-- We're done fetching memory:
-						fetching_mem_reg <= '0';
-						-- Write to Cache and forward the data to the CPU:
-						sdram_cmd_en <= '0';
-						index_field  := address(L1_IC_INDEXOFF downto L1_IC_BYTE_OFF);
-							
-						cache_wr_way <= 0; -- TODO: Use algorithm to decide in which way to put this block
-						cache_wr_set <= to_integer(unsigned(index_field)); -- The set field is always fixed in set associative caches
-						cache_wr     <= '1';
-													
-						-- Make the data ready:
-						data_ready <= '1';
-						data_src   <= '1'; -- The data came from Main Memory					
-					end if;
+		if clk = '0' then
+			-- Handle the Fetch cycle from CACHE <-> SDRAM:
+			if fetching_mem_reg = '1' and sdram_data_ready = '1' then
+				if SDRAM_datablock_count > 0 then
+					-- We're fetching a word from SDRAM:
+					SDRAM_datablock_out(1*32-1 downto (1-1)*32) <= sdram_data_out;
+					
+					sdram_cmd_address_reg <= sdram_cmd_address_reg + "100";
+					SDRAM_datablock_count <= SDRAM_datablock_count - 1; -- Fetch next sub block
 				else
-					cache_wr   <= '0';
-					data_ready <= '0';
-					data_src   <= '0';
+					-- We're done fetching memory:
+					fetching_mem_reg <= '0';
+					-- Write to Cache and forward the data to the CPU:
+					sdram_cmd_en <= '0';
+					index_field  := address(L1_IC_INDEXOFF downto L1_IC_BYTE_OFF);
+						
+					cache_wr_way <= 0; -- TODO: Use algorithm to decide in which way to put this block
+					cache_wr_set <= to_integer(unsigned(index_field)); -- The set field is always fixed in set associative caches
+					cache_wr     <= '1';
+												
+					-- Make the data ready:
+					data_ready <= '1';
+					data_src   <= '1'; -- The data came from Main Memory					
 				end if;
 			else
-				if request_data = '1' and fetching_mem_reg = '0' then -- CPU is requesting data from Cache
-					if hit_reg = '0' then -- It's a miss... The Cache will now request data from SDRAM
-						if SDRAM_datablock_count = SDRAM_datablock_count_orig then -- Trigger the fetch cycle
-							-- Trigger the request to nth block from SDRAM and put into the datablock:
-							fetching_mem_reg  <= '1'; -- This will stall the CPU until the Fetch cycle has finished
-							sdram_cmd_wr      <= '0'; -- SDRAM in read mode
-							sdram_cmd_address_reg <= address(22 downto 0);
-							sdram_cmd_byte_en <= (others => '1');
-							sdram_cmd_en      <= '1'; -- Enable SDRAM Controller (trigger request)
-						end if;
-					else -- It's a hit!
-						-- Restart block counter:
-						SDRAM_datablock_count <= SDRAM_datablock_count_orig;
-						-- Note: the data is already being outputted in parallel due to the assignment and the function data_output_handle()
-						
-						fetching_mem_reg <= '0';
-						sdram_cmd_en     <= '0';
-						
-						-- We're not writing to cache anymore:
-						cache_wr <= '0';
-					
-						-- Make the data ready:
-						data_ready <= '0';
-						data_src   <= '0'; -- The data came from Cache
+				cache_wr   <= '0';
+				data_ready <= '0';
+				data_src   <= '0';
+			end if;
+		else
+			if request_data = '1' and fetching_mem_reg = '0' then -- CPU is requesting data from Cache
+				if hit_reg = '0' then -- It's a miss... The Cache will now request data from SDRAM
+					if SDRAM_datablock_count = SDRAM_datablock_count_orig then -- Trigger the fetch cycle
+						-- Trigger the request to nth block from SDRAM and put into the datablock:
+						fetching_mem_reg  <= '1'; -- This will stall the CPU until the Fetch cycle has finished
+						sdram_cmd_wr      <= '0'; -- SDRAM in read mode
+						sdram_cmd_address_reg <= address(22 downto 0);
+						sdram_cmd_byte_en <= (others => '1');
+						sdram_cmd_en      <= '1'; -- Enable SDRAM Controller (trigger request)
 					end if;
+				else -- It's a hit!
+					-- Restart block counter:
+					SDRAM_datablock_count <= SDRAM_datablock_count_orig;
+					-- Note: the data is already being outputted in parallel due to the assignment and the function data_output_handle()
+					
+					fetching_mem_reg <= '0';
+					sdram_cmd_en     <= '0';
+					
+					-- We're not writing to cache anymore:
+					cache_wr <= '0';
+				
+					-- Make the data ready:
+					data_ready <= '0';
+					data_src   <= '0'; -- The data came from Cache
 				end if;
 			end if;
 		end if;

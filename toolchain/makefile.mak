@@ -1,57 +1,54 @@
 BIN = bin
 OBJ = obj
-ifeq ($(OS),Windows_NT)
-	GHDL = toolchain/Windows/Tools/ghdl-0.33/bin/ghdl
-else
-	GHDL = ghdl
-endif
 WAVE = gtkwave
 WAVESPATH = waves
-WORKPATH = work
 LIBPATH = lib
+FLASM = toolchain/Windows/Tools/flasm
+VCOM = vcom
+VSIMCOMMANDS = vcd file top.vcd; vcd add -r /*; run 10ns; quit -f
 
-GHDLFLAGS = --workdir="$(PWD)$(WORKPATH)" -P"$(PWD)$(LIBPATH)" --std=02 --ieee=synopsys -fexplicit
-SIMFLAGS = 
-WAVEFLAGS =
+BOOTLOADER:
+	@printf "> Compiling Bootloader Assembly code: "
+	$(FLASM) ./src/bootloader.fc -o $(BIN)/bootloader.bin -a
 
-CWD = $(CURDIR)
-makefile_dir:=$(shell dirname \"$("realpath $(lastword $(MAKEFILE_LIST)))\")
-
-# NOTE: We can only interface C files with GHDL through Linux:
-ifneq ($(OS),Windows_NT)
 ##### Compilation rules and objects: #####
 #__GENMAKE__
 BINS = $(OBJ)/foo.o 
 
 $(OBJ)/foo.o: ./src/foo.c
-	@printf "2.1- Compiling C file 'src/foo.c': "
+	@printf "1- Compiling C file 'src/foo.c': "
 	gcc -c $< -o $@
 
 #__GENMAKE_END__
-endif
 
 ##### Main rules:
-# Compile:
-ELDESIGN:
-	@printf "1- Importing source files and Elaborating Design: \n"
-	$(GHDL) -i $(GHDLFLAGS) rtl/*.vhd*
-	$(GHDL) -m $(GHDLFLAGS) top
 
-all: ELDESIGN $(BINS)
-	@printf "\n2- Elaborating Top Module: "
-ifneq ($(OS),Windows_NT)
-	$(GHDL) -e -Wl,$(BINS) $(GHDLFLAGS) top
-else
-	$(GHDL) -e $(GHDLFLAGS) top
-	@printf "\n>> Finished! <<\n"
-endif
+all: BOOTLOADER $(BINS) $(HDLS)
+	@printf "\n> Compiling VHDL code: "
+	$(VCOM) -2008 rtl\alu.vhd
+	$(VCOM) -2008 rtl\dram_controller_sim.vhd
+	$(VCOM) -2008 rtl\defines.vhd
+	$(VCOM) -2008 rtl\flags.vhd
+	$(VCOM) -2008 rtl\memory_handler.vhd
+	$(VCOM) -2008 rtl\microcode.vhd
+	$(VCOM) -2008 rtl\registers.vhd
+	$(VCOM) -2008 rtl\stage1_fetch.vhd
+	$(VCOM) -2008 rtl\stage2_decode.vhd
+	$(VCOM) -2008 rtl\stage3_execute.vhd
+	$(VCOM) -2008 rtl\stage4_memory_access.vhd
+	$(VCOM) -2008 rtl\stage5_writeback.vhd
+	$(VCOM) -2008 rtl\fisc.vhd
+	$(VCOM) -2008 rtl\top.vhd
+	@#@$(MAKE) -f toolchain\vhdl_make.mak work/_lib.qdb
+	@printf "\n>> DONE COMPILING <<"
 
 # Simulate:
 %:
 	@printf "\n>> Simulating Top Module and producing GTKWave VCD file <<\n"
-	$(GHDL) -r $(GHDLFLAGS) top --stop-time=1000fs --vcd=top.vcd
-	@printf ">> END OF SIMULATION <<\n"
+	@vsim -c -do "$(VSIMCOMMANDS)" top
+	@printf "\n>> END OF SIMULATION <<\n"
 	@mv top.vcd $(WAVESPATH)
+	$(RM) transcript
 	
 # GTKWave:
 w%:
@@ -61,7 +58,8 @@ w%:
 clean:
 	@printf "\n>> Cleaning built files <<\n"
 	$(RM) $(BIN)/*
-	$(RM) $(WORKPATH)/*
+	$(RM) $(OBJ)/*
+	$(RM) transcript
 
 clean_waves:
 	@printf "\n>> Cleaning wave (VCD) files <<\n"

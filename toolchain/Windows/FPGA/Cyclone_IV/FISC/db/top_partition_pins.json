@@ -104,6 +104,22 @@
 					"strict" : false
 				},
 				{
+					"name" : "DS_DP",
+					"strict" : false
+				},
+				{
+					"name" : "DS_G",
+					"strict" : false
+				},
+				{
+					"name" : "DS_C",
+					"strict" : false
+				},
+				{
+					"name" : "DS_D",
+					"strict" : false
+				},
+				{
 					"name" : "SDRAM_DQ0",
 					"strict" : false
 				},
@@ -173,10 +189,6 @@
 				},
 				{
 					"name" : "FLASH_DO",
-					"strict" : false
-				},
-				{
-					"name" : "TXD",
 					"strict" : false
 				}
 			]

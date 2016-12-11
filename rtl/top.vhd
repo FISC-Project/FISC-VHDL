@@ -52,28 +52,10 @@ BEGIN
 		);
 	
 	-- Generate Clock: --
-	clk <= '1' AFTER 1 fs WHEN clk = '0' ELSE '0' AFTER 1 fs WHEN clk = '1';
-	
-	-- Initialization Process:
-	init_proc: process(clk) begin
-		if clk'event and clk = '1' then
-			if sdram_cmd_ready = '1' then
-				system_startup <= '1'; -- The System's devices are now initialized! (TODO: In the future, when there's multiple devices, we must change this logic)
-			end if;
-		end if;
-	end process;
-	
+	clk <= '1' AFTER 1 ps WHEN clk = '0' ELSE '0' AFTER 1 ps WHEN clk = '1';
+		
 	-- Main Process:
 	main_proc: process begin
-		----------------------------------------
-		-- Initialize All Systems here first: --
-		----------------------------------------
-		pause_cpu      <= '1'; -- Do not let the CPU execute while the external systems are being initialized
-		restart_system <= '1'; wait for 2 fs; restart_system <= '0'; -- Restart every device on the FPGA Board with a signal pulse
-			
-		-- Wait for the device with the longest startup time to finish its initialization:
-		wait until system_startup = '1';
-		
 		-------------------------
 		-- !! Kickstart CPU !! --
 		-------------------------

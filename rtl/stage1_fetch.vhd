@@ -33,6 +33,7 @@ END ARCHITECTURE RTL;
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.all;
 USE IEEE.std_logic_unsigned.all;
+use ieee.numeric_std.all;
 USE work.FISC_DEFINES.all;
 
 ENTITY Stage1_Fetch IS
@@ -69,11 +70,9 @@ BEGIN
 	new_pc_reg <=
 		new_pc WHEN (pc_src or uncond_branch_flag) = '1'
 		ELSE pc_out_reg + "100";
-	
-	new_pc_unpiped <= pc_out_reg;
-	
+	new_pc_unpiped <= new_pc_reg;
 	pc_out_reg_cpy <= pc_out_reg WHEN pc_src = '0' ELSE new_pc_reg;
-	
+		
 	----------------
 	-- Behaviour: --
 	----------------

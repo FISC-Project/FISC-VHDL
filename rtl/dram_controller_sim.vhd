@@ -8,15 +8,15 @@ USE work.FISC_DEFINES.all;
 
 ENTITY DRAM_Controller_Sim IS
 	PORT(
-		clk           : in  std_logic;
-		reset         : in  std_logic;
-		cmd_en        : in  std_logic;
-		cmd_wr        : in  std_logic;
-		cmd_ready     : out std_logic;
-		address       : in  std_logic_vector(22 downto 0);
-		data_in       : in  std_logic_vector(31 downto 0);
-		data_ready    : out std_logic;
-		data_out      : out std_logic_vector(31 downto 0)
+		clk        : in  std_logic;
+		reset      : in  std_logic;
+		cmd_en     : in  std_logic;
+		cmd_wr     : in  std_logic;
+		cmd_ready  : out std_logic := '1';
+		address    : in  std_logic_vector(22 downto 0);
+		data_in    : in  std_logic_vector(31 downto 0);
+		data_ready : out std_logic := '1';
+		data_out   : out std_logic_vector(31 downto 0)
 	);
 END DRAM_Controller_Sim;
 
@@ -40,32 +40,21 @@ ARCHITECTURE RTL OF DRAM_Controller_Sim IS
 		return ret;
 	end function;
 	
-	signal dram_mem : mem_t := load_dram_mem("fisc_imem.bin");
+	signal dram_mem : mem_t := load_dram_mem("bin/bootloader.bin");
 BEGIN
-	process(clk) 
-		variable index_field    : integer := 0;
-		variable address_append : std_logic_vector(40 downto 0) := (others => '0');
-		variable address_fixed  : std_logic_vector(63 downto 0);
-	begin
-		if rising_edge(clk) then
-			if cmd_en = '1' then
-				address_fixed := address_append & address;
-				index_field   := to_integer(unsigned(address(4 downto 0))) + (to_integer(unsigned(address_fixed(L1_IC_INDEXOFF downto 6))) * L1_IC_DATABLOCKSIZE) * (to_integer(unsigned(address_fixed(L1_IC_ADDR_WIDTH-1 downto L1_IC_ADDR_WIDTH-L1_IC_TAGWIDTH))) + 1);
-				if cmd_wr = '0' then 
-					-- Read from Memory:
-					data_out(7  downto 0)     <= dram_mem(index_field + 3);
-					data_out(15 downto 8)     <= dram_mem(index_field + 2);
-					data_out(23 downto 16)    <= dram_mem(index_field + 1);
-					data_out(31 downto 24)    <= dram_mem(index_field);
-				else
-					-- Write to Memory:
-					dram_mem(index_field + 3) <= data_in(7  downto 0);
-					dram_mem(index_field + 2) <= data_in(15 downto 8);
-					dram_mem(index_field + 1) <= data_in(23 downto 16);
-					dram_mem(index_field)     <= data_in(31 downto 24);
-				end if;
-				cmd_ready  <= '1';
-				data_ready <= '1';
+	data_out(7  downto 0)  <= dram_mem(to_integer(unsigned(address)) + 3);
+	data_out(15 downto 8)  <= dram_mem(to_integer(unsigned(address)) + 2);
+	data_out(23 downto 16) <= dram_mem(to_integer(unsigned(address)) + 1);
+	data_out(31 downto 24) <= dram_mem(to_integer(unsigned(address)));
+
+	process(clk) begin
+		if falling_edge(clk) then
+			if cmd_en = '1' and cmd_wr = '1' then
+				-- Write to Memory:
+				dram_mem(to_integer(unsigned(address)) + 3) <= data_in(7  downto 0);
+				dram_mem(to_integer(unsigned(address)) + 2) <= data_in(15 downto 8);
+				dram_mem(to_integer(unsigned(address)) + 1) <= data_in(23 downto 16);
+				dram_mem(to_integer(unsigned(address)))     <= data_in(31 downto 24);
 			end if;
 		end if;
 	end process;
