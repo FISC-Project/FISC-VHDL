@@ -1,13 +1,8 @@
 # FISC
 FISC - Flexible Instruction Set Computer - Is the new Instruction Set Architecture inspired by ARMv8 and x86-64.
 
-This project will be developed on an FPGA, and thus, more components will be modeled besides the FISC CPU Core itself.
-
-# High Level Design
-![AbstractFullSystem](http://i.imgur.com/OQg8W1A.png)
-
 # Full System Design
-![FullSystem](http://i.imgur.com/p2pPWAl.png)
+![FullSystem](http://i.imgur.com/5LNQ55k.png)
 
 # Instruction Set Architecture
 ![Complete ISA Specs](http://i.imgur.com/m2FDbCT.jpg)
