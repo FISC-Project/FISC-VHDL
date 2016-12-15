@@ -1,0 +1,5 @@
+nop nop
+ADDI X0, XZR, 5
+ADDI X1, XZR, 7
+MUL  X2, X1, X0
+HALT

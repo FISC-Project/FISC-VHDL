@@ -33,7 +33,12 @@ ARCHITECTURE RTL OF top IS
 	signal sdram_ban         : std_logic_vector(1  downto 0);
 	signal sdram_dqmhl       : std_logic_vector(1  downto 0);
 	signal sdram_dqn         : std_logic_vector(15 downto 0);
+	
+	signal testc_clk : boolean := false;
 BEGIN
+	testc_clk <= true when clk = '1' else false;
+	TEST1: ENTITY work.testc PORT MAP(testc_clk);
+
 	-- Declare FISC Core: --
 	FISC_CORE: ENTITY work.FISC PORT MAP(
 		clk, restart_system, pause_cpu, dbus,
@@ -52,7 +57,7 @@ BEGIN
 		);
 	
 	-- Generate Clock: --
-	clk <= '1' AFTER 1 ps WHEN clk = '0' ELSE '0' AFTER 1 ps WHEN clk = '1';
+	clk <= '1' AFTER 1 ns WHEN clk = '0' ELSE '0' AFTER 1 ns WHEN clk = '1';
 		
 	-- Main Process:
 	main_proc: process begin
