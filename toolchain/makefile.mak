@@ -6,18 +6,18 @@ VDEL = $(MODELSIM_EXE_PATH)/vdel
 VLIB = $(MODELSIM_EXE_PATH)/vlib
 VMAP = $(MODELSIM_EXE_PATH)/vmap
 VSIM = $(MODELSIM_EXE_PATH)/vsim
-VSIMCOMMANDS = vcd file top.vcd; vcd add -r /*; run 100 ns; quit -f
+VSIMCOMMANDS = log -r top/*; run 100 ns; quit -f
 
 BIN = bin
 OBJ = obj
-WAVE = gtkwave
+WAVE = toolchain/Windows/Tools/gtkwave/bin/gtkwave
 WAVESPATH = waves
 LIBPATH = lib
 FLASM = toolchain/Windows/Tools/flasm
 CFLAGS = -I -g -O2 -Wall -ansi -fms-extensions -std=c99 -pedantic -m32 -freg-struct-return -I$(MODELSIM_PATH)/include
 
 # Virtual Machine's object files:
-VMOBJS = $(OBJ)/test.o
+VMOBJS = $(OBJ)/memory.o $(OBJ)/utils.o
 
 BOOTLOADER:
 	@printf "> Compiling Bootloader: "
@@ -25,11 +25,16 @@ BOOTLOADER:
 
 ##### Compilation rules and objects: #####
 #__GENMAKE__
-BINS = $(OBJ)/test.o \
+BINS = $(OBJ)/memory.o \
+	$(OBJ)/utils.o \
 	$(OBJ)/foo.o 
 
-$(OBJ)/test.o: ./src/machine/test.c
-	@printf "> Compiling C file 'src/machine/test.c': "
+$(OBJ)/memory.o: ./src/machine/memory.c
+	@printf "> Compiling C file 'src/machine/memory.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
+$(OBJ)/utils.o: ./src/machine/utils.c
+	@printf "> Compiling C file 'src/machine/utils.c': "
 	gcc $(CFLAGS) -c $< -o $@
 
 $(OBJ)/foo.o: ./src/userapps/foo.c
@@ -48,21 +53,20 @@ all: BOOTLOADER $(BINS)
 	$(VDEL) -all
 	$(VLIB) work
 	$(VMAP) work work
-	$(VCOM) -2008 rtl/test.vhd
-	$(VCOM) -2008 rtl/defines.vhd
-	$(VCOM) -2008 rtl/alu.vhd
-	$(VCOM) -2008 rtl/dram_controller_sim.vhd
-	$(VCOM) -2008 rtl/flags.vhd
-	$(VCOM) -2008 rtl/memory_handler.vhd
-	$(VCOM) -2008 rtl/microcode.vhd
-	$(VCOM) -2008 rtl/registers.vhd
-	$(VCOM) -2008 rtl/stage1_fetch.vhd
-	$(VCOM) -2008 rtl/stage2_decode.vhd
-	$(VCOM) -2008 rtl/stage3_execute.vhd
-	$(VCOM) -2008 rtl/stage4_memory_access.vhd
-	$(VCOM) -2008 rtl/stage5_writeback.vhd
-	$(VCOM) -2008 rtl/fisc.vhd
-	$(VCOM) -2008 rtl/top.vhd
+	
+	$(VCOM) -2002 -O5 -quiet rtl/defines.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/memory.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/alu.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/flags.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/microcode.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/registers.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/stage1_fetch.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/stage2_decode.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/stage3_execute.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/stage4_memory_access.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/stage5_writeback.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/fisc.vhd
+	$(VCOM) -2002 -O5 -quiet rtl/top.vhd
 	
 	@$(RM) modelsim.ini
 	@printf "\n>> DONE COMPILING <<"
@@ -70,11 +74,12 @@ all: BOOTLOADER $(BINS)
 # Simulate:
 %:
 	@printf "\n>> Simulating Top Module and producing GTKWave VCD file <<\n"
-	@$(VSIM) -c -do "$(VSIMCOMMANDS)" top
+	@$(VSIM) -c -do "$(VSIMCOMMANDS)" -wlf top.wlf top
 	@printf "\n>> END OF SIMULATION <<\n"
+	@wlf2vcd top.wlf -o top.vcd
+	@mv top.wlf $(WAVESPATH)
 	@mv top.vcd $(WAVESPATH)
-	$(RM) transcript
-	$(RM) vsim.wlf
+	@$(RM) transcript
 	
 # GTKWave:
 w%:
@@ -87,7 +92,6 @@ clean:
 	$(RM) $(OBJ)/*
 	$(RM) transcript
 	$(RM) modelsim.ini
-	$(RM) vsim.wlf
 
 clean_waves:
 	@printf "\n>> Cleaning wave (VCD) files <<\n"

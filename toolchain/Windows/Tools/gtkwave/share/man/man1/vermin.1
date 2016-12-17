@@ -1,0 +1,63 @@
+.TH "VERMIN" "1" "0.1.1" "Anthony Bybell" "Verilog Compilation"
+.SH "NAME"
+.LP 
+vermin \- Parses and processes Verilog HDL files
+.SH "SYNTAX"
+.LP 
+vermin [\fIVERILOGFILE\fP]... [\fIoption\fP]... 
+.SH "DESCRIPTION"
+.LP 
+Parses Verilog HDL files for use by other tools.  The Verilog grammar used is 1364-1995.
+.SH "OPTIONS"
+.LP 
+.TP 
+\fB\-h[elp]\fR
+Prints out help screen.
+.TP 
+\fB\-emitmono \fIfname\fP\fR
+Emit monolithic (parser view of) file to \fIfname\fP.
+.TP
+\fB\-emitstems\fR
+Emit source code stems to stdout.
+.TP 
+\fB\-emitvars\fR
+Emit source code variables to stdout.
+.TP 
+\fB\-D\fIx\fP=\fIy\fP
+Equivalent to `define \fIX Y\fP in source.
+.TP 
+\fB\+define+\fIx\fP=\fIy\fP\fR
+Equivalent to `define \fIX Y\fP in source.
+.TP 
+\fB\+incdir+\fIdirname\fP\fR
+Add \fIdirname\fP to include search path.
+.TP 
+\fB\+libext+\fIext\fP\fR
+Add \fIext\fP to filename when searching for files.
+.TP 
+\fB\-pragma \fIname\fP\fR
+Add \fIname\fP (synopsys, verilint, vertex) to accepted pragmas.  Note that "vertex" is for legacy reasons; the
+executable name has since changed to avoid name clashes with an existing 3D modeling program.
+.TP 
+\fB\-y \fIdirname\fP\fR
+Add directory \fIdirname\fP to source input path.
+.TP 
+\fB\-yi \fIdirname\fP\fR
+Add directory \fIdirname\fP to source input path (case insensitive search).
+.TP 
+\fB\-f \fIfilename\fP\fR     
+Insert args from filename.  Does not work recursively.
+.SH "EXAMPLES"
+.LP 
+The following indicates that the library extension is .v and that the include directory is the current working
+directory and that the library directory is also the current working directory.  Stems generation is
+enabled to generate a stems file for use with other tools.  Various compile-time defines are also defined
+on the command line.
+.TP 
+vermin XYZ450AC6V1.v \-emitstems \-y . \+incdir+. \+libext+.v \-DUTLB_OutputData=0 \-D__PORTALS_VERILOG__ 
+.SH "AUTHORS"
+.LP 
+Anthony Bybell <bybell@rocketmail.com>
+.SH "SEE ALSO"
+.LP 
+\fIrtlbrowse\fP(1) \fIgtkwave\fP(1)

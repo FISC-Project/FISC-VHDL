@@ -4,7 +4,7 @@ cls
 
 cd ..\..
 
-printf "***** Building Makefile... *****\n\n"
+printf "\n>> Building Makefile... <<\n"
 make -f toolchain/makefile.mak all
+printf "\n"
 
-printf "\n***** Done *****\n\n"

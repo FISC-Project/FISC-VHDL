@@ -1,5 +1,7 @@
 nop nop
-ADDI X0, XZR, 5
-ADDI X1, XZR, 7
-MUL  X2, X1, X0
+ADDI X0, XZR, 10;
+ADDI X1, XZR, 1;
+STUR X0, [X1, 1];
+LDUR X2, [X1, 1];
+MOV X3, X2
 HALT

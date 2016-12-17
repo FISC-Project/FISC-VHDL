@@ -1,0 +1,35 @@
+[*]
+[*] GTKWave Analyzer v3.3.29 (w)1999-2012 BSI
+[*] Wed Dec 14 23:53:03 2011
+[*]
+[dumpfile] "/Users/OSXUser/gtkwave/gtkwave3/examples/des.vzt"
+[dumpfile_mtime] "Fri Feb  4 20:50:48 2011"
+[dumpfile_size] 68801
+[savefile] "/Users/OSXUser/gtkwave/gtkwave3/examples/des.gtkw"
+[timestart] 0
+[size] 1000 600
+[pos] -3 -1
+*-3.973790 10 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[sst_width] 214
+[signals_width] 107
+[sst_expanded] 1
+[sst_vpaned_height] 152
+@28
+top.clk
+@22
+[color] 1
+top.ct[1:64]
+[color] 2
+top.i[31:0]
+[color] 3
+top.key[1:64]
+[color] 4
+top.pt[1:64]
+[color] 5
+top.ct[1:64]
+[color] 6
+top.i[31:0]
+[color] 7
+top.clk
+[pattern_trace] 1
+[pattern_trace] 0

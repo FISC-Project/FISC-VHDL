@@ -44,7 +44,7 @@ ENTITY Stage1_Fetch IS
 		fsm_next           : in  std_logic;
 		pc_src             : in  std_logic;
 		uncond_branch_flag : in  std_logic;
-		l1ic_instruction   : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
+		instruction        : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
 		if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 		new_pc_unpiped     : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 		pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
@@ -69,7 +69,8 @@ BEGIN
 	-- NOTE: There are two ways to branch unconditionally. Either use the microcode unit for ANY instruction, or use the B/BR instructions with no other side effects
 	new_pc_reg <=
 		new_pc WHEN (pc_src or uncond_branch_flag) = '1'
-		ELSE pc_out_reg + "100";
+		ELSE pc_out_reg + "100" WHEN if_flush = '0' and if_freeze = '0' 
+		ELSE pc_out_reg - "100";
 	new_pc_unpiped <= new_pc_reg;
 	pc_out_reg_cpy <= pc_out_reg WHEN pc_src = '0' ELSE new_pc_reg;
 		
@@ -80,7 +81,7 @@ BEGIN
 		if falling_edge(clk) then
 			if if_flush = '0' and if_freeze = '0' and reset = '0' then -- In the fetch stage, freezing is the same as flushing/stalling
 				-- Move the Fetch Stage's Inner Pipeline Forward:
-				if_instruction <= l1ic_instruction;
+				if_instruction <= instruction;
 				pc_out         <= pc_out_reg_cpy;
 			elsif reset = '1' then
 				if_instruction <= (others => '0');
