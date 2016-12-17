@@ -5,7 +5,7 @@ FISC - Flexible Instruction Set Computer - Is the new Instruction Set Architectu
 ![FullSystem](http://i.imgur.com/nLzs2qY.png)
 
 # Instruction Set Architecture
-![Complete ISA Specs](http://i.imgur.com/Kr0WEUw.png)
+![Complete ISA Specs](http://i.imgur.com/Vag7jX2.png)
 
 # Microarchitecture
 
