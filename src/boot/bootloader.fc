@@ -1,7 +1,8 @@
 nop nop
-ADDI X0, XZR, 10;
-ADDI X1, XZR, 1;
-STUR X0, [X1, 1];
-LDUR X2, [X1, 1];
-MOV X3, X2
+
+ADDI X0, XZR, 10; // Data
+MOVI X1, 0x1000;  // Address
+STUR X0, [X1, 0]; // Store
+
+LDUR X2, [X1, 1]; // Load it back
 HALT

@@ -17,7 +17,7 @@ FLASM = toolchain/Windows/Tools/flasm
 CFLAGS = -I -g -O2 -Wall -ansi -fms-extensions -std=c99 -pedantic -m32 -freg-struct-return -I$(MODELSIM_PATH)/include
 
 # Virtual Machine's object files:
-VMOBJS = $(OBJ)/memory.o $(OBJ)/utils.o
+VMOBJS = $(OBJ)/memory.o $(OBJ)/virtual_memory.o $(OBJ)/io_controller.o $(OBJ)/utils.o
 
 BOOTLOADER:
 	@printf "> Compiling Bootloader: "
@@ -25,9 +25,15 @@ BOOTLOADER:
 
 ##### Compilation rules and objects: #####
 #__GENMAKE__
-BINS = $(OBJ)/memory.o \
+BINS = $(OBJ)/io_controller.o \
+	$(OBJ)/memory.o \
 	$(OBJ)/utils.o \
+	$(OBJ)/virtual_memory.o \
 	$(OBJ)/foo.o 
+
+$(OBJ)/io_controller.o: ./src/machine/io_controller.c
+	@printf "> Compiling C file 'src/machine/io_controller.c': "
+	gcc $(CFLAGS) -c $< -o $@
 
 $(OBJ)/memory.o: ./src/machine/memory.c
 	@printf "> Compiling C file 'src/machine/memory.c': "
@@ -35,6 +41,10 @@ $(OBJ)/memory.o: ./src/machine/memory.c
 
 $(OBJ)/utils.o: ./src/machine/utils.c
 	@printf "> Compiling C file 'src/machine/utils.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
+$(OBJ)/virtual_memory.o: ./src/machine/virtual_memory.c
+	@printf "> Compiling C file 'src/machine/virtual_memory.c': "
 	gcc $(CFLAGS) -c $< -o $@
 
 $(OBJ)/foo.o: ./src/userapps/foo.c

@@ -11,10 +11,9 @@
 #include <string.h>
 #include <inttypes.h>
 #include "signal_conv.h"
-
-#define BOOTLOADER_FILE "bin/bootloader.bin"
-#define MEMORY_DEPTH 1024 /* Size of memory in bytes */
-#define MEMORY_LOADLOC 0  /* Where to load the program on startup */
+#include "virtual_memory.h"
+#include "address_space.h"
+#include "io_controller.h"
 
 typedef struct {
 	mtiSignalIdT clk;
@@ -152,8 +151,13 @@ char load_memory(void) {
 	while(fgets((char*)buffer, sizeof(buffer), fptr))
 		write_memory(address++, (uint8_t)strtoul(buffer, 0, 2), SZ_8);
 	fclose(fptr);
-	printf("Size of bootloader: %d bytes\n", address);
+	printf("Size of bootloader: %d bytes\n", ALIGN32(address));
 	return 1;
+}
+
+enum ADDR_SPACE_T address_decode(uint32_t address) {
+	if(address >= IOSPACE && address < IOSPACE + (uint32_t)(IOSPACE_LEN)) return SPACE_IO;
+	return SPACE_MMEM;
 }
 
 void on_clock(void * param) {
@@ -172,28 +176,56 @@ void on_clock(void * param) {
 			/*************************/
 			int wr = sig_to_int(ip->wr);
 			if(wr > 0) {
-				uint32_t address = sigv_to_int(ip->address2);
+				uint32_t vaddress = sigv_to_int(ip->address2);
+				uint32_t address = address_translate(vaddress);
 				uint64_t data = sigv_to_int(ip->data_in);
 				uint8_t access_width = sigv_to_int(ip->access_width);
-				printf("WR (@0x%x <%d>) = 0x%" PRIx64 " ", address, access_width, data);
-				if(!write_memory(address, data, access_width))
-					printf(" ERROR: Could not write to address 0x%x", address);
-			}
 
+				enum ADDR_SPACE_T target = address_decode(address);
+				char success = 0;
+
+				if(target == SPACE_MMEM) {
+					printf("WR (v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", vaddress, address, access_width, data);
+					success = write_memory(address, data, access_width);
+				} else if(target == SPACE_IO) {
+					printf("IO WR (v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", vaddress, address, access_width, data);
+					success = io_wr_dispatch(address, data, access_width);
+				}
+
+				if(!success)
+					printf("ERROR: Could not write to address v@0x%x p@0x%x ", vaddress, address);
+			}
 
 			/******************************************************************/
 			/* Handle Memory Reads for Channel 1 (used by the fetch stage 1): */
 			/******************************************************************/
 			char * rd = sigv_to_str(ip->rd, 0);
 			if(rd[1] > 0) {
-				uint32_t address = sigv_to_int(ip->address1);
-				char * returned_data = read_memory(address /= 4, SZ_32);
+				uint32_t vaddress = sigv_to_int(ip->address1);
+				uint32_t address = address_translate(vaddress);
+				char * returned_data;
 				char cpy[65];
-				strcpy(cpy, returned_data);
-				for(int i=0;i<64;i++) cpy[i] = (cpy[i] + '0') - 2;
-				uint64_t to_int = strtoull(cpy, 0, 2);
+				enum ADDR_SPACE_T target = address_decode(address);
 
-				printf("RD CH1 (@0x%x <2>) = 0x%" PRIx64 " ", ALIGN32(address), to_int);
+				address  /= 4; /* Unalign address */
+				vaddress /= 4; /* Unalign address */
+
+				if(target == SPACE_MMEM) {
+					returned_data = read_memory(address, SZ_32);
+					strcpy(cpy, returned_data);
+					for(int i = 0; i < 64; i++) cpy[i] = (cpy[i] + '0') - 2;
+					uint64_t to_int = strtoull(cpy, 0, 2);
+
+					printf("RD CH1 (v@0x%x p@0x%x <2>) = 0x%" PRIx64 " ", ALIGN32(vaddress), ALIGN32(address), to_int);
+				} else if(target == SPACE_IO) {
+					returned_data = io_rd_dispatch(address, SZ_32);
+					strcpy(cpy, returned_data);
+					for(int i = 0; i < 64; i++) cpy[i] = (cpy[i] + '0') - 2;
+					uint64_t to_int = strtoull(cpy, 0, 2);
+
+					printf("IO RD CH1 (v@0x%x p@0x%x <2>) = 0x%" PRIx64 " ", ALIGN32(vaddress), ALIGN32(address), to_int);
+				}
+
 				mti_ScheduleDriver(ip->data_out1, (long)returned_data, 1, MTI_INERTIAL);
 			}
 
@@ -211,17 +243,31 @@ void on_clock(void * param) {
 			char * rd = sigv_to_str(ip->rd, 0);
 			if(rd[0] > 0) {
 				printf("\n> - Accessing Memory | ", en);
-				uint32_t address = sigv_to_int(ip->address2);
+				uint32_t vaddress = sigv_to_int(ip->address2);
+				uint32_t address = address_translate(vaddress);
 				uint8_t access_width = sigv_to_int(ip->access_width);
-				char * returned_data = read_memory(address, access_width);
+				char * returned_data;
 				char cpy[65];
-				strcpy(cpy, returned_data);
-				for(int i=0;i<64;i++) cpy[i] = (cpy[i] + '0') - 2;
-				uint64_t to_int = strtoull(cpy, 0, 2);
+				enum ADDR_SPACE_T target = address_decode(address);
 
-				printf("RD CH2 (@0x%x <%d>) = 0x%" PRIx64 " ", address, access_width, to_int);
-				mti_ScheduleDriver(ip->data_out2, (long)returned_data, 0, MTI_INERTIAL);
-				mti_ScheduleDriver(ip->ready, (long)int_to_sigv(3,2), 1, MTI_INERTIAL);
+				if(target == SPACE_MMEM) {
+					returned_data = read_memory(address, access_width);
+					strcpy(cpy, returned_data);
+					for(int i = 0; i < 64; i++) cpy[i] = (cpy[i] + '0') - 2;
+					uint64_t to_int = strtoull(cpy, 0, 2);
+
+					printf("RD CH2 (v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", vaddress, address, access_width, to_int);
+				} else if(target == SPACE_IO) {
+					returned_data = io_rd_dispatch(address, access_width);
+					strcpy(cpy, returned_data);
+					for(int i = 0; i < 64; i++) cpy[i] = (cpy[i] + '0') - 2;
+					uint64_t to_int = strtoull(cpy, 0, 2);
+
+					printf("IO RD CH2 (v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", vaddress, address, access_width, to_int);
+				}
+
+				mti_ScheduleDriver(ip->data_out2, (long)returned_data, 0,    MTI_INERTIAL);
+				mti_ScheduleDriver(ip->ready,     (long)int_to_sigv(3,2), 1, MTI_INERTIAL);
 
 				printf("\n");
 				fflush(stdout);
