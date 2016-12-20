@@ -10,6 +10,7 @@
 #include <stdint.h>
 #include <string.h>
 #include <inttypes.h>
+#include "defines.h"
 #include "signal_conv.h"
 #include "virtual_memory.h"
 #include "address_space.h"
@@ -39,7 +40,7 @@ uint8_t memory_contents[MEMORY_DEPTH]; /* The actual Main Memory */
 #define ALIGN32(addr) ((addr)*4)
 #define ALIGN64(addr) ((addr)*8)
 
-#define MEMORY_DATA_OUT_BUFF_SIZE 64
+#define MEMORY_DATA_OUT_BUFF_SIZE MAX_INTEGER_SIZE
 char read_memory_ret[MEMORY_DATA_OUT_BUFF_SIZE+1];
 
 char write_memory(uint32_t address, uint64_t data, uint8_t access_width) {
@@ -180,7 +181,6 @@ void on_clock(void * param) {
 				uint32_t address = address_translate(vaddress);
 				uint64_t data = sigv_to_int(ip->data_in);
 				uint8_t access_width = sigv_to_int(ip->access_width);
-
 				enum ADDR_SPACE_T target = address_decode(address);
 				char success = 0;
 
@@ -213,14 +213,14 @@ void on_clock(void * param) {
 				if(target == SPACE_MMEM) {
 					returned_data = read_memory(address, SZ_32);
 					strcpy(cpy, returned_data);
-					for(int i = 0; i < 64; i++) cpy[i] = (cpy[i] + '0') - 2;
+					for(int i = 0; i < MAX_INTEGER_SIZE; i++) cpy[i] = (cpy[i] + '0') - 2;
 					uint64_t to_int = strtoull(cpy, 0, 2);
 
 					printf("RD CH1 (v@0x%x p@0x%x <2>) = 0x%" PRIx64 " ", ALIGN32(vaddress), ALIGN32(address), to_int);
 				} else if(target == SPACE_IO) {
 					returned_data = io_rd_dispatch(address, SZ_32);
 					strcpy(cpy, returned_data);
-					for(int i = 0; i < 64; i++) cpy[i] = (cpy[i] + '0') - 2;
+					for(int i = 0; i < MAX_INTEGER_SIZE; i++) cpy[i] = (cpy[i] + '0') - 2;
 					uint64_t to_int = strtoull(cpy, 0, 2);
 
 					printf("IO RD CH1 (v@0x%x p@0x%x <2>) = 0x%" PRIx64 " ", ALIGN32(vaddress), ALIGN32(address), to_int);
@@ -253,14 +253,14 @@ void on_clock(void * param) {
 				if(target == SPACE_MMEM) {
 					returned_data = read_memory(address, access_width);
 					strcpy(cpy, returned_data);
-					for(int i = 0; i < 64; i++) cpy[i] = (cpy[i] + '0') - 2;
+					for(int i = 0; i < MAX_INTEGER_SIZE; i++) cpy[i] = (cpy[i] + '0') - 2;
 					uint64_t to_int = strtoull(cpy, 0, 2);
 
 					printf("RD CH2 (v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", vaddress, address, access_width, to_int);
 				} else if(target == SPACE_IO) {
 					returned_data = io_rd_dispatch(address, access_width);
 					strcpy(cpy, returned_data);
-					for(int i = 0; i < 64; i++) cpy[i] = (cpy[i] + '0') - 2;
+					for(int i = 0; i < MAX_INTEGER_SIZE; i++) cpy[i] = (cpy[i] + '0') - 2;
 					uint64_t to_int = strtoull(cpy, 0, 2);
 
 					printf("IO RD CH2 (v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", vaddress, address, access_width, to_int);
@@ -276,13 +276,27 @@ void on_clock(void * param) {
 	}
 }
 
+void fli_quit_callback(void * param) {
+	printf("\n> Closing up FLI C interface");
+	io_controller_deinit();
+	fflush(stdout);
+	SDL_Quit();
+}
+
 void memory_init(
 	mtiRegionIdT region,
 	char * param,
 	mtiInterfaceListT * generics,
 	mtiInterfaceListT * ports
 ) {
+	mti_AddQuitCB(fli_quit_callback, 0);
+
 	load_memory();
+
+	if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
+		printf("\n> ERROR: Could not initialize SDL. (%s)\n", SDL_GetError());
+	else
+		io_controller_init();
 
 	memory_t * ip;
 	ip               = (memory_t *) mti_Malloc( sizeof( memory_t) );

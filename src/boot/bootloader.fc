@@ -4,5 +4,5 @@ ADDI X0, XZR, 10; // Data
 MOVI X1, 0x1000;  // Address
 STUR X0, [X1, 0]; // Store
 
-LDUR X2, [X1, 1]; // Load it back
+LDUR X2, [X1, 0]; // Load it back
 HALT

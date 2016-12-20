@@ -6,7 +6,13 @@ VDEL = $(MODELSIM_EXE_PATH)/vdel
 VLIB = $(MODELSIM_EXE_PATH)/vlib
 VMAP = $(MODELSIM_EXE_PATH)/vmap
 VSIM = $(MODELSIM_EXE_PATH)/vsim
-VSIMCOMMANDS = log -r top/*; run 100 ns; quit -f
+VSIMCOMMANDS = log -r top/*; run 100 ns; quit -sim
+
+ifeq ($(OS),Windows_NT)
+	SDL_LIB_PATH = -Llib/c_libs/SDL/i686-w64-mingw32/lib -lmingw32 -lSDL2 -lSDL2main
+else
+	SDL_LIB_PATH = -lSDL2 -lSDL2main
+endif
 
 BIN = bin
 OBJ = obj
@@ -14,10 +20,10 @@ WAVE = toolchain/Windows/Tools/gtkwave/bin/gtkwave
 WAVESPATH = waves
 LIBPATH = lib
 FLASM = toolchain/Windows/Tools/flasm
-CFLAGS = -I -g -O2 -Wall -ansi -fms-extensions -std=c99 -pedantic -m32 -freg-struct-return -I$(MODELSIM_PATH)/include
+CFLAGS = -I. -Ilib/c_libs -Ilib/c_libs/include -Ilib/c_libs/SDL -I$(MODELSIM_PATH)/include -g -O2 -Wall -std=c99
 
 # Virtual Machine's object files:
-VMOBJS = $(OBJ)/memory.o $(OBJ)/virtual_memory.o $(OBJ)/io_controller.o $(OBJ)/utils.o
+VMOBJS = $(OBJ)/memory.o $(OBJ)/virtual_memory.o $(OBJ)/utils.o $(OBJ)/io_controller.o $(OBJ)/vga.o
 
 BOOTLOADER:
 	@printf "> Compiling Bootloader: "
@@ -29,6 +35,7 @@ BINS = $(OBJ)/io_controller.o \
 	$(OBJ)/memory.o \
 	$(OBJ)/utils.o \
 	$(OBJ)/virtual_memory.o \
+	$(OBJ)/vga.o \
 	$(OBJ)/foo.o 
 
 $(OBJ)/io_controller.o: ./src/machine/io_controller.c
@@ -47,6 +54,10 @@ $(OBJ)/virtual_memory.o: ./src/machine/virtual_memory.c
 	@printf "> Compiling C file 'src/machine/virtual_memory.c': "
 	gcc $(CFLAGS) -c $< -o $@
 
+$(OBJ)/vga.o: ./src/machine/iodevices/vga.c
+	@printf "> Compiling C file 'src/machine/iodevices/vga.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
 $(OBJ)/foo.o: ./src/userapps/foo.c
 	@printf "> Compiling C file 'src/userapps/foo.c': "
 	gcc $(CFLAGS) -c $< -o $@
@@ -57,12 +68,9 @@ $(OBJ)/foo.o: ./src/userapps/foo.c
 
 all: BOOTLOADER $(BINS)
 	@printf "\n> Linking the Virtual Machine's object files into a shared library: "
-	gcc -shared -Wl,-Bsymbolic -Wl,-export-all-symbols -std=c99 -m32 -o $(BIN)/libvm.dll $(VMOBJS) $(FLI_LIB_PATH)
+	gcc -shared -Wl,-Bsymbolic -Wl,-export-all-symbols -std=c99 -m32 -o $(BIN)/libvm.dll $(VMOBJS) $(FLI_LIB_PATH) $(SDL_LIB_PATH)
 
 	@printf "\n> Compiling VHDL code: "
-	$(VDEL) -all
-	$(VLIB) work
-	$(VMAP) work work
 	
 	$(VCOM) -2002 -O5 -quiet rtl/defines.vhd
 	$(VCOM) -2002 -O5 -quiet rtl/memory.vhd
@@ -84,12 +92,14 @@ all: BOOTLOADER $(BINS)
 # Simulate:
 %:
 	@printf "\n>> Simulating Top Module and producing GTKWave VCD file <<\n"
+	@cp lib\c_libs\SDL\i686-w64-mingw32\bin\SDL2.dll .
 	@$(VSIM) -c -do "$(VSIMCOMMANDS)" -wlf top.wlf top
 	@printf "\n>> END OF SIMULATION <<\n"
 	@wlf2vcd top.wlf -o top.vcd
 	@mv top.wlf $(WAVESPATH)
 	@mv top.vcd $(WAVESPATH)
 	@$(RM) transcript
+	@$(RM) SDL2.dll
 	
 # GTKWave:
 w%:
@@ -102,6 +112,7 @@ clean:
 	$(RM) $(OBJ)/*
 	$(RM) transcript
 	$(RM) modelsim.ini
+	$(RM) SDL2.dll
 
 clean_waves:
 	@printf "\n>> Cleaning wave (VCD) files <<\n"
