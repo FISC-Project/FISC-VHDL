@@ -268,7 +268,6 @@ void on_clock(void * param) {
 }
 
 void fli_quit_callback(void * param) {
-	SDL_Delay(10000);
 	printf("\n> Closing up FLI C interface");
 	io_controller_deinit();
 	fflush(stdout);
