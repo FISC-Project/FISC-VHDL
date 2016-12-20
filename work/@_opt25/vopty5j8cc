@@ -1,0 +1,78 @@
+m255
+K3
+cModel Technology Builtin Library
+13
+Z0 dD:\qa\buildsites\6.5\builds\win32\modeltech
+Penv
+Z1 OL;C;6.5;42
+32
+b1
+Z2 OP;C;6.5;42
+Z3 w1232692654
+Z4 d$MODEL_TECH/..
+Z5 8vhdl_src/std/env.vhd
+Z6 Fvhdl_src/std/env.vhd
+l0
+L1
+VMS<MD0@]6L0EihU2C?95]0
+Z7 OE;C;6.5;42
+Z8 o-work std -dirpath {$MODEL_TECH/..}
+Z9 tExplicit 1
+!s100 Jk]WLNXXY90REn6H_ahP:3
+Bbody
+DBx4 work 3 env 0 22 MS<MD0@]6L0EihU2C?95]0
+R1
+32
+R2
+l0
+L11
+Vc=H5Zk>h;Gmh>9BN<MDk<3
+R7
+R8
+R9
+nbody
+!s100 Q2aL@L`86VXT`NWicN9BE0
+Pstandard
+R1
+33
+R2
+R3
+R4
+8vhdl_src/std/standard.vhd
+Fvhdl_src/std/standard.vhd
+l0
+L8
+VM]UbYN`go6foOAGb42z_92
+R7
+o-s -2008 -work std -dirpath {$MODEL_TECH/..}
+R9
+!s100 ddgmKj`IlOCVkRDj1[3^93
+Ptextio
+R1
+33
+b1
+R2
+R3
+R4
+Z10 8vhdl_src/std/textio.vhd
+Z11 Fvhdl_src/std/textio.vhd
+l0
+L12
+Vm2KQDRRhmF833<<DjYdL70
+R7
+Z12 o-2008 -work std -dirpath {$MODEL_TECH/..}
+R9
+!s100 9=H8XRm2GgHGk4^GSVfTD3
+Bbody
+DBx4 work 6 textio 0 22 m2KQDRRhmF833<<DjYdL70
+R1
+33
+R2
+l0
+L162
+VCbz:dGNX5zl`2nYKYBS>`3
+R7
+R12
+R9
+nbody
+!s100 9k9n?Y0BCW@M9E4=S3GCM2

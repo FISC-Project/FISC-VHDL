@@ -1,0 +1,668 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC
+T_opt
+Z1 VBjLi^fnaD1[HJ2a3Y47QS2
+Z2 04 3 3 work top rtl 1
+Z3 =1-70778131253f-58546efb-225-19f8
+Z4 o-quiet -auto_acc_if_foreign -work work
+Z5 n@_opt
+Z6 OE;O;6.5;42
+T_opt1
+Z7 VZJIUc]Q;W`h5?5:45Tc0e3
+R2
+Z8 =1-70778131253f-58587314-5b-1f28
+R4
+Z9 n@_opt1
+R6
+T_opt10
+Z10 VUlTT_=h6>KH2dXedWlYPm3
+R2
+Z11 =1-70778131253f-58587b56-139-1e98
+R4
+Z12 n@_opt10
+R6
+T_opt11
+Z13 VAM3j^_=X7K6j@J3C@kBlb3
+R2
+Z14 =1-70778131253f-58587b71-d5-100
+R4
+Z15 n@_opt11
+R6
+T_opt12
+Z16 Vo`JUlgY<b[1<[Ld3e2Qk?2
+R2
+Z17 =1-70778131253f-58587b86-358-1ad4
+R4
+Z18 n@_opt12
+R6
+T_opt13
+Z19 V]ObCSlnM?1ggojd5H;g1l3
+R2
+Z20 =1-70778131253f-58587bed-332-1fbc
+R4
+Z21 n@_opt13
+R6
+T_opt14
+Z22 VJLRT7Dd[ZKKeWg=IT<hCi2
+R2
+Z23 =1-70778131253f-58587c84-274-1f44
+R4
+Z24 n@_opt14
+R6
+T_opt15
+Z25 VUQk`CEZDCnUV?NV[HTf_^3
+R2
+Z26 =1-70778131253f-58587ca5-140-b28
+R4
+Z27 n@_opt15
+R6
+T_opt16
+Z28 VM6LJP_MiSe_?D_o4GQZBZ3
+R2
+Z29 =1-70778131253f-58587cb5-19b-20a4
+R4
+Z30 n@_opt16
+R6
+T_opt17
+Z31 VIhC2S7IHfEY57HcF;5FQo3
+R2
+Z32 =1-70778131253f-58587d19-374-1c68
+R4
+Z33 n@_opt17
+R6
+T_opt18
+Z34 V[4nQ_WCXFGJaU[lYhFQn62
+R2
+Z35 =1-70778131253f-58588b76-279-14ac
+R4
+Z36 n@_opt18
+R6
+T_opt19
+Z37 V:f=G:J_f:KQE>6S]]oQzD1
+R2
+Z38 =1-70778131253f-58588c14-297-b0c
+R4
+Z39 n@_opt19
+R6
+T_opt2
+Z40 V81mgjddLQYQXkJ9D<Eho>1
+R2
+Z41 =1-70778131253f-585874fa-203-1ed8
+R4
+Z42 n@_opt2
+R6
+T_opt20
+Z43 VeU4bXbVYVE6QX@9j>JYdY3
+R2
+Z44 =1-70778131253f-585898e9-170-1eb8
+R4
+Z45 n@_opt20
+R6
+T_opt21
+Z46 VI1[WV`WcYzcOEP5Y=Q=DS0
+R2
+Z47 =1-70778131253f-58595eb9-5b-116c
+R4
+Z48 n@_opt21
+R6
+T_opt22
+Z49 VflX]_hnmGM0F6_cXMnc2=2
+R2
+Z50 =1-70778131253f-58595ece-1fc-1f18
+R4
+Z51 n@_opt22
+R6
+T_opt23
+Z52 Vcai:GRA]XihoTkZ@195Bi0
+R2
+Z53 =1-70778131253f-58595f11-16e-14f8
+R4
+Z54 n@_opt23
+R6
+T_opt3
+Z55 V<YVKU8?G>L2QnTK<KYXGH3
+R2
+Z56 =1-70778131253f-58587736-38d-2130
+R4
+Z57 n@_opt3
+R6
+T_opt4
+Z58 VMf6monCg6c:z];JofdFn<2
+R2
+Z59 =1-70778131253f-5858775e-369-22f8
+R4
+Z60 n@_opt4
+R6
+T_opt5
+Z61 VecY3<FBQ1Mhz:NTLD95Jj3
+R2
+Z62 =1-70778131253f-5858798e-330-f58
+R4
+Z63 n@_opt5
+R6
+T_opt6
+Z64 VWloPibagAbT]W@OS0cSC:0
+R2
+Z65 =1-70778131253f-585879b5-313-232c
+R4
+Z66 n@_opt6
+R6
+T_opt7
+Z67 V9H30V^?D:ScFVHY[m?5Mg2
+R2
+Z68 =1-70778131253f-58587a15-282-12d0
+R4
+Z69 n@_opt7
+R6
+T_opt8
+Z70 Vzf?PI^_A^TM=L=XFb[YiD2
+R2
+Z71 =1-70778131253f-58587af4-1e7-1244
+R4
+Z72 n@_opt8
+R6
+T_opt9
+Z73 V8OeJ9F?JlZgaRbUjWKWOA2
+R2
+Z74 =1-70778131253f-58587b20-2e8-1dc0
+R4
+Z75 n@_opt9
+R6
+Ealu
+Z76 w1479925600
+Z77 DPx21 c:\modeltech_6.5\ieee 9 math_real 0 22 zjAF7SKfg_RPI0GT^n1N`1
+Z78 DPx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 fisc_defines 0 22 PnD?o5M[?k[n=YYo<H>FU3
+Z79 DPx21 c:\modeltech_6.5\ieee 15 std_logic_arith 0 22 GJbAT?7@hRQU9IQ702DT]2
+Z80 DPx21 c:\modeltech_6.5\ieee 18 std_logic_unsigned 0 22 hEMVMlaNCR^<OOoVNV;m90
+Z81 DPx21 c:\modeltech_6.5\ieee 11 numeric_std 0 22 =NSdli^?T5OD8;4F<blj<3
+Z82 DPx21 c:\modeltech_6.5\ieee 14 std_logic_1164 0 22 GH1=`jDDBJ=`LM;:Ak`kf2
+32
+Z83 8rtl/alu.vhd
+Z84 Frtl/alu.vhd
+l0
+L7
+Z85 V09a4Y4NRML?oYXnH61oA_1
+Z86 OE;C;6.5;42
+Z87 o-2002 -O5 -quiet
+Z88 tExplicit 1
+Z89 !s100 Sl_7Xb64hK4a_KL5mFP=Y2
+Artl
+R77
+R78
+R79
+R80
+R81
+R82
+Z90 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 3 alu 0 22 09a4Y4NRML?oYXnH61oA_1
+32
+Z91 Mx6 21 c:\modeltech_6.5\ieee 14 std_logic_1164
+Z92 Mx5 21 c:\modeltech_6.5\ieee 11 numeric_std
+Z93 Mx4 21 c:\modeltech_6.5\ieee 18 std_logic_unsigned
+Z94 Mx3 21 c:\modeltech_6.5\ieee 15 std_logic_arith
+Z95 Mx2 134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 fisc_defines
+Z96 Mx1 21 c:\modeltech_6.5\ieee 9 math_real
+l29
+L21
+Z97 VPDH]^jOkVaGjGGWTKdJ1E0
+R86
+R87
+R88
+Z98 !s100 J15MG;6[L9jO=:2=0zlQD0
+Efisc
+Z99 w1481932449
+R77
+R78
+R82
+32
+Z100 8rtl/fisc.vhd
+Z101 Frtl/fisc.vhd
+l0
+L5
+Z102 VlKP98`0ZXcHABS9;Z?e9n2
+R86
+R87
+R88
+Z103 !s100 Mg^b?5clFI=YzDMSG7m[S3
+Artl
+Z104 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 5 flags 0 22 L35Qm_7`l60PlYNFn6z:<0
+Z105 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 6 memory 0 22 15<1c?_4V7LzX^dV^BY0Q2
+Z106 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 16 stage5_writeback 0 22 <4HBKl77CC;9Q<z9jk1<M2
+Z107 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 20 stage4_memory_access 0 22 cEa@?aQ:gRbF;hS[Alo330
+Z108 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 14 stage3_execute 0 22 ?j>hH3a>I9nf^=d7a]oZb1
+Z109 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 13 stage2_decode 0 22 Eh3@8nZfTX^NeR6QLW84]2
+R81
+R79
+R80
+Z110 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 stage1_fetch 0 22 Iz?EEbE=C:iP_WR[J23Oo0
+R77
+R78
+R82
+Z111 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 4 fisc 0 22 lKP98`0ZXcHABS9;Z?e9n2
+32
+R91
+Mx5 134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 fisc_defines
+Mx4 21 c:\modeltech_6.5\ieee 9 math_real
+Z112 Mx3 21 c:\modeltech_6.5\ieee 18 std_logic_unsigned
+Z113 Mx2 21 c:\modeltech_6.5\ieee 15 std_logic_arith
+Mx1 21 c:\modeltech_6.5\ieee 11 numeric_std
+l127
+L13
+Z114 VJ]>_AaoeFmI_^X`<fjlBD1
+R86
+R87
+R88
+Z115 !s100 JQ:`CN5o=C7m0XWfV8cGf2
+Pfisc_defines
+R77
+R82
+32
+Mx2 21 c:\modeltech_6.5\ieee 14 std_logic_1164
+R96
+Z116 w1480024633
+Z117 8rtl/defines.vhd
+Z118 Frtl/defines.vhd
+l0
+L5
+Z119 VPnD?o5M[?k[n=YYo<H>FU3
+R86
+R87
+R88
+Z120 !s100 O?eV18N]F8dfARlk=`gJ00
+Eflags
+Z121 w1479926019
+R82
+32
+Z122 8rtl/flags.vhd
+Z123 Frtl/flags.vhd
+l0
+L4
+Z124 VL35Qm_7`l60PlYNFn6z:<0
+R86
+R87
+R88
+Z125 !s100 Wm8h4KzU3G<AkR:5m6TX91
+Artl
+R82
+R104
+32
+Z126 Mx1 21 c:\modeltech_6.5\ieee 14 std_logic_1164
+l24
+L19
+Z127 VTS>>B4PAbje;oUE:4YB^G0
+R86
+R87
+R88
+Z128 !s100 BE4Qdb]@8[dnm4H5=04=k2
+Ememory
+Z129 w1481929787
+R82
+32
+Z130 8rtl/memory.vhd
+Z131 Frtl/memory.vhd
+l0
+L4
+Z132 V15<1c?_4V7LzX^dV^BY0Q2
+R86
+R87
+R88
+Z133 !s100 W@<kMd<SlS5JCMTbdelcM1
+Artl
+R82
+R105
+32
+xfOa
+R126
+l24
+L20
+Z134 Vn@nPB0YUG[lbCI49nmj2b3
+R86
+R87
+R88
+Z135 !s100 lebZb=hD_Sfez;G3]lQ3[3
+Emicrocode
+Z136 w1481415978
+R77
+R78
+R79
+R80
+R81
+R82
+32
+Z137 8rtl/microcode.vhd
+Z138 Frtl/microcode.vhd
+l0
+L7
+Z139 VM_QQn@a21c?[;J2Igd=VC0
+R86
+R87
+R88
+Z140 !s100 nRle@?zQU`i^PJe<;zXW30
+Artl
+R77
+R78
+R79
+R80
+R81
+R82
+Z141 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 9 microcode 0 22 M_QQn@a21c?[;J2Igd=VC0
+32
+R91
+R92
+R93
+R94
+R95
+R96
+l325
+L17
+Z142 V;aoMkMahgK7PeLNHPWo?<2
+R86
+R87
+R88
+Z143 !s100 QX:K6`CIcLDVIMWCZ3jdT1
+Eprogram_counter
+Z144 w1481945647
+R77
+R78
+R79
+R80
+R82
+32
+Z145 8rtl/stage1_fetch.vhd
+Z146 Frtl/stage1_fetch.vhd
+l0
+L6
+Z147 V4]8WKz@JaoC7o4:9d`cTA1
+R86
+R87
+R88
+Z148 !s100 KH_:IN=SCW73iOnf<?0VS2
+Artl
+R77
+R78
+R79
+R80
+R82
+Z149 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 15 program_counter 0 22 4]8WKz@JaoC7o4:9d`cTA1
+32
+Z150 Mx5 21 c:\modeltech_6.5\ieee 14 std_logic_1164
+R93
+R94
+R95
+R96
+l18
+L16
+Z151 V26>>L_VeiCgi1W]^;h76I3
+R86
+R87
+R88
+Z152 !s100 oHeMIF[m^Mo:lKjSObj2c2
+Eregfile
+Z153 w1479926519
+R78
+R79
+R80
+R81
+R82
+R77
+32
+Z154 8rtl/registers.vhd
+Z155 Frtl/registers.vhd
+l0
+L8
+Z156 Vobhk37:Jb9:[jRnXeiN@a2
+R86
+R87
+R88
+Z157 !s100 FYUC^P;=G?ZQnB2VfnEC53
+Artl
+R78
+R79
+R80
+R81
+R82
+R77
+Z158 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 7 regfile 0 22 obhk37:Jb9:[jRnXeiN@a2
+32
+Z159 Mx6 21 c:\modeltech_6.5\ieee 9 math_real
+R150
+Z160 Mx4 21 c:\modeltech_6.5\ieee 11 numeric_std
+R112
+R113
+Z161 Mx1 134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 fisc_defines
+l27
+L24
+Z162 VBE>`<@i;nYMJ0SBjHh0gn1
+R86
+R87
+R88
+Z163 !s100 2J:Yfe@7_ziR6:5BOl<1e3
+Estage1_fetch
+R144
+R77
+R78
+R81
+R79
+R80
+R82
+32
+R145
+R146
+l0
+L39
+Z164 VIz?EEbE=C:iP_WR[J23Oo0
+R86
+R87
+R88
+Z165 !s100 I>ZzhHE4CWT1:F>F[f0373
+Artl
+R149
+R77
+R78
+R81
+R79
+R80
+R82
+R110
+32
+R91
+Mx5 21 c:\modeltech_6.5\ieee 18 std_logic_unsigned
+Mx4 21 c:\modeltech_6.5\ieee 15 std_logic_arith
+Mx3 21 c:\modeltech_6.5\ieee 11 numeric_std
+R95
+R96
+l63
+L57
+Z166 VEaGWFj;a@jjPBH8A;RI9m3
+R86
+R87
+R88
+Z167 !s100 =nHjj8<WDngETJJC89_6M0
+Estage2_decode
+Z168 w1481418137
+R78
+R81
+R79
+R80
+R77
+R82
+32
+Z169 8rtl/stage2_decode.vhd
+Z170 Frtl/stage2_decode.vhd
+l0
+L8
+Z171 VEh3@8nZfTX^NeR6QLW84]2
+R86
+R87
+R88
+Z172 !s100 2ig=ei=`R<3m^n=REbXE;2
+Artl
+R158
+R141
+R78
+R81
+R79
+R80
+R77
+R82
+R109
+32
+R91
+Mx5 21 c:\modeltech_6.5\ieee 9 math_real
+R93
+R94
+Mx2 21 c:\modeltech_6.5\ieee 11 numeric_std
+R161
+l63
+L43
+Z173 V1?OdBJAO1]Rb1m?gnPM8W2
+R86
+R87
+R88
+Z174 !s100 X9:hQA2mh3OTVG8KZzKfo1
+Estage3_execute
+Z175 w1479926426
+R78
+R79
+R80
+R81
+R82
+R77
+32
+Z176 8rtl/stage3_execute.vhd
+Z177 Frtl/stage3_execute.vhd
+l0
+L8
+Z178 V?j>hH3a>I9nf^=d7a]oZb1
+R86
+R87
+R88
+Z179 !s100 a67z:X3UDR@SLgjKkiAnB3
+Artl
+R90
+R78
+R79
+R80
+R81
+R82
+R77
+R108
+32
+R159
+R150
+R160
+R112
+R113
+R161
+l55
+L46
+Z180 V<Hi4To?M?H?GD2QB2WlmX3
+R86
+R87
+R88
+Z181 !s100 CnQDFHibjmVUjWBT3I26;2
+Estage4_memory_access
+Z182 w1481839804
+R77
+R78
+R79
+R80
+R81
+R82
+32
+Z183 8rtl/stage4_memory_access.vhd
+Z184 Frtl/stage4_memory_access.vhd
+l0
+L7
+Z185 VcEa@?aQ:gRbF;hS[Alo330
+R86
+R87
+R88
+Z186 !s100 z_a=LZHi5Le=@]zZzeXaN2
+Artl
+R77
+R78
+R79
+R80
+R81
+R82
+R107
+32
+R91
+R92
+R93
+R94
+R95
+R96
+l30
+L29
+Z187 VncPA:WOFNW=P;=5zhcjnR0
+R86
+R87
+R88
+Z188 !s100 f8RaB88l2Wh<ciLQV13Ac3
+Estage5_writeback
+Z189 w1476807505
+R77
+R78
+R82
+32
+Z190 8rtl/stage5_writeback.vhd
+Z191 Frtl/stage5_writeback.vhd
+l0
+L5
+Z192 V<4HBKl77CC;9Q<z9jk1<M2
+R86
+R87
+R88
+Z193 !s100 @W;hh`E8o=TSP7N5HJBXT0
+Artl
+R77
+R78
+R82
+R106
+32
+Z194 Mx3 21 c:\modeltech_6.5\ieee 14 std_logic_1164
+R95
+R96
+l16
+L15
+Z195 Vf2z]@RO?I5dJfi>oH=cKO2
+R86
+R87
+R88
+Z196 !s100 PP@6E`L:CCC3bVOeFH`T22
+Etop
+Z197 w1481928620
+R77
+R78
+R82
+32
+Z198 8rtl/top.vhd
+Z199 Frtl/top.vhd
+l0
+L5
+Z200 VE^T:EIjUkW>CBM7hS@4SO1
+R86
+R87
+R88
+Z201 !s100 _OYDi4f5OO3W@N0<T@kgE1
+Artl
+R111
+R77
+R78
+R82
+DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 3 top 0 22 E^T:EIjUkW>CBM7hS@4SO1
+32
+R194
+R95
+R96
+l14
+L7
+Z202 V[@BnbMBFz6VOa302gWUV?0
+R86
+R87
+R88
+Z203 !s100 A`Q[BJER7`A7zWTF;LJel3

@@ -13,7 +13,11 @@
 #define WINDOW_WIDTH  800
 #define WINDOW_HEIGHT 600
 
-char vga_init(void);
-char vga_deinit(void);
+#define LINEAR_FRAMEBUFFER_SIZE WINDOW_WIDTH * WINDOW_HEIGHT * 4
+
+int vga_init(void * arg);
+void vga_deinit(void);
+char vga_write(uint32_t local_ioaddr, uint64_t data, uint8_t access_width);
+uint64_t vga_read(uint32_t local_ioaddr, uint8_t access_width);
 
 #endif /* SRC_MACHINE_IODEVICES_VGA_H_ */

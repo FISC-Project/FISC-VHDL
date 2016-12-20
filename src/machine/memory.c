@@ -30,18 +30,9 @@ typedef struct {
 	mtiSignalIdT access_width;
 } memory_t;
 
-enum DATATYPE {
-	SZ_8, SZ_16, SZ_32, SZ_64
-};
-
 uint8_t memory_contents[MEMORY_DEPTH]; /* The actual Main Memory */
 
-#define ALIGN16(addr) ((addr)*2)
-#define ALIGN32(addr) ((addr)*4)
-#define ALIGN64(addr) ((addr)*8)
-
-#define MEMORY_DATA_OUT_BUFF_SIZE MAX_INTEGER_SIZE
-char read_memory_ret[MEMORY_DATA_OUT_BUFF_SIZE+1];
+char read_memory_ret[MAX_INTEGER_SIZE+1];
 
 char write_memory(uint32_t address, uint64_t data, uint8_t access_width) {
 	if(address >= MEMORY_DEPTH) return 0;
@@ -76,9 +67,9 @@ char write_memory(uint32_t address, uint64_t data, uint8_t access_width) {
 
 char * read_memory(uint32_t address, uint8_t access_width) {
 	/* Zero out the whole memory data out buffer */
-	for(int i = 0; i < MEMORY_DATA_OUT_BUFF_SIZE; i++)
+	for(int i = 0; i < MAX_INTEGER_SIZE; i++)
 		read_memory_ret[i] = 2; /* this is a 0 when it's a std_logic variable */
-	read_memory_ret[MEMORY_DATA_OUT_BUFF_SIZE] = '\0'; /* End of the Buffer */
+	read_memory_ret[MAX_INTEGER_SIZE] = '\0'; /* End of the Buffer */
 
 	switch(access_width) {
 		case SZ_8:  if(address >= MEMORY_DEPTH) return read_memory_ret; break;
@@ -277,6 +268,7 @@ void on_clock(void * param) {
 }
 
 void fli_quit_callback(void * param) {
+	SDL_Delay(10000);
 	printf("\n> Closing up FLI C interface");
 	io_controller_deinit();
 	fflush(stdout);

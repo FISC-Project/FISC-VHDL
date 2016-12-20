@@ -10,6 +10,8 @@
 
 #include <stdint.h>
 
+#define IODEVICE_COUNT 1
+
 char io_controller_init(void);
 char io_controller_deinit(void);
 char io_wr_dispatch(uint32_t phys_addr, uint64_t data, uint8_t access_width);

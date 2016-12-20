@@ -23,7 +23,7 @@ FLASM = toolchain/Windows/Tools/flasm
 CFLAGS = -I. -Ilib/c_libs -Ilib/c_libs/include -Ilib/c_libs/SDL -I$(MODELSIM_PATH)/include -g -O2 -Wall -std=c99
 
 # Virtual Machine's object files:
-VMOBJS = $(OBJ)/memory.o $(OBJ)/virtual_memory.o $(OBJ)/utils.o $(OBJ)/io_controller.o $(OBJ)/vga.o
+VMOBJS = $(OBJ)/memory.o $(OBJ)/virtual_memory.o $(OBJ)/utils.o $(OBJ)/tinycthread.o $(OBJ)/io_controller.o $(OBJ)/vga.o
 
 BOOTLOADER:
 	@printf "> Compiling Bootloader: "
@@ -36,6 +36,7 @@ BINS = $(OBJ)/io_controller.o \
 	$(OBJ)/utils.o \
 	$(OBJ)/virtual_memory.o \
 	$(OBJ)/vga.o \
+	$(OBJ)/tinycthread.o \
 	$(OBJ)/foo.o 
 
 $(OBJ)/io_controller.o: ./src/machine/io_controller.c
@@ -56,6 +57,10 @@ $(OBJ)/virtual_memory.o: ./src/machine/virtual_memory.c
 
 $(OBJ)/vga.o: ./src/machine/iodevices/vga.c
 	@printf "> Compiling C file 'src/machine/iodevices/vga.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
+$(OBJ)/tinycthread.o: ./src/machine/tinycthread/tinycthread.c
+	@printf "> Compiling C file 'src/machine/tinycthread/tinycthread.c': "
 	gcc $(CFLAGS) -c $< -o $@
 
 $(OBJ)/foo.o: ./src/userapps/foo.c
@@ -113,6 +118,8 @@ clean:
 	$(RM) transcript
 	$(RM) modelsim.ini
 	$(RM) SDL2.dll
+	$(RM) wlf*
+	$(RM) top.*
 
 clean_waves:
 	@printf "\n>> Cleaning wave (VCD) files <<\n"

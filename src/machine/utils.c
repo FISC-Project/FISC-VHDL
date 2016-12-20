@@ -5,6 +5,7 @@
  *      Author: Miguel
  */
 #include <string.h>
+#include "utils.h"
 
 char * int2bin(int a, char *buffer, int buf_size) {
     buffer += (buf_size - 1);
@@ -13,6 +14,18 @@ char * int2bin(int a, char *buffer, int buf_size) {
         a >>= 1;
     }
     return buffer;
+}
+
+char * int2bin64(uint64_t a, char *buffer, int buf_size) {
+	uint64_t j = 63;
+	for(uint64_t i = 0; i < 64; i++) {
+		uint64_t r = a & (1ULL<<i);
+		if((uint32_t)r)
+			buffer[j--] = '1';
+		else
+			buffer[j--] = '0';
+	}
+	return buffer;
 }
 
 void reverse_string(char *str) {

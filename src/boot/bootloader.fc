@@ -1,8 +1,9 @@
 nop nop
 
-ADDI X0, XZR, 10; // Data
-MOVI X1, 0x1000;  // Address
-STUR X0, [X1, 0]; // Store
+MOVI X0, 0xFFFFFF; // Data (white pixel)
+MOVI X1, 0x5000;   // VGA Address
 
-LDUR X2, [X1, 0]; // Load it back
-HALT
+Jump:
+	STURW X0, [X1, 0]; // Store
+	INC X1;            // Write to next pixel
+B Jump
