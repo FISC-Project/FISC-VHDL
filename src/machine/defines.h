@@ -8,6 +8,8 @@
 #ifndef SRC_MACHINE_DEFINES_H_
 #define SRC_MACHINE_DEFINES_H_
 
+#define MODELSIM_EXECUTION_TIME 100 /* How long will the Simulator run (in nanoseconds scale) */
+
 #define MAX_INTEGER_SIZE 64
 
 enum DATATYPE {
@@ -22,6 +24,8 @@ enum DATATYPE {
 
 #if IS_WINDOWS
 #include <i686-w64-mingw32/include/SDL2/SDL.h>
+#include <windows.h>
+#include <winbase.h>
 #else
 #include <SDL.h>
 #endif

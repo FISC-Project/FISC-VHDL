@@ -152,7 +152,21 @@ enum ADDR_SPACE_T address_decode(uint32_t address) {
 	return SPACE_MMEM;
 }
 
+void fli_cleanup(void) {
+	printf("\n> Closing up FLI C interface");
+	io_controller_deinit();
+	fflush(stdout);
+	SDL_Quit();
+}
+
 void on_clock(void * param) {
+	static uint64_t clock_ctr = 0;
+	if(clock_ctr++ >= MODELSIM_EXECUTION_TIME) {
+		fli_cleanup();
+		mti_Quit();
+		return;
+	}
+
 	memory_t * ip = (memory_t *) param;
 	_Bool clk = sig_to_int(ip->clk);
 	int en = sigv_to_int(ip->en);
@@ -267,21 +281,12 @@ void on_clock(void * param) {
 	}
 }
 
-void fli_quit_callback(void * param) {
-	printf("\n> Closing up FLI C interface");
-	io_controller_deinit();
-	fflush(stdout);
-	SDL_Quit();
-}
-
 void memory_init(
 	mtiRegionIdT region,
 	char * param,
 	mtiInterfaceListT * generics,
 	mtiInterfaceListT * ports
 ) {
-	mti_AddQuitCB(fli_quit_callback, 0);
-
 	load_memory();
 
 	if(SDL_Init(SDL_INIT_EVERYTHING) != 0)

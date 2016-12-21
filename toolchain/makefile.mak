@@ -6,7 +6,7 @@ VDEL = $(MODELSIM_EXE_PATH)/vdel
 VLIB = $(MODELSIM_EXE_PATH)/vlib
 VMAP = $(MODELSIM_EXE_PATH)/vmap
 VSIM = $(MODELSIM_EXE_PATH)/vsim
-VSIMCOMMANDS = log -r top/*; run 100 ns; quit -sim
+VSIMCOMMANDS = log -r top/*; run 60000ms; quit -sim
 
 ifeq ($(OS),Windows_NT)
 	SDL_LIB_PATH = -Llib/c_libs/SDL/i686-w64-mingw32/lib -lmingw32 -lSDL2 -lSDL2main
@@ -72,24 +72,24 @@ $(OBJ)/foo.o: ./src/userapps/foo.c
 ##### Main rules:
 
 all: BOOTLOADER $(BINS)
-	@printf "\n> Linking the Virtual Machine's object files into a shared library: "
+	@printf "> Linking the Virtual Machine's object files into a shared library: "
 	gcc -shared -Wl,-Bsymbolic -Wl,-export-all-symbols -std=c99 -m32 -o $(BIN)/libvm.dll $(VMOBJS) $(FLI_LIB_PATH) $(SDL_LIB_PATH)
 
 	@printf "\n> Compiling VHDL code: "
 	
-	$(VCOM) -2002 -O5 -quiet rtl/defines.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/memory.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/alu.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/flags.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/microcode.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/registers.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/stage1_fetch.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/stage2_decode.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/stage3_execute.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/stage4_memory_access.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/stage5_writeback.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/fisc.vhd
-	$(VCOM) -2002 -O5 -quiet rtl/top.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/defines.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/memory.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/alu.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/flags.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/microcode.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/registers.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/stage1_fetch.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/stage2_decode.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/stage3_execute.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/stage4_memory_access.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/stage5_writeback.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/fisc.vhd
+	$(VCOM) -2008 -O5 -quiet rtl/top.vhd
 	
 	@$(RM) modelsim.ini
 	@printf "\n>> DONE COMPILING <<"

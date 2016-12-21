@@ -9,13 +9,21 @@
 #include "../defines.h"
 #include "vga.h"
 
+#if IS_WINDOWS
+#define _TTHREAD_WIN32_
+#endif
+#include "../tinycthread/tinycthread.h"
+
 SDL_Window   * window = 0;
 SDL_Renderer * renderer;
 SDL_Texture  * texture;
 
 char renderbuffer[LINEAR_FRAMEBUFFER_SIZE];
 
-volatile char device_running = 1;
+char device_running = 1;
+char device_open    = 0;
+
+mtx_t mutex;
 
 volatile uint32_t internal_local_ioaddr = 0;
 volatile uint64_t internal_data = 0;
@@ -26,7 +34,7 @@ volatile uint8_t  internal_rd = 0;
 volatile uint64_t external_rd = 0;
 
 char vga_write(uint32_t local_ioaddr, uint64_t data, uint8_t access_width) {
-	static char first = 2; /* This variable will fix the bug where the 2nd pixel does not get drawn */
+	static char first = 2; /* TODO: This variable temporarily fixes a threading bug */
 	internal_local_ioaddr = local_ioaddr;
 	internal_data = data;
 	internal_access_width = access_width;
@@ -44,6 +52,7 @@ char vga_write(uint32_t local_ioaddr, uint64_t data, uint8_t access_width) {
 
 char vga_local_write(uint32_t local_ioaddr, uint64_t data, uint8_t access_width) {
 	if(local_ioaddr < LINEAR_FRAMEBUFFER_SIZE) {
+		device_open = 1;
 		int pitch = WINDOW_WIDTH*4;
 
 		uint32_t format;
@@ -77,6 +86,7 @@ char vga_local_write(uint32_t local_ioaddr, uint64_t data, uint8_t access_width)
 			}
 			default: return 0;
 		}
+
 		SDL_FreeFormat(fmt);
 		SDL_UnlockTexture(texture);
 	}
@@ -148,10 +158,6 @@ void vga_poll() {
 			if(evt.type == SDL_QUIT)
 				device_running = 0;
 	}
-
-	SDL_DestroyTexture(texture);
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
 }
 
 int vga_init(void * arg) {
@@ -160,6 +166,8 @@ int vga_init(void * arg) {
 		printf("\n> ERROR (SDL): Window could not be created! SDL Error: %s\n", SDL_GetError());
 		return 0;
 	}
+
+	mtx_init(&mutex, mtx_plain);
 
 	SDL_SetWindowTitle(window, WINDOW_TITLE);
 	SDL_Surface * icon = SDL_LoadBMP(WINDOW_ICON);
@@ -172,9 +180,18 @@ int vga_init(void * arg) {
 	SDL_RenderPresent(renderer);
 	texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_TARGET, WINDOW_WIDTH, WINDOW_HEIGHT);
 	vga_poll();
+
+	/* Clean up everything: */
+	SDL_DestroyTexture(texture);
+	SDL_DestroyRenderer(renderer);
+	mtx_destroy(&mutex);
+	thrd_exit(0);
 	return 1;
 }
 
 void vga_deinit(void) {
+	if(!device_open) return;
+	mtx_lock(&mutex);
 	device_running = 0;
+	mtx_unlock(&mutex);
 }
