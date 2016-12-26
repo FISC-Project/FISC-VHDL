@@ -1,4 +1,4 @@
-MODELSIM_PATH = C:\modeltech_6.5
+MODELSIM_PATH = C:\MentorGraphics
 MODELSIM_EXE_PATH = $(MODELSIM_PATH)/win32
 FLI_LIB_PATH = $(MODELSIM_EXE_PATH)/mtipli.dll
 VCOM = $(MODELSIM_EXE_PATH)/vcom
@@ -23,7 +23,7 @@ FLASM = toolchain/Windows/Tools/flasm
 CFLAGS = -I. -Ilib/c_libs -Ilib/c_libs/include -Ilib/c_libs/SDL -I$(MODELSIM_PATH)/include -g -O2 -Wall -std=c99
 
 # Virtual Machine's object files:
-VMOBJS = $(OBJ)/memory.o $(OBJ)/virtual_memory.o $(OBJ)/utils.o $(OBJ)/tinycthread.o $(OBJ)/io_controller.o $(OBJ)/vga.o
+VMOBJS = $(OBJ)/memory.o $(OBJ)/virtual_memory.o $(OBJ)/utils.o $(OBJ)/tinycthread.o $(OBJ)/io_controller.o $(OBJ)/vga.o $(OBJ)/timer.o
 
 BOOTLOADER:
 	@printf "> Compiling Bootloader: "
@@ -35,6 +35,7 @@ BINS = $(OBJ)/io_controller.o \
 	$(OBJ)/memory.o \
 	$(OBJ)/utils.o \
 	$(OBJ)/virtual_memory.o \
+	$(OBJ)/timer.o \
 	$(OBJ)/vga.o \
 	$(OBJ)/tinycthread.o \
 	$(OBJ)/foo.o 
@@ -53,6 +54,10 @@ $(OBJ)/utils.o: ./src/machine/utils.c
 
 $(OBJ)/virtual_memory.o: ./src/machine/virtual_memory.c
 	@printf "> Compiling C file 'src/machine/virtual_memory.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
+$(OBJ)/timer.o: ./src/machine/iodevices/timer.c
+	@printf "> Compiling C file 'src/machine/iodevices/timer.c': "
 	gcc $(CFLAGS) -c $< -o $@
 
 $(OBJ)/vga.o: ./src/machine/iodevices/vga.c
@@ -77,19 +82,19 @@ all: BOOTLOADER $(BINS)
 
 	@printf "\n> Compiling VHDL code: "
 	
-	$(VCOM) -2008 -O5 -quiet rtl/defines.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/memory.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/alu.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/flags.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/microcode.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/registers.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/stage1_fetch.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/stage2_decode.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/stage3_execute.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/stage4_memory_access.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/stage5_writeback.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/fisc.vhd
-	$(VCOM) -2008 -O5 -quiet rtl/top.vhd
+	$(VCOM) -2002 -quiet rtl/defines.vhd
+	$(VCOM) -2002 -quiet rtl/memory.vhd
+	$(VCOM) -2002 -quiet rtl/alu.vhd
+	$(VCOM) -2002 -quiet rtl/flags.vhd
+	$(VCOM) -2002 -quiet rtl/microcode.vhd
+	$(VCOM) -2002 -quiet rtl/registers.vhd
+	$(VCOM) -2002 -quiet rtl/stage1_fetch.vhd
+	$(VCOM) -2002 -quiet rtl/stage2_decode.vhd
+	$(VCOM) -2002 -quiet rtl/stage3_execute.vhd
+	$(VCOM) -2002 -quiet rtl/stage4_memory_access.vhd
+	$(VCOM) -2002 -quiet rtl/stage5_writeback.vhd
+	$(VCOM) -2002 -quiet rtl/fisc.vhd
+	$(VCOM) -2002 -quiet rtl/top.vhd
 	
 	@$(RM) modelsim.ini
 	@printf "\n>> DONE COMPILING <<"

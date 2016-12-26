@@ -64,22 +64,22 @@ char vga_local_write(uint32_t local_ioaddr, uint64_t data, uint8_t access_width)
 
 		switch(access_width) {
 			case SZ_8: {
-				uint32_t * ptr = (uint32_t*)&renderbuffer[ALIGN16(local_ioaddr)];
+				uint32_t * ptr = (uint32_t*)&renderbuffer[local_ioaddr];
 				*ptr = SDL_MapRGB(fmt, 0, 0, (uint8_t) data & 0xFF);
 				break;
 			}
 			case SZ_16: {
-				uint32_t * ptr = (uint32_t*)&renderbuffer[ALIGN16(local_ioaddr)];
+				uint32_t * ptr = (uint32_t*)&renderbuffer[local_ioaddr];
 				*ptr = SDL_MapRGB(fmt, 0, (uint8_t)((data & 0xFF00) >> 8), (uint8_t) data & 0xFF);
 				break;
 			}
 			case SZ_32: {
-				uint32_t * ptr = (uint32_t*)&renderbuffer[ALIGN32(local_ioaddr)];
+				uint32_t * ptr = (uint32_t*)&renderbuffer[local_ioaddr];
 				*ptr = SDL_MapRGB(fmt, (uint8_t)((data & 0xFF0000) >> 16), (uint8_t)((data & 0xFF00) >> 8), (uint8_t) data & 0xFF);
 				break;
 			}
 			case SZ_64: {
-				uint32_t * ptr = (uint32_t*)&renderbuffer[ALIGN64(local_ioaddr)];
+				uint32_t * ptr = (uint32_t*)&renderbuffer[local_ioaddr];
 				ptr[0] = SDL_MapRGB(fmt, (uint8_t)((data & 0xFF000000000000) >> 48), (uint8_t)((data & 0xFF0000000000) >> 40), (uint8_t)((data & 0xFF00000000) >> 32));
 				ptr[1] = SDL_MapRGB(fmt, (uint8_t)((data & 0xFF0000) >> 16), (uint8_t)((data & 0xFF00) >> 8), (uint8_t) data & 0xFF);
 				break;
@@ -114,22 +114,22 @@ uint64_t vga_local_read(uint32_t local_ioaddr, uint8_t access_width) {
 	case SZ_8:
 		return (uint64_t)renderbuffer[local_ioaddr];
 	case SZ_16:
-		return (uint64_t)(((uint8_t)renderbuffer[ALIGN16(local_ioaddr)] << 8) |
-				(uint8_t)renderbuffer[ALIGN16(local_ioaddr)+1]);
+		return (uint64_t)(((uint8_t)renderbuffer[local_ioaddr] << 8) |
+				(uint8_t)renderbuffer[local_ioaddr+1]);
 	case SZ_32:
 		return  (uint64_t)(((uint8_t)(renderbuffer[local_ioaddr]) << 24) |
-				((uint8_t)(renderbuffer[ALIGN32(local_ioaddr)+1]) << 16) |
-				((uint8_t)(renderbuffer[ALIGN32(local_ioaddr)+2]) << 8)  |
-				(uint8_t)(renderbuffer[ALIGN32(local_ioaddr)+3]));
+				((uint8_t)(renderbuffer[local_ioaddr+1]) << 16) |
+				((uint8_t)(renderbuffer[local_ioaddr+2]) << 8)  |
+				(uint8_t)(renderbuffer[local_ioaddr+3]));
 	case SZ_64:
-		return (uint64_t)(((uint64_t)(renderbuffer[ALIGN64(local_ioaddr)]) << 56) |
-				((uint64_t)renderbuffer[ALIGN64(local_ioaddr)+1] << 48) |
-				((uint64_t)renderbuffer[ALIGN64(local_ioaddr)+2] << 40) |
-				((uint64_t)renderbuffer[ALIGN64(local_ioaddr)+3] << 32) |
-				((uint64_t)renderbuffer[ALIGN64(local_ioaddr)+4] << 24) |
-				((uint64_t)renderbuffer[ALIGN64(local_ioaddr)+5] << 16) |
-				((uint64_t)renderbuffer[ALIGN64(local_ioaddr)+6] << 8)  |
-				 (uint64_t)renderbuffer[ALIGN64(local_ioaddr)+7]);
+		return (uint64_t)(((uint64_t)(renderbuffer[local_ioaddr]) << 56) |
+				((uint64_t)renderbuffer[local_ioaddr+1] << 48) |
+				((uint64_t)renderbuffer[local_ioaddr+2] << 40) |
+				((uint64_t)renderbuffer[local_ioaddr+3] << 32) |
+				((uint64_t)renderbuffer[local_ioaddr+4] << 24) |
+				((uint64_t)renderbuffer[local_ioaddr+5] << 16) |
+				((uint64_t)renderbuffer[local_ioaddr+6] << 8)  |
+				 (uint64_t)renderbuffer[local_ioaddr+7]);
 	default: return (uint64_t)-1;
 	}
 }

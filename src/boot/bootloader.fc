@@ -1,7 +1,7 @@
 nop nop
 
 MOVI X0, 0xFFFFFF; // Data (white pixel)
-MOVI X1, 0x5000;   // VGA Address
+MOVI X1, 0x400;   // IO Space Address
 
 Jump:
 	STURW X0, [X1, 0]; // Store

@@ -7,16 +7,12 @@
 #include "defines.h"
 #include "io_controller.h"
 #include "address_space.h"
-#include "iodevices/vga.h"
 #include "utils.h"
 #include "tinycthread/tinycthread.h"
-#include <stdio.h>
 
 #define ALIGN_IOADDR(phys_addr) (phys_addr - IOSPACE)
 
 char io_rd_dispatch_ret[MAX_INTEGER_SIZE+1];
-
-thrd_t io_threads[IODEVICE_COUNT];
 
 typedef struct iodev {
 	int (*init)(void*);
@@ -27,9 +23,12 @@ typedef struct iodev {
 	const int space_len;
 } iodev_t;
 
-iodev_t devices[IODEVICE_COUNT] = {
-	{vga_init, vga_deinit, vga_write, vga_read, 0, LINEAR_FRAMEBUFFER_SIZE} /* Create VGA Device */
+iodev_t devices[] = {
+	{timer_init, timer_deinit, timer_write, timer_read, 0, TIMER_IOSPACE}, /* Create Timer Device */
+	{vga_init, vga_deinit, vga_write, vga_read, TIMER_IOSPACE, LINEAR_FRAMEBUFFER_SIZE}, /* Create VGA Device */
 };
+
+thrd_t io_threads[IODEVICE_COUNT];
 
 char io_controller_init(void) {
 	for(int i = 0; i < IODEVICE_COUNT; i++)
