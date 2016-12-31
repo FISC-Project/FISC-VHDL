@@ -88,13 +88,35 @@ ARCHITECTURE RTL OF FISC IS
 	signal wb_writeback_data : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	--------------------------------------------
 	
+	-- CPSR Wires ----------------------------------
 	-- Flag Outputs / Condition Codes --
-	signal flag_neg   : std_logic; -- Condition code
-	signal flag_zero  : std_logic; -- Condition code
-	signal flag_overf : std_logic; -- Condition code
-	signal flag_carry : std_logic; -- Condition code
+	signal flag_neg     : std_logic; -- Condition code
+	signal flag_zero    : std_logic; -- Condition code
+	signal flag_overf   : std_logic; -- Condition code
+	signal flag_carry   : std_logic; -- Condition code
 	------------------------------------
-	
+	-- Alignment Wires --
+	signal ae_flag      : std_logic;
+	---------------------
+	-- Paging Wires --
+	signal pg_flag      : std_logic;
+	------------------
+	-- Interrupt Enable Mask Wires --
+	signal ien_flags    : std_logic_vector(1 downto 0);
+	---------------------------------
+	-- CPU Mode Wires --
+	signal cpu_mode_flags : std_logic_vector(2 downto 0);
+	--------------------
+	-- CPSR Read/Write Wires --
+	signal cpsr_wr      : std_logic := '0';
+	signal cpsr_rd      : std_logic := '0';
+	signal cpsr_wr_in   : std_logic_vector(10 downto 0) := (others => '0');
+	signal cpsr_rd_out  : std_logic_vector(10 downto 0);
+	signal cpsr_field   : std_logic_vector(4 downto 0) := (others => '0');
+	signal cpsr_or_spsr : std_logic := '0';
+	---------------------------
+	------------------------------------------------
+
 	--------------------------------------------------------------------------------------------------------------
 	-- Control Wires (from Microcode Unit, can also be considered the inner pipeline layer of the decode stage)
 	signal aluop     : std_logic_vector(1 downto 0) := "00";
@@ -124,6 +146,13 @@ ARCHITECTURE RTL OF FISC IS
 	signal mem_data_out2         : std_logic_vector(63 downto 0);
 	signal mem_access_width      : std_logic_vector(1  downto 0) := (others => '0');
 	-----------------------------------
+	
+	-- IO Controller Signals --
+	signal io_int_en   : std_logic;
+	signal io_int_id   : std_logic_vector(7 downto 0);
+	signal io_int_type : std_logic_vector(1 downto 0);
+	signal io_int_ack  : std_logic := '0';
+	---------------------------
 BEGIN
 	-- Main Memory Wire Assignments:
 	accessing_main_memory <= '0' WHEN mem_ready > "00" ELSE '1'; 
@@ -156,12 +185,18 @@ BEGIN
 		mem_address1, mem_address2, mem_data_in, mem_data_out1, mem_data_out2, mem_access_width
 	);
 	
-	-- Flags declaration:
-	Flags1: ENTITY work.Flags PORT MAP(master_clk, idex_set_flags, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, flag_neg, flag_zero, flag_overf, flag_carry);
+	-- Declare IO Controller:
+	IO_Controller1: ENTITY work.IO_Controller PORT MAP(
+		clk, io_int_en, io_int_id, io_int_type, io_int_ack
+	);
 	
-	-- Exception and Interrupts Flags declaration:
-	-- TODO
-		
+	-- ALU Flags, Exception and Interrupts Flags (CPSR) declaration:
+	CPSR1: ENTITY work.CPSR PORT MAP(
+		master_clk, idex_set_flags, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, flag_neg, flag_zero, flag_overf, flag_carry,
+		ae_flag, pg_flag, ien_flags, cpu_mode_flags,
+		cpsr_wr, cpsr_rd, cpsr_wr_in, cpsr_rd_out, cpsr_field, cpsr_or_spsr
+	);
+	
 	-- Forwarding logic declaration:
 	forwA <= 
 		"10" WHEN (idex_regwrite = '1' AND ifidex_instruction(4 downto 0) /= "11111" AND ifidex_instruction(4 downto 0) = ifid_instruction(9 downto 5)) ELSE -- Forward EX/MEM ALU Result

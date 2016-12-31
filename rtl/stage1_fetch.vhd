@@ -5,11 +5,11 @@ USE work.FISC_DEFINES.all;
 
 ENTITY Program_Counter IS
 	PORT(
-		clk      : in  std_logic;
-		addr_in  : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		wr       : in  std_logic;
-		reset    : in  std_logic;
-		addr_out : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
+		clk       : in  std_logic;
+		addr_in   : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		wr        : in  std_logic;
+		reset     : in  std_logic;
+		addr_out  : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
 	);
 END Program_Counter;
 

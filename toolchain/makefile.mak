@@ -31,45 +31,45 @@ BOOTLOADER:
 
 ##### Compilation rules and objects: #####
 #__GENMAKE__
-BINS = $(OBJ)/io_controller.o \
+BINS = $(OBJ)/foo.o \
+	$(OBJ)/io_controller.o \
 	$(OBJ)/memory.o \
 	$(OBJ)/utils.o \
 	$(OBJ)/virtual_memory.o \
 	$(OBJ)/timer.o \
 	$(OBJ)/vga.o \
-	$(OBJ)/tinycthread.o \
-	$(OBJ)/foo.o 
-
-$(OBJ)/io_controller.o: ./src/machine/io_controller.c
-	@printf "> Compiling C file 'src/machine/io_controller.c': "
-	gcc $(CFLAGS) -c $< -o $@
-
-$(OBJ)/memory.o: ./src/machine/memory.c
-	@printf "> Compiling C file 'src/machine/memory.c': "
-	gcc $(CFLAGS) -c $< -o $@
-
-$(OBJ)/utils.o: ./src/machine/utils.c
-	@printf "> Compiling C file 'src/machine/utils.c': "
-	gcc $(CFLAGS) -c $< -o $@
-
-$(OBJ)/virtual_memory.o: ./src/machine/virtual_memory.c
-	@printf "> Compiling C file 'src/machine/virtual_memory.c': "
-	gcc $(CFLAGS) -c $< -o $@
-
-$(OBJ)/timer.o: ./src/machine/iodevices/timer.c
-	@printf "> Compiling C file 'src/machine/iodevices/timer.c': "
-	gcc $(CFLAGS) -c $< -o $@
-
-$(OBJ)/vga.o: ./src/machine/iodevices/vga.c
-	@printf "> Compiling C file 'src/machine/iodevices/vga.c': "
-	gcc $(CFLAGS) -c $< -o $@
-
-$(OBJ)/tinycthread.o: ./src/machine/tinycthread/tinycthread.c
-	@printf "> Compiling C file 'src/machine/tinycthread/tinycthread.c': "
-	gcc $(CFLAGS) -c $< -o $@
+	$(OBJ)/tinycthread.o 
 
 $(OBJ)/foo.o: ./src/userapps/foo.c
 	@printf "> Compiling C file 'src/userapps/foo.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
+$(OBJ)/io_controller.o: ./src/vmachine/io_controller.c
+	@printf "> Compiling C file 'src/vmachine/io_controller.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
+$(OBJ)/memory.o: ./src/vmachine/memory.c
+	@printf "> Compiling C file 'src/vmachine/memory.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
+$(OBJ)/utils.o: ./src/vmachine/utils.c
+	@printf "> Compiling C file 'src/vmachine/utils.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
+$(OBJ)/virtual_memory.o: ./src/vmachine/virtual_memory.c
+	@printf "> Compiling C file 'src/vmachine/virtual_memory.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
+$(OBJ)/timer.o: ./src/vmachine/iodevices/timer.c
+	@printf "> Compiling C file 'src/vmachine/iodevices/timer.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
+$(OBJ)/vga.o: ./src/vmachine/iodevices/vga.c
+	@printf "> Compiling C file 'src/vmachine/iodevices/vga.c': "
+	gcc $(CFLAGS) -c $< -o $@
+
+$(OBJ)/tinycthread.o: ./src/vmachine/tinycthread/tinycthread.c
+	@printf "> Compiling C file 'src/vmachine/tinycthread/tinycthread.c': "
 	gcc $(CFLAGS) -c $< -o $@
 
 #__GENMAKE_END__
@@ -84,8 +84,9 @@ all: BOOTLOADER $(BINS)
 	
 	$(VCOM) -2002 -quiet rtl/defines.vhd
 	$(VCOM) -2002 -quiet rtl/memory.vhd
+	$(VCOM) -2002 -quiet rtl/io_controller.vhd
 	$(VCOM) -2002 -quiet rtl/alu.vhd
-	$(VCOM) -2002 -quiet rtl/flags.vhd
+	$(VCOM) -2002 -quiet rtl/cpsr.vhd
 	$(VCOM) -2002 -quiet rtl/microcode.vhd
 	$(VCOM) -2002 -quiet rtl/registers.vhd
 	$(VCOM) -2002 -quiet rtl/stage1_fetch.vhd
