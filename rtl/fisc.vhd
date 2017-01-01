@@ -37,6 +37,8 @@ ARCHITECTURE RTL OF FISC IS
 	signal id_outA          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_outB          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_sign_ext      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal id_wr_dat_early  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+	signal id_wr_addr_early : std_logic_vector(4 downto 0) := (others => '0');
 	signal id_pc_src        : std_logic := '0'; -- It's a control but comes from the ID stage. It's produced by the flags: reg1_zero & branch
 	-- Pipeline output:
 	signal ifid_pc_out      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
@@ -113,19 +115,19 @@ ARCHITECTURE RTL OF FISC IS
 	signal cpsr_wr_in   : std_logic_vector(10 downto 0) := (others => '0');
 	signal cpsr_rd_out  : std_logic_vector(10 downto 0);
 	signal cpsr_field   : std_logic_vector(4 downto 0) := (others => '0');
-	signal cpsr_or_spsr : std_logic := '0';
 	---------------------------
 	------------------------------------------------
 
 	--------------------------------------------------------------------------------------------------------------
 	-- Control Wires (from Microcode Unit, can also be considered the inner pipeline layer of the decode stage)
-	signal aluop     : std_logic_vector(1 downto 0) := "00";
-	signal memwrite  : std_logic := '0';
-	signal memread   : std_logic := '0';
-	signal regwrite  : std_logic := '0';
-	signal memtoreg  : std_logic := '0';
-	signal alusrc    : std_logic := '0';
-	signal set_flags : std_logic := '0';
+	signal aluop          : std_logic_vector(1 downto 0) := "00";
+	signal memwrite       : std_logic := '0';
+	signal memread        : std_logic := '0';
+	signal regwrite       : std_logic := '0';
+	signal memtoreg       : std_logic := '0';
+	signal alusrc         : std_logic := '0';
+	signal set_flags      : std_logic := '0';
+	signal regwrite_early : std_logic := '0';
 	--------------------------------------------------------------------------------------------------------------
 	
 	-- Forwarding Control Signals --------------
@@ -168,16 +170,129 @@ BEGIN
 	master_clk <= clk_old_edge WHEN pause = '1' OR accessing_main_memory = '1' ELSE clk;
 	
 	---- Microarchitecture Stages Declaration: ----
-	-- Stage 1: Fetch
-	Stage1_Fetch1   : ENTITY work.Stage1_Fetch   PORT MAP(master_clk, if_new_pc, if_reset_pc, id_microcode_ctrl(0), id_pc_src, if_uncond_branch_flag, mem_data_out1(31 downto 0), if_instruction, if_new_pc_unpiped, if_pc_out, if_flush, if_freeze);
-	-- Stage 2: Decode
-	Stage2_Decode1  : ENTITY work.Stage2_Decode  PORT MAP(master_clk, id_sos, id_microcode_ctrl, id_microcode_ctrl_early, if_instruction, wb_writeback_data, idexmem_regwrite, id_outA, id_outB, ifidexmem_instruction(4 downto 0), if_pc_out, ifidexmem_pc_out, if_new_pc, id_sign_ext, id_pc_src, if_uncond_branch_flag, flag_neg, flag_zero, flag_overf, flag_carry, ifidexmem_instruction, ex_result_early, wb_writeback_data, idexmem_regwrite, ifid_pc_out, ifid_instruction, id_flush, id_freeze);
-	-- Stage 3: Execute
-	Stage3_Execute1 : ENTITY work.Stage3_Execute PORT MAP(master_clk, ex_srcA, ex_srcB, id_sign_ext, ex_result, ex_result_early, aluop, ifid_instruction(31 downto 21), alusrc, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, ifid_instruction, ifidex_instruction, ifid_pc_out, ifidex_pc_out, ex_opB, memwrite, memread, regwrite, memtoreg, set_flags, idex_memwrite, idex_memread, idex_regwrite, idex_memtoreg, idex_set_flags, ex_flush, ex_freeze);
-	-- Stage 4: Memory Access
-	Stage4_Memory_Access1 : ENTITY work.Stage4_Memory_Access PORT MAP(master_clk, ex_result, mem_data_out2, mem_data_out, mem_address, ifidex_instruction, ifidexmem_instruction, ifidex_pc_out, ifidexmem_pc_out, idex_regwrite, idex_memtoreg, idexmem_regwrite, idexmem_memtoreg, mem_flush, mem_freeze);
-	-- Stage 5: Writeback
-	Stage5_Writeback1 : ENTITY work.Stage5_Writeback PORT MAP(master_clk, mem_address, mem_data_out, idexmem_memtoreg, wb_writeback_data);
+	
+	-------------------------------------------------------------
+	-- Stage 1: Fetch -------------------------------------------
+	-------------------------------------------------------------
+	Stage1_Fetch1 : ENTITY work.Stage1_Fetch PORT MAP(
+		master_clk, 
+		if_new_pc, 
+		if_reset_pc, 
+		id_microcode_ctrl(0),
+		id_pc_src, 
+		if_uncond_branch_flag, 
+		mem_data_out1(31 downto 0), 
+		if_instruction, 
+		if_new_pc_unpiped, 
+		if_pc_out, 
+		if_flush, 
+		if_freeze
+	);
+	
+	-------------------------------------------------------------
+	-- Stage 2: Decode ------------------------------------------
+	-------------------------------------------------------------
+	Stage2_Decode1 : ENTITY work.Stage2_Decode PORT MAP(
+		master_clk, 
+		id_sos, 
+		id_microcode_ctrl, 
+		id_microcode_ctrl_early,
+		id_wr_dat_early,
+		id_wr_addr_early,
+		regwrite_early,
+		if_instruction, 
+		wb_writeback_data, 
+		idexmem_regwrite, 
+		id_outA, 
+		id_outB,
+		ifidexmem_instruction(4 downto 0), 
+		if_pc_out,
+		ifidexmem_pc_out, 
+		if_new_pc, 
+		id_sign_ext, 
+		id_pc_src, 
+		if_uncond_branch_flag, 
+		flag_neg, 
+		flag_zero, 
+		flag_overf, 
+		flag_carry, 
+		ifidexmem_instruction, 
+		ex_result_early, 
+		wb_writeback_data, 
+		idexmem_regwrite, 
+		ifid_pc_out, 
+		ifid_instruction, 
+		id_flush, 
+		id_freeze
+	);
+	
+	-------------------------------------------------------------
+	-- Stage 3: Execute -----------------------------------------
+	-------------------------------------------------------------
+	Stage3_Execute1 : ENTITY work.Stage3_Execute PORT MAP(
+		master_clk, 
+		ex_srcA, 
+		ex_srcB, 
+		id_sign_ext, 
+		ex_result, 
+		ex_result_early, 
+		aluop, 
+		ifid_instruction(31 downto 21), 
+		alusrc, 
+		ex_alu_neg, 
+		ex_alu_zero, 
+		ex_alu_overf, 
+		ex_alu_carry, 
+		ifid_instruction, 
+		ifidex_instruction, 
+		ifid_pc_out, 
+		ifidex_pc_out, 
+		ex_opB, 
+		memwrite, 
+		memread, 
+		regwrite, 
+		memtoreg, 
+		set_flags, 
+		idex_memwrite, 
+		idex_memread, 
+		idex_regwrite, 
+		idex_memtoreg, 
+		idex_set_flags, 
+		ex_flush, 
+		ex_freeze
+	);
+	
+	-------------------------------------------------------------
+	-- Stage 4: Memory Access -----------------------------------
+	-------------------------------------------------------------
+	Stage4_Memory_Access1 : ENTITY work.Stage4_Memory_Access PORT MAP(
+		master_clk, 
+		ex_result, 
+		mem_data_out2, 
+		mem_data_out, 
+		mem_address, 
+		ifidex_instruction, 
+		ifidexmem_instruction, 
+		ifidex_pc_out, 
+		ifidexmem_pc_out, 
+		idex_regwrite, 
+		idex_memtoreg, 
+		idexmem_regwrite, 
+		idexmem_memtoreg, 
+		mem_flush, 
+		mem_freeze
+	);
+	
+	---------------------------------------------------------------
+	-- Stage 5: Writeback -----------------------------------------
+	---------------------------------------------------------------
+	Stage5_Writeback1 : ENTITY work.Stage5_Writeback PORT MAP(
+		master_clk, 
+		mem_address, 
+		mem_data_out, 
+		idexmem_memtoreg, 
+		wb_writeback_data
+	);
 	
 	-- Declare Main Memory: --
 	Main_Memory : ENTITY work.Memory PORT MAP(
@@ -194,8 +309,13 @@ BEGIN
 	CPSR1: ENTITY work.CPSR PORT MAP(
 		master_clk, idex_set_flags, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, flag_neg, flag_zero, flag_overf, flag_carry,
 		ae_flag, pg_flag, ien_flags, cpu_mode_flags,
-		cpsr_wr, cpsr_rd, cpsr_wr_in, cpsr_rd_out, cpsr_field, cpsr_or_spsr
+		cpsr_wr, cpsr_rd, cpsr_wr_in, cpsr_rd_out, cpsr_field
 	);
+	
+	cpsr_field                                 <= ifid_instruction(4 downto 0) WHEN ifid_instruction(31 downto 21) = "11000010100" ELSE ifid_instruction(9 downto 5);
+	id_wr_addr_early                           <= ifid_instruction(9 downto 5) WHEN ifid_instruction(31 downto 21) = "11000010100" ELSE ifid_instruction(4 downto 0);
+	cpsr_wr_in                                 <= id_outB(cpsr_wr_in'high downto 0);
+	id_wr_dat_early(cpsr_rd_out'high downto 0) <= cpsr_rd_out;
 	
 	-- Forwarding logic declaration:
 	forwA <= 
@@ -247,14 +367,17 @@ BEGIN
 	if_reset_pc <= restart_cpu;
 	
 	-- Control Signals Assignment: --
-	aluop     <= id_microcode_ctrl(2 downto 1); -- Control (EX)
-	memwrite  <= id_microcode_ctrl(4);          -- Control (MEM)
-	memread   <= id_microcode_ctrl(5);          -- Control (MEM)
-	regwrite  <= id_microcode_ctrl(6);          -- Control (WB)
-	memtoreg  <= id_microcode_ctrl(7);          -- Control (WB)
-	alusrc    <= id_microcode_ctrl(8);          -- Control (EX)
-	set_flags <= id_microcode_ctrl(13);         -- Control (originates from ID and is used on stage EX)
-		
+	aluop          <= id_microcode_ctrl(2 downto 1); -- Control (EX)
+	memwrite       <= id_microcode_ctrl(4);          -- Control (MEM)
+	memread        <= id_microcode_ctrl(5);          -- Control (MEM)
+	regwrite       <= id_microcode_ctrl(6);          -- Control (WB)
+	memtoreg       <= id_microcode_ctrl(7);          -- Control (WB)
+	alusrc         <= id_microcode_ctrl(8);          -- Control (EX)
+	set_flags      <= id_microcode_ctrl(13);         -- Control (originates from ID and is used on stage EX)
+	regwrite_early <= id_microcode_ctrl(14);         -- Control (ID)
+	cpsr_rd        <= id_microcode_ctrl(15);         -- Control (ID)
+	cpsr_wr        <= id_microcode_ctrl(16);         -- Control (ID)
+	
 	---------------------------
 	------- Behaviour: --------
 	---------------------------

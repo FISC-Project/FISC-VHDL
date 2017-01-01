@@ -27,7 +27,7 @@ ARCHITECTURE RTL OF Microcode IS
 		is_eos   : std_logic
 	) return std_logic_vector is
 	begin
-		return "00000000000000000000000000000000" & "00" & control & is_eos; -- FORMAT: MCU_FUNC | SEG_TYPE | IS EOS | CONTROL BITS
+		return "00000000000000000000000000000000" & "00" & control & is_eos; -- FORMAT: MCU_FUNC | SEG_TYPE | CONTROL BITS | IS EOS
 	end;
 	
 	function create_segment (
@@ -40,55 +40,57 @@ ARCHITECTURE RTL OF Microcode IS
 	--*****************************************************************************************************************--
 	-- IMPORTANT: Fill up microcode execute memory (which is segmented) here: (ARGS: control bits | is end of segment) --
 	-- Control Signal list (Producer/Consumer):
-	-- setflags (ID/EX) | signext_src(3) (ID) | reg2loc (IF/ID (OPCODE)) | alusrc (ID/EX) | memtoreg (ID/WB) | regwrite (ID/WB) | memread (ID/MEM) | memwrite (ID/MEM) | ubranch (IF/ID (MCU)) | aluop(2) (ID/EX)
+	-- cpsr_wr (ID/ID) | cpsr_rd (ID/ID) | regwrite_early (ID/ID) | setflags (ID/EX) | signext_src(3) (ID) | reg2loc (IF/ID (OPCODE)) | alusrc (ID/EX) | memtoreg (ID/WB) | regwrite (ID/WB) | memread (ID/MEM) | memwrite (ID/MEM) | ubranch (IF/ID (MCU)) | aluop(2) (ID/EX)
 	signal code : code_t := (
-		0 =>  microinstr("------------------0000000000000", '1'), -- NULL INSTRUCTION
-		1 =>  microinstr("------------------0000000100010", '1'), -- Instruction ADD
-		2 =>  microinstr("------------------0000010100010", '1'), -- Instruction ADDI
-		3 =>  microinstr("------------------1000010100010", '1'), -- Instruction ADDIS
-		4 =>  microinstr("------------------1000000100010", '1'), -- Instruction ADDS
-		5 =>  microinstr("------------------0000000100010", '1'), -- Instruction SUB
-		6 =>  microinstr("------------------0000010100010", '1'), -- Instruction SUBI
-		7 =>  microinstr("------------------1000010100010", '1'), -- Instruction SUBIS
-		8 =>  microinstr("------------------1000000100010", '1'), -- Instruction SUBS
-		9 =>  microinstr("------------------0001000100010", '1'), -- Instruction MUL
-		10 => microinstr("------------------0001000100010", '1'), -- Instruction SMULH -- UNIMPLEMENTED (REASON: NEEDS 128 BIT REGISTER FROM FPU)
-		11 => microinstr("------------------0001000100010", '1'), -- Instruction UMULH -- UNIMPLEMENTED (REASON: NEEDS 128 BIT REGISTER FROM FPU)
-		12 => microinstr("------------------0001000100010", '1'), -- Instruction SDIV
-		13 => microinstr("------------------0001000100010", '1'), -- Instruction UDIV
-		14 => microinstr("------------------0000000100010", '1'), -- Instruction AND
-		15 => microinstr("------------------0000010100010", '1'), -- Instruction ANDI
-		16 => microinstr("------------------1000010100010", '1'), -- Instruction ANDIS
-		17 => microinstr("------------------1000000100010", '1'), -- Instruction ANDS
-		18 => microinstr("------------------0000000100010", '1'), -- Instruction ORR
-		19 => microinstr("------------------0000010100010", '1'), -- Instruction ORRI
-		20 => microinstr("------------------0000000100010", '1'), -- Instruction EOR
-		21 => microinstr("------------------0000010100010", '1'), -- Instruction EORI
-		22 => microinstr("------------------0001010100010", '1'), -- Instruction LSL
-		23 => microinstr("------------------0001010100010", '1'), -- Instruction LSR
-		24 => microinstr("------------------0101010100001", '1'), -- Instruction MOVK
-		25 => microinstr("------------------0101010100001", '1'), -- Instruction MOVZ
-		26 => microinstr("------------------0011100000101", '1'), -- Instruction B
-		27 => microinstr("------------------0100100000001", '1'), -- Instruction B.cond
-		28 => microinstr("------------------0110110100101", '1'), -- Instruction BL
-		29 => microinstr("------------------0000100000101", '1'), -- Instruction BR
-		30 => microinstr("------------------0100100000001", '1'), -- Instruction CBNZ
-		31 => microinstr("------------------0100100000001", '1'), -- Instruction CBZ
-		32 => microinstr("------------------0010111110000", '1'), -- Instruction LDUR
-		33 => microinstr("------------------0010111110000", '1'), -- Instruction LDURB
-		34 => microinstr("------------------0010111110000", '1'), -- Instruction LDURH
-		35 => microinstr("------------------0010111110000", '1'), -- Instruction LDURSW
-		36 => microinstr("------------------0010111110000", '1'), -- Instruction LDXR -- TODO ATOMIC
-		37 => microinstr("------------------0010110001000", '1'), -- Instruction STUR
-		38 => microinstr("------------------0010110001000", '1'), -- Instruction STURB
-		39 => microinstr("------------------0010110001000", '1'), -- Instruction STURH
-		40 => microinstr("------------------0010110001000", '1'), -- Instruction STURW
-		41 => microinstr("------------------0010110001000", '1'), -- Instruction STXR -- TODO ATOMIC
+		0 =>  microinstr("---------------0000000000000000", '1'), -- NULL INSTRUCTION
+		1 =>  microinstr("---------------0000000000100010", '1'), -- Instruction ADD
+		2 =>  microinstr("---------------0000000010100010", '1'), -- Instruction ADDI
+		3 =>  microinstr("---------------0001000010100010", '1'), -- Instruction ADDIS
+		4 =>  microinstr("---------------0001000000100010", '1'), -- Instruction ADDS
+		5 =>  microinstr("---------------0000000000100010", '1'), -- Instruction SUB
+		6 =>  microinstr("---------------0000000010100010", '1'), -- Instruction SUBI
+		7 =>  microinstr("---------------0001000010100010", '1'), -- Instruction SUBIS
+		8 =>  microinstr("---------------0001000000100010", '1'), -- Instruction SUBS
+		9 =>  microinstr("---------------0000001000100010", '1'), -- Instruction MUL
+		10 => microinstr("---------------0000001000100010", '1'), -- Instruction SMULH -- UNIMPLEMENTED (REASON: NEEDS 128 BIT REGISTER FROM FPU)
+		11 => microinstr("---------------0000001000100010", '1'), -- Instruction UMULH -- UNIMPLEMENTED (REASON: NEEDS 128 BIT REGISTER FROM FPU)
+		12 => microinstr("---------------0000001000100010", '1'), -- Instruction SDIV
+		13 => microinstr("---------------0000001000100010", '1'), -- Instruction UDIV
+		14 => microinstr("---------------0000000000100010", '1'), -- Instruction AND
+		15 => microinstr("---------------0000000010100010", '1'), -- Instruction ANDI
+		16 => microinstr("---------------0001000010100010", '1'), -- Instruction ANDIS
+		17 => microinstr("---------------0001000000100010", '1'), -- Instruction ANDS
+		18 => microinstr("---------------0000000000100010", '1'), -- Instruction ORR
+		19 => microinstr("---------------0000000010100010", '1'), -- Instruction ORRI
+		20 => microinstr("---------------0000000000100010", '1'), -- Instruction EOR
+		21 => microinstr("---------------0000000010100010", '1'), -- Instruction EORI
+		22 => microinstr("---------------0000001010100010", '1'), -- Instruction LSL
+		23 => microinstr("---------------0000001010100010", '1'), -- Instruction LSR
+		24 => microinstr("---------------0000101010100001", '1'), -- Instruction MOVK
+		25 => microinstr("---------------0000101010100001", '1'), -- Instruction MOVZ
+		26 => microinstr("---------------0000011100000101", '1'), -- Instruction B
+		27 => microinstr("---------------0000100100000001", '1'), -- Instruction B.cond
+		28 => microinstr("---------------0000110110100101", '1'), -- Instruction BL
+		29 => microinstr("---------------0000000100000101", '1'), -- Instruction BR
+		30 => microinstr("---------------0000100100000001", '1'), -- Instruction CBNZ
+		31 => microinstr("---------------0000100100000001", '1'), -- Instruction CBZ
+		32 => microinstr("---------------0000010111110000", '1'), -- Instruction LDUR
+		33 => microinstr("---------------0000010111110000", '1'), -- Instruction LDURB
+		34 => microinstr("---------------0000010111110000", '1'), -- Instruction LDURH
+		35 => microinstr("---------------0000010111110000", '1'), -- Instruction LDURSW
+		36 => microinstr("---------------0000010111110000", '1'), -- Instruction LDXR -- TODO ATOMIC
+		37 => microinstr("---------------0000010110001000", '1'), -- Instruction STUR
+		38 => microinstr("---------------0000010110001000", '1'), -- Instruction STURB
+		39 => microinstr("---------------0000010110001000", '1'), -- Instruction STURH
+		40 => microinstr("---------------0000010110001000", '1'), -- Instruction STURW
+		41 => microinstr("---------------0000010110001000", '1'), -- Instruction STXR -- TODO ATOMIC
 		-- Newly added instructions that do not belong to LEGv8:
-		42 => microinstr("------------------0000100100010", '1'), -- Instruction NEG
-		43 => microinstr("------------------0000100100010", '1'), -- Instruction NOT
-		44 => microinstr("------------------0000010100010", '1'), -- Instruction NEGI
-		45 => microinstr("------------------0000010100010", '1'), -- Instruction NOTI
+		42 => microinstr("---------------0000000100100010", '1'), -- Instruction NEG
+		43 => microinstr("---------------0000000100100010", '1'), -- Instruction NOT
+		44 => microinstr("---------------0000000010100010", '1'), -- Instruction NEGI
+		45 => microinstr("---------------0000000010100010", '1'), -- Instruction NOTI
+		46 => microinstr("---------------1000000000000010", '1'), -- Instruction MSR
+		47 => microinstr("---------------0110000000000000", '1'), -- Instruction MRS
 		-- END OF MICROCODE MEMORY -
 		others => (others => '0')
 	);
@@ -143,6 +145,8 @@ ARCHITECTURE RTL OF Microcode IS
 		43 => create_segment(43), -- Opcode 43 runs microcode at address 43 (decimal) (NOT)
 		44 => create_segment(44), -- Opcode 44 runs microcode at address 44 (decimal) (NEGI)
 		45 => create_segment(45), -- Opcode 45 runs microcode at address 45 (decimal) (NOTI)
+		46 => create_segment(46), -- Opcode 46 runs microcode at address 46 (decimal) (MSR)
+		47 => create_segment(47), -- Opcode 47 runs microcode at address 47 (decimal) (MRS)
 		-- END OF SEGMENT MEMORY --
 		others => (others => '0')
 	);
@@ -213,6 +217,8 @@ ARCHITECTURE RTL OF Microcode IS
 			-- Newly added instructions that do not belong to LEGv8:
 			when "11101101000" => return "00000101010"; -- NEG
 			when "11101101001" => return "00000101011"; -- NOT
+			when "11000010100" => return "00000101110"; -- MSR
+			when "10111110100" => return "00000101111"; -- MRS
 			when others => -- Do nothing here
 		end case;
 		
@@ -249,7 +255,7 @@ ARCHITECTURE RTL OF Microcode IS
 			when others => -- Do nothing here
 		end case;
 		
-		-- Return NULL opcode:	
+		-- Return NULL opcode: (TODO: Enter Undefined Instruction here)
 		return (R_FMT_OPCODE_SZ-1 downto 0 => '0');
 	end;	
 	

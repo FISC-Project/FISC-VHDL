@@ -10,7 +10,10 @@ ENTITY Stage2_Decode IS
 		clk                   : in  std_logic;
 		sos                   : in  std_logic;
 		microcode_ctrl        : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
-		microcode_ctrl_early  : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0'); 
+		microcode_ctrl_early  : out std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
+		id_wr_dat_early       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		id_wr_addr_early      : in  std_logic_vector(4 downto 0);
+		regwrite_early        : in  std_logic;
 		if_instruction        : in  std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 		writedata             : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 		regwrite              : in  std_logic;
@@ -40,7 +43,11 @@ ENTITY Stage2_Decode IS
 	);
 END Stage2_Decode;
 
-ARCHITECTURE RTL OF Stage2_Decode IS	
+ARCHITECTURE RTL OF Stage2_Decode IS
+	signal regwrite_reg      : std_logic := '0';
+	signal writedata_reg     : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+	signal writereg_addr_mux : std_logic_vector(4 downto 0) := (others => '0');
+	
 	signal ifid_instruction_reg : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 	signal microcode_ctrl_reg   : std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
 	signal microcode_ctrl_copy  : std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
@@ -66,7 +73,12 @@ BEGIN
 	
 	-- Instantiate Register File:
 	RegFile1: ENTITY work.RegFile 
-		PORT MAP(clk, if_instruction(9 downto 5), tmp_readreg1, writereg_addr, writedata, outA_reg, outB_reg, regwrite, ifidexmem_pc_out, ifidexmem_instruction(31 downto 21), ifidexmem_instruction(22 downto 21));
+		PORT MAP(clk, if_instruction(9 downto 5), tmp_readreg1, writereg_addr_mux, writedata_reg, outA_reg, outB_reg, regwrite_reg, ifidexmem_pc_out, ifidexmem_instruction(31 downto 21), ifidexmem_instruction(22 downto 21));
+	
+	regwrite_reg <= regwrite or regwrite_early;
+	
+	writedata_reg     <= id_wr_dat_early  WHEN regwrite_early = '1' ELSE writedata     WHEN regwrite = '1' ELSE (others => '0');
+	writereg_addr_mux <= id_wr_addr_early WHEN regwrite_early = '1' ELSE writereg_addr WHEN regwrite = '1' ELSE (others => '0');
 	
 	microcode_ctrl_early <= microcode_ctrl_reg;
 	

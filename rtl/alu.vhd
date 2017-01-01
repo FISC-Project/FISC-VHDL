@@ -27,8 +27,8 @@ ARCHITECTURE RTL OF ALU IS
 	signal sdivisor_operand : integer;
 	signal udivisor_operand : integer;
 BEGIN
-	sdivisor_operand <= to_integer(signed(opB_ext))   WHEN signed(opB_ext) > 0 ELSE 1; -- TODO RAISE EXCEPTION ON ELSE
-	udivisor_operand <= to_integer(unsigned(opB_ext)) WHEN signed(opB_ext) > 0 ELSE 1; -- TODO RAISE EXCEPTION ON ELSE
+	sdivisor_operand <= to_integer(signed(opB_ext))   WHEN signed(opB_ext) > 0 ELSE 1; -- TODO: Enter Exception Mode on Else
+	udivisor_operand <= to_integer(unsigned(opB_ext)) WHEN signed(opB_ext) > 0 ELSE 1; -- TODO: Enter Exception Mode on Else
 	
 	result_reg <= result_reg_ext(FISC_INTEGER_SZ-1 downto 0);
 	

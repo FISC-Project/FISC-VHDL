@@ -1,9 +1,16 @@
 nop nop
 
-MOVI X0, 0xFFFFFF; // Data (white pixel)
-MOVI X1, 0x400;    // IO Space Address
+MOVI X0,10;
+MSR SPSR, X0;
+MRS X1, SPSR
+MOV X2,X1
+NOP
+HALT
 
-Jump:
-	STURW X0, [X1, 0]; // Store
-	INC X1;            // Write to next pixel
-B Jump
+//MOVI X0, 0xFFFFFF; // Data (white pixel)
+//MOVI X1, 0x400;    // IO Space Address
+
+//Jump:
+//	STURW X0, [X1, 0]; // Store
+//	INC X1;            // Write to next pixel
+//B Jump
