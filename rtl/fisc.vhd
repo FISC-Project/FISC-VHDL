@@ -169,7 +169,9 @@ BEGIN
 	-- Do not update any component if the pause signal is asserted or if the Main memory is being accessed
 	master_clk <= clk_old_edge WHEN pause = '1' OR accessing_main_memory = '1' ELSE clk;
 	
-	---- Microarchitecture Stages Declaration: ----
+	-----------------------------------------------------------------------
+	-- Microarchitecture Stages Declaration: ------------------------------
+	-----------------------------------------------------------------------
 	
 	-------------------------------------------------------------
 	-- Stage 1: Fetch -------------------------------------------
@@ -230,35 +232,35 @@ BEGIN
 	-- Stage 3: Execute -----------------------------------------
 	-------------------------------------------------------------
 	Stage3_Execute1 : ENTITY work.Stage3_Execute PORT MAP(
-		master_clk, 
-		ex_srcA, 
-		ex_srcB, 
-		id_sign_ext, 
-		ex_result, 
-		ex_result_early, 
-		aluop, 
-		ifid_instruction(31 downto 21), 
-		alusrc, 
-		ex_alu_neg, 
-		ex_alu_zero, 
-		ex_alu_overf, 
-		ex_alu_carry, 
-		ifid_instruction, 
-		ifidex_instruction, 
-		ifid_pc_out, 
-		ifidex_pc_out, 
-		ex_opB, 
-		memwrite, 
-		memread, 
-		regwrite, 
-		memtoreg, 
-		set_flags, 
-		idex_memwrite, 
-		idex_memread, 
-		idex_regwrite, 
-		idex_memtoreg, 
-		idex_set_flags, 
-		ex_flush, 
+		master_clk,
+		ex_srcA,
+		ex_srcB,
+		id_sign_ext,
+		ex_result,
+		ex_result_early,
+		aluop,
+		ifid_instruction(31 downto 21),
+		alusrc,
+		ex_alu_neg,
+		ex_alu_zero,
+		ex_alu_overf,
+		ex_alu_carry,
+		ifid_instruction,
+		ifidex_instruction,
+		ifid_pc_out,
+		ifidex_pc_out,
+		ex_opB,
+		memwrite,
+		memread,
+		regwrite,
+		memtoreg,
+		set_flags,
+		idex_memwrite,
+		idex_memread,
+		idex_regwrite,
+		idex_memtoreg,
+		idex_set_flags,
+		ex_flush,
 		ex_freeze
 	);
 	
@@ -366,7 +368,7 @@ BEGIN
 	if_uncond_branch_flag <= id_microcode_ctrl_early(3); -- Control (ID (MCU *UNPIPELINED*))	
 	if_reset_pc <= restart_cpu;
 	
-	-- Control Signals Assignment: --
+	-- Assignments of Control Signals: --
 	aluop          <= id_microcode_ctrl(2 downto 1); -- Control (EX)
 	memwrite       <= id_microcode_ctrl(4);          -- Control (MEM)
 	memread        <= id_microcode_ctrl(5);          -- Control (MEM)

@@ -91,6 +91,11 @@ ARCHITECTURE RTL OF Microcode IS
 		45 => microinstr("---------------0000000010100010", '1'), -- Instruction NOTI
 		46 => microinstr("---------------1000000000000010", '1'), -- Instruction MSR
 		47 => microinstr("---------------0110000000000000", '1'), -- Instruction MRS
+		48 => microinstr("---------------0010000000000000", '1'), -- Instruction LIVP
+		49 => microinstr("---------------0010000000000000", '1'), -- Instruction SIVP
+		50 => microinstr("---------------0010000000000000", '1'), -- Instruction LEVP
+		51 => microinstr("---------------0010000000000000", '1'), -- Instruction SEVP
+		52 => microinstr("---------------0010000000000000", '1'), -- Instruction SESR
 		-- END OF MICROCODE MEMORY -
 		others => (others => '0')
 	);
@@ -147,6 +152,11 @@ ARCHITECTURE RTL OF Microcode IS
 		45 => create_segment(45), -- Opcode 45 runs microcode at address 45 (decimal) (NOTI)
 		46 => create_segment(46), -- Opcode 46 runs microcode at address 46 (decimal) (MSR)
 		47 => create_segment(47), -- Opcode 47 runs microcode at address 47 (decimal) (MRS)
+		48 => create_segment(48), -- Opcode 47 runs microcode at address 48 (decimal) (LIVP)
+		49 => create_segment(49), -- Opcode 47 runs microcode at address 49 (decimal) (SIVP)
+		50 => create_segment(50), -- Opcode 47 runs microcode at address 50 (decimal) (LEVP)
+		51 => create_segment(51), -- Opcode 47 runs microcode at address 51 (decimal) (SEVP)
+		52 => create_segment(52), -- Opcode 47 runs microcode at address 52 (decimal) (SESR)
 		-- END OF SEGMENT MEMORY --
 		others => (others => '0')
 	);
@@ -219,6 +229,11 @@ ARCHITECTURE RTL OF Microcode IS
 			when "11101101001" => return "00000101011"; -- NOT
 			when "11000010100" => return "00000101110"; -- MSR
 			when "10111110100" => return "00000101111"; -- MRS
+			when "10111010100" => return "00000110000"; -- LIVP
+			when "10110110100" => return "00000110001"; -- SIVP
+			when "10110010100" => return "00000110010"; -- LEVP
+			when "10101110100" => return "00000110011"; -- SEVP
+			when "10101010100" => return "00000110100"; -- SESR
 			when others => -- Do nothing here
 		end case;
 		

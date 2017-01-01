@@ -40,12 +40,19 @@ ENTITY CPSR IS
 END CPSR;
 
 ARCHITECTURE RTL OF CPSR IS
-	signal cpsr_reg  : std_logic_vector(10 downto 0) := (others => '0');
+	constant mode_user      : std_logic_vector(2 downto 0) := "001";
+	constant mode_kernel    : std_logic_vector(2 downto 0) := "010";
+	constant mode_irq       : std_logic_vector(2 downto 0) := "011";
+	constant mode_sirq      : std_logic_vector(2 downto 0) := "100";
+	constant mode_exception : std_logic_vector(2 downto 0) := "111";
+	constant mode_undefined : std_logic_vector(2 downto 0) := "000";
+	
+	signal cpsr_reg  : std_logic_vector(10 downto 0) := "00000000" & mode_kernel;
 	
 	type spsr_t is array (7 downto 0) of std_logic_vector(10 downto 0); -- Only 6 of these are being used
-	signal spsrs : spsr_t := (others => (others => '0'));
+	signal spsr_regs : spsr_t := (others => ("00000000" & mode_kernel));
 	
-	signal sreg_mux  : std_logic_vector(10 downto 0);
+	signal streg_rd_mux  : std_logic_vector(10 downto 0);
 	
 	signal cpsr_or_spsr : std_logic; -- Are we writing / reading to / from the CPSR or the SPSR of the current CPU Mode? (0: CPSR 1: SPSR)
 BEGIN
@@ -60,22 +67,22 @@ BEGIN
 	ien_out        <= cpsr_reg(4 downto 3);
 	mode_out       <= cpsr_reg(2 downto 0);
 	
-	sreg_mux       <= cpsr_reg WHEN cpsr_or_spsr = '0' ELSE spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))));
+	streg_rd_mux       <= cpsr_reg WHEN cpsr_or_spsr = '0' ELSE spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))));
 	
 	-- CPSR Register reading logic:
 	cpsr_rd_out <= 
-		sreg_mux                             WHEN cpsr_field(3 downto 0) = "0000" and cpsr_rd = '1' ELSE
-		"0000000"    & sreg_mux(10 downto 7) WHEN cpsr_field(3 downto 0) = "0001" and cpsr_rd = '1' ELSE
-		"0000000000" & sreg_mux(10)          WHEN cpsr_field(3 downto 0) = "0010" and cpsr_rd = '1' ELSE
-		"0000000000" & sreg_mux(9)           WHEN cpsr_field(3 downto 0) = "0011" and cpsr_rd = '1' ELSE
-		"0000000000" & sreg_mux(8)           WHEN cpsr_field(3 downto 0) = "0100" and cpsr_rd = '1' ELSE
-		"0000000000" & sreg_mux(7)           WHEN cpsr_field(3 downto 0) = "0101" and cpsr_rd = '1' ELSE
-		"0000000000" & sreg_mux(6)           WHEN cpsr_field(3 downto 0) = "0110" and cpsr_rd = '1' ELSE
-		"0000000000" & sreg_mux(5)           WHEN cpsr_field(3 downto 0) = "0111" and cpsr_rd = '1' ELSE
-		"000000000"  & sreg_mux(4 downto 3)  WHEN cpsr_field(3 downto 0) = "1000" and cpsr_rd = '1' ELSE
-		"0000000000" & sreg_mux(4)           WHEN cpsr_field(3 downto 0) = "1001" and cpsr_rd = '1' ELSE
-		"0000000000" & sreg_mux(4)           WHEN cpsr_field(3 downto 0) = "1010" and cpsr_rd = '1' ELSE
-		"00000000"   & sreg_mux(2 downto 0)  WHEN cpsr_field(3 downto 0) = "1011" and cpsr_rd = '1' ELSE
+		streg_rd_mux                             WHEN cpsr_field(3 downto 0) = "0000" and cpsr_rd = '1' ELSE
+		"0000000"    & streg_rd_mux(10 downto 7) WHEN cpsr_field(3 downto 0) = "0001" and cpsr_rd = '1' ELSE
+		"0000000000" & streg_rd_mux(10)          WHEN cpsr_field(3 downto 0) = "0010" and cpsr_rd = '1' ELSE
+		"0000000000" & streg_rd_mux(9)           WHEN cpsr_field(3 downto 0) = "0011" and cpsr_rd = '1' ELSE
+		"0000000000" & streg_rd_mux(8)           WHEN cpsr_field(3 downto 0) = "0100" and cpsr_rd = '1' ELSE
+		"0000000000" & streg_rd_mux(7)           WHEN cpsr_field(3 downto 0) = "0101" and cpsr_rd = '1' ELSE
+		"0000000000" & streg_rd_mux(6)           WHEN cpsr_field(3 downto 0) = "0110" and cpsr_rd = '1' ELSE
+		"0000000000" & streg_rd_mux(5)           WHEN cpsr_field(3 downto 0) = "0111" and cpsr_rd = '1' ELSE
+		"000000000"  & streg_rd_mux(4 downto 3)  WHEN cpsr_field(3 downto 0) = "1000" and cpsr_rd = '1' ELSE
+		"0000000000" & streg_rd_mux(4)           WHEN cpsr_field(3 downto 0) = "1001" and cpsr_rd = '1' ELSE
+		"0000000000" & streg_rd_mux(4)           WHEN cpsr_field(3 downto 0) = "1010" and cpsr_rd = '1' ELSE
+		"00000000"   & streg_rd_mux(2 downto 0)  WHEN cpsr_field(3 downto 0) = "1011" and cpsr_rd = '1' ELSE
 		(others => '0');
 	
 	-- CPSR Register Behaviour:
@@ -90,18 +97,18 @@ BEGIN
 			-- Handle CSPR Writes to specific fields:
 			if cpsr_wr = '1' then
 				case cpsr_field(3 downto 0) is
-					when "0000" => if cpsr_or_spsr = '0' then cpsr_reg              <= cpsr_wr_in;             else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0)))) <= cpsr_wr_in; end if;
-					when "0001" => if cpsr_or_spsr = '0' then cpsr_reg(10 downto 7) <= cpsr_wr_in(3 downto 0); else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))))(10 downto 7) <= cpsr_wr_in(3 downto 0); end if;
-					when "0010" => if cpsr_or_spsr = '0' then cpsr_reg(10)          <= cpsr_wr_in(0);          else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))))(10) <= cpsr_wr_in(0); end if;
-					when "0011" => if cpsr_or_spsr = '0' then cpsr_reg(9)           <= cpsr_wr_in(0);          else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))))(9)  <= cpsr_wr_in(0); end if;
-					when "0100" => if cpsr_or_spsr = '0' then cpsr_reg(8)           <= cpsr_wr_in(0);          else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))))(8)  <= cpsr_wr_in(0); end if;
-					when "0101" => if cpsr_or_spsr = '0' then cpsr_reg(7)           <= cpsr_wr_in(0);          else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))))(7)  <= cpsr_wr_in(0); end if;
-					when "0110" => if cpsr_or_spsr = '0' then cpsr_reg(6)           <= cpsr_wr_in(0);          else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))))(6)  <= cpsr_wr_in(0); end if;
-					when "0111" => if cpsr_or_spsr = '0' then cpsr_reg(5)           <= cpsr_wr_in(0);          else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))))(5)  <= cpsr_wr_in(0); end if;
-					when "1000" => if cpsr_or_spsr = '0' then cpsr_reg(4 downto 3)  <= cpsr_wr_in(1 downto 0); else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))))(4 downto 3) <= cpsr_wr_in(1 downto 0); end if;
-					when "1001" => if cpsr_or_spsr = '0' then cpsr_reg(4)           <= cpsr_wr_in(0);          else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))))(4)  <= cpsr_wr_in(0); end if;
-					when "1010" => if cpsr_or_spsr = '0' then cpsr_reg(3)           <= cpsr_wr_in(0);          else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))))(3)  <= cpsr_wr_in(0); end if;
-					when "1011" => if cpsr_or_spsr = '0' then cpsr_reg(2 downto 0)  <= cpsr_wr_in(2 downto 0); else spsrs(to_integer(unsigned(cpsr_reg(2 downto 0))))(2 downto 0) <= cpsr_wr_in(2 downto 0); end if;
+					when "0000" => if cpsr_or_spsr = '0' then cpsr_reg              <= cpsr_wr_in;             else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0)))) <= cpsr_wr_in; end if;
+					when "0001" => if cpsr_or_spsr = '0' then cpsr_reg(10 downto 7) <= cpsr_wr_in(3 downto 0); else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))))(10 downto 7) <= cpsr_wr_in(3 downto 0); end if;
+					when "0010" => if cpsr_or_spsr = '0' then cpsr_reg(10)          <= cpsr_wr_in(0);          else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))))(10) <= cpsr_wr_in(0); end if;
+					when "0011" => if cpsr_or_spsr = '0' then cpsr_reg(9)           <= cpsr_wr_in(0);          else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))))(9)  <= cpsr_wr_in(0); end if;
+					when "0100" => if cpsr_or_spsr = '0' then cpsr_reg(8)           <= cpsr_wr_in(0);          else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))))(8)  <= cpsr_wr_in(0); end if;
+					when "0101" => if cpsr_or_spsr = '0' then cpsr_reg(7)           <= cpsr_wr_in(0);          else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))))(7)  <= cpsr_wr_in(0); end if;
+					when "0110" => if cpsr_or_spsr = '0' then cpsr_reg(6)           <= cpsr_wr_in(0);          else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))))(6)  <= cpsr_wr_in(0); end if;
+					when "0111" => if cpsr_or_spsr = '0' then cpsr_reg(5)           <= cpsr_wr_in(0);          else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))))(5)  <= cpsr_wr_in(0); end if;
+					when "1000" => if cpsr_or_spsr = '0' then cpsr_reg(4 downto 3)  <= cpsr_wr_in(1 downto 0); else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))))(4 downto 3) <= cpsr_wr_in(1 downto 0); end if;
+					when "1001" => if cpsr_or_spsr = '0' then cpsr_reg(4)           <= cpsr_wr_in(0);          else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))))(4)  <= cpsr_wr_in(0); end if;
+					when "1010" => if cpsr_or_spsr = '0' then cpsr_reg(3)           <= cpsr_wr_in(0);          else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))))(3)  <= cpsr_wr_in(0); end if;
+					when "1011" => if cpsr_or_spsr = '0' then cpsr_reg(2 downto 0)  <= cpsr_wr_in(2 downto 0); else spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0))))(2 downto 0) <= cpsr_wr_in(2 downto 0); end if;
 					when others => -- TODO: Enter Exception Mode
 				end case;
 			end if;

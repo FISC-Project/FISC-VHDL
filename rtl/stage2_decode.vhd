@@ -44,9 +44,9 @@ ENTITY Stage2_Decode IS
 END Stage2_Decode;
 
 ARCHITECTURE RTL OF Stage2_Decode IS
-	signal regwrite_reg      : std_logic := '0';
-	signal writedata_reg     : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
-	signal writereg_addr_mux : std_logic_vector(4 downto 0) := (others => '0');
+	signal regwrite_reg         : std_logic := '0';
+	signal writedata_reg        : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+	signal writereg_addr_mux    : std_logic_vector(4 downto 0) := (others => '0');
 	
 	signal ifid_instruction_reg : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 	signal microcode_ctrl_reg   : std_logic_vector(MICROCODE_CTRL_WIDTH  downto 0) := (others => '0');
@@ -72,11 +72,23 @@ BEGIN
 	Microcode1: ENTITY work.Microcode PORT MAP(clk, sos, if_instruction(31 downto 21), microcode_ctrl_reg);
 	
 	-- Instantiate Register File:
-	RegFile1: ENTITY work.RegFile 
-		PORT MAP(clk, if_instruction(9 downto 5), tmp_readreg1, writereg_addr_mux, writedata_reg, outA_reg, outB_reg, regwrite_reg, ifidexmem_pc_out, ifidexmem_instruction(31 downto 21), ifidexmem_instruction(22 downto 21));
+	RegFile1: ENTITY work.RegFile PORT MAP(
+		clk,
+		if_instruction(9 downto 5),
+		tmp_readreg1,
+		writereg_addr_mux,
+		writedata_reg,
+		outA_reg,
+		outB_reg,
+		regwrite_reg,
+		ifidexmem_pc_out,
+		ifid_instruction_reg(31 downto 21),
+		ifidexmem_instruction(31 downto 21),
+		ifidexmem_instruction(22 downto 21)
+	);
 	
-	regwrite_reg <= regwrite or regwrite_early;
-	
+	-- Register write logic:
+	regwrite_reg      <= regwrite OR regwrite_early;
 	writedata_reg     <= id_wr_dat_early  WHEN regwrite_early = '1' ELSE writedata     WHEN regwrite = '1' ELSE (others => '0');
 	writereg_addr_mux <= id_wr_addr_early WHEN regwrite_early = '1' ELSE writereg_addr WHEN regwrite = '1' ELSE (others => '0');
 	
