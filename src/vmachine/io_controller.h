@@ -12,7 +12,8 @@
 
 enum INTERRUPT_TYPE {
 	INT_ERR, /* For exceptions (Errors) */
-	INT_IRQ  /* For normal device interrupt requests */
+	INT_IRQ, /* For normal device interrupt requests */
+	INT_SIRQ /* For software interrupt requests */
 };
 
 char io_controller_init(void);

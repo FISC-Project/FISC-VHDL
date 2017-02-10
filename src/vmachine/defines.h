@@ -8,7 +8,9 @@
 #ifndef SRC_VMACHINE_DEFINES_H_
 #define SRC_VMACHINE_DEFINES_H_
 
-#define MODELSIM_EXECUTION_TIME 100 /* How long will the Simulator run (in nanoseconds scale) */
+#define MODELSIM_EXECUTION_TIME 500 /* How long will the Simulator run (in nanoseconds scale) */
+
+#define ENABLE_INTERRUPT_NOTICES (0)
 
 #define MAX_INTEGER_SIZE 64
 

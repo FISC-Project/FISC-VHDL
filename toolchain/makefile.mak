@@ -126,6 +126,7 @@ clean:
 	$(RM) SDL2.dll
 	$(RM) wlf*
 	$(RM) top.*
+	$(RM) work/_lock
 
 clean_waves:
 	@printf "\n>> Cleaning wave (VCD) files <<\n"

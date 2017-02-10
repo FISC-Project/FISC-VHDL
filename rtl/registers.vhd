@@ -7,18 +7,20 @@ USE work.FISC_DEFINES.all;
 
 ENTITY RegFile IS
 	PORT(
-		clk          : in  std_logic;
-		readreg1     : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
-		readreg2     : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
-		writereg     : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
-		writedata    : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		outA         : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		outB         : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		regwr        : in  std_logic;
-		current_pc   : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		ifid_opcode    : in  std_logic_vector(10 downto 0);
-		opcode       : in  std_logic_vector(10 downto 0);
-		mov_quadrant : in  std_logic_vector(1 downto 0)
+		clk           : in  std_logic;
+		readreg1      : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
+		readreg2      : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
+		writereg      : in  std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
+		writedata     : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		outA          : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		outB          : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		regwr         : in  std_logic;
+		current_pc    : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		ifid_opcode   : in  std_logic_vector(10 downto 0);
+		opcode        : in  std_logic_vector(10 downto 0);
+		mov_quadrant  : in  std_logic_vector(1 downto 0);
+		ivp_out       : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		evp_out       : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
 	);
 END RegFile;
 
@@ -29,7 +31,7 @@ ARCHITECTURE RTL OF RegFile IS
 	
 	-- Special Registers:
 	signal esr  : std_logic_vector(7 downto 0)                 := (others => '0'); -- Exception Syndrome Register
-	signal elr  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Exception Link Register
+	-- The ELR register is declared on the file stage1_fetch.vhd
 	signal ivp  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Interrupt Vector Pointer
 	signal evp  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Exception Vector Pointer
 	signal pdp  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Page Directory Pointer
@@ -37,12 +39,15 @@ ARCHITECTURE RTL OF RegFile IS
 BEGIN
 	outA <= (outA'range => '0') WHEN (readreg1 = "11111" or opcode(10 downto 2) = "111100101" or opcode(10 downto 2) = "110100101") ELSE regfile(to_integer(unsigned(readreg1)));
 	outB <= (outB'range => '0') WHEN  readreg2 = "11111" ELSE regfile(to_integer(unsigned(readreg2)));
-
+	
+	ivp_out <= ivp;
+	evp_out <= evp;
+	
 	----------------
 	-- Behaviour: --
 	----------------
 	main_proc: process(clk, regwr) begin
-		if rising_edge(clk) and regwr = '1' then
+		if rising_edge(clk) and regwr = '1' then		
 			if opcode(10 downto 2) = "111100101" then
 				-- Execute MOVK:
 				case mov_quadrant is

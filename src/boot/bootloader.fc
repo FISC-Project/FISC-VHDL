@@ -1,19 +1,19 @@
 nop nop
 
-MOVI X1,10;
-LEVP X1
-SEVP X2
-INC X2
+// Set up Interrupt Vector:
+ADDI X0, XZR, 0x28
 NOP
-LIVP X2
-SIVP X3
-MOV X4,X3
+LIVP X0
+
+// Enable Interrupts:
+ADDI X0, XZR, 1
+NOP
+MSR CPSR_IEN0, X0
+
+// Execute Software Interrupt 0:
+SINT 0 
 HALT
 
-//MOVI X0, 0xFFFFFF; // Data (white pixel)
-//MOVI X1, 0x400;    // IO Space Address
-
-//Jump:
-//	STURW X0, [X1, 0]; // Store
-//	INC X1;            // Write to next pixel
-//B Jump
+// The Interrupt Vector starts here:
+NOP
+RETI

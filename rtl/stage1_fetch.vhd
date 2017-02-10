@@ -39,6 +39,7 @@ USE work.FISC_DEFINES.all;
 ENTITY Stage1_Fetch IS
 	PORT(
 		clk                : in  std_logic;
+		cpu_state          : in  std_logic_vector(2 downto 0);
 		new_pc             : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		reset              : in  std_logic;
 		fsm_next           : in  std_logic;
@@ -48,6 +49,9 @@ ENTITY Stage1_Fetch IS
 		if_instruction     : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
 		new_pc_unpiped     : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 		pc_out             : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
+		ivp_out            : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		evp_out            : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		int_id             : in  std_logic_vector(7 downto 0);
 		-- Pipeline flush/freeze:
 		if_flush           : in  std_logic;
 		if_freeze          : in  std_logic
@@ -57,6 +61,8 @@ END Stage1_Fetch;
 ARCHITECTURE RTL OF Stage1_Fetch IS
 	signal new_pc_reg     : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 	signal pc_wr_reg      : std_logic := '0';
+	signal elr            : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Exception Link Register
+	
 	-- Inner Pipeline Layer:
 	signal pc_out_reg     : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 	signal pc_out_reg_cpy : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0'); -- Just a copy, not pipelined
@@ -68,7 +74,10 @@ BEGIN
 
 	-- NOTE: There are two ways to branch unconditionally. Either use the microcode unit for ANY instruction, or use the B/BR instructions with no other side effects
 	new_pc_reg <=
-		new_pc WHEN (pc_src or uncond_branch_flag) = '1'
+		std_logic_vector(uns(ivp_out) + (uns(int_id) * 4)) WHEN cpu_state = s_jmpint
+		ELSE std_logic_vector(uns(evp_out) + (uns(int_id) * 4)) WHEN cpu_state = s_jmpex
+		ELSE elr WHEN cpu_state = s_restorectx or instruction(31 downto 26) = "101000" -- Jump unconditionally on RETI
+		ELSE new_pc WHEN (pc_src or uncond_branch_flag) = '1'
 		ELSE pc_out_reg + "100" WHEN if_flush = '0' and if_freeze = '0' 
 		ELSE pc_out_reg - "100";
 	new_pc_unpiped <= new_pc_reg;
@@ -86,6 +95,15 @@ BEGIN
 			elsif reset = '1' then
 				if_instruction <= (others => '0');
 				pc_out         <= (others => '0');
+			end if;
+			
+			-- Handle Context Saving / Restoring:
+			if cpu_state = s_savectx then
+				elr <= pc_out_reg_cpy;
+			elsif cpu_state = s_jmpint then
+				DEBUG("Jumping into the Interrupt Vector (PC = IVP(" & itoa(ivp_out) & ") + INT_ID(" & itoa(int_id) & "))");
+			elsif cpu_state = s_jmpex then
+				DEBUG("Jumping into the Exception Vector (PC = EVP(" & itoa(evp_out) & ") + ESR(<NIL>))"); -- TODO: Fetch the value from the ESR register
 			end if;
 		end if;
 	end process;

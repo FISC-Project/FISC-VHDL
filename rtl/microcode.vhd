@@ -96,6 +96,8 @@ ARCHITECTURE RTL OF Microcode IS
 		50 => microinstr("---------------0010000000000000", '1'), -- Instruction LEVP
 		51 => microinstr("---------------0010000000000000", '1'), -- Instruction SEVP
 		52 => microinstr("---------------0010000000000000", '1'), -- Instruction SESR
+		53 => microinstr("---------------0000000000000000", '1'), -- Instruction RETI
+		54 => microinstr("---------------0000000000000000", '1'), -- Instruction SINT
 		-- END OF MICROCODE MEMORY -
 		others => (others => '0')
 	);
@@ -152,11 +154,13 @@ ARCHITECTURE RTL OF Microcode IS
 		45 => create_segment(45), -- Opcode 45 runs microcode at address 45 (decimal) (NOTI)
 		46 => create_segment(46), -- Opcode 46 runs microcode at address 46 (decimal) (MSR)
 		47 => create_segment(47), -- Opcode 47 runs microcode at address 47 (decimal) (MRS)
-		48 => create_segment(48), -- Opcode 47 runs microcode at address 48 (decimal) (LIVP)
-		49 => create_segment(49), -- Opcode 47 runs microcode at address 49 (decimal) (SIVP)
-		50 => create_segment(50), -- Opcode 47 runs microcode at address 50 (decimal) (LEVP)
-		51 => create_segment(51), -- Opcode 47 runs microcode at address 51 (decimal) (SEVP)
-		52 => create_segment(52), -- Opcode 47 runs microcode at address 52 (decimal) (SESR)
+		48 => create_segment(48), -- Opcode 48 runs microcode at address 48 (decimal) (LIVP)
+		49 => create_segment(49), -- Opcode 49 runs microcode at address 49 (decimal) (SIVP)
+		50 => create_segment(50), -- Opcode 50 runs microcode at address 50 (decimal) (LEVP)
+		51 => create_segment(51), -- Opcode 51 runs microcode at address 51 (decimal) (SEVP)
+		52 => create_segment(52), -- Opcode 52 runs microcode at address 52 (decimal) (SESR)
+		53 => create_segment(53), -- Opcode 53 runs microcode at address 53 (decimal) (RETI)
+		54 => create_segment(54), -- Opcode 54 runs microcode at address 54 (decimal) (SINT)
 		-- END OF SEGMENT MEMORY --
 		others => (others => '0')
 	);
@@ -267,6 +271,8 @@ ARCHITECTURE RTL OF Microcode IS
 			when "000101" => return "00000011010"; -- B
 			when "100101" => return "00000011100"; -- BL
 			-- Newly added instructions that do not belong to LEGv8:
+			when "101000" => return "00000110101"; -- RETI
+			when "101001" => return "00000110110"; -- SINT
 			when others => -- Do nothing here
 		end case;
 		

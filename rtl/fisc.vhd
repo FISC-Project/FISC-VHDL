@@ -33,13 +33,15 @@ ARCHITECTURE RTL OF FISC IS
 	-----------------------------------------------
 	
 	-- Stage 2 - Decode Interconnect wires --
-	signal id_sos           : std_logic := '0';
+	signal id_sos           : std_logic := '1';
 	signal id_outA          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_outB          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_sign_ext      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_wr_dat_early  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 	signal id_wr_addr_early : std_logic_vector(4 downto 0) := (others => '0');
 	signal id_pc_src        : std_logic := '0'; -- It's a control but comes from the ID stage. It's produced by the flags: reg1_zero & branch
+	signal ivp_out          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0); -- Interrupt Vector Pointer output
+	signal evp_out          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0); -- Exception Vector Pointer output
 	-- Pipeline output:
 	signal ifid_pc_out      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 	signal ifid_instruction : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
@@ -137,7 +139,7 @@ ARCHITECTURE RTL OF FISC IS
 		
 	-- Main Memory Signals ------------
 	signal accessing_main_memory : std_logic := '0'; -- Is the CPU currently accessing Main Memory?
-	signal mem_en                : std_logic_vector(1 downto 0)  := "01";
+	signal mem_en                : std_logic_vector(1 downto 0)  := "00";
 	signal mem_wr                : std_logic := '0';
 	signal mem_rd                : std_logic_vector(1  downto 0) := "01";
 	signal mem_ready             : std_logic_vector(1  downto 0);
@@ -150,17 +152,30 @@ ARCHITECTURE RTL OF FISC IS
 	-----------------------------------
 	
 	-- IO Controller Signals --
-	signal io_int_en   : std_logic;
-	signal io_int_id   : std_logic_vector(7 downto 0);
-	signal io_int_type : std_logic_vector(1 downto 0);
-	signal io_int_ack  : std_logic := '0';
+	signal io_int_en       : std_logic;
+	signal io_int_id       : std_logic_vector(7 downto 0);
+	signal io_int_id_reg   : std_logic_vector(7 downto 0);
+	signal io_int_type     : std_logic_vector(1 downto 0);
+	signal io_int_type_reg : std_logic_vector(1 downto 0);
+	signal io_int_ack      : std_logic := '0';
+	signal io_int_ack_id   : std_logic_vector(7 downto 0) := (others => '0');
 	---------------------------
+	
+	-- Software Interrupt Signals --
+	signal sint_id   : std_logic_vector(7 downto 0) := (others => '0');
+	signal sint_type : std_logic_vector(1 downto 0) := (others => '0');
+	--------------------------------
+	
+	-- CPU Finite State Machine --
+	signal cpu_state : std_logic_vector(2 downto 0) := s_fetching;
+	------------------------------
 BEGIN
 	-- Main Memory Wire Assignments:
 	accessing_main_memory <= '0' WHEN mem_ready > "00" ELSE '1'; 
 	mem_address1          <= if_new_pc_unpiped(mem_address1'high downto 0);
 	mem_address2          <= ex_result(mem_address2'high downto 0);
 	mem_data_in           <= ex_opB;
+	mem_en(0)             <= '1' WHEN cpu_state = s_fetching or cpu_state = s_jmpint or cpu_state = s_runint or cpu_state = s_jmpex or cpu_state = s_runex ELSE '0';
 	mem_en(1)             <= idex_memread or idex_memwrite;
 	mem_wr                <= idex_memwrite;
 	mem_rd(1)             <= idex_memread;
@@ -177,17 +192,21 @@ BEGIN
 	-- Stage 1: Fetch -------------------------------------------
 	-------------------------------------------------------------
 	Stage1_Fetch1 : ENTITY work.Stage1_Fetch PORT MAP(
-		master_clk, 
-		if_new_pc, 
-		if_reset_pc, 
+		master_clk,
+		cpu_state,
+		if_new_pc,
+		if_reset_pc,
 		id_microcode_ctrl(0),
-		id_pc_src, 
-		if_uncond_branch_flag, 
-		mem_data_out1(31 downto 0), 
-		if_instruction, 
-		if_new_pc_unpiped, 
-		if_pc_out, 
-		if_flush, 
+		id_pc_src,
+		if_uncond_branch_flag,
+		mem_data_out1(31 downto 0),
+		if_instruction,
+		if_new_pc_unpiped,
+		if_pc_out,
+		ivp_out,
+		evp_out,
+		io_int_id_reg,
+		if_flush,
 		if_freeze
 	);
 	
@@ -195,36 +214,38 @@ BEGIN
 	-- Stage 2: Decode ------------------------------------------
 	-------------------------------------------------------------
 	Stage2_Decode1 : ENTITY work.Stage2_Decode PORT MAP(
-		master_clk, 
-		id_sos, 
-		id_microcode_ctrl, 
+		master_clk,
+		id_sos,
+		id_microcode_ctrl,
 		id_microcode_ctrl_early,
 		id_wr_dat_early,
 		id_wr_addr_early,
 		regwrite_early,
-		if_instruction, 
-		wb_writeback_data, 
-		idexmem_regwrite, 
-		id_outA, 
+		if_instruction,
+		wb_writeback_data,
+		idexmem_regwrite,
+		id_outA,
 		id_outB,
-		ifidexmem_instruction(4 downto 0), 
+		ifidexmem_instruction(4 downto 0),
 		if_pc_out,
-		ifidexmem_pc_out, 
-		if_new_pc, 
-		id_sign_ext, 
-		id_pc_src, 
-		if_uncond_branch_flag, 
-		flag_neg, 
-		flag_zero, 
-		flag_overf, 
-		flag_carry, 
-		ifidexmem_instruction, 
-		ex_result_early, 
-		wb_writeback_data, 
-		idexmem_regwrite, 
-		ifid_pc_out, 
-		ifid_instruction, 
-		id_flush, 
+		ifidexmem_pc_out,
+		if_new_pc,
+		id_sign_ext,
+		id_pc_src,
+		if_uncond_branch_flag,
+		flag_neg,
+		flag_zero,
+		flag_overf,
+		flag_carry,
+		ifidexmem_instruction,
+		ex_result_early,
+		wb_writeback_data,
+		idexmem_regwrite,
+		ivp_out,
+		evp_out,
+		ifid_pc_out,
+		ifid_instruction,
+		id_flush,
 		id_freeze
 	);
 	
@@ -268,20 +289,20 @@ BEGIN
 	-- Stage 4: Memory Access -----------------------------------
 	-------------------------------------------------------------
 	Stage4_Memory_Access1 : ENTITY work.Stage4_Memory_Access PORT MAP(
-		master_clk, 
-		ex_result, 
-		mem_data_out2, 
-		mem_data_out, 
-		mem_address, 
-		ifidex_instruction, 
-		ifidexmem_instruction, 
-		ifidex_pc_out, 
-		ifidexmem_pc_out, 
-		idex_regwrite, 
-		idex_memtoreg, 
-		idexmem_regwrite, 
-		idexmem_memtoreg, 
-		mem_flush, 
+		master_clk,
+		ex_result,
+		mem_data_out2,
+		mem_data_out,
+		mem_address,
+		ifidex_instruction,
+		ifidexmem_instruction,
+		ifidex_pc_out,
+		ifidexmem_pc_out,
+		idex_regwrite,
+		idex_memtoreg,
+		idexmem_regwrite,
+		idexmem_memtoreg,
+		mem_flush,
 		mem_freeze
 	);
 	
@@ -289,27 +310,32 @@ BEGIN
 	-- Stage 5: Writeback -----------------------------------------
 	---------------------------------------------------------------
 	Stage5_Writeback1 : ENTITY work.Stage5_Writeback PORT MAP(
-		master_clk, 
-		mem_address, 
-		mem_data_out, 
-		idexmem_memtoreg, 
+		master_clk,
+		mem_address,
+		mem_data_out,
+		idexmem_memtoreg,
 		wb_writeback_data
 	);
 	
 	-- Declare Main Memory: --
 	Main_Memory : ENTITY work.Memory PORT MAP(
-		clk, mem_en, mem_wr, mem_rd, mem_ready, 
+		clk, mem_en, mem_wr, mem_rd, mem_ready,
 		mem_address1, mem_address2, mem_data_in, mem_data_out1, mem_data_out2, mem_access_width
 	);
 	
 	-- Declare IO Controller:
 	IO_Controller1: ENTITY work.IO_Controller PORT MAP(
-		clk, io_int_en, io_int_id, io_int_type, io_int_ack
+		clk, io_int_en, io_int_id, io_int_type, io_int_ack, io_int_ack_id, ien_flags(0), ien_flags(1)
 	);
+	
+	-- Two ways of entering interrupts: via the IO Controller, and via the instruction SINT - Software Interrupt
+	io_int_id_reg   <= io_int_id   WHEN sint_type /= "10" ELSE sint_id;
+	io_int_type_reg <= io_int_type WHEN sint_type /= "10" ELSE sint_type;
 	
 	-- ALU Flags, Exception and Interrupts Flags (CPSR) declaration:
 	CPSR1: ENTITY work.CPSR PORT MAP(
-		master_clk, idex_set_flags, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, flag_neg, flag_zero, flag_overf, flag_carry,
+		master_clk, cpu_state, io_int_type_reg,
+		idex_set_flags, ex_alu_neg, ex_alu_zero, ex_alu_overf, ex_alu_carry, flag_neg, flag_zero, flag_overf, flag_carry,
 		ae_flag, pg_flag, ien_flags, cpu_mode_flags,
 		cpsr_wr, cpsr_rd, cpsr_wr_in, cpsr_rd_out, cpsr_field
 	);
@@ -383,24 +409,79 @@ BEGIN
 	---------------------------
 	------- Behaviour: --------
 	---------------------------
-	main_proc: process(clk, restart_cpu, id_microcode_ctrl, pause, accessing_main_memory) begin
+	main_proc: process(clk, restart_cpu) begin
+		-- On restart:
 		if restart_cpu = '1' then
-			id_sos <= '1';
+			-- Do nothing for now (TODO)
 		else
-			if clk = '0' then
+			
+			-- On clock:
+			if clk = '0' then -- On negative edge
+				-- Update old clock:
 				if pause = '0' AND accessing_main_memory = '0' then
 					clk_old_edge <= clk;
 				end if;
-				if id_microcode_ctrl(0) = '1' then
-					id_sos <= '1';
-				else
-					id_sos <= '0';
+				
+				--------------------------------------
+				-- CPU Finite State Machine algorithm:
+				--------------------------------------
+				case cpu_state is
+					when s_fetching => --io_int_ack <= '0';
+					when s_savectx  => cpu_state  <= s_changemode;
+					when s_changemode => 
+						if io_int_type_reg = "00" then
+							cpu_state <= s_jmpex;  -- Change CPU state to Exception execution
+						elsif io_int_type_reg = "01" or io_int_type_reg = "10" then
+							cpu_state <= s_jmpint; -- Change CPU state to Interrupt/Software Interrupt execution
+						end if;
+					when s_jmpint =>     cpu_state <= s_runint;
+					when s_jmpex  =>     cpu_state <= s_runex;
+					when s_runint =>     -- On the instruction RETI or while enabling interrupts, do: cpu_state <= s_restorectx
+					when s_runex  =>     -- On the instruction RETI or while enabling interrupts, do: cpu_state <= s_restorectx
+					when s_restorectx =>
+						-- Clear all the software interrupt wires:
+						sint_id   <= (others => '0');
+						sint_type <= (others => '0');
+						cpu_state <= s_fetching;
+					when others =>
+				end case;
+				
+				-- On RETI instruction:
+				if if_instruction(31 downto 26) = "101000" then
+					cpu_state <= s_restorectx;
 				end if;
-			else
+				
+				--  On SINT instruction (Note: the SINT interrupt instruction has a higher priority compared to the IO interrupt):
+				if if_instruction(31 downto 26) = "101001" then
+					if cpu_state = s_fetching then
+						cpu_state <= s_savectx;
+						sint_id   <= if_instruction(7 downto 0);
+						sint_type <= "10";
+					else
+						-- TODO: The programmer tried to execute a software interrupt while inside an interrupt. 
+						-- This is a double interrup / fault and we should jump into exception mode because of this
+					end if;
+				end if;
+				
+				-- Handle Interrupt Requests (normal IRQs):
+				if io_int_en = '1' and cpu_state = s_fetching and if_instruction(31 downto 26) /= "101001" then
+					cpu_state  <= s_savectx;
+					io_int_ack <= '0'; -- Disable acknowledgment flag, indicating to the IO Controller that we're currently servicing an interrupt
+				end if;
+							
+			else -- On positive edge
+				
+				if cpu_state = s_restorectx then
+					-- Acknowledge the IO Controller's interrupt request:
+					io_int_ack    <= '1'; -- The acknowledgement has been sent, and now we're waiting for more interrupts
+					io_int_ack_id <= io_int_id;
+				end if;
+				
+				-- Update old clock:
 				if pause = '0' AND accessing_main_memory = '0'then
 					clk_old_edge <= clk;
 				end if;
-				id_sos <= '0';
+				
 			end if;
 		end if;
 	end process;

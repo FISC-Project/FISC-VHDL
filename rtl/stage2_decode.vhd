@@ -34,6 +34,8 @@ ENTITY Stage2_Decode IS
 		ex_result_forw        : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0); -- Forward value from Execute stage
 		mem_wb_forw           : in  std_logic_vector(FISC_INTEGER_SZ-1     downto 0); -- Forward value from Writeback stage
 		idexmem_regwrite      : in  std_logic;
+		ivp_out               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		evp_out               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		-- Pipeline (data) outputs:
 		ifid_pc_out           : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
 		ifid_instruction      : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
@@ -84,7 +86,9 @@ BEGIN
 		ifidexmem_pc_out,
 		ifid_instruction_reg(31 downto 21),
 		ifidexmem_instruction(31 downto 21),
-		ifidexmem_instruction(22 downto 21)
+		ifidexmem_instruction(22 downto 21),
+		ivp_out,
+		evp_out
 	);
 	
 	-- Register write logic:
@@ -141,7 +145,7 @@ BEGIN
 		ELSE "11" WHEN ifid_instruction_reg(31 downto 26) = "100101" 
 		ELSE "00";
 	
-	-- Absolute OR PC-relative jump:
+	-- Absolute 'OR' PC-relative jump:
 	new_pc <= 
 		outB_reg(61 downto 0) & "00" WHEN if_instruction(31 downto 21) = "11010110000" AND decode_forw = "00" -- BR jump WITHOUT forwarding
 		ELSE ex_result_forw(61 downto 0) & "00" WHEN if_instruction(31 downto 21) = "11010110000" AND decode_forw = "01" -- BR jump WITH forwarding from Execute Stage

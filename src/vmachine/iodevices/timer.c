@@ -5,7 +5,6 @@
  *      Author: Miguel
  */
 #include "../../vmachine/iodevices/timer.h"
-
 #include "../../vmachine/defines.h"
 #include "../../vmachine/io_controller.h"
 
@@ -15,11 +14,11 @@ char timer_device_running = 1;
 uint32_t timer_device_id = (uint32_t)-1;
 
 void timer_poll(void) {
-	SDL_Delay(500); /* Wait a little bit to allow the CPU to start executing */
+	SDL_Delay(100); /* Wait a little bit to allow the CPU to start executing */
 	timer_device_running = 1;
 	while(timer_device_running) {
 		io_irq(timer_device_id, INT_IRQ);
-		SDL_Delay(50);
+		SDL_Delay(1);
 	}
 }
 
