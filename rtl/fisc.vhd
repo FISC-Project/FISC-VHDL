@@ -36,7 +36,6 @@ ARCHITECTURE RTL OF FISC IS
 	signal id_sos           : std_logic := '1';
 	signal id_outA          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_outB          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-	signal id_outB_unpiped  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_sign_ext      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_wr_dat_early  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 	signal id_wr_addr_early : std_logic_vector(4 downto 0) := (others => '0');
@@ -227,7 +226,6 @@ BEGIN
 		idexmem_regwrite,
 		id_outA,
 		id_outB,
-		id_outB_unpiped,
 		ifidexmem_instruction(4 downto 0),
 		if_pc_out,
 		ifidexmem_pc_out,
@@ -344,7 +342,7 @@ BEGIN
 	
 	cpsr_field                                 <= ifid_instruction(4 downto 0) WHEN ifid_instruction(31 downto 21) = "11000010100" ELSE ifid_instruction(9 downto 5);
 	id_wr_addr_early                           <= ifid_instruction(9 downto 5) WHEN ifid_instruction(31 downto 21) = "11000010100" ELSE ifid_instruction(4 downto 0);
-	cpsr_wr_in                                 <= id_outB_unpiped(cpsr_wr_in'high downto 0);
+	cpsr_wr_in                                 <= id_outA(cpsr_wr_in'high downto 0);
 	id_wr_dat_early(cpsr_rd_out'high downto 0) <= cpsr_rd_out;
 	
 	-- Forwarding logic declaration:

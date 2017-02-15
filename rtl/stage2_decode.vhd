@@ -19,7 +19,6 @@ ENTITY Stage2_Decode IS
 		regwrite              : in  std_logic;
 		outA                  : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		outB                  : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
-		outB_unpiped          : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		writereg_addr         : in  std_logic_vector(4 downto 0);
 		current_pc            : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		ifidexmem_pc_out      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
@@ -61,7 +60,7 @@ ARCHITECTURE RTL OF Stage2_Decode IS
 	signal cond_branch_flag     : std_logic := '0';
 	signal reg1_zero_flag       : std_logic := '0';
 	signal reg2_zero_flag       : std_logic := '0';
-	signal tmp_readreg1         : std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
+	signal tmp_readreg2         : std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
 	signal decode_forw          : std_logic_vector(1 downto 0) := "00";
 	signal ifid_pc_out_reg      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 	-- Inner Pipeline Layer:
@@ -78,7 +77,7 @@ BEGIN
 	RegFile1: ENTITY work.RegFile PORT MAP(
 		clk,
 		if_instruction(9 downto 5),
-		tmp_readreg1,
+		tmp_readreg2,
 		writereg_addr_mux,
 		writedata_reg,
 		outA_reg,
@@ -155,9 +154,7 @@ BEGIN
 		ELSE std_logic_vector(signed(if_instruction(25 downto 0) & "00") + signed(current_pc)) WHEN uncond_branch_flag = '1' -- B and BL jump
 		ELSE std_logic_vector(signed(if_instruction(23 downto 5) & "00") + signed(current_pc)); -- CBNZ, CBZ and B.cond jump
 		
-	tmp_readreg1 <= if_instruction(4 downto 0) WHEN reg2loc = '1' ELSE if_instruction(20 downto 16); -- Select either RD or RM fields for input readreg1 (only effective with Instr. Format R)
-
-	outB_unpiped <= outB_reg;
+	tmp_readreg2 <= if_instruction(4 downto 0) WHEN reg2loc = '1' ELSE if_instruction(20 downto 16); -- Select either RD or RM fields for input readreg1 (only effective with Instr. Format R)
 
 	----------------
 	-- Behaviour: --
