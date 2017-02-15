@@ -4,12 +4,12 @@
  *  Created on: 20/12/2016
  *      Author: Miguel
  */
-#include "../../vmachine/iodevices/vga.h"
+#include "vga.h"
 
 #include <stdio.h>
 #include <string.h>
 
-#include "../../vmachine/defines.h"
+#include "../defines.h"
 
 SDL_Window   * window = 0;
 SDL_Renderer * renderer;

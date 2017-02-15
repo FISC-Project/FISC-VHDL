@@ -52,7 +52,7 @@ ARCHITECTURE RTL OF CPSR IS
 	
 	signal old_mode  : std_logic_vector(2 downto 0)  := mode_kernel;
 	
-	signal cpsr_reg  : std_logic_vector(10 downto 0) := "00000000" & mode_kernel;
+	signal cpsr_reg  : std_logic_vector(10 downto 0) := "00001000" & mode_kernel;
 	
 	type spsr_t is array (7 downto 0) of std_logic_vector(10 downto 0); -- Only 6 of these are being used
 	signal spsr_regs : spsr_t := (others => ("00000000" & mode_kernel));

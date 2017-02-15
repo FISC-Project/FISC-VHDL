@@ -19,6 +19,7 @@ ENTITY Stage2_Decode IS
 		regwrite              : in  std_logic;
 		outA                  : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		outB                  : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
+		outB_unpiped          : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		writereg_addr         : in  std_logic_vector(4 downto 0);
 		current_pc            : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 		ifidexmem_pc_out      : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
@@ -155,6 +156,8 @@ BEGIN
 		ELSE std_logic_vector(signed(if_instruction(23 downto 5) & "00") + signed(current_pc)); -- CBNZ, CBZ and B.cond jump
 		
 	tmp_readreg1 <= if_instruction(4 downto 0) WHEN reg2loc = '1' ELSE if_instruction(20 downto 16); -- Select either RD or RM fields for input readreg1 (only effective with Instr. Format R)
+
+	outB_unpiped <= outB_reg;
 
 	----------------
 	-- Behaviour: --

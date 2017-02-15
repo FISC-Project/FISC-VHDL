@@ -6,12 +6,12 @@
  */
 #include <mti.h>
 #include <stdio.h>
-#include "../vmachine/io_controller.h"
-#include "../vmachine/address_space.h"
-#include "../vmachine/defines.h"
-#include "../vmachine/signal_conv.h"
-#include "../vmachine/tinycthread/tinycthread.h"
-#include "../vmachine/utils.h"
+#include "io_controller.h"
+#include "address_space.h"
+#include "defines.h"
+#include "signal_conv.h"
+#include "tinycthread/tinycthread.h"
+#include "utils.h"
 
 typedef struct {
 	mtiSignalIdT clk;

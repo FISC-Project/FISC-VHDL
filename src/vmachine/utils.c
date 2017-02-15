@@ -4,9 +4,8 @@
  *  Created on: 17/12/2016
  *      Author: Miguel
  */
-#include "../vmachine/utils.h"
-
 #include <string.h>
+#include "utils.h"
 
 char * int2bin(int a, char *buffer, int buf_size) {
     buffer += (buf_size - 1);

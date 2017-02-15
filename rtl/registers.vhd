@@ -79,6 +79,9 @@ BEGIN
 			elsif opcode(10 downto 5) = "100101" then
 				-- Link PC to register 30 (store return address):
 				regfile(30) <= writedata;
+			elsif ifid_opcode = "10101000100" then
+				-- Execute LDPC:
+				regfile(30) <= std_logic_vector(uns(current_pc) + uns("100"));
 			elsif ifid_opcode = "10111010100" then
 				-- Execute LIVP:
 				ivp <= regfile(to_integer(unsigned(writereg)));

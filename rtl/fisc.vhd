@@ -36,6 +36,7 @@ ARCHITECTURE RTL OF FISC IS
 	signal id_sos           : std_logic := '1';
 	signal id_outA          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_outB          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal id_outB_unpiped  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_sign_ext      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 	signal id_wr_dat_early  : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
 	signal id_wr_addr_early : std_logic_vector(4 downto 0) := (others => '0');
@@ -226,6 +227,7 @@ BEGIN
 		idexmem_regwrite,
 		id_outA,
 		id_outB,
+		id_outB_unpiped,
 		ifidexmem_instruction(4 downto 0),
 		if_pc_out,
 		ifidexmem_pc_out,
@@ -320,7 +322,7 @@ BEGIN
 	-- Declare Main Memory: --
 	Main_Memory : ENTITY work.Memory PORT MAP(
 		clk, mem_en, mem_wr, mem_rd, mem_ready,
-		mem_address1, mem_address2, mem_data_in, mem_data_out1, mem_data_out2, mem_access_width
+		mem_address1, mem_address2, mem_data_in, mem_data_out1, mem_data_out2, mem_access_width, ae_flag
 	);
 	
 	-- Declare IO Controller:
@@ -342,7 +344,7 @@ BEGIN
 	
 	cpsr_field                                 <= ifid_instruction(4 downto 0) WHEN ifid_instruction(31 downto 21) = "11000010100" ELSE ifid_instruction(9 downto 5);
 	id_wr_addr_early                           <= ifid_instruction(9 downto 5) WHEN ifid_instruction(31 downto 21) = "11000010100" ELSE ifid_instruction(4 downto 0);
-	cpsr_wr_in                                 <= id_outB(cpsr_wr_in'high downto 0);
+	cpsr_wr_in                                 <= id_outB_unpiped(cpsr_wr_in'high downto 0);
 	id_wr_dat_early(cpsr_rd_out'high downto 0) <= cpsr_rd_out;
 	
 	-- Forwarding logic declaration:
@@ -459,7 +461,7 @@ BEGIN
 						sint_type <= "10";
 					else
 						-- TODO: The programmer tried to execute a software interrupt while inside an interrupt. 
-						-- This is a double interrup / fault and we should jump into exception mode because of this
+						-- This is a double interrupt / fault and we should jump into exception mode because of this
 					end if;
 				end if;
 				
@@ -468,7 +470,7 @@ BEGIN
 					cpu_state  <= s_savectx;
 					io_int_ack <= '0'; -- Disable acknowledgment flag, indicating to the IO Controller that we're currently servicing an interrupt
 				end if;
-							
+
 			else -- On positive edge
 				
 				if cpu_state = s_restorectx then

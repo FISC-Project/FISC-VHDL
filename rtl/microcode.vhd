@@ -98,6 +98,7 @@ ARCHITECTURE RTL OF Microcode IS
 		52 => microinstr("---------------0010000000000000", '1'), -- Instruction SESR
 		53 => microinstr("---------------0000000000000000", '1'), -- Instruction RETI
 		54 => microinstr("---------------0000000000000000", '1'), -- Instruction SINT
+		55 => microinstr("---------------0010000000000000", '1'), -- Instruction LDPC
 		-- END OF MICROCODE MEMORY -
 		others => (others => '0')
 	);
@@ -161,6 +162,7 @@ ARCHITECTURE RTL OF Microcode IS
 		52 => create_segment(52), -- Opcode 52 runs microcode at address 52 (decimal) (SESR)
 		53 => create_segment(53), -- Opcode 53 runs microcode at address 53 (decimal) (RETI)
 		54 => create_segment(54), -- Opcode 54 runs microcode at address 54 (decimal) (SINT)
+		55 => create_segment(55), -- Opcode 55 runs microcode at address 55 (decimal) (LDPC)
 		-- END OF SEGMENT MEMORY --
 		others => (others => '0')
 	);
@@ -238,6 +240,7 @@ ARCHITECTURE RTL OF Microcode IS
 			when "10110010100" => return "00000110010"; -- LEVP
 			when "10101110100" => return "00000110011"; -- SEVP
 			when "10101010100" => return "00000110100"; -- SESR
+			when "10101000100" => return "00000110111"; -- LDPC
 			when others => -- Do nothing here
 		end case;
 		

@@ -23,7 +23,7 @@ FLASM = toolchain/Windows/Tools/flasm
 CFLAGS = -I. -Ilib/c_libs -Ilib/c_libs/include -Ilib/c_libs/SDL -I$(MODELSIM_PATH)/include -g -O2 -Wall -std=c99
 
 # Virtual Machine's object files:
-VMOBJS = $(OBJ)/memory.o $(OBJ)/virtual_memory.o $(OBJ)/utils.o $(OBJ)/tinycthread.o $(OBJ)/io_controller.o $(OBJ)/vga.o $(OBJ)/timer.o
+VMOBJS = $(OBJ)/memory.o $(OBJ)/mmu.o $(OBJ)/utils.o $(OBJ)/tinycthread.o $(OBJ)/io_controller.o $(OBJ)/vga.o $(OBJ)/timer.o
 
 BOOTLOADER:
 	@printf "> Compiling Bootloader: "
@@ -34,8 +34,8 @@ BOOTLOADER:
 BINS = $(OBJ)/foo.o \
 	$(OBJ)/io_controller.o \
 	$(OBJ)/memory.o \
+	$(OBJ)/mmu.o \
 	$(OBJ)/utils.o \
-	$(OBJ)/virtual_memory.o \
 	$(OBJ)/timer.o \
 	$(OBJ)/vga.o \
 	$(OBJ)/tinycthread.o 
@@ -52,12 +52,12 @@ $(OBJ)/memory.o: ./src/vmachine/memory.c
 	@printf "> Compiling C file 'src/vmachine/memory.c': "
 	gcc $(CFLAGS) -c $< -o $@
 
-$(OBJ)/utils.o: ./src/vmachine/utils.c
-	@printf "> Compiling C file 'src/vmachine/utils.c': "
+$(OBJ)/mmu.o: ./src/vmachine/mmu.c
+	@printf "> Compiling C file 'src/vmachine/mmu.c': "
 	gcc $(CFLAGS) -c $< -o $@
 
-$(OBJ)/virtual_memory.o: ./src/vmachine/virtual_memory.c
-	@printf "> Compiling C file 'src/vmachine/virtual_memory.c': "
+$(OBJ)/utils.o: ./src/vmachine/utils.c
+	@printf "> Compiling C file 'src/vmachine/utils.c': "
 	gcc $(CFLAGS) -c $< -o $@
 
 $(OBJ)/timer.o: ./src/vmachine/iodevices/timer.c

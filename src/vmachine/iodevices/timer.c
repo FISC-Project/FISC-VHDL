@@ -4,9 +4,9 @@
  *  Created on: 26/12/2016
  *      Author: Miguel
  */
-#include "../../vmachine/iodevices/timer.h"
-#include "../../vmachine/defines.h"
-#include "../../vmachine/io_controller.h"
+#include "timer.h"
+#include "../defines.h"
+#include "../io_controller.h"
 
 mtx_t mutex;
 

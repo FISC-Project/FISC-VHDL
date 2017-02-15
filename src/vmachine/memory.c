@@ -10,12 +10,11 @@
 #include <stdint.h>
 #include <string.h>
 #include <inttypes.h>
-
-#include "../vmachine/address_space.h"
-#include "../vmachine/defines.h"
-#include "../vmachine/io_controller.h"
-#include "../vmachine/signal_conv.h"
-#include "../vmachine/virtual_memory.h"
+#include "address_space.h"
+#include "defines.h"
+#include "io_controller.h"
+#include "signal_conv.h"
+#include "mmu.h"
 
 typedef struct {
 	mtiSignalIdT clk;
@@ -29,6 +28,7 @@ typedef struct {
 	mtiDriverIdT data_out1;
 	mtiDriverIdT data_out2;
 	mtiSignalIdT access_width;
+	mtiSignalIdT alignment_flag;
 } memory_t;
 
 memory_t * ip;
@@ -97,32 +97,32 @@ char * read_memory(uint32_t address, uint8_t access_width) {
 			break;
 		}
 		case SZ_32: {
-			char * val = int_to_sigv(memory_contents[ALIGN32(address)+3], 8);
+			char * val = int_to_sigv(memory_contents[address+3], 8);
 			memcpy(read_memory_ret + (7*8), val, 8);
-			val = int_to_sigv(memory_contents[ALIGN32(address)+2], 8);
+			val = int_to_sigv(memory_contents[address+2], 8);
 			memcpy(read_memory_ret + (6*8), val, 8);
-			val = int_to_sigv(memory_contents[ALIGN32(address)+1], 8);
+			val = int_to_sigv(memory_contents[address+1], 8);
 			memcpy(read_memory_ret + (5*8), val, 8);
-			val = int_to_sigv(memory_contents[ALIGN32(address)], 8);
+			val = int_to_sigv(memory_contents[address], 8);
 			memcpy(read_memory_ret + (4*8), val, 8);
 			break;
 		}
 		case SZ_64: {
-			char * val = int_to_sigv(memory_contents[ALIGN64(address)+7], 8);
+			char * val = int_to_sigv(memory_contents[address+7], 8);
 			memcpy(read_memory_ret + (7*8), val, 8);
-			val = int_to_sigv(memory_contents[ALIGN64(address)+6], 8);
+			val = int_to_sigv(memory_contents[address+6], 8);
 			memcpy(read_memory_ret + (6*8), val, 8);
-			val = int_to_sigv(memory_contents[ALIGN64(address)+5], 8);
+			val = int_to_sigv(memory_contents[address+5], 8);
 			memcpy(read_memory_ret + (5*8), val, 8);
-			val = int_to_sigv(memory_contents[ALIGN64(address)+4], 8);
+			val = int_to_sigv(memory_contents[address+4], 8);
 			memcpy(read_memory_ret + (4*8), val, 8);
-			val = int_to_sigv(memory_contents[ALIGN64(address)+3], 8);
+			val = int_to_sigv(memory_contents[address+3], 8);
 			memcpy(read_memory_ret + (3*8), val, 8);
-			val = int_to_sigv(memory_contents[ALIGN64(address)+2], 8);
+			val = int_to_sigv(memory_contents[address+2], 8);
 			memcpy(read_memory_ret + (2*8), val, 8);
-			val = int_to_sigv(memory_contents[ALIGN64(address)+1], 8);
+			val = int_to_sigv(memory_contents[address+1], 8);
 			memcpy(read_memory_ret + (1*8), val, 8);
-			val = int_to_sigv(memory_contents[ALIGN64(address)], 8);
+			val = int_to_sigv(memory_contents[address], 8);
 			memcpy(read_memory_ret + (0*8), val, 8);
 			break;
 		}
@@ -155,7 +155,8 @@ enum ADDR_SPACE_T address_decode(uint32_t address) {
 	return SPACE_MMEM;
 }
 
-uint64_t address_align(uint32_t address, uint8_t access_width) {
+uint64_t address_align(uint32_t address, uint8_t access_width, uint8_t alignment_enabled) {
+	if(!alignment_enabled) return address;
 	switch(access_width) {
 		case SZ_8:  return address;
 		case SZ_16: return ALIGN16(address);
@@ -201,23 +202,20 @@ void on_clock(void * param) {
 				char cpy[65];
 				enum ADDR_SPACE_T target = address_decode(address);
 
-				address  /= 4; /* Unalign address */
-				vaddress /= 4; /* Unalign address */
-
 				if(target == SPACE_MMEM) {
 					returned_data = read_memory(address, SZ_32);
 					strcpy(cpy, returned_data);
 					for(int i = 0; i < MAX_INTEGER_SIZE; i++) cpy[i] = (cpy[i] + '0') - 2;
 					uint64_t to_int = strtoull(cpy, 0, 2);
 
-					printf("RD CH1 (v@0x%x p@0x%x <2>) = 0x%" PRIx64 " ", ALIGN32(vaddress), ALIGN32(address), to_int);
+					printf("RD CH1 (v@0x%x p@0x%x <2>) = 0x%" PRIx64 " ", vaddress, address, to_int);
 				} else if(target == SPACE_IO) {
 					returned_data = io_rd_dispatch(address, SZ_32);
 					strcpy(cpy, returned_data);
 					for(int i = 0; i < MAX_INTEGER_SIZE; i++) cpy[i] = (cpy[i] + '0') - 2;
 					uint64_t to_int = strtoull(cpy, 0, 2);
 
-					printf("IO RD CH1 (v@0x%x p@0x%x <2>) = 0x%" PRIx64 " ", ALIGN32(vaddress), ALIGN32(address), to_int);
+					printf("IO RD CH1 (v@0x%x p@0x%x <2>) = 0x%" PRIx64 " ", vaddress, address, to_int);
 				}
 
 				mti_ScheduleDriver(ip->data_out1, (long)returned_data, 1, MTI_INERTIAL);
@@ -228,18 +226,19 @@ void on_clock(void * param) {
 			/*************************/
 			int wr = sig_to_int(ip->wr);
 			if(wr > 0) {
-				uint8_t access_width = sigv_to_int(ip->access_width);
-				uint32_t vaddress = address_align(sigv_to_int(ip->address2), access_width);
+				uint8_t  access_width = sigv_to_int(ip->access_width);
+				uint8_t  ae_flag = sig_to_int(ip->alignment_flag);
+				uint32_t vaddress = address_align(sigv_to_int(ip->address2), access_width, ae_flag);
 				uint32_t address = address_translate(vaddress);
 				uint64_t data = sigv_to_int(ip->data_in);
 				enum ADDR_SPACE_T target = address_decode(address);
 				char success = 0;
 
 				if(target == SPACE_MMEM) {
-					printf("WR (v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", vaddress, address, access_width, data);
+					printf("WR (ae: %d v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", ae_flag, vaddress, address, access_width, data);
 					success = write_memory(address, data, access_width);
 				} else if(target == SPACE_IO) {
-					printf("IO WR (v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", vaddress, address, access_width, data);
+					printf("IO WR (ae: %d v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", ae_flag, vaddress, address, access_width, data);
 					success = io_wr_dispatch(address, data, access_width);
 				}
 
@@ -261,8 +260,9 @@ void on_clock(void * param) {
 			char * rd = sigv_to_str(ip->rd, 0);
 			if(rd[0] > 0) {
 				printf("\n> - Accessing Memory | ", en);
-				uint8_t access_width = sigv_to_int(ip->access_width);
-				uint32_t vaddress = address_align(sigv_to_int(ip->address2), access_width);
+				uint8_t  access_width = sigv_to_int(ip->access_width);
+				uint8_t  ae_flag = sig_to_int(ip->alignment_flag);
+				uint32_t vaddress = address_align(sigv_to_int(ip->address2), access_width, ae_flag);
 				uint32_t address = address_translate(vaddress);
 				char * returned_data;
 				char cpy[65];
@@ -274,14 +274,14 @@ void on_clock(void * param) {
 					for(int i = 0; i < MAX_INTEGER_SIZE; i++) cpy[i] = (cpy[i] + '0') - 2;
 					uint64_t to_int = strtoull(cpy, 0, 2);
 
-					printf("RD CH2 (v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", vaddress, address, access_width, to_int);
+					printf("RD CH2 (ae: %d v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", ae_flag, vaddress, address, access_width, to_int);
 				} else if(target == SPACE_IO) {
 					returned_data = io_rd_dispatch(address, access_width);
 					strcpy(cpy, returned_data);
 					for(int i = 0; i < MAX_INTEGER_SIZE; i++) cpy[i] = (cpy[i] + '0') - 2;
 					uint64_t to_int = strtoull(cpy, 0, 2);
 
-					printf("IO RD CH2 (v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", vaddress, address, access_width, to_int);
+					printf("IO RD CH2 (ae: %d v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", ae_flag, vaddress, address, access_width, to_int);
 				}
 
 				mti_ScheduleDriver(ip->data_out2, (long)returned_data, 0,    MTI_INERTIAL);
@@ -307,18 +307,19 @@ void memory_init(
 	else
 		io_controller_init();
 
-	ip               = (memory_t *) mti_Malloc( sizeof( memory_t) );
-	ip->clk          = mti_FindPort(ports, "clk");
-	ip->en           = mti_FindPort(ports, "en");
-	ip->wr           = mti_FindPort(ports, "wr");
-	ip->rd           = mti_FindPort(ports, "rd");
-	ip->ready        = mti_CreateDriver(mti_FindPort(ports, "ready"));
-	ip->address1     = mti_FindPort(ports, "address1");
-	ip->address2     = mti_FindPort(ports, "address2");
-	ip->data_in      = mti_FindPort(ports, "data_in");
-	ip->data_out1    = mti_CreateDriver(mti_FindPort(ports, "data_out1"));
-	ip->data_out2    = mti_CreateDriver(mti_FindPort(ports, "data_out2"));
-	ip->access_width = mti_FindPort(ports, "access_width");
+	ip                 = (memory_t *) mti_Malloc( sizeof( memory_t) );
+	ip->clk            = mti_FindPort(ports, "clk");
+	ip->en             = mti_FindPort(ports, "en");
+	ip->wr             = mti_FindPort(ports, "wr");
+	ip->rd             = mti_FindPort(ports, "rd");
+	ip->ready          = mti_CreateDriver(mti_FindPort(ports, "ready"));
+	ip->address1       = mti_FindPort(ports, "address1");
+	ip->address2       = mti_FindPort(ports, "address2");
+	ip->data_in        = mti_FindPort(ports, "data_in");
+	ip->data_out1      = mti_CreateDriver(mti_FindPort(ports, "data_out1"));
+	ip->data_out2      = mti_CreateDriver(mti_FindPort(ports, "data_out2"));
+	ip->access_width   = mti_FindPort(ports, "access_width");
+	ip->alignment_flag = mti_FindPort(ports, "alignment_flag");
 
 	mtiProcessIdT memory_process = mti_CreateProcess("memory_p", on_clock, ip);
 	mti_Sensitize(memory_process, ip->clk, MTI_EVENT);

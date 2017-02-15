@@ -8,8 +8,8 @@
 #ifndef SRC_VMACHINE_ADDRESS_SPACE_H_
 #define SRC_VMACHINE_ADDRESS_SPACE_H_
 
-#include "../vmachine/iodevices/timer.h"
-#include "../vmachine/iodevices/vga.h"
+#include "iodevices/timer.h"
+#include "iodevices/vga.h"
 
 #define BOOTLOADER_FILE "bin/bootloader.bin"
 #define MEMORY_DEPTH 50000000 /* Size of memory in bytes */

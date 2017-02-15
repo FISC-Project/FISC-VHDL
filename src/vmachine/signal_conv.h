@@ -10,7 +10,7 @@
 
 #include <mti.h>
 #include <stdio.h>
-#include "../vmachine/utils.h"
+#include "utils.h"
 
 inline uint32_t get_vector_size(mtiSignalIdT sig) {
 	return mti_TickLength(mti_GetSignalType(sig));

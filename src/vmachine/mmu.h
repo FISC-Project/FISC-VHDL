@@ -5,11 +5,11 @@
  *      Author: Miguel
  */
 
-#ifndef SRC_VMACHINE_VIRTUAL_MEMORY_H_
-#define SRC_VMACHINE_VIRTUAL_MEMORY_H_
+#ifndef SRC_VMACHINE_MMU_H_
+#define SRC_VMACHINE_MMU_H_
 
 #include <stdint.h>
 
 uint32_t address_translate(uint32_t vaddress);
 
-#endif /* SRC_VMACHINE_VIRTUAL_MEMORY_H_ */
+#endif /* SRC_VMACHINE_MMU_H_ */

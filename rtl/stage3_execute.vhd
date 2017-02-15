@@ -73,7 +73,7 @@ BEGIN
 	              "1101" WHEN (aluop(1) = '1' AND (opcode = "10011010111")) ELSE -- UDIV
 	              "1110" WHEN (aluop(1) = '1' AND (opcode = "11010011011")) ELSE -- LSL
 	              "1111" WHEN (aluop(1) = '1' AND (opcode = "11010011010")) ELSE -- LSR
-	              (others => 'X');
+	              "0111";
 	           
 	----------------
 	-- Behaviour: --

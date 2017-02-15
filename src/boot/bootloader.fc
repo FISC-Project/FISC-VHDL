@@ -1,19 +1,33 @@
 nop nop
 
+// How to load a static variable using pc-relative addressing:
+INC X10 // Constant 1
+MSR CPSR_AE, XZR // Disable Memory Alignment
+LDPC; // X30 = PC
+LDRSW X1, [X30, 44] // X1 = MEM[PC + ALIGN32(11)]
+MSR CPSR_AE, X10 // Enable Memory Alignment
+
 // Set up Interrupt Vector:
-ADDI X0, XZR, 0x28
+ADDI X0, XZR, interrupt_vect
+LSL X0, X0, 2 // Align the interrupt vector's address by 32 bits
 NOP
 LIVP X0
 
-// Enable Interrupts:
+// MOVE constant 1 into X0:
 ADDI X0, XZR, 1
 NOP
+
+// Enable MMU / Virtual Memory / Paging:
+MSR CPSR_PG, X0
+
+// Enable Interrupts:
 MSR CPSR_IEN0, X0
 
 // Execute Software Interrupt 0:
-SINT 0 
+SINT 0
 HALT
 
 // The Interrupt Vector starts here:
+interrupt_vect:
 NOP
 RETI
