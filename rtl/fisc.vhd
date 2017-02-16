@@ -243,6 +243,7 @@ BEGIN
 		idexmem_regwrite,
 		ivp_out,
 		evp_out,
+		ae_flag,
 		ifid_pc_out,
 		ifid_instruction,
 		id_flush,

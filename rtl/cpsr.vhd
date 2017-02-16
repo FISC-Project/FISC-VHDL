@@ -98,26 +98,7 @@ BEGIN
 			if flags_wr = '1' then
 				cpsr_reg <= neg_flag_in & zero_flag_in & overf_flag_in & carry_flag_in & cpsr_reg(6 downto 0);
 			end if;
-			
-			-- Handle CSPR Writes to specific fields:
-			if cpsr_wr = '1' then
-				case cpsr_field(3 downto 0) is
-					when "0000" => if cpsr_or_spsr = '0' then cpsr_reg              <= cpsr_wr_in;             else spsr_regs(idx(cpsr_reg(2 downto 0))) <= cpsr_wr_in; end if;
-					when "0001" => if cpsr_or_spsr = '0' then cpsr_reg(10 downto 7) <= cpsr_wr_in(3 downto 0); else spsr_regs(idx(cpsr_reg(2 downto 0)))(10 downto 7) <= cpsr_wr_in(3 downto 0); end if;
-					when "0010" => if cpsr_or_spsr = '0' then cpsr_reg(10)          <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(10) <= cpsr_wr_in(0); end if;
-					when "0011" => if cpsr_or_spsr = '0' then cpsr_reg(9)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(9)  <= cpsr_wr_in(0); end if;
-					when "0100" => if cpsr_or_spsr = '0' then cpsr_reg(8)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(8)  <= cpsr_wr_in(0); end if;
-					when "0101" => if cpsr_or_spsr = '0' then cpsr_reg(7)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(7)  <= cpsr_wr_in(0); end if;
-					when "0110" => if cpsr_or_spsr = '0' then cpsr_reg(6)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(6)  <= cpsr_wr_in(0); end if;
-					when "0111" => if cpsr_or_spsr = '0' then cpsr_reg(5)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(5)  <= cpsr_wr_in(0); end if;
-					when "1000" => if cpsr_or_spsr = '0' then cpsr_reg(4 downto 3)  <= cpsr_wr_in(1 downto 0); else spsr_regs(idx(cpsr_reg(2 downto 0)))(4 downto 3) <= cpsr_wr_in(1 downto 0); end if;
-					when "1001" => if cpsr_or_spsr = '0' then cpsr_reg(4)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(4)  <= cpsr_wr_in(0); end if;
-					when "1010" => if cpsr_or_spsr = '0' then cpsr_reg(3)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(3)  <= cpsr_wr_in(0); end if;
-					when "1011" => if cpsr_or_spsr = '0' then cpsr_reg(2 downto 0)  <= cpsr_wr_in(2 downto 0); else spsr_regs(idx(cpsr_reg(2 downto 0)))(2 downto 0) <= cpsr_wr_in(2 downto 0); end if;
-					when others => -- TODO: Enter Exception Mode
-				end case;
-			end if;
-			
+						
 			-- Handle Context Restoring:
 			if cpu_state = s_restorectx then
 				DEBUG("Restoring CPU context");
@@ -140,6 +121,25 @@ BEGIN
 			end if;
 			
 		else
+			-- Handle CSPR Writes to specific fields:
+			if cpsr_wr = '1' then
+				case cpsr_field(3 downto 0) is
+					when "0000" => if cpsr_or_spsr = '0' then cpsr_reg              <= cpsr_wr_in;             else spsr_regs(idx(cpsr_reg(2 downto 0))) <= cpsr_wr_in; end if;
+					when "0001" => if cpsr_or_spsr = '0' then cpsr_reg(10 downto 7) <= cpsr_wr_in(3 downto 0); else spsr_regs(idx(cpsr_reg(2 downto 0)))(10 downto 7) <= cpsr_wr_in(3 downto 0); end if;
+					when "0010" => if cpsr_or_spsr = '0' then cpsr_reg(10)          <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(10) <= cpsr_wr_in(0); end if;
+					when "0011" => if cpsr_or_spsr = '0' then cpsr_reg(9)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(9)  <= cpsr_wr_in(0); end if;
+					when "0100" => if cpsr_or_spsr = '0' then cpsr_reg(8)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(8)  <= cpsr_wr_in(0); end if;
+					when "0101" => if cpsr_or_spsr = '0' then cpsr_reg(7)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(7)  <= cpsr_wr_in(0); end if;
+					when "0110" => if cpsr_or_spsr = '0' then cpsr_reg(6)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(6)  <= cpsr_wr_in(0); end if;
+					when "0111" => if cpsr_or_spsr = '0' then cpsr_reg(5)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(5)  <= cpsr_wr_in(0); end if;
+					when "1000" => if cpsr_or_spsr = '0' then cpsr_reg(4 downto 3)  <= cpsr_wr_in(1 downto 0); else spsr_regs(idx(cpsr_reg(2 downto 0)))(4 downto 3) <= cpsr_wr_in(1 downto 0); end if;
+					when "1001" => if cpsr_or_spsr = '0' then cpsr_reg(4)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(4)  <= cpsr_wr_in(0); end if;
+					when "1010" => if cpsr_or_spsr = '0' then cpsr_reg(3)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(3)  <= cpsr_wr_in(0); end if;
+					when "1011" => if cpsr_or_spsr = '0' then cpsr_reg(2 downto 0)  <= cpsr_wr_in(2 downto 0); else spsr_regs(idx(cpsr_reg(2 downto 0)))(2 downto 0) <= cpsr_wr_in(2 downto 0); end if;
+					when others => -- TODO: Enter Exception Mode
+				end case;
+			end if;
+			
 			-- Handle Context Saving:
 			if cpu_state = s_savectx then
 				spsr_regs(to_integer(unsigned(cpsr_reg(2 downto 0)))) <= cpsr_reg;

@@ -80,7 +80,7 @@ all: BOOTLOADER $(BINS)
 	@printf "> Linking the Virtual Machine's object files into a shared library: "
 	gcc -shared -Wl,-Bsymbolic -Wl,-export-all-symbols -std=c99 -m32 -o $(BIN)/libvm.dll $(VMOBJS) $(FLI_LIB_PATH) $(SDL_LIB_PATH)
 
-	@printf "\n> Compiling VHDL code: "
+	@printf "\n> Compiling VHDL code:\n"
 	
 	$(VCOM) -2002 -quiet rtl/defines.vhd
 	$(VCOM) -2002 -quiet rtl/memory.vhd

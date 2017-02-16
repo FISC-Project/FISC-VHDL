@@ -36,6 +36,7 @@ ENTITY Stage2_Decode IS
 		idexmem_regwrite      : in  std_logic;
 		ivp_out               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		evp_out               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		ae_flag               : in  std_logic;
 		-- Pipeline (data) outputs:
 		ifid_pc_out           : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
 		ifid_instruction      : out std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0) := (others => '0');
@@ -60,6 +61,7 @@ ARCHITECTURE RTL OF Stage2_Decode IS
 	signal cond_branch_flag     : std_logic := '0';
 	signal reg1_zero_flag       : std_logic := '0';
 	signal reg2_zero_flag       : std_logic := '0';
+	signal pc_rel               : std_logic;
 	signal tmp_readreg2         : std_logic_vector(integer(ceil(log2(real(FISC_REGISTER_COUNT)))) - 1 downto 0);
 	signal decode_forw          : std_logic_vector(1 downto 0) := "00";
 	signal ifid_pc_out_reg      : std_logic_vector(FISC_INTEGER_SZ-1 downto 0) := (others => '0');
@@ -156,6 +158,8 @@ BEGIN
 		
 	tmp_readreg2 <= if_instruction(4 downto 0) WHEN reg2loc = '1' ELSE if_instruction(20 downto 16); -- Select either RD or RM fields for input readreg1 (only effective with Instr. Format R)
 
+	pc_rel <= microcode_ctrl_reg(17);
+	
 	----------------
 	-- Behaviour: --
 	----------------
@@ -167,8 +171,18 @@ BEGIN
 					ifid_pc_out_reg      <= current_pc;
 					outA                 <= outA_reg;
 					outB                 <= outB_reg;
-					sign_ext             <= sign_ext_reg;
-					sign_ext_copy        <= sign_ext_reg;
+					if pc_rel = '1' then
+						if ae_flag = '1' then
+							sign_ext      <= std_logic_vector(uns(sign_ext_reg) + uns(current_pc) / 4);
+							sign_ext_copy <= std_logic_vector(uns(sign_ext_reg) + uns(current_pc) / 4);
+						else
+							sign_ext      <= std_logic_vector(uns(sign_ext_reg) + uns(current_pc));
+							sign_ext_copy <= std_logic_vector(uns(sign_ext_reg) + uns(current_pc));
+						end if;	
+					else
+						sign_ext          <= sign_ext_reg;
+						sign_ext_copy     <= sign_ext_reg;
+					end if;
 					ifid_instruction_reg <= if_instruction;
 					-- Move all the control wires as well:
 					microcode_ctrl       <= microcode_ctrl_reg;
