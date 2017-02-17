@@ -133,8 +133,8 @@ BEGIN
 					when "0110" => if cpsr_or_spsr = '0' then cpsr_reg(6)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(6)  <= cpsr_wr_in(0); end if;
 					when "0111" => if cpsr_or_spsr = '0' then cpsr_reg(5)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(5)  <= cpsr_wr_in(0); end if;
 					when "1000" => if cpsr_or_spsr = '0' then cpsr_reg(4 downto 3)  <= cpsr_wr_in(1 downto 0); else spsr_regs(idx(cpsr_reg(2 downto 0)))(4 downto 3) <= cpsr_wr_in(1 downto 0); end if;
-					when "1001" => if cpsr_or_spsr = '0' then cpsr_reg(4)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(4)  <= cpsr_wr_in(0); end if;
-					when "1010" => if cpsr_or_spsr = '0' then cpsr_reg(3)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(3)  <= cpsr_wr_in(0); end if;
+					when "1001" => if cpsr_or_spsr = '0' then cpsr_reg(3)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(3)  <= cpsr_wr_in(0); end if;
+					when "1010" => if cpsr_or_spsr = '0' then cpsr_reg(4)           <= cpsr_wr_in(0);          else spsr_regs(idx(cpsr_reg(2 downto 0)))(4)  <= cpsr_wr_in(0); end if;
 					when "1011" => if cpsr_or_spsr = '0' then cpsr_reg(2 downto 0)  <= cpsr_wr_in(2 downto 0); else spsr_regs(idx(cpsr_reg(2 downto 0)))(2 downto 0) <= cpsr_wr_in(2 downto 0); end if;
 					when others => -- TODO: Enter Exception Mode
 				end case;

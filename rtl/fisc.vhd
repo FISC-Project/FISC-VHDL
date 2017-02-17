@@ -453,7 +453,7 @@ BEGIN
 				end if;
 				
 				--  On SINT instruction (Note: the SINT interrupt instruction has a higher priority compared to the IO interrupt):
-				if if_instruction(31 downto 26) = "101001" then
+				if if_instruction(31 downto 26) = "101001" and ien_flags(1) = '1' then
 					if cpu_state = s_fetching then
 						cpu_state <= s_savectx;
 						sint_id   <= if_instruction(7 downto 0);
@@ -465,7 +465,7 @@ BEGIN
 				end if;
 				
 				-- Handle Interrupt Requests (normal IRQs):
-				if io_int_en = '1' and cpu_state = s_fetching and if_instruction(31 downto 26) /= "101001" then
+				if io_int_en = '1' and ien_flags(1) = '1' and cpu_state = s_fetching and if_instruction(31 downto 26) /= "101001" then
 					cpu_state  <= s_savectx;
 					io_int_ack <= '0'; -- Disable acknowledgment flag, indicating to the IO Controller that we're currently servicing an interrupt
 				end if;

@@ -1,0 +1,32 @@
+nop nop
+
+start:
+	// Prepare arguments:
+	addi sp, sp, 8
+	pushi 10
+	bl myfunc // Call function!
+	// Fetch the result:
+	pop x2
+	// Exit program:
+	b exit
+
+myfunc:
+	pop x0
+	mov x1,x0
+	movi x2, 2
+	mul x1, x1, x2
+	push x1
+	ret
+
+exit:
+	halt
+
+/* C equivalent:
+	int myfunc(int arg) {
+		return arg * 2;
+	}
+
+	void start() {
+		int var = myfunc(10);
+	}
+*/

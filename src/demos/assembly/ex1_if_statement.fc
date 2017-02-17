@@ -1,0 +1,19 @@
+nop nop
+
+// Move constant values to the 2 registers:
+movi x0, 5
+movi x1, 5
+
+cmp x0, x1 // Compare them:
+beq 2      // if x0 == x1 then jump to true branch
+b false    // Jump to false branch
+
+true:  // on true condition:
+	movi x2, 2	
+	b exit
+
+false: // else:
+	movi x2, 1
+
+exit:
+	halt

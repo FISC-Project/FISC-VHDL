@@ -1,0 +1,15 @@
+nop nop
+
+movi x0, 10
+movi x1, 2
+movi x2, 0
+
+loop:
+	add x2, x2, x1
+	cmp x0, xzr
+	beq quit
+	dec x0
+	b loop
+
+quit:
+	halt

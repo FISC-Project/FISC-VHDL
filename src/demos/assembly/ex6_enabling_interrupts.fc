@@ -1,0 +1,30 @@
+nop nop
+
+start:
+	// How to load a static variable using pc-relative addressing:
+	LDRSWR X1, [XZR, 11] // X1 = MEM[PC + 9] (with aligned access)
+
+	// Set up Interrupt Vector:
+	MOVI X0, interrupt_vect
+	ALIGN32 X0 // Align the interrupt vector's address by 32 bits
+	NOP // Stall / Bubble the pipeline
+	LIVP X0
+
+	// Move constant 1 to X0:
+	ONE X0
+	NOP // Stall / Bubble the pipeline
+
+	// Enable MMU / Virtual Memory / Paging:
+	MSR CPSR_PG, X0
+
+	// Enable Interrupts:
+	MSR CPSR_IEN1, X0
+
+	// Execute Software Interrupt 0:
+	SINT 0
+	HALT
+
+// The Interrupt Vector starts here:
+interrupt_vect:
+	NOP
+	RETI

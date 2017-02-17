@@ -1,0 +1,19 @@
+nop nop
+
+movi x0, 0  // counter value
+movi x1, 10 // max counter value
+
+loop:
+	cmp x0, x1
+	beq exit
+	inc x0
+	b loop
+
+exit:
+	halt
+
+/* C equivalent: 
+	for(int i = 0; i < 10; i++) {
+	
+	}
+*/

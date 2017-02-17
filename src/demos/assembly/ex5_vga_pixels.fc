@@ -1,0 +1,7 @@
+moviw x0, 0xFFFFFFFF // Data (white pixel)
+moviw x1, 0x400    // IO Space Address
+
+jump:
+	strw x0, [x1, 0] // Store
+	inc x1           // Write to next pixel
+b jump
