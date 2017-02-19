@@ -12,7 +12,7 @@ The name of each feature / subproject is subject to future change.
 This architecture is heavily influenced by ARMv8, specifically ARMv8-A. 
 It also carries a lot of design decisions featured in x86-64. It is for this reason why the architecture is named FISC - Flexible Instruction Set Computer.
 
-The first iteration of this project develops a very simple R/CISC architecture and yet powerful design. In this first version, **some** of the specifications can be found on the following table:
+The first iteration of this project develops a very simple R/CISC architecture and yet powerful design. In this first version, **some** of the specifications can be found on the following table:  
 | **Architecture type**                   | RISC with CISC features (mostly RISC)                                                                                            |
 |-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | **Computing width**                     | 64 bits                                                                                                                          |
