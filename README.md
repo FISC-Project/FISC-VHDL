@@ -30,6 +30,7 @@ The first iteration of this project develops a very simple R/CISC architecture a
 | **Pipeline depth**                      | 5 stages (IF/ID/EX/MEM/WB)                                                                                                       |
 | **Pipeline schedule**                   | Static In-Order Single issue                                                                                                     |
 | **Is Pipeline Superscalar**                   | No                                                                                                                         |
+| **VLIW (Very Long Instruction Word) support** | No                                                                                                                         |
 | **Decode mechanism**                    | Microcoded (CISC feature)                                                                                                        |
 | **Register count**                      | 32 GPR (General Purpose Registers); 13 SCR (Special Control Registers); Each register is 64-bits with some exceptions on the SCR |
 | **Branch Prediction support**           | No                                                                                                                               |
