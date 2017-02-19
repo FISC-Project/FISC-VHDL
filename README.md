@@ -14,7 +14,7 @@ It also carries a lot of design decisions featured in x86-64. It is for this rea
 
 The first iteration of this project develops a very simple R/CISC architecture and yet powerful design. In this first version, **some** of the specifications can be found on the following table:  
 
-| ** Specification name**                 | **Description**
+|         **Specification name**          | **Description**
 |-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
 | **Architecture type**                   | RISC with CISC features (mostly RISC)                                                                                            |
 | **Computing width**                     | 64 bits                                                                                                                          |
