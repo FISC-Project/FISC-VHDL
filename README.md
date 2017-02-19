@@ -15,7 +15,7 @@ The project development will continue even after the course has finished and hop
 This architecture is heavily influenced by ARMv8, specifically ARMv8-A. 
 It also carries a lot of design decisions featured in x86-64. It is for this reason why the architecture is named FISC - Flexible Instruction Set Computer.
 
-The first iteration of this project develops a very simple R/CISC architecture and yet powerful design. In this first version, **some** of the specifications can be found on the following table:  
+The first iteration of this project develops a very simple R/CISC architecture and yet powerful design. In this first version, **some** of the specifications (both ISA and Microarch specs) can be found on the following table:  
 
 |         **Specification name**          | **Description**
 |-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
@@ -27,14 +27,15 @@ The first iteration of this project develops a very simple R/CISC architecture a
 |                                         | In order execution                                                                                                               |
 |                                         | Stack + Register-Register + Register-Memory Machine                                                                              |
 | **Thread count**                        | 1 thread                                                                                                                         |
-| **Pipeline depth**                      | 5 stages (IF/ID/EX/MEM/WB)                                                                                                       |
+| **Pipeline depth**                      | 5 stages (IF / ID / EX / MEM / WB)                                                                                                       |
 | **Pipeline schedule**                   | Static In-Order Single issue                                                                                                     |
 | **Is Pipeline Superscalar**                   | No                                                                                                                         |
 | **VLIW (Very Long Instruction Word) support** | No                                                                                                                         |
 | **Decode mechanism**                    | Microcoded (CISC feature)                                                                                                        |
 | **Register count**                      | 32 GPR (General Purpose Registers); 13 SCR (Special Control Registers); Each register is 64-bits with some exceptions on the SCR |
 | **Branch Prediction support**           | No                                                                                                                               |
-| **Prefetching and Predecoding support** | No                                                                                                                               |
+| **Prefetching support**                 | No                                                                                                                               |
+| **Predecoding support**                 | No                                                                                                                               |
 | **Cache count**                         | L1 only (this will vary in the future)                                                                                           |
 | **L1 Instruction Cache size**           | 2KiB (subject to change)                                                                                                         |
 | **L1 Instruction Size properties**      | Set Associative, 2 Way, 32 Sets, 32 byte data block (2 x 32 x 32 = 2048 bytes = 2 KiB)                                           |
