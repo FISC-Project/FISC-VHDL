@@ -7,7 +7,9 @@ FISC is a Central Processing Unit Architecture being developed for multiple envi
 
 It also comprises the entire environment and ecosystem being designed for the CPU. In other words, FISC is the combination of the Instruction Set, Microarchitecture and the tools being created for it such as the assembler, disassembler, compiler and debugger.
 
-The name of each feature / subproject is subject to future change.
+The name of each feature / subproject is subject to future change.  
+Also, this version iteration is being developed as a 3rd year project for my University course at University of South Wales.
+The project development will continue even after the course has finished, and hopefully will release the 2nd version of the CPU.
 
 # Specifications Summary
 This architecture is heavily influenced by ARMv8, specifically ARMv8-A. 
