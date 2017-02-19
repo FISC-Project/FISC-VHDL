@@ -2,11 +2,11 @@ nop nop
 
 start:
 	// How to load a static variable using pc-relative addressing:
-	LDRSWR X1, [XZR, 11] // X1 = MEM[PC + 9] (with aligned access)
+	LDRSWR X1, [XZR, interrupt_vect] // X1 = MEM[interrupt_vect] (with aligned access)
 
 	// Set up Interrupt Vector:
 	MOVI X0, interrupt_vect
-	ALIGN32 X0 // Align the interrupt vector's address by 32 bits
+	ALIGN32 X0
 	NOP // Stall / Bubble the pipeline
 	LIVP X0
 

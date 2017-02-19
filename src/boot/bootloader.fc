@@ -1,35 +1,15 @@
 nop nop
 
-// Input variable:
-movi x0, 5 // n
+start:
+	// Move constant 1 to X0:
+	ONE X0
+	NOP // Stall / Bubble the pipeline
 
-// Declare variables:
-movi x1, 0 // first
-movi x2, 1 // second
-movi x3, 0 // next
-movi x4, 0 // c
+	// Set the PDP:
+	MOVI X1, 20
+	NOP
+	LPDP X1
 
-loop:
-	// if c >= n
-	cmp x4, x0
-	bge exit
-
-	// if c <= 1
-	cmpi x4, 1
-	ble 2
-	b else
-
-	// on condition true:
-	mov x3, x4 // next = c
-	inc x4     // c++
-	b loop
-
-else: // on else:
-	add x3, x1, x2 // next = first + second
-	mov x1, x2     // first = second
-	mov x2, x3     // second = next
-	inc x4         // c++
-	b loop
-
-exit:
-	halt
+	// Enable MMU / Virtual Memory / Paging:
+	MSR CPSR_PG, X0
+	HALT

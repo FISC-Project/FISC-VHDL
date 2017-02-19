@@ -1,0 +1,616 @@
+m255
+K3
+13
+cModel Technology
+Z0 dC:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC
+T_opt
+Z1 V=U0QA18MQU`8Lm6fD4XjY3
+Z2 04 3 3 work top rtl 1
+Z3 =1-3ca82aaaf9f6-58aa1820-14f-3f50
+Z4 o-quiet -auto_acc_if_foreign -work work
+Z5 n@_opt
+Z6 OE;O;6.5;42
+Ealu
+Z7 w1483146205
+Z8 DPx22 c:\MentorGraphics\ieee 9 math_real 0 22 zjAF7SKfg_RPI0GT^n1N`1
+Z9 DPx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 fisc_defines 0 22 1Sa=ClGEO5LjnMmmDao_V2
+Z10 DPx22 c:\MentorGraphics\ieee 15 std_logic_arith 0 22 GJbAT?7@hRQU9IQ702DT]2
+Z11 DPx22 c:\MentorGraphics\ieee 18 std_logic_unsigned 0 22 hEMVMlaNCR^<OOoVNV;m90
+Z12 DPx22 c:\MentorGraphics\ieee 11 numeric_std 0 22 =NSdli^?T5OD8;4F<blj<3
+Z13 DPx22 c:\MentorGraphics\ieee 14 std_logic_1164 0 22 GH1=`jDDBJ=`LM;:Ak`kf2
+32
+Z14 8rtl/alu.vhd
+Z15 Frtl/alu.vhd
+l0
+L7
+Z16 Vo[Y_Bh[CDkzNZhI_fGl6e2
+Z17 OE;C;6.5;42
+Z18 o-2002 -quiet
+Z19 tExplicit 1
+Z20 !s100 Sl_7Xb64hK4a_KL5mFP=Y2
+Artl
+R8
+R9
+R10
+R11
+R12
+R13
+Z21 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 3 alu 0 22 o[Y_Bh[CDkzNZhI_fGl6e2
+32
+Z22 Mx6 22 c:\MentorGraphics\ieee 14 std_logic_1164
+Z23 Mx5 22 c:\MentorGraphics\ieee 11 numeric_std
+Z24 Mx4 22 c:\MentorGraphics\ieee 18 std_logic_unsigned
+Z25 Mx3 22 c:\MentorGraphics\ieee 15 std_logic_arith
+Z26 Mx2 134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 fisc_defines
+Z27 Mx1 22 c:\MentorGraphics\ieee 9 math_real
+l29
+L21
+Z28 VIi3zP3nJkdOAJ86zeZTHE0
+R17
+R18
+R19
+Z29 !s100 J15MG;6[L9jO=:2=0zlQD0
+Ecpsr
+Z30 w1487293567
+R8
+R9
+R10
+R11
+R12
+R13
+32
+Z31 8rtl/cpsr.vhd
+Z32 Frtl/cpsr.vhd
+l0
+L7
+Z33 V_dV?jn0<?=NBjLPF4AgEf2
+R17
+R18
+R19
+Z34 !s100 P`1Iz?jLl;`K_CEfnRZ_S0
+Artl
+R8
+R9
+R10
+R11
+R12
+R13
+Z35 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 4 cpsr 0 22 _dV?jn0<?=NBjLPF4AgEf2
+32
+R22
+R23
+R24
+R25
+R26
+R27
+l63
+L45
+Z36 V7dg2IkE`jC>bLYgzkiJFH1
+R17
+R18
+R19
+Z37 !s100 LIdRa]Rc10:o<dYCHjB`]2
+Efisc
+Z38 w1487539410
+R12
+R8
+R9
+R13
+32
+Z39 8rtl/fisc.vhd
+Z40 Frtl/fisc.vhd
+l0
+L5
+Z41 V2kgj]hW>S2c;Bk;BVSikb3
+R17
+R18
+R19
+Z42 !s100 Mg^b?5clFI=YzDMSG7m[S3
+Artl
+R35
+Z43 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 3 mmu 0 22 CKc>^lF^<W=NinAfZS;o91
+Z44 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 13 io_controller 0 22 :lF5_?f5dTek7C5O6[OW91
+Z45 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 6 memory 0 22 CK[LgzK=MINFM9dgZT`1U3
+Z46 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 16 stage5_writeback 0 22 =FSI@j]`PP]ATaZNYmJDb3
+Z47 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 20 stage4_memory_access 0 22 Rj]IkI@gT`NgJ8<NTbog;1
+Z48 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 14 stage3_execute 0 22 8QV?@hoG>EkLd=c81Le>D0
+Z49 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 13 stage2_decode 0 22 IH1<BMGgA_BOkGV;F=;2m2
+R10
+R11
+Z50 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 stage1_fetch 0 22 ThKbkmn8OiU<HEXz8cRam3
+R12
+R8
+R9
+R13
+Z51 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 4 fisc 0 22 2kgj]hW>S2c;Bk;BVSikb3
+32
+R22
+Mx5 134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 fisc_defines
+Mx4 22 c:\MentorGraphics\ieee 9 math_real
+Z52 Mx3 22 c:\MentorGraphics\ieee 11 numeric_std
+Mx2 22 c:\MentorGraphics\ieee 18 std_logic_unsigned
+Mx1 22 c:\MentorGraphics\ieee 15 std_logic_arith
+l179
+L13
+Z53 V02FHIM4HKlXZDc1F=7HAM1
+R17
+R18
+R19
+Z54 !s100 GH?_fE48J_O10[:Kmcbi]2
+Pfisc_defines
+R12
+R8
+R13
+32
+b1
+Z55 Mx3 22 c:\MentorGraphics\ieee 14 std_logic_1164
+Z56 Mx2 22 c:\MentorGraphics\ieee 9 math_real
+Z57 Mx1 22 c:\MentorGraphics\ieee 11 numeric_std
+Z58 w1486683525
+Z59 8rtl/defines.vhd
+Z60 Frtl/defines.vhd
+l0
+L6
+Z61 V1Sa=ClGEO5LjnMmmDao_V2
+R17
+b1
+R18
+R19
+Z62 !s100 06<<X2`N3geX?K1;CaMeX1
+Bbody
+DBx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 fisc_defines 0 22 1Sa=ClGEO5LjnMmmDao_V2
+R12
+R8
+R13
+32
+R55
+R56
+R57
+l0
+L141
+Z63 Von]R3Pf;7[MWQ4g]?Vhz90
+R17
+R18
+R19
+nbody
+Z64 !s100 M<WSzM=U9T5k??CcIQeoV3
+Eio_controller
+Z65 w1486675765
+R13
+32
+Z66 8rtl/io_controller.vhd
+Z67 Frtl/io_controller.vhd
+l0
+L4
+Z68 V:lF5_?f5dTek7C5O6[OW91
+R17
+R18
+R19
+Z69 !s100 SK3[EI;AJJZzN3SLcZZg42
+Artl
+R13
+R44
+32
+xfOa
+Z70 Mx1 22 c:\MentorGraphics\ieee 14 std_logic_1164
+l21
+L17
+Z71 VKO@kX^]A6@3O;_E[E<Lzk1
+R17
+R18
+R19
+Z72 !s100 ZkD`DjJ]14BQ2JW<Q:<Ia1
+Ememory
+Z73 w1487174348
+R13
+32
+Z74 8rtl/memory.vhd
+Z75 Frtl/memory.vhd
+l0
+L4
+Z76 VCK[LgzK=MINFM9dgZT`1U3
+R17
+R18
+R19
+Z77 !s100 zDeXPbkK[kCWZ7KX^g25T3
+Artl
+R13
+R45
+32
+xfOa
+R70
+l25
+L21
+Z78 VdXWDGd:e7KcZ@@7H^G;cY1
+R17
+R18
+R19
+Z79 !s100 oRFVLfFVQSUNTME<:Z[l^1
+Emicrocode
+Z80 w1487540258
+R8
+R9
+R10
+R11
+R12
+R13
+32
+Z81 8rtl/microcode.vhd
+Z82 Frtl/microcode.vhd
+l0
+L7
+Z83 VH@7Jkb0_1AHWdf7Mf3BJC2
+R17
+R18
+R19
+Z84 !s100 nRle@?zQU`i^PJe<;zXW30
+Artl
+R8
+R9
+R10
+R11
+R12
+R13
+Z85 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 9 microcode 0 22 H@7Jkb0_1AHWdf7Mf3BJC2
+32
+R22
+R23
+R24
+R25
+R26
+R27
+l394
+L17
+Z86 V@A6YS[1AQ4`jMUROgzn5^3
+R17
+R18
+R19
+Z87 !s100 X7?HGKLXAP4n=:OmKalIW0
+Emmu
+Z88 w1487539071
+R12
+R8
+R9
+R13
+32
+Z89 8rtl/mmu.vhd
+Z90 Frtl/mmu.vhd
+l0
+L5
+Z91 VCKc>^lF^<W=NinAfZS;o91
+R17
+R18
+R19
+Z92 !s100 U59gQWONfVIm[WmeS7?nj0
+Artl
+R12
+R8
+R9
+R13
+R43
+32
+xfOa
+Z93 Mx4 22 c:\MentorGraphics\ieee 14 std_logic_1164
+Z94 Mx3 134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 fisc_defines
+R56
+R57
+l19
+L15
+Z95 VQ3g=_lm:oEO`LGVmd3Z8`1
+R17
+R18
+R19
+Z96 !s100 FGXmbQY_A01XIaoFl3Ke53
+Eprogram_counter
+Z97 w1486689546
+R12
+R8
+R9
+R10
+R11
+R13
+32
+Z98 8rtl/stage1_fetch.vhd
+Z99 Frtl/stage1_fetch.vhd
+l0
+L6
+Z100 V3eT5IlUkb6gk18l0MOoA93
+R17
+R18
+R19
+Z101 !s100 KH_:IN=SCW73iOnf<?0VS2
+Artl
+R12
+R8
+R9
+R10
+R11
+R13
+Z102 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 15 program_counter 0 22 3eT5IlUkb6gk18l0MOoA93
+32
+R22
+Z103 Mx5 22 c:\MentorGraphics\ieee 18 std_logic_unsigned
+Z104 Mx4 22 c:\MentorGraphics\ieee 15 std_logic_arith
+R94
+R56
+R57
+l18
+L16
+Z105 Vbb6[PZ^gFdNf[0=1cTXWj0
+R17
+R18
+R19
+Z106 !s100 oHeMIF[m^Mo:lKjSObj2c2
+Eregfile
+Z107 w1487541115
+R9
+R10
+R11
+R12
+R13
+R8
+32
+Z108 8rtl/registers.vhd
+Z109 Frtl/registers.vhd
+l0
+L8
+Z110 VVD]PfNo5OH87`0SL8eVfX2
+R17
+R18
+R19
+Z111 !s100 bMMYCTYW:EADzmk3JUT:a2
+Artl
+R9
+R10
+R11
+R12
+R13
+R8
+Z112 DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 7 regfile 0 22 VD]PfNo5OH87`0SL8eVfX2
+32
+Z113 Mx6 22 c:\MentorGraphics\ieee 9 math_real
+Z114 Mx5 22 c:\MentorGraphics\ieee 14 std_logic_1164
+Z115 Mx4 22 c:\MentorGraphics\ieee 11 numeric_std
+Z116 Mx3 22 c:\MentorGraphics\ieee 18 std_logic_unsigned
+Z117 Mx2 22 c:\MentorGraphics\ieee 15 std_logic_arith
+Z118 Mx1 134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 12 fisc_defines
+l43
+L31
+Z119 VCAQe]i^E8UOD@0Al[Dga>1
+R17
+R18
+R19
+Z120 !s100 =VQ]cc@bPicURjdFQ2J`<0
+Estage1_fetch
+R97
+R8
+R9
+R12
+R10
+R11
+R13
+32
+R98
+R99
+l0
+L39
+Z121 VThKbkmn8OiU<HEXz8cRam3
+R17
+R18
+R19
+Z122 !s100 cJ5FjMmB7PhQO`CGAL`eO2
+Artl
+R102
+R8
+R9
+R12
+R10
+R11
+R13
+R50
+32
+R22
+R103
+R104
+R52
+R26
+R27
+l69
+L61
+Z123 Vo>9JYVQz37`GmUgojMTCN2
+R17
+R18
+R19
+Z124 !s100 A<kmzfYdK^bADi^aIc]Dd1
+Estage2_decode
+Z125 w1487539468
+R9
+R12
+R10
+R11
+R8
+R13
+32
+Z126 8rtl/stage2_decode.vhd
+Z127 Frtl/stage2_decode.vhd
+l0
+L8
+Z128 VIH1<BMGgA_BOkGV;F=;2m2
+R17
+R18
+R19
+Z129 !s100 Q2CF4cO6U^Oz@Y95ELM8S2
+Artl
+R112
+R85
+R9
+R12
+R10
+R11
+R8
+R13
+R49
+32
+R22
+Mx5 22 c:\MentorGraphics\ieee 9 math_real
+R24
+R25
+Mx2 22 c:\MentorGraphics\ieee 11 numeric_std
+R118
+l78
+L53
+Z130 VODiRgzAH@TLLF6c7I^9IW2
+R17
+R18
+R19
+Z131 !s100 `gXBzU@YjRdIYn9A1_zK@0
+Estage3_execute
+Z132 w1487176164
+R9
+R10
+R11
+R12
+R13
+R8
+32
+Z133 8rtl/stage3_execute.vhd
+Z134 Frtl/stage3_execute.vhd
+l0
+L8
+Z135 V8QV?@hoG>EkLd=c81Le>D0
+R17
+R18
+R19
+Z136 !s100 a67z:X3UDR@SLgjKkiAnB3
+Artl
+R21
+R9
+R10
+R11
+R12
+R13
+R8
+R48
+32
+R113
+R114
+R115
+R116
+R117
+R118
+l55
+L46
+Z137 VD=6;zVchkP<iFM`NSO=Q70
+R17
+R18
+R19
+Z138 !s100 _2NZEMc1U=ABj_4R:dcQW3
+Estage4_memory_access
+Z139 w1481839804
+R8
+R9
+R10
+R11
+R12
+R13
+32
+Z140 8rtl/stage4_memory_access.vhd
+Z141 Frtl/stage4_memory_access.vhd
+l0
+L7
+Z142 VRj]IkI@gT`NgJ8<NTbog;1
+R17
+R18
+R19
+Z143 !s100 z_a=LZHi5Le=@]zZzeXaN2
+Artl
+R8
+R9
+R10
+R11
+R12
+R13
+R47
+32
+R22
+R23
+R24
+R25
+R26
+R27
+l30
+L29
+Z144 VRddS:n>O7IJB7A>nknd6G0
+R17
+R18
+R19
+Z145 !s100 f8RaB88l2Wh<ciLQV13Ac3
+Estage5_writeback
+Z146 w1476807505
+R12
+R8
+R9
+R13
+32
+Z147 8rtl/stage5_writeback.vhd
+Z148 Frtl/stage5_writeback.vhd
+l0
+L5
+Z149 V=FSI@j]`PP]ATaZNYmJDb3
+R17
+R18
+R19
+Z150 !s100 @W;hh`E8o=TSP7N5HJBXT0
+Artl
+R12
+R8
+R9
+R13
+R46
+32
+R93
+R94
+R56
+R57
+l16
+L15
+Z151 VRa:T[?XOYl3^3i<O5ihaF0
+R17
+R18
+R19
+Z152 !s100 PP@6E`L:CCC3bVOeFH`T22
+Etop
+Z153 w1481928620
+R12
+R8
+R9
+R13
+32
+Z154 8rtl/top.vhd
+Z155 Frtl/top.vhd
+l0
+L5
+Z156 VMb:RoV7U;DO=F2NSmR[od0
+R17
+R18
+R19
+Z157 !s100 _OYDi4f5OO3W@N0<T@kgE1
+Artl
+R51
+R12
+R8
+R9
+R13
+DEx134 C:\Users\Miguel\Dropbox\University_Modules\Computer_Systems_Engineering_-_Year_3\Singleton_MEng_Year_3_Project\4-Development\FISC\work 3 top 0 22 Mb:RoV7U;DO=F2NSmR[od0
+32
+R93
+R94
+R56
+R57
+l14
+L7
+Z158 VX^d^@5^X:Y7Cz[?d<Pcl>0
+R17
+R18
+R19
+Z159 !s100 A`Q[BJER7`A7zWTF;LJel3

@@ -36,6 +36,10 @@ ENTITY Stage2_Decode IS
 		idexmem_regwrite      : in  std_logic;
 		ivp_out               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
 		evp_out               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		pdp_out               : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		pfla_out              : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		pfla_in               : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		pfla_wr               : in  std_logic;
 		ae_flag               : in  std_logic;
 		-- Pipeline (data) outputs:
 		ifid_pc_out           : out std_logic_vector(FISC_INTEGER_SZ-1     downto 0) := (others => '0');
@@ -90,7 +94,11 @@ BEGIN
 		ifidexmem_instruction(31 downto 21),
 		ifidexmem_instruction(22 downto 21),
 		ivp_out,
-		evp_out
+		evp_out,
+		pdp_out,
+		pfla_out,
+		pfla_in,
+		pfla_wr
 	);
 	
 	-- Register write logic:

@@ -31,7 +31,7 @@ typedef struct {
 	mtiSignalIdT alignment_flag;
 } memory_t;
 
-memory_t * ip;
+memory_t * mem_ip;
 
 uint8_t memory_contents[MEMORY_DEPTH]; /* The actual Main Memory */
 
@@ -181,9 +181,9 @@ void on_clock(void * param) {
 		return;
 	}
 
-	memory_t * ip = (memory_t *) param;
-	_Bool clk = sig_to_int(ip->clk);
-	int en = sigv_to_int(ip->en);
+	memory_t * mem_ip = (memory_t *) param;
+	_Bool clk = sig_to_int(mem_ip->clk);
+	int en = sigv_to_int(mem_ip->en);
 
 	if(clk) {
 		printf("\n> + ");
@@ -194,9 +194,9 @@ void on_clock(void * param) {
 			/******************************************************************/
 			/* Handle Memory Reads for Channel 1 (used by the fetch stage 1): */
 			/******************************************************************/
-			char * rd = sigv_to_str(ip->rd, 0);
+			char * rd = sigv_to_str(mem_ip->rd, 0);
 			if(rd[1] > 0) {
-				uint32_t vaddress = sigv_to_int(ip->address1);
+				uint32_t vaddress = sigv_to_int(mem_ip->address1);
 				uint32_t address = address_translate(vaddress); /* The PC is already 32 bit aligned */
 				char * returned_data;
 				char cpy[65];
@@ -218,19 +218,19 @@ void on_clock(void * param) {
 					printf("IO RD CH1 (v@0x%x p@0x%x <2>) = 0x%" PRIx64 " ", vaddress, address, to_int);
 				}
 
-				mti_ScheduleDriver(ip->data_out1, (long)returned_data, 1, MTI_INERTIAL);
+				mti_ScheduleDriver(mem_ip->data_out1, (long)returned_data, 1, MTI_INERTIAL);
 			}
 
 			/*************************/
 			/* Handle Memory Writes: */
 			/*************************/
-			int wr = sig_to_int(ip->wr);
+			int wr = sig_to_int(mem_ip->wr);
 			if(wr > 0) {
-				uint8_t  access_width = sigv_to_int(ip->access_width);
-				uint8_t  ae_flag = sig_to_int(ip->alignment_flag);
-				uint32_t vaddress = address_align(sigv_to_int(ip->address2), access_width, ae_flag);
+				uint8_t  access_width = sigv_to_int(mem_ip->access_width);
+				uint8_t  ae_flag = sig_to_int(mem_ip->alignment_flag);
+				uint32_t vaddress = address_align(sigv_to_int(mem_ip->address2), access_width, ae_flag);
 				uint32_t address = address_translate(vaddress);
-				uint64_t data = sigv_to_int(ip->data_in);
+				uint64_t data = sigv_to_int(mem_ip->data_in);
 				enum ADDR_SPACE_T target = address_decode(address);
 				char success = 0;
 
@@ -247,7 +247,7 @@ void on_clock(void * param) {
 			}
 
 			/* The Memory has finished the transaction: */
-			mti_ScheduleDriver(ip->ready, (long)int_to_sigv(3,2), 1, MTI_INERTIAL);
+			mti_ScheduleDriver(mem_ip->ready, (long)int_to_sigv(3,2), 1, MTI_INERTIAL);
 		}
 
 		printf("\n");
@@ -257,12 +257,12 @@ void on_clock(void * param) {
 			/**************************************************************************/
 			/* Handle Memory Reads for Channel 2 (used by the memory access stage 4): */
 			/**************************************************************************/
-			char * rd = sigv_to_str(ip->rd, 0);
+			char * rd = sigv_to_str(mem_ip->rd, 0);
 			if(rd[0] > 0) {
 				printf("\n> - Accessing Memory | ", en);
-				uint8_t  access_width = sigv_to_int(ip->access_width);
-				uint8_t  ae_flag = sig_to_int(ip->alignment_flag);
-				uint32_t vaddress = address_align(sigv_to_int(ip->address2), access_width, ae_flag);
+				uint8_t  access_width = sigv_to_int(mem_ip->access_width);
+				uint8_t  ae_flag = sig_to_int(mem_ip->alignment_flag);
+				uint32_t vaddress = address_align(sigv_to_int(mem_ip->address2), access_width, ae_flag);
 				uint32_t address = address_translate(vaddress);
 				char * returned_data;
 				char cpy[65];
@@ -284,8 +284,8 @@ void on_clock(void * param) {
 					printf("IO RD CH2 (ae: %d v@0x%x p@0x%x <%d>) = 0x%" PRIx64 " ", ae_flag, vaddress, address, access_width, to_int);
 				}
 
-				mti_ScheduleDriver(ip->data_out2, (long)returned_data, 0,    MTI_INERTIAL);
-				mti_ScheduleDriver(ip->ready,     (long)int_to_sigv(3,2), 1, MTI_INERTIAL);
+				mti_ScheduleDriver(mem_ip->data_out2, (long)returned_data, 0,    MTI_INERTIAL);
+				mti_ScheduleDriver(mem_ip->ready,     (long)int_to_sigv(3,2), 1, MTI_INERTIAL);
 
 				printf("\n");
 				fflush(stdout);
@@ -307,20 +307,20 @@ void memory_init(
 	else
 		io_controller_init();
 
-	ip                 = (memory_t *) mti_Malloc( sizeof( memory_t) );
-	ip->clk            = mti_FindPort(ports, "clk");
-	ip->en             = mti_FindPort(ports, "en");
-	ip->wr             = mti_FindPort(ports, "wr");
-	ip->rd             = mti_FindPort(ports, "rd");
-	ip->ready          = mti_CreateDriver(mti_FindPort(ports, "ready"));
-	ip->address1       = mti_FindPort(ports, "address1");
-	ip->address2       = mti_FindPort(ports, "address2");
-	ip->data_in        = mti_FindPort(ports, "data_in");
-	ip->data_out1      = mti_CreateDriver(mti_FindPort(ports, "data_out1"));
-	ip->data_out2      = mti_CreateDriver(mti_FindPort(ports, "data_out2"));
-	ip->access_width   = mti_FindPort(ports, "access_width");
-	ip->alignment_flag = mti_FindPort(ports, "alignment_flag");
+	mem_ip                 = (memory_t *)mti_Malloc(sizeof(memory_t));
+	mem_ip->clk            = mti_FindPort(ports, "clk");
+	mem_ip->en             = mti_FindPort(ports, "en");
+	mem_ip->wr             = mti_FindPort(ports, "wr");
+	mem_ip->rd             = mti_FindPort(ports, "rd");
+	mem_ip->ready          = mti_CreateDriver(mti_FindPort(ports, "ready"));
+	mem_ip->address1       = mti_FindPort(ports, "address1");
+	mem_ip->address2       = mti_FindPort(ports, "address2");
+	mem_ip->data_in        = mti_FindPort(ports, "data_in");
+	mem_ip->data_out1      = mti_CreateDriver(mti_FindPort(ports, "data_out1"));
+	mem_ip->data_out2      = mti_CreateDriver(mti_FindPort(ports, "data_out2"));
+	mem_ip->access_width   = mti_FindPort(ports, "access_width");
+	mem_ip->alignment_flag = mti_FindPort(ports, "alignment_flag");
 
-	mtiProcessIdT memory_process = mti_CreateProcess("memory_p", on_clock, ip);
-	mti_Sensitize(memory_process, ip->clk, MTI_EVENT);
+	mtiProcessIdT memory_process = mti_CreateProcess("memory_p", on_clock, mem_ip);
+	mti_Sensitize(memory_process, mem_ip->clk, MTI_EVENT);
 }

@@ -42,6 +42,8 @@ ARCHITECTURE RTL OF FISC IS
 	signal id_pc_src        : std_logic := '0'; -- It's a control but comes from the ID stage. It's produced by the flags: reg1_zero & branch
 	signal ivp_out          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0); -- Interrupt Vector Pointer output
 	signal evp_out          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0); -- Exception Vector Pointer output
+	signal pdp_out          : std_logic_vector(FISC_INTEGER_SZ-1 downto 0); -- Page Directory Pointer output
+	signal pfla_out         : std_logic_vector(FISC_INTEGER_SZ-1 downto 0); -- Page Fault Linear Address output
 	-- Pipeline output:
 	signal ifid_pc_out      : std_logic_vector(FISC_INTEGER_SZ-1     downto 0);
 	signal ifid_instruction : std_logic_vector(FISC_INSTRUCTION_SZ-1 downto 0);
@@ -161,6 +163,11 @@ ARCHITECTURE RTL OF FISC IS
 	signal io_int_ack_id   : std_logic_vector(7 downto 0) := (others => '0');
 	---------------------------
 	
+	-- MMU Signals --
+	signal mmu_pfla    : std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+	signal mmu_pfla_wr : std_logic;
+	-----------------
+	
 	-- Software Interrupt Signals --
 	signal sint_id   : std_logic_vector(7 downto 0) := (others => '0');
 	signal sint_type : std_logic_vector(1 downto 0) := (others => '0');
@@ -243,6 +250,10 @@ BEGIN
 		idexmem_regwrite,
 		ivp_out,
 		evp_out,
+		pdp_out,
+		pfla_out,
+		mmu_pfla,
+		mmu_pfla_wr,
 		ae_flag,
 		ifid_pc_out,
 		ifid_instruction,
@@ -327,6 +338,11 @@ BEGIN
 	-- Declare IO Controller:
 	IO_Controller1: ENTITY work.IO_Controller PORT MAP(
 		clk, io_int_en, io_int_id, io_int_type, io_int_ack, io_int_ack_id, ien_flags(0), ien_flags(1)
+	);
+	
+	-- Declare MMU:
+	MMU1: ENTITY work.MMU PORT MAP(
+		clk, pg_flag, pdp_out, mmu_pfla, mmu_pfla_wr
 	);
 	
 	-- Two ways of entering interrupts: via the IO Controller, and via the instruction SINT - Software Interrupt
@@ -427,7 +443,7 @@ BEGIN
 				-- CPU Finite State Machine algorithm:
 				--------------------------------------
 				case cpu_state is
-					when s_fetching => --io_int_ack <= '0';
+					when s_fetching =>
 					when s_savectx  => cpu_state  <= s_changemode;
 					when s_changemode => 
 						if io_int_type_reg = "00" then

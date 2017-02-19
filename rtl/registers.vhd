@@ -20,7 +20,11 @@ ENTITY RegFile IS
 		opcode        : in  std_logic_vector(10 downto 0);
 		mov_quadrant  : in  std_logic_vector(1 downto 0);
 		ivp_out       : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
-		evp_out       : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0)
+		evp_out       : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		pdp_out       : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		pfla_out      : out std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		pfla_in       : in  std_logic_vector(FISC_INTEGER_SZ-1 downto 0);
+		pfla_wr       : in  std_logic
 	);
 END RegFile;
 
@@ -40,8 +44,10 @@ BEGIN
 	outA <= (outA'range => '0') WHEN (readreg1 = "11111" or opcode(10 downto 2) = "111100101" or opcode(10 downto 2) = "110100101") ELSE regfile(to_integer(unsigned(readreg1)));
 	outB <= (outB'range => '0') WHEN  readreg2 = "11111" ELSE regfile(to_integer(unsigned(readreg2)));
 	
-	ivp_out <= ivp;
-	evp_out <= evp;
+	ivp_out  <= ivp;
+	evp_out  <= evp;
+	pdp_out  <= pdp;
+	pfla_out <= pfla;
 	
 	----------------
 	-- Behaviour: --
@@ -97,7 +103,19 @@ BEGIN
 			elsif ifid_opcode = "10101010100" then
 				-- Execute SESR:
 				regfile(to_integer(unsigned(writereg)))(7 downto 0) <= esr;
-			else				
+			elsif ifid_opcode = "10011110100" then
+				-- Execute LPDP	
+				pdp <= regfile(to_integer(unsigned(writereg)));
+			elsif ifid_opcode = "10011010100" then
+				-- Execute SPDP
+				regfile(to_integer(unsigned(writereg))) <= pdp;
+			elsif ifid_opcode = "10010110100" then
+				-- Execute LPFLA
+				regfile(30) <= pfla;
+			elsif pfla_wr = '1' then
+				-- Write into PFLA:
+				pfla <= pfla_in;
+			else
 				-- Write normally to the register:
 				regfile(to_integer(unsigned(writereg))) <= writedata;
 			end if;

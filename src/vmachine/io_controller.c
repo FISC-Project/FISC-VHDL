@@ -24,7 +24,7 @@ typedef struct {
 	mtiSignalIdT int_enabled;
 } ioctrl_t;
 
-ioctrl_t * ip;
+ioctrl_t * ioctrl_ip;
 
 uint8_t int_en_holdtime = 0;
 
@@ -60,15 +60,15 @@ char io_controller_init(void) {
 }
 
 void io_controller_on_clk(void * param) {
-	_Bool clk = sig_to_int(ip->clk);
+	_Bool clk = sig_to_int(ioctrl_ip->clk);
 	if(clk) {
 		if(!int_en_holdtime)
-			mti_ScheduleDriver(ip->int_en, 2, 1, MTI_INERTIAL);
+			mti_ScheduleDriver(ioctrl_ip->int_en, 2, 1, MTI_INERTIAL);
 		else
 			int_en_holdtime--;
-		is_ack = sig_to_int(ip->int_ack);
+		is_ack = sig_to_int(ioctrl_ip->int_ack);
 		if(is_ack) {
-			uint32_t int_ack_id = sigv_to_int(ip->int_ack_id);
+			uint32_t int_ack_id = sigv_to_int(ioctrl_ip->int_ack_id);
 			if(int_ack_id < IODEVICE_COUNT && devices[int_ack_id].int_ack)
 				devices[int_ack_id].int_ack();
 		}
@@ -81,18 +81,18 @@ void io_controller_init_vhd(
 	mtiInterfaceListT * generics,
 	mtiInterfaceListT * ports
 ) {
-	ip              = (ioctrl_t *)mti_Malloc(sizeof(ioctrl_t));
-	ip->clk         = mti_FindPort(ports, "clk");
-	ip->int_en      = mti_CreateDriver(mti_FindPort(ports, "int_en"));
-	ip->int_id      = mti_CreateDriver(mti_FindPort(ports, "int_id"));
-	ip->int_type    = mti_CreateDriver(mti_FindPort(ports, "int_type"));
-	ip->int_ack     = mti_FindPort(ports, "int_ack");
-	ip->int_ack_id  = mti_FindPort(ports, "int_ack_id");
-	ip->ex_enabled  = mti_FindPort(ports, "ex_enabled");
-	ip->int_enabled = mti_FindPort(ports, "int_enabled");
+	ioctrl_ip              = (ioctrl_t *)mti_Malloc(sizeof(ioctrl_t));
+	ioctrl_ip->clk         = mti_FindPort(ports, "clk");
+	ioctrl_ip->int_en      = mti_CreateDriver(mti_FindPort(ports, "int_en"));
+	ioctrl_ip->int_id      = mti_CreateDriver(mti_FindPort(ports, "int_id"));
+	ioctrl_ip->int_type    = mti_CreateDriver(mti_FindPort(ports, "int_type"));
+	ioctrl_ip->int_ack     = mti_FindPort(ports, "int_ack");
+	ioctrl_ip->int_ack_id  = mti_FindPort(ports, "int_ack_id");
+	ioctrl_ip->ex_enabled  = mti_FindPort(ports, "ex_enabled");
+	ioctrl_ip->int_enabled = mti_FindPort(ports, "int_enabled");
 
-	mtiProcessIdT io_proc_onclk = mti_CreateProcess("ioctrl_p_onclk", io_controller_on_clk, ip);
-	mti_Sensitize(io_proc_onclk, ip->clk, MTI_EVENT);
+	mtiProcessIdT io_proc_onclk = mti_CreateProcess("ioctrl_p_onclk", io_controller_on_clk, ioctrl_ip);
+	mti_Sensitize(io_proc_onclk, ioctrl_ip->clk, MTI_EVENT);
 }
 
 char io_controller_deinit(void) {
@@ -130,7 +130,7 @@ char * io_rd_dispatch(uint32_t phys_addr, uint8_t access_width) {
 }
 
 char io_irq(uint8_t devid, enum INTERRUPT_TYPE type) {
-	/* TODO: Since this function can be called from multiple threads, we must implement queueing for IRQ servicing */
+	/* TODO: Since this function can be called from multioctrl_iple threads, we must implement queueing for IRQ servicing */
 	/* Do not trigger an interrupt while the CPU is on IRQ mode, therefore, we must wait for a CPU ack */
 
 #if ENABLE_INTERRUPT_NOTICES == 1
@@ -138,8 +138,8 @@ char io_irq(uint8_t devid, enum INTERRUPT_TYPE type) {
 	fflush(stdout);
 #endif
 
-	_Bool int_enabled = sig_to_int(ip->int_enabled);
-	_Bool ex_enabled  = sig_to_int(ip->ex_enabled);
+	_Bool int_enabled = sig_to_int(ioctrl_ip->int_enabled);
+	_Bool ex_enabled  = sig_to_int(ioctrl_ip->ex_enabled);
 
 	if(type == INT_ERR && !ex_enabled) {
 #if ENABLE_INTERRUPT_NOTICES == 1
@@ -159,9 +159,9 @@ char io_irq(uint8_t devid, enum INTERRUPT_TYPE type) {
 
 	int_en_holdtime = 1; /* The IRQ enable wire will be held high for this many clock cycles */
 
-	mti_ScheduleDriver(ip->int_en,   3, 1, MTI_INERTIAL);
-	mti_ScheduleDriver(ip->int_id,   (long)int_to_sigv(devid, 8), 1, MTI_INERTIAL);
-	mti_ScheduleDriver(ip->int_type, (long)int_to_sigv(type,  2), 1, MTI_INERTIAL);
+	mti_ScheduleDriver(ioctrl_ip->int_en,   3, 1, MTI_INERTIAL);
+	mti_ScheduleDriver(ioctrl_ip->int_id,   (long)int_to_sigv(devid, 8), 1, MTI_INERTIAL);
+	mti_ScheduleDriver(ioctrl_ip->int_type, (long)int_to_sigv(type,  2), 1, MTI_INERTIAL);
 
 	if(devices[devid].int_ack)
 		while(!is_ack)

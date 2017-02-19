@@ -109,6 +109,9 @@ ARCHITECTURE RTL OF Microcode IS
 		63 => microinstr("--------------10000010110001000", '1'), -- Instruction STRHR
 		64 => microinstr("--------------10000010110001000", '1'), -- Instruction STRWR
 		65 => microinstr("--------------10000010110001000", '1'), -- Instruction STXRR -- TODO ATOMIC
+		66 => microinstr("--------------00010000000000000", '1'), -- Instruction LPDP
+		67 => microinstr("--------------00010000000000000", '1'), -- Instruction SPDP
+		68 => microinstr("--------------00010000000000000", '1'), -- Instruction LPFLA
 		-- END OF MICROCODE MEMORY -
 		others => (others => '0')
 	);
@@ -183,6 +186,9 @@ ARCHITECTURE RTL OF Microcode IS
 		63 => create_segment(63), -- Opcode 63 runs microcode at address 63 (decimal) (STRHR)
 		64 => create_segment(64), -- Opcode 64 runs microcode at address 64 (decimal) (STRWR)
 		65 => create_segment(65), -- Opcode 65 runs microcode at address 65 (decimal) (STXRR)
+		66 => create_segment(66), -- Opcode 66 runs microcode at address 66 (decimal) (LPDP)
+		67 => create_segment(67), -- Opcode 67 runs microcode at address 67 (decimal) (LPDP)
+		68 => create_segment(68), -- Opcode 68 runs microcode at address 68 (decimal) (LPFLA)
 		-- END OF SEGMENT MEMORY --
 		others => (others => '0')
 	);
@@ -271,6 +277,9 @@ ARCHITECTURE RTL OF Microcode IS
 			when "01111010000" => return "00000111111"; -- STRHR
 			when "10111010000" => return "00001000000"; -- STRWR
 			when "10111010001" => return "00001000001"; -- STXRR
+			when "10011110100" => return "00001000010"; -- LPDP
+			when "10011010100" => return "00001000011"; -- SPDP
+			when "10010110100" => return "00001000100"; -- LPFLA
 			when others => -- Do nothing here
 		end case;
 		

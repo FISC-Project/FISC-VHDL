@@ -81,10 +81,14 @@ all: BOOTLOADER $(BINS)
 	gcc -shared -Wl,-Bsymbolic -Wl,-export-all-symbols -std=c99 -m32 -o $(BIN)/libvm.dll $(VMOBJS) $(FLI_LIB_PATH) $(SDL_LIB_PATH)
 
 	@printf "\n> Compiling VHDL code:\n"
+	$(VDEL) -all
+	$(VLIB) work
+	$(VMAP) work work
 	
 	$(VCOM) -2002 -quiet rtl/defines.vhd
 	$(VCOM) -2002 -quiet rtl/memory.vhd
 	$(VCOM) -2002 -quiet rtl/io_controller.vhd
+	$(VCOM) -2002 -quiet rtl/mmu.vhd
 	$(VCOM) -2002 -quiet rtl/alu.vhd
 	$(VCOM) -2002 -quiet rtl/cpsr.vhd
 	$(VCOM) -2002 -quiet rtl/microcode.vhd
