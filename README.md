@@ -9,7 +9,7 @@ It also comprises the entire environment and ecosystem being designed for the CP
 
 The name of each feature / subproject is subject to future change.  
 Also, this version iteration is being developed as a 3rd year project for my University course at University of South Wales.
-The project development will continue even after the course has finished, and hopefully will release the 2nd version of the CPU.
+The project development will continue even after the course has finished and hopefully will release the 2nd version of the CPU.
 
 # Specifications Summary
 This architecture is heavily influenced by ARMv8, specifically ARMv8-A. 
