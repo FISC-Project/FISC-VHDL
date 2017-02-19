@@ -8,7 +8,7 @@ It also comprises the entire environment and ecosystem being designed for the CP
 
 The name of each feature / subproject is subject to future change.
 
-# Overall Specifications
+# Specifications Summary
 This architecture is heavily influenced by ARMv8, specifically ARMv8-A. 
 It also carries a lot of design decisions featured in x86-64. It is for this reason why the architecture is named FISC - Flexible Instruction Set Computer.
 
@@ -49,13 +49,13 @@ The first iteration of this project develops a very simple R/CISC architecture a
 |                                         | Virtual Memory                                                                                                                   |
 
 
-# Full System Design
+# High Level Design
 ![FullSystem](http://i.imgur.com/nLzs2qY.png)
 
-# Instruction Set Architecture
+# Instruction Set Architecture - Quick reference
 <p align="center"><img src="http://i.imgur.com/34WnYw9.png"></p>
 
-# Microarchitecture
+# Microarchitecture - Quick reference
 
 The pipelined Microarchitecture can be described by the following diagram:
 ![High Level Microarchitecture](http://i.imgur.com/9wLWx8X.png)
