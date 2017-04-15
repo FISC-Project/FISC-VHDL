@@ -1,5 +1,6 @@
-<p align="center"><img src="http://i.imgur.com/pPb0oVe.png" height="125" width="250"></p>
-# FISC-VHDL
+<p align="center"><img src="http://i.imgur.com/pPb0oVe.png" height="120" width="250"></p>
+
+# FISC  
 FISC - Flexible Instruction Set Computer - Is the new Instruction Set Architecture inspired by ARMv8 and x86-64.
 
 # Overview
