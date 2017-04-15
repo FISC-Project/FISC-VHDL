@@ -1,0 +1,15 @@
+nop nop
+
+start:
+	// Move constant 1 to X0:
+	ONE X0
+	NOP // Stall / Bubble the pipeline
+
+	// Set the PDP:
+	MOVI X1, 20
+	NOP
+	LPDP X1
+
+	// Enable MMU / Virtual Memory / Paging:
+	MSR CPSR_PG, X0
+	HALT
